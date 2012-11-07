@@ -39,18 +39,27 @@ Refer to Google Docs for further details.
 Interface 1: Activity Statistics (Involvement)
 
 Access via the 'Involvement' link: /stats
+
 View/Stats/index.ctp
+
 Controller/StatsController.php
+
 Model/MdlLog
 
 Interface 2: Module Treemap (Interaction) 
 
 Accessed via the 'Interaction' link: /designs
+
 View/Designs/index.ctp
+
 View/Designs/createfile.ctp *
+
 Controller/DesignsController.php
+
 Model/MdlLog
+
 Model/MdlCourse
+
 Model/MdlCourseCategories
 
 * This view requires a TSV file to be created which is not efficient (takes a long while and times out).
@@ -58,5 +67,7 @@ Model/MdlCourseCategories
 ## Plugins
 
 Drastic Treemap: http://www.drasticdata.nl/DDHome.php?m=drastictreemap
+
 Google Visualisations: https://developers.google.com/chart/interactive/docs/gallery
+
 SWF Object: http://code.google.com/p/swfobject/
