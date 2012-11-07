@@ -3,6 +3,14 @@ infinitecake
 
 This is the initial Cake PHP version setup for the site
 
+## CakePHP
+
+http://cakephp.org/
+
+## Branching Strategy
+
+Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
+
 ##Installation
 
 1. Clone the respository to web root
@@ -24,7 +32,31 @@ public $default = array(
 );
 ```
 
-## Use
+## Use - Current State
 
-Open the site in a browser - the first load may be slower while cache is created
+Refer to Google Docs for further details.
 
+Interface 1: Activity Statistics (Involvement)
+
+Access via the 'Involvement' link: /stats
+View/Stats/index.ctp
+Controller/StatsController.php
+Model/MdlLog
+
+Interface 2: Module Treemap (Interaction) 
+
+Accessed via the 'Interaction' link: /designs
+View/Designs/index.ctp
+View/Designs/createfile.ctp *
+Controller/DesignsController.php
+Model/MdlLog
+Model/MdlCourse
+Model/MdlCourseCategories
+
+* This view requires a TSV file to be created which is not efficient (takes a long while and times out).
+
+## Plugins
+
+Drastic Treemap: http://www.drasticdata.nl/DDHome.php?m=drastictreemap
+Google Visualisations: https://developers.google.com/chart/interactive/docs/gallery
+SWF Object: http://code.google.com/p/swfobject/
