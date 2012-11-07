@@ -71,6 +71,7 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 CakePlugin::load('Flash');
+CakePlugin::load('DrasticTreeMap');
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
