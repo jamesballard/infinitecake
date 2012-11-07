@@ -44,8 +44,10 @@ View/Stats/index.ctp
 Controller/StatsController.php
 Model/MdlLog
 ```
-```
+
 Interface 2: Module Treemap (Interaction) 
+
+```
 Accessed via the 'Interaction' link: /designs
 View/Designs/index.ctp
 View/Designs/createfile.ctp *
