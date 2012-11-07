@@ -6,9 +6,8 @@ This is the initial Cake PHP version setup for the site
 ##Installation
 
 1. Clone the respository to web root
-2. Create a new database on localhost
-3. Import the data from /config/schema/lcmoodle2.sql
-4. Create database configuration file (config/database.php)
+2. Import the database and data from /config/schema/lcmoodle2.sql
+3. Create database configuration file (config/database.php)
 
 ```php
 public $default = array(
