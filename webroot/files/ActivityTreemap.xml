@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+	<dataFile>/data/myactivity.tsv</dataFile>
+	
+	<sizeColumn>Total</sizeColumn>
+	
+	<groupBy>Subject</groupBy>
+	<groupBy>Type</groupBy>
+	
+	<labelColumn>module</labelColumn> <!-- if absent, no labels -->
+	<labelFormat level="1" size="12" color="0xFFFFFF" alpha="0.9"></labelFormat>
+	<labelFormat level="2" size="18" color="0x222222" alpha="0.6" visible="true"></labelFormat>
+	
+	<!-- COLORS: -->
+	<colorColumn>Module</colorColumn> <!-- if absent no colors -->
+	<leafBorderColor>0xcccccc</leafBorderColor> <!-- border color for leaf nodes -->
+	<parentBorderColor>0x000000</parentBorderColor> <!-- border color for parent nodes -->
+	<leafFillColor>0xdfdfdf</leafFillColor> <!-- fill color for leaf nodes which are not colored otherwise -->
+	<parentFillColor>0xdfdfdf</parentFillColor> <!-- fill color for parent nodes which are not colored otherwise -->
+	
+	<!-- TOOLTIPS -->
+	<tipTextTitle>Summary</tipTextTitle> <!-- title; {0} will be replaced with value of labelColumn -->
+	<!-- columns to display in tooltip. Maximum 6. If none, the first 6 dataColumns will be displayed-->
+    <tipTextContentCol>Subject</tipTextContentCol>
+    <tipTextContentCol>Module</tipTextContentCol>
+    <tipTextContentCol>Type</tipTextContentCol>
+	<tipTextContentCol>Total</tipTextContentCol>
+	<tipTextContentCol>Users</tipTextContentCol>
+	<tipTextContentCol>Views</tipTextContentCol>
+	<tipTextContentCol>Contributions</tipTextContentCol>
+	
+	<!-- Various setting -->
+	<speed>0.8</speed> <!-- speed of animation in seconds, default 0.8 -->
+	<fixedLayout>false</fixedLayout> <!-- if true, nodes will try to keep their relalive positions on recalculating, default: true-->
+	<frameWidth>2</frameWidth> <!-- optionally display frames around parent nodes. Default: 0; Caution: the use of frames may slow down treemap calculations! -->
+
+	<!-- callbacks -->
+	<onMouseOver>displayname</onMouseOver>
+	<onMouseOverColumn>label</onMouseOverColumn>
+	<onMouseOut>displayname</onMouseOut>
+	<onMouseOutColumn>label</onMouseOutColumn>
+	<onClick>displayname</onClick>
+	<onClickColumn>label</onClickColumn>
+	<onDblClick>displayname</onDblClick>
+	<onDblClickColumn>label</onDblClickColumn>
+	<ddLic>141980523a26a864e9eda2a0529b06e791a9071c</ddLic>
+
+</Configuration>
