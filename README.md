@@ -13,16 +13,18 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 
 ##Installation
 
-1. Clone the respository to web root
-2. Import the database and data from /config/schema/lcmoodle2.sql
-3. Create database configuration file (config/database.php)
+1. Clone the repository to web root
+2. Update submodules (git submodule update --init)
+3. Create temporary folders (tmp/cache/models tmp/cache/persistent tmp/logs)
+4. Import the database and data from /config/schema/lcmoodle2.sql
+5. Create database configuration file (config/database.php)
 
 ```php
-public $default = array(
+public $lcmoodle = array(
     'datasource' => 'Database/Mysql',
     'persistent' => false,
-    'host' => 'localhost',
-    'port' => '',
+    'host' => 'localhost', // for sockets
+    //'host' => '127.0.0.1', // for TCP
     'login' => '{user}',
     'password' => '{password}',
     'database' => 'lcmoodle2',
