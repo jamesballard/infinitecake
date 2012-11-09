@@ -46,6 +46,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
       <ul>
         <li class="first"><?php echo $this->Html->link('Involvement', '/stats'); ?></li>
         <li><?php echo $this->Html->link('Interaction', '/designs'); ?></li>
+        <li><?php echo $this->Html->link('User Profile', '/userprofile'); ?></li>
       </ul>
     </div>
 		<div id="content">

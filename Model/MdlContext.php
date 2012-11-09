@@ -1,36 +1,31 @@
-<?php
+MdlCourseCategories.php<?php
 App::uses('AppModel', 'Model');
 /**
  * LcmoodleLog Model
  *
  */
 
-class MdlCourse extends AppModel {
+class MdlContext extends AppModel {
 // define which database driver the model
 // needs to look upon
     var $useDbConfig = 'lcmoodle';
 // Table Name
-    var $useTable = 'course';
+    var $useTable = 'context';
     var $primaryKey = 'id';
     var $cacheQueries = true;
 
     public $hasMany = array(
-        'Log' => array(
-            'className'     => 'MdlLog',
-            'foreignKey'    => 'course'
+        'Roles' => array(
+            'className'     => 'MdlRoleAssignments',
+            'foreignKey'    => 'contextid'
         )
     );
 
     public $hasOne = array(
-        'Category' => array(
-            'className'    => 'MdlCourseCategories',
-            'foreignKey'   => 'category'
-        ),
-        'Context' => array(
-            'className'    => 'MdlContext',
+        'Course' => array(
+            'className'    => 'MdlCourse',
             'foreignKey'   => 'instance',
             'conditions'   => array('MdlContext.contextlevel' => '50')
         )
     );
-
 }

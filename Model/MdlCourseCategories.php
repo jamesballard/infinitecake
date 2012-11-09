@@ -13,4 +13,11 @@ class MdlCourseCategories extends AppModel {
     var $useTable = 'course_categories';
     var $primaryKey = 'id';
     var $cacheQueries = true;
+
+    public $hasOne = array(
+        'Parent' => array(
+            'className'    => 'MdlCourseCategories',
+            'foreignKey'   => 'parent'
+        )
+    );
 }

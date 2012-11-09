@@ -5,23 +5,27 @@ App::uses('AppModel', 'Model');
  *
  */
 
-class MdlLog extends AppModel {
+class MdlRoleAssignments extends AppModel {
 // define which database driver the model
 // needs to look upon
     var $useDbConfig = 'lcmoodle';
 // Table Name
-    var $useTable = 'log';
+    var $useTable = 'role_assignments';
     var $primaryKey = 'id';
     var $cacheQueries = true;
 
-    public $belongsTo = array(
+    public $hasOne = array(
         'User' => array(
             'className'    => 'MdlUser',
             'foreignKey'   => 'userid'
         ),
-        'Course' => array(
-            'className'    => 'MdlCourse',
-            'foreignKey'   => 'course'
+        'Context' => array(
+            'className'    => 'MdlContext',
+            'foreignKey'   => 'contextid'
+        ),
+        'Role' => array(
+            'className'    => 'MdlRole',
+            'foreignKey'   => 'roleid'
         )
     );
 }
