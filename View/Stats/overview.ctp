@@ -14,7 +14,7 @@ echo $this->Form->input('report', array(
 ));
 
 echo $this->Form->input('chart', array(
-   'options' => array('area' => 'area', 'bar' => 'bar', 'pie' => 'pie', 'line' => 'line', 'table' => 'table'),
+   'options' => array('area' => 'area', 'bar' => 'bar', 'line' => 'line', 'table' => 'table'),
    'default' => 'area'
 ));
 

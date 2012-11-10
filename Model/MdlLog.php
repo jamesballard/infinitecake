@@ -27,12 +27,33 @@ class MdlLog extends AppModel {
 
     public $actsAs = array('Academicperiod', 'Gchart');
 
+    public $fields = array(
+        'Activity' => array(),
+        'Users' => 'DISTINCT MdlLog.userid',
+        'Courses' => 'DISTINCT MdlLog.course'
+    );
+
+    public $dateformats = array(
+        'day' => array(
+            'interval' => 'P1D',
+            'format' => "d-M"
+        ),
+        'week' => array (
+            'interval' => 'P1W',
+            'format' => "W"
+        ),
+        'month' => array(
+            'interval' => 'P1M',
+            'format' => "M"
+        )
+    );
+
 /**
  * Returns the date when logs were first recorded
  *
  * @return  string  timestamp of first log
  */
-    public function getStart() {
+    public function getStart($filter=false) {
         //$result = Cache::read('logstart', 'long');
         //if (!$result) {
             $result = $this->find('first', array(
@@ -51,7 +72,7 @@ class MdlLog extends AppModel {
  * @param string $format date format (e.g. 'M')
  * @return array Academic Year => Period => Count
  */
-    function getPeriodCount($fields, $interval, $format) {
+    function getPeriodCount($fields, $interval, $format, $filter) {
         $start = $this->getStart();
         $daterange = $this->getAcademicPeriod($start[0]['start'], $interval);
 
@@ -63,7 +84,7 @@ class MdlLog extends AppModel {
                     $conditions = array('time > '=>strtotime($date->format("Y-m-d H:i:s")));
                     $date->add($interval);
                     $conditions = array_merge($conditions,array('time < '=>strtotime($date->format("Y-m-d H:i:s"))));
-
+                    $conditions = array_merge($conditions,$filter);
                     //$cacheName = $reportType.'-'.$this->get_academic_year_name($start).'-'.$date->format($periodFormat);
                     //$value = Cache::read($cacheName, 'long');
                     //if (!$value) {
@@ -92,8 +113,9 @@ class MdlLog extends AppModel {
  * @param string $format date format (e.g. 'M')
  * @return array Academic Year => Period => Count
  */
-    function getPeriodCountGchart($fields, $interval, $format) {
-        $results = $this->getPeriodCount($fields, $interval, $format);
+    function getPeriodCountGchart($period, $reportType, $filter) {
+        $interval = new DateInterval($this->dateformats[$period]['interval']);
+        $results = $this->getPeriodCount($this->fields[$reportType], $interval, $this->dateformats[$period]['format'], $filter);
         $data = $this->transformGchartArray($results);
         return $data;
     }

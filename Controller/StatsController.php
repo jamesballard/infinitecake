@@ -96,38 +96,7 @@ class StatsController extends AppController {
      */
 
     private function getData($period, $reportType) {
-
-        switch ($reportType) {
-            case 'Activity':
-                $fields = array();
-                break;
-            case 'Users':
-                $fields = 'DISTINCT MdlLog.userid';
-                break;
-            case 'Courses':
-                $fields = 'DISTINCT MdlLog.course';
-                break;
-        }
-
-        switch ($period) {
-            case 'day':
-                $interval = new DateInterval('P1D');
-                $periodFormat = "d-M";
-                $data['labels'][] = array('string' => 'Day');
-                break;
-            case 'week':
-                $interval = new DateInterval('P1W');
-                $periodFormat = "W";
-                $data['labels'][] = array('string' => 'Week');
-                break;
-            case 'month':
-                $interval = new DateInterval('P1M');
-                $periodFormat = "M";
-                $data['labels'][] = array('string' => 'Month');
-                break;
-        }
-
-        $data = $this->MdlLog->getPeriodCountGchart($fields, $interval, $periodFormat);
+        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array());
         return $data;
     }
 

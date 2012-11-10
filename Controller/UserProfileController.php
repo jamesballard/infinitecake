@@ -17,7 +17,32 @@ class UserprofileController extends AppController {
     }
 
     public function overview() {
-        $this->set('user',$this->MdlUser->getUser('37953'));
+        //Set defaults
+        $period = 'month';
+        $chartType = 'area';
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $period = $this->request->data['MdlUser']['period'];
+            $chartType = $this->request->data['MdlUser']['chart'];
+            $reportType = $this->request->data['MdlUser']['report'];
+            $width = $this->request->data['MdlUser']['width'];
+            $height = $this->request->data['MdlUser']['height'];
+        }
+
+        $data = array(
+            'title' => $reportType,
+            'type' => $chartType,
+            'width' => $width,
+            'height' => $height
+        );
+        $results = $this->getData($period, $reportType);
+        $data = array_merge($data,$results);
+
+        $this->set('data', $data);
     }
 
     public function location() {
@@ -30,6 +55,19 @@ class UserprofileController extends AppController {
 
     public function tasktype() {
 
+    }
+
+    /**
+     * Contructs and returns appropriate data.
+     *
+     * @param integer $period Determines how data will be grouped
+     * @param integer $reportType Determines fields to be counted
+     * @return array Data for chart
+     */
+
+    private function getData($period, $reportType) {
+        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('userid'=>'37953'));
+        return $data;
     }
 
 }

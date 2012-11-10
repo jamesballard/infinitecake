@@ -8,7 +8,7 @@
 App::uses('File', 'Utility');
 
 class CourseprofileController extends AppController {
-    public $helpers = array('Html', 'Form', 'Session', 'DrasticTreeMap.DrasticTreeMap');
+    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
@@ -45,6 +45,32 @@ class CourseprofileController extends AppController {
     }
 
     public function overview() {
+        //Set defaults
+        $period = 'month';
+        $chartType = 'area';
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $period = $this->request->data['MdlCourseCategories']['period'];
+            $chartType = $this->request->data['MdlCourseCategories']['chart'];
+            $reportType = $this->request->data['MdlCourseCategories']['report'];
+            $width = $this->request->data['MdlCourseCategories']['width'];
+            $height = $this->request->data['MdlCourseCategories']['height'];
+        }
+
+        $data = array(
+            'title' => $reportType,
+            'type' => $chartType,
+            'width' => $width,
+            'height' => $height
+        );
+        $results = $this->getData($period, $reportType);
+        $data = array_merge($data,$results);
+
+        $this->set('data', $data);
 
     }
 
@@ -58,6 +84,19 @@ class CourseprofileController extends AppController {
 
     public function tasktype() {
 
+    }
+
+    /**
+     * Contructs and returns appropriate data.
+     *
+     * @param integer $period Determines how data will be grouped
+     * @param integer $reportType Determines fields to be counted
+     * @return array Data for chart
+     */
+
+    private function getData($period, $reportType) {
+        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('course'=>'4430'));
+        return $data;
     }
 
     public function createfile() {
