@@ -25,9 +25,15 @@ class MdlUser extends AppModel {
         ),
     );
 
+    /**
+     * Returns the idnumber of a user given the primary key
+     *
+     * @param   integer $id primary key for user
+     * @return  array   Array with these options : 'id', 'idnumber'
+     */
     public function getUser($id) {
         $result = $this->find('all', array(
-            'recursive' => 1, //int
+            'recursive' => -1, //int
             'fields' => array('id', 'idnumber'), //array of field names
             'conditions' => array('id' => $id)
         ));

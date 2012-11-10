@@ -1,4 +1,5 @@
 <?php
+
 $this->Html->script('https://www.google.com/jsapi', false);
 echo $this->GChart->start('chart_div');
 echo $this->GChart->visualize('chart_div', $data);
@@ -8,7 +9,7 @@ echo '<div style="width:400px">';
 echo $this->Form->create();
 
 echo $this->Form->input('report', array(
-    'options' => array('activity' => 'activity', 'users' => 'unique users', 'courses' => 'unique courses'),
+    'options' => array('Activity' => 'Activity', 'Users' => 'Unique users', 'Courses' => 'Unique courses'),
     'default' => 'activity'
 ));
 

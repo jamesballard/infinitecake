@@ -10,7 +10,7 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('MdlUser');
+    var $uses = array('MdlUser', 'MdlLog');
 
     public function index() {
         $this->set('user',$this->MdlUser->getUser('37953'));
