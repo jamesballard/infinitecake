@@ -20,4 +20,16 @@ class UserprofileController extends AppController {
         $this->set('user',$this->MdlUser->getUser('37953'));
     }
 
+    public function location() {
+
+    }
+
+    public function modules() {
+
+    }
+
+    public function tasktype() {
+
+    }
+
 }
