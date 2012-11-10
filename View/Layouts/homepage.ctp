@@ -38,8 +38,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->Html->css('cake.generic');
 
         echo $this->Html->script('modernizr');
-        echo $this->Html->script('jquery');
-        echo $this->Html->script('jquery-ui');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -62,25 +60,10 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         <li><?php echo $this->Html->link('User Profile', '/userprofile'); ?></li>
       </ul>
     </div>
-        <div id="left-sidebar">
-        <?php
-            echo $this->menuBuilder->build('left-menu');
-            echo $this->Html->scriptBlock(
-                '$(function() {
-                    $( "#left-menu" ).accordion({
-                        collapsible: true,
-                    });
-                });'
-            );
-            //TODO - open accordion at correct point
-            echo $this->Html->scriptBlock(
-                '$( "#left-menu" ).accordion("activate" , "li.active");'
-            );
-        ?>
-        </div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
+            Boo
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

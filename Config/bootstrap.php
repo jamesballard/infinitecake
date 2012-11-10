@@ -73,6 +73,7 @@ Cache::config('default', array('engine' => 'File'));
 CakePlugin::load('Flash');
 CakePlugin::load('DrasticTreeMap');
 CakePlugin::load('GChart');
+CakePlugin::load('MenuBuilder');
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -109,3 +110,5 @@ CakeLog::config('error', array(
 	'scopes' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+// Add the following at the end of app/config/bootstrap.php
+Configure::load('templates');

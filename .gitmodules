@@ -4,3 +4,6 @@
 [submodule "Plugin/GChart"]
 	path = Plugin/GChart
 	url = git://github.com/cjsaylor/Google-visualization-api-cakephp.git
+[submodule "Plugin/menu_builder"]
+	path = Plugin/menu_builder
+	url = git://github.com/torifat/cake-menu_builder.git

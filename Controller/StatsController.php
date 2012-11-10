@@ -43,6 +43,50 @@ class StatsController extends AppController {
         $this->set('data', $data);
     }
 
+    public function overview() {
+
+        //Set defaults
+
+        $period = 'month';
+        $chartType = 'area';
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $period = $this->request->data['MdlLog']['period'];
+            $chartType = $this->request->data['MdlLog']['chart'];
+            $reportType = $this->request->data['MdlLog']['report'];
+            $width = $this->request->data['MdlLog']['width'];
+            $height = $this->request->data['MdlLog']['height'];
+        }
+
+        $data = array(
+            'title' => $reportType,
+            'type' => $chartType,
+            'width' => $width,
+            'height' => $height
+        );
+        $results = $this->getData($period, $reportType);
+        $data = array_merge($data,$results);
+
+        $this->set('data', $data);
+
+    }
+
+    public function location() {
+
+    }
+
+    public function modules() {
+
+    }
+
+    public function tasktype() {
+
+    }
+
     /**
      * Contructs and returns appropriate data.
      *

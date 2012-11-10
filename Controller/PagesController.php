@@ -59,7 +59,11 @@ class PagesController extends AppController {
 		if (!empty($path[$count - 1])) {
 			$title = Inflector::humanize($path[$count - 1]);
 		}
-		$this->set(compact('page', 'subpage'));
+
+        // Change templates based on Config/templates.php
+        $this->layout = Configure::read('layout.'.$page);
+
+        $this->set(compact('page', 'subpage'));
 		$this->set('title_for_layout', $title);
 		$this->render(implode('/', $path));
 	}

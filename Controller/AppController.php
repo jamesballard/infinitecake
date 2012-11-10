@@ -32,4 +32,54 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+    public $helpers = array('MenuBuilder.MenuBuilder');
+
+    //TODO - set active?
+    function beforeFilter() {
+        // Define your menu
+        $menu = array(
+            'main-menu' => array(
+                array(
+                    'title' => 'Home',
+                    'url' => array('controller' => 'pages', 'action' => 'home'),
+                ),
+                array(
+                    'title' => 'About Us',
+                    'url' => '/pages/about-us',
+                ),
+            ),
+            'left-menu' => array(
+                array(
+                    'title' => 'Involvement',
+                    'children' => array(
+                        array(
+                            'title' => 'Overview',
+                            'url' => array('controller' => $this->name, 'action' => 'overview', 3),
+                        ),
+                        array(
+                            'title' => 'Location Access',
+                            'url' => array('controller' => $this->name, 'action' => 'location', 4),
+                        ),
+                    )
+                ),
+                array(
+                    'title' => 'Interaction',
+                    'children' => array(
+                        array(
+                            'title' => 'Modules',
+                            'url' => array('controller' => $this->name, 'action' => 'modules', 3),
+                        ),
+                        array(
+                            'title' => 'Task Type',
+                            'url' => array('controller' => $this->name, 'action' => 'tasktype', 4),
+                        ),
+                    )
+                ),
+            ),
+        );
+
+        // For default settings name must be menu
+        $this->set(compact('menu'));
+    }
 }

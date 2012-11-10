@@ -7,7 +7,7 @@
  */
 App::uses('File', 'Utility');
 
-class DesignsController extends AppController {
+class CourseprofileController extends AppController {
     public $helpers = array('Html', 'Form', 'Session', 'DrasticTreeMap.DrasticTreeMap');
     public $components = array('Session');
 
@@ -41,6 +41,22 @@ class DesignsController extends AppController {
     );
 
     public function index() {
+
+    }
+
+    public function overview() {
+
+    }
+
+    public function location() {
+
+    }
+
+    public function modules() {
+
+    }
+
+    public function tasktype() {
 
     }
 

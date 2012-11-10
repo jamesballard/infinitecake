@@ -31,7 +31,7 @@ body {
 }
 a {
 	color: #003d4c;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: bold;
 }
 a:hover {
@@ -72,7 +72,8 @@ p {
 }
 
 #header{
-	padding: 20px;
+    height: 65px;
+	padding: 10px 10px 10px 20px;
     float: left;
 }
 #header h1 {
@@ -95,8 +96,8 @@ p#tagline {
 
 #menu
 {
-    height: 6em;
-    margin-left: 18em;
+    height: 85px;
+    margin-left: 180px;
     position: relative;
 }
 
@@ -137,10 +138,23 @@ p#tagline {
     color: #fff;
 }
 
+#left-sidebar {
+    background: url(../img/a3.gif) repeat-x;
+    clear: both;
+    float:left;
+    padding: 30px 20px 40px 5px;
+    min-width: 250px;
+}
+
+.ui-accordion .ui-accordion-icons {
+    padding-left: 30px;
+}
+.ui-accordion .ui-accordion-content {
+    padding-left: 20px;
+}
 
 #content{
     background: url(../img/a3.gif) repeat-x;
-    clear: both;
 	color: #333;
 	padding: 30px 20px 40px 20px;
 	overflow: auto;
