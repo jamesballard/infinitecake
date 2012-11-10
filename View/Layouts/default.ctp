@@ -18,18 +18,25 @@
 
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $title_for_layout; ?>
-	</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Infinite Rooms: Learner Enhanced Technologies</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
 	<?php
-		echo $this->Html->meta('icon');
+		//echo $this->Html->meta('icon');
 
+        echo $this->Html->css('normalize');
+        echo $this->Html->css('main');
 		echo $this->Html->css('cake.generic');
+
+        echo $this->Html->script('modernizr');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -37,6 +44,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	?>
 </head>
 <body>
+    <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link('Infinite Rooms', '/'); ?></h1>
