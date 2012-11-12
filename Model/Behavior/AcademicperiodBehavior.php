@@ -15,7 +15,7 @@ class AcademicperiodBehavior extends ModelBehavior {
  * @param   integer $startYear  format YYYY
  * @return  string  $acYear     format YYYY/yy
  */
-    function nameAcademicYear($startYear) {
+    function nameAcademicYear(Model $Model, $startYear) {
         $acYear = $startYear. '/'. substr(($startYear + 1),-2);
         return $acYear;
     }
@@ -26,15 +26,15 @@ class AcademicperiodBehavior extends ModelBehavior {
  * @param   timestamp   $start      Start date as timestamp, 0 = go back 1 year
  * @return  DatePeriod  $daterange  http://php.net/manual/en/class.dateperiod.php
  */
-    function getYears($start=0) {
+    function getYears(Model $Model, $start=0) {
         if($start > 0) {
             $begin = new DateTime(date('Y-m-01', $start));
         }else{
             $begin = new DateTime(date('Y-m-01',strtotime("-1 year", time())));
         }
 
-        $end = new DateTime( date('Y-m-01',time()) );
-
+        //Add 4 months to push into next academic year (e.g. August +5)
+        $end = new DateTime( date('Y-m-01',strtotime("+5 months")));
         // Get years as range.
         $interval = new DateInterval('P1Y');
         $daterange = new DatePeriod($begin, $interval,$end);
@@ -52,11 +52,11 @@ class AcademicperiodBehavior extends ModelBehavior {
  * @TODO This is based on UK academic year starting 1st August - this should be configurable
  */
     function getAcademicPeriod(Model $Model, $start, $interval) {
-        $daterange = $this->getYears($start);
+        $daterange = $this->getYears($Model, $start);
         $periods = array();
         foreach ($daterange as $date) {
             $start = $date->format("Y");
-            $academicYear = $this->nameAcademicYear($start);
+            $academicYear = $this->nameAcademicYear($Model, $start);
 
             $begin = new DateTime($date->format("Y-08-01"));
             $date->modify( '+1 year' );

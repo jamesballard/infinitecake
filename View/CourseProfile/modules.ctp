@@ -1,42 +1,33 @@
 <?php
 
-echo $this->DrasticTreeMap->start('treemap','/files/ActivityTreemap.xml',1200,800);
-echo $this->DrasticTreeMap->visualize('treemap');
+echo $this->DrasticTreeMap->init('chart_div');
+echo $this->DrasticTreeMap->visualize('chart_div', $data);
 
-echo $this->Form->input('color', array(
-   'options' => array(
-                    'Module' => 'Module',
-                    'Subject' => 'Subject',
-                    'Type' => 'Type'
-                  ),
-   'onchange' => "treemap.colorColumn([this.options[selectedIndex].value])",
-   'label' => 'Colour by: ',
-   'default' => 'module'
-  )
-);
+echo '<div id="chart_div"  style="width:'.$width.'px; height:'.$height.'px;"></div>';
 
-echo $this->Form->input('groupBy', array(
-   'options' => array(
-                    'Module' => 'Module',
-                    'Subject' => 'Subject',
-                    'Type' => 'Type'
-                  ),
-   'onchange' => "treemap.groupByCols([this.options[selectedIndex].value])",
-   'label' => 'Group by: ',
-   'default' => 'subject'
-  )
-);
+echo '<div style="width:400px">';
 
-echo $this->Form->input('sizeBy', array(
-   'options' => array(
-                    'Total' => 'Total Activity',
-                    'Users' => 'Unique Users',
-                    'Views' => 'Views',
-                    'Contributions' => 'Contributions'
-                  ),
-   'onchange' => "treemap.sizeColumn([this.options[selectedIndex].value])",
-   'label' => 'Size by: ',
-   'default' => 'total'
-  )
-);
+echo $this->Form->create();
+
+echo $this->Form->input('report', array(
+    'options' => array('Activity' => 'Activity', 'Views' => 'Views', 'Contributions' => 'Contributions'),
+    'default' => 'Activity'
+));
+
+echo $this->Form->input('width', array(
+        'type' => 'text',
+        'default' => '750'
+    )
+); // has a label element
+
+echo $this->Form->input('height', array(
+        'type' => 'text',
+        'default' => '500'
+    )
+); // has a label element
+
+echo $this->Form->end('Change');
+
+echo '</div>';
+
 ?>

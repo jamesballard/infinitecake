@@ -80,6 +80,21 @@ class StatsController extends AppController {
     }
 
     public function modules() {
+        //Set defaults
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $reportType = $this->request->data['MdlLog']['report'];
+            $width = $this->request->data['MdlLog']['width'];
+            $height = $this->request->data['MdlLog']['height'];
+        }
+
+        $this->set('width', $width);
+        $this->set('height', $height);
+        $this->set('data', $this->getModuleData($reportType));
 
     }
 
@@ -97,6 +112,20 @@ class StatsController extends AppController {
 
     private function getData($period, $reportType) {
         $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array());
+        return $data;
+    }
+
+    /**
+     * Contructs and returns module treemap data.
+     *
+     * @param integer $period De termines how data will be grouped
+     * @param integer $reportType Determines fields to be counted
+     * @return array Data for chart
+     */
+
+    private function getModuleData($reportType) {
+        $userid = $this->Session->read('Profile.user');
+        $data = $this->MdlLog->getModuleCountTreemap($reportType, array());
         return $data;
     }
 

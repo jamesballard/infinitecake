@@ -4,7 +4,7 @@
      */
 class DrasticTreeMapHelper extends AppHelper {
 
-    public $helpers = array('Html', 'Flash.Flash');
+    public $helpers = array('Html');
 
     /**
      * Creates a div tag meant to be filled with the Google visualization.
@@ -12,22 +12,10 @@ class DrasticTreeMapHelper extends AppHelper {
      * @param string $name
      * @return string Script tag output
      */
-    public function start($name='treemap',$datafile='/files/DrasticTreemap.xml',$width=1024,$height=768) {
-        $this->Flash->init();
-
-        echo $this->Flash->renderSwf(
-            'swf/DrasticTreemap.swf',
-            $width,
-            $height,
-            $name,
-            array(
-                'flashvars' => array(
-                    'configFile' => $datafile
-                    ),
-                'params' => array(),
-                'version' => '10.0.0'
-            )
-        );
+    public function init() {
+        $this->Html->script('https://www.google.com/jsapi', false);
+        $this->Html->script('DrasticTreemapGApi', false);
+        $this->Html->script('swfobject', false);
     }
 
     /**
@@ -37,16 +25,73 @@ class DrasticTreeMapHelper extends AppHelper {
      * @param array $options
      * @return string Div tag output
      */
-    public function visualize($name='treemap') {
-        $this->Html->script('swfobject');
+    public function visualize($name='treemap', $data) {
+        $o = '<script type="text/javascript">
+            google.load("visualization", "1");
+            google.load("swfobject", "2.2");
 
-        $o = '<div>';
-        $o .= '<div id="'.$name.'">';
-        $o .= '<a href="http://www.adobe.com/go/getflashplayer">';
-        $o .= '<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a>';
-        $o .= '</div>';
-        $o .= '</div>';
+            // Set callback to run when API is loaded
+            google.setOnLoadCallback(drawVisualization);
 
+            // Called when the Visualization API is loaded.
+            function drawVisualization() {
+
+                // Create and populate a data table.\n
+                var data = new google.visualization.DataTable();';
+
+        $o .= $this->loadDataAndLabelsTreeMap($data);
+
+        $o .= "// Instantiate our object.
+        var vis = new drasticdata.DrasticTreemap(document.getElementById('$name'));";
+
+        $o .= "// Draw the treemap with the data we created locally and some options:
+            vis.draw(data, {\n
+                groupbycol: 'Type',\n
+                labelcol: 'Module',\n
+                variables: ['2010/11', '2011/12', '2012/13']\n
+                }
+            );
+           }";
+        $o .= '</script>';
+
+        return $o;
+    }
+
+
+    /**
+     * Returns javascript that adds the data and label to be used in the visualization.
+     *
+     * @param array $data
+     * @param string $graph_type
+     * @return string
+     */
+    protected function loadDataAndLabelsTreeMap($data) {
+        $o = '';
+        foreach($data['labels'] as $label) {
+            foreach($label as $type => $label_name) {
+                $o.= "data.addColumn('$type', '$label_name');\n";
+            }
+        }
+        $data_count = count($data['data']);
+        $label_count = count($data['labels']);
+        $o.= "data.addRows([\n";
+        for($i = 0; $i < $data_count; $i++) {
+            $o.= "[";
+            for($j=0; $j < $label_count; $j++) {
+                $value = $data['data'][$i][$j];
+                $type = key($data['labels'][$j]);
+                if($type == 'string') {
+                    $o.= "'$value'";
+                } else {
+                    $o.= "$value";
+                }
+                if($j !== ($label_count - 1)) {
+                    $o.= ",";
+                }
+            }
+            $o.= "],\n";
+        }
+        $o.= "]);\n";
         return $o;
     }
 
