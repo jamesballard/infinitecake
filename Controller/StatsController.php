@@ -124,7 +124,6 @@ class StatsController extends AppController {
      */
 
     private function getModuleData($reportType) {
-        $userid = $this->Session->read('Profile.user');
         $data = $this->MdlLog->getModuleCountTreemap($reportType, array());
         return $data;
     }
