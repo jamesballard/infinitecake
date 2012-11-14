@@ -56,8 +56,13 @@ class MdlLog extends AppModel {
     public function getStart($filter=false) {
         //$result = Cache::read('logstart', 'long');
         //if (!$result) {
-            $result = $this->find('first', array(
+        $conditions = array();
+        if($filter) {
+            $conditions = $filter;
+        }
+        $result = $this->find('first', array(
                 'fields' => "MIN(time) AS start", //array of field names
+                'conditions' => $conditions
             ));
             //Cache::write('logstart', $result, 'long');
         //}
@@ -117,6 +122,59 @@ class MdlLog extends AppModel {
         $interval = new DateInterval($this->dateformats[$period]['interval']);
         $results = $this->getPeriodCount($this->fields[$reportType], $interval, $this->dateformats[$period]['format'], $filter);
         $data = $this->transformGchartArray($results);
+        return $data;
+    }
+
+/**
+ * Returns a Count for selected interval for the years available
+ *
+ * @param string $fields the fields intended to be counted
+ * @param DateInterval $interval http://php.net/manual/en/class.dateinterval.php
+ * @param string $format date format (e.g. 'M')
+ * @return array Academic Year => Period => Count
+ */
+    function getModuleCount($reportType, $filter) {
+        $start = strtotime("-2 years", time());
+        $start = $this->getStart($filter);
+        $interval = new DateInterval('P1Y');
+        $daterange = $this->getAcademicPeriod($start[0]['start'], $interval);
+
+        $data = array();
+        foreach ($daterange as $year=>$range) {
+            foreach($range as $date) {
+                $conditions = array('time > '=>strtotime($date->format("Y-m-d H:i:s")));
+                $date->add($interval);
+                $conditions = array_merge($conditions,array('time < '=>strtotime($date->format("Y-m-d H:i:s"))));
+                $conditions = array_merge($conditions,$filter);
+                $date->sub($interval);
+                //Iterate through modules to get count of each per category
+                foreach ($this->getModules() as $module=>$type) {
+                    $conditions = array_merge($conditions, array('module' => $module));
+                    $value = $this->find('count', array(
+                            'conditions' => $conditions, //array of conditions
+                            'recursive' => -1, //int
+                        )
+                    );
+
+                    $data[$year][] = array($module => $value);
+                }
+            }
+        }
+        return $data;
+    }
+
+/**
+ * Returns a Count for selected interval for the years available in GChart format
+ *
+ * @param string $fields the fields intended to be counted
+ * @param DateInterval $interval http://php.net/manual/en/class.dateinterval.php
+ * @param string $format date format (e.g. 'M')
+ * @return array Academic Year => Period => Count
+ */
+
+    function getModuleCountTreemap($reportType, $filter) {
+        $results = $this->getModuleCount($reportType, $filter);
+        $data = $this->transformModuleTreemap($results);
         return $data;
     }
 

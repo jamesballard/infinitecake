@@ -1,4 +1,33 @@
-<table style="width:200px">
-<tr><th>ID</th><td><?php echo $user[0]['MdlUser']['idnumber'] ?></td></tr>
-</table>
-<p>In Development</p>
+<?php
+
+echo $this->DrasticTreeMap->init('chart_div');
+echo $this->DrasticTreeMap->visualize('chart_div', $data);
+
+echo '<div id="chart_div"  style="width:'.$width.'px; height:'.$height.'px;"></div>';
+
+echo '<div style="width:400px">';
+
+echo $this->Form->create();
+
+echo $this->Form->input('report', array(
+    'options' => array('Activity' => 'Activity', 'Views' => 'Views', 'Contributions' => 'Contributions'),
+    'default' => 'Activity'
+));
+
+echo $this->Form->input('width', array(
+        'type' => 'text',
+        'default' => '750'
+    )
+); // has a label element
+
+echo $this->Form->input('height', array(
+        'type' => 'text',
+        'default' => '500'
+    )
+); // has a label element
+
+echo $this->Form->end('Change');
+
+echo '</div>';
+
+?>

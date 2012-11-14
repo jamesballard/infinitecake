@@ -41,7 +41,8 @@ class CourseprofileController extends AppController {
     );
 
     public function index() {
-
+        $this->set('course',$this->MdlCourse->getCourse('4430'));
+        $this->Session->write('Profile.course', '4430');
     }
 
     public function overview() {
@@ -79,7 +80,21 @@ class CourseprofileController extends AppController {
     }
 
     public function modules() {
+        //Set defaults
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
 
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $reportType = $this->request->data['MdlCourseCategories']['report'];
+            $width = $this->request->data['MdlCourseCategories']['width'];
+            $height = $this->request->data['MdlCourseCategories']['height'];
+        }
+
+        $this->set('width', $width);
+        $this->set('height', $height);
+        $this->set('data', $this->getModuleData($reportType));
     }
 
     public function tasktype() {
@@ -95,7 +110,22 @@ class CourseprofileController extends AppController {
      */
 
     private function getData($period, $reportType) {
-        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('course'=>'4430'));
+        $courseid = $this->Session->read('Profile.course');
+        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('course'=>$courseid));
+        return $data;
+    }
+
+    /**
+     * Contructs and returns module treemap data.
+     *
+     * @param integer $period De termines how data will be grouped
+     * @param integer $reportType Determines fields to be counted
+     * @return array Data for chart
+     */
+
+    private function getModuleData($reportType) {
+        $courseid = $this->Session->read('Profile.course');
+        $data = $this->MdlLog->getModuleCountTreemap($reportType, array('course'=>$courseid));
         return $data;
     }
 

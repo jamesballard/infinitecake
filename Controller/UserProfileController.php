@@ -6,7 +6,7 @@
  * Time: 21:37
  */
 class UserprofileController extends AppController {
-    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart', 'MenuBuilder.MenuBuilder');
+    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
@@ -14,6 +14,7 @@ class UserprofileController extends AppController {
 
     public function index() {
         $this->set('user',$this->MdlUser->getUser('37953'));
+        $this->Session->write('Profile.user', '39756');
     }
 
     public function overview() {
@@ -39,7 +40,7 @@ class UserprofileController extends AppController {
             'width' => $width,
             'height' => $height
         );
-        $results = $this->getData($period, $reportType);
+        $results = $this->getOverviewData($period, $reportType);
         $data = array_merge($data,$results);
 
         $this->set('data', $data);
@@ -50,7 +51,21 @@ class UserprofileController extends AppController {
     }
 
     public function modules() {
+        //Set defaults
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
 
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $reportType = $this->request->data['MdlUser']['report'];
+            $width = $this->request->data['MdlUser']['width'];
+            $height = $this->request->data['MdlUser']['height'];
+        }
+
+        $this->set('width', $width);
+        $this->set('height', $height);
+        $this->set('data', $this->getModuleData($reportType));
     }
 
     public function tasktype() {
@@ -58,15 +73,30 @@ class UserprofileController extends AppController {
     }
 
     /**
-     * Contructs and returns appropriate data.
+     * Contructs and returns Overview data.
      *
-     * @param integer $period Determines how data will be grouped
+     * @param integer $period De termines how data will be grouped
      * @param integer $reportType Determines fields to be counted
      * @return array Data for chart
      */
 
-    private function getData($period, $reportType) {
-        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('userid'=>'37953'));
+    private function getOverviewData($period, $reportType) {
+        $userid = $this->Session->read('Profile.user');
+        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('userid'=>$userid));
+        return $data;
+    }
+
+    /**
+     * Contructs and returns module treemap data.
+     *
+     * @param integer $period De termines how data will be grouped
+     * @param integer $reportType Determines fields to be counted
+     * @return array Data for chart
+     */
+
+    private function getModuleData($reportType) {
+        $userid = $this->Session->read('Profile.user');
+        $data = $this->MdlLog->getModuleCountTreemap($reportType, array('userid'=>$userid));
         return $data;
     }
 
