@@ -1,4 +1,4 @@
-MdlCourseCategories.php<?php
+<?php
 App::uses('AppModel', 'Model');
 /**
  * LcmoodleLog Model
