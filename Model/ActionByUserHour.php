@@ -14,4 +14,5 @@ class ActionByUserHour extends AppModel {
     var $cacheQueries = true;
 
     public $dateFormat = 'Y-m-d H:00:00';
+
 }

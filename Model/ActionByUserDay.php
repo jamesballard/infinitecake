@@ -14,4 +14,5 @@ class ActionByUserDay extends AppModel {
     var $cacheQueries = true;
 
     public $dateFormat = 'Y-m-d';
+
 }
