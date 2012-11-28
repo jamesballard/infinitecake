@@ -73,7 +73,8 @@ CREATE TABLE `action_by_user_hour` (
   UNIQUE KEY `hour_add_ix` (`user`,`group`,`module`,`action`,`hour`,`time`),
   KEY `user_ix` (`user`,`hour`),
   KEY `group_ix` (`group`,`hour`),
-  KEY `user_group_ix` (`user`,`group`,`hour`)
+  KEY `user_group_ix` (`user`,`group`,`hour`),
+  KEY `hour_ix` (`hour`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3099523 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_month` */
@@ -96,7 +97,8 @@ CREATE TABLE `action_by_user_month` (
   KEY `time_ix` (`time`),
   KEY `user_module_ix` (`user`,`module`,`time`),
   KEY `group_module_ix` (`group`,`module`,`time`),
-  KEY `module` (`module`,`time`)
+  KEY `module_ix` (`module`,`time`),
+  KEY `action_ix` (`action`,`time`)
 ) ENGINE=MyISAM AUTO_INCREMENT=888727 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_week` */
