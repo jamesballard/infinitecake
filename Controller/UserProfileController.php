@@ -69,6 +69,35 @@ class UserprofileController extends AppController {
     }
 
     public function tasktype() {
+        //Set defaults
+        $period = 'month';
+        $chartType = 'column';
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $period = $this->request->data['Action']['period'];
+            $chartType = $this->request->data['Action']['chart'];
+            $reportType = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
+        }
+
+        $data = array(
+            'title' => $reportType,
+            'type' => $chartType,
+            'width' => $width,
+            'height' => $height
+        );
+        if($chartType = ('bar' || 'column')) {
+            $data['isStacked'] = true;
+        }
+        $results = $this->getTaskTypeData($period);
+        $data = array_merge($data,$results);
+
+        $this->set('data', $data);
 
     }
 
@@ -111,6 +140,33 @@ class UserprofileController extends AppController {
         $userid = $this->Session->read('Profile.user');
         $data = $this->ActionByUserMonth->getModuleCountTreemap(array('user'=>$userid));
         return $data;
+    }
+
+    /**
+     * Contructs and returns Overview data.
+     *
+     * @param integer $period De termines how data will be grouped
+     * @param integer $reportType Determines fields to be counted
+     * @return array Data for chart
+     */
+
+    private function getTaskTypeData($period) {
+        $userid = $this->Session->read('Profile.user');
+
+        switch($period) {
+            case 'day':
+                $data = $this->ActionByUserDay->getTaskTypeCountGchart(array('user'=>$userid));
+                return $data;
+                break;
+            case 'week':
+                $data = $this->ActionByUserWeek->getTaskTypeCountGchart(array('user'=>$userid));
+                return $data;
+                break;
+            case 'month':
+                $data = $this->ActionByUserMonth->getTaskTypeCountGchart(array('user'=>$userid));
+                return $data;
+                break;
+        }
     }
 
 }

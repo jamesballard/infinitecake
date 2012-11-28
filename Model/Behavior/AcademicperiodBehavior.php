@@ -61,7 +61,7 @@ class AcademicperiodBehavior extends ModelBehavior {
         $end = new DateTime( date('Y-m-01',strtotime("+5 months")));
         // Get years as range.
         $interval = new DateInterval('P1Y');
-        $daterange = new DatePeriod($begin, $interval,$end);
+        $daterange = new DatePeriod($begin, $interval, $end);
 
         return $daterange;
     }
