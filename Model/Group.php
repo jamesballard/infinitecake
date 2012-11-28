@@ -22,6 +22,10 @@ class Group extends AppModel {
     );
 
     public $belongsTo = array(
+        'Community' => array(
+            'className'    => 'Community',
+            'foreignKey'   => 'community'
+        )
         'System' => array(
             'className'    => 'System',
             'foreignKey'   => 'system'

@@ -12,7 +12,7 @@ class CourseprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('MdlCourseCategories', 'MdlCourse', 'MdlLog');
+    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth');
 
     // Define the modules used for reports
     private $modules = array(
@@ -41,7 +41,7 @@ class CourseprofileController extends AppController {
     );
 
     public function index() {
-        $this->set('course',$this->MdlCourse->getCourse('4430'));
+        $this->set('course','4430');
         $this->Session->write('Profile.course', '4430');
     }
 
@@ -55,11 +55,11 @@ class CourseprofileController extends AppController {
 
         //Overwrite defaults if form submitted.
         if ($this->request->is('post')) {
-            $period = $this->request->data['MdlCourseCategories']['period'];
-            $chartType = $this->request->data['MdlCourseCategories']['chart'];
-            $reportType = $this->request->data['MdlCourseCategories']['report'];
-            $width = $this->request->data['MdlCourseCategories']['width'];
-            $height = $this->request->data['MdlCourseCategories']['height'];
+            $period = $this->request->data['Action']['period'];
+            $chartType = $this->request->data['Action']['chart'];
+            $reportType = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
         }
 
         $data = array(
@@ -68,7 +68,7 @@ class CourseprofileController extends AppController {
             'width' => $width,
             'height' => $height
         );
-        $results = $this->getData($period, $reportType);
+        $results = $this->getOverviewData($period);
         $data = array_merge($data,$results);
 
         $this->set('data', $data);
@@ -87,14 +87,14 @@ class CourseprofileController extends AppController {
 
         //Overwrite defaults if form submitted.
         if ($this->request->is('post')) {
-            $reportType = $this->request->data['MdlCourseCategories']['report'];
-            $width = $this->request->data['MdlCourseCategories']['width'];
-            $height = $this->request->data['MdlCourseCategories']['height'];
+            $reportType = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
         }
 
         $this->set('width', $width);
         $this->set('height', $height);
-        $this->set('data', $this->getModuleData($reportType));
+        $this->set('data', $this->getModuleData());
     }
 
     public function tasktype() {
@@ -102,18 +102,32 @@ class CourseprofileController extends AppController {
     }
 
     /**
-     * Contructs and returns appropriate data.
+     * Contructs and returns Overview data.
      *
-     * @param integer $period Determines how data will be grouped
+     * @param integer $period De termines how data will be grouped
      * @param integer $reportType Determines fields to be counted
      * @return array Data for chart
      */
 
-    private function getData($period, $reportType) {
+    private function getOverviewData($period) {
         $courseid = $this->Session->read('Profile.course');
-        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('course'=>$courseid));
-        return $data;
+
+        switch($period) {
+            case 'day':
+                $data = $this->ActionByUserDay->getPeriodCountGchart(array('group'=>$courseid));
+                return $data;
+                break;
+            case 'week':
+                $data = $this->ActionByUserWeek->getPeriodCountGchart(array('group'=>$courseid));
+                return $data;
+                break;
+            case 'month':
+                $data = $this->ActionByUserMonth->getPeriodCountGchart(array('group'=>$courseid));
+                return $data;
+                break;
+        }
     }
+
 
     /**
      * Contructs and returns module treemap data.
@@ -123,9 +137,9 @@ class CourseprofileController extends AppController {
      * @return array Data for chart
      */
 
-    private function getModuleData($reportType) {
+    private function getModuleData() {
         $courseid = $this->Session->read('Profile.course');
-        $data = $this->MdlLog->getModuleCountTreemap($reportType, array('course'=>$courseid));
+        $data = $this->ActionByUserMonth->getModuleCountTreemap(array('group'=>$courseid));
         return $data;
     }
 

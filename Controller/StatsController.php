@@ -6,11 +6,11 @@
  * Time: 20:50
  */
 class StatsController extends AppController {
-    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart');
+    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('MdlLog');
+    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth');
 
     public function index() {
 
@@ -24,11 +24,11 @@ class StatsController extends AppController {
 
         //Overwrite defaults if form submitted.
         if ($this->request->is('post')) {
-            $period = $this->request->data['MdlLog']['period'];
-            $chartType = $this->request->data['MdlLog']['chart'];
-            $reportType = $this->request->data['MdlLog']['report'];
-            $width = $this->request->data['MdlLog']['width'];
-            $height = $this->request->data['MdlLog']['height'];
+            $period = $this->request->data['Action']['period'];
+            $chartType = $this->request->data['Action']['chart'];
+            $reportType = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
         }
 
         $data = array(
@@ -37,7 +37,7 @@ class StatsController extends AppController {
             'width' => $width,
             'height' => $height
         );
-        $results = $this->getData($period, $reportType);
+        $results = $this->getOverviewData($period);
         $data = array_merge($data,$results);
 
         $this->set('data', $data);
@@ -55,11 +55,11 @@ class StatsController extends AppController {
 
         //Overwrite defaults if form submitted.
         if ($this->request->is('post')) {
-            $period = $this->request->data['MdlLog']['period'];
-            $chartType = $this->request->data['MdlLog']['chart'];
-            $reportType = $this->request->data['MdlLog']['report'];
-            $width = $this->request->data['MdlLog']['width'];
-            $height = $this->request->data['MdlLog']['height'];
+            $period = $this->request->data['Action']['period'];
+            $chartType = $this->request->data['Action']['chart'];
+            $reportType = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
         }
 
         $data = array(
@@ -68,7 +68,7 @@ class StatsController extends AppController {
             'width' => $width,
             'height' => $height
         );
-        $results = $this->getData($period, $reportType);
+        $results = $this->getOverviewData($period);
         $data = array_merge($data,$results);
 
         $this->set('data', $data);
@@ -103,16 +103,30 @@ class StatsController extends AppController {
     }
 
     /**
-     * Contructs and returns appropriate data.
+     * Contructs and returns Overview data.
      *
-     * @param integer $period Determines how data will be grouped
+     * @param integer $period De termines how data will be grouped
      * @param integer $reportType Determines fields to be counted
      * @return array Data for chart
      */
 
-    private function getData($period, $reportType) {
-        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array());
-        return $data;
+    private function getOverviewData($period) {
+        $courseid = $this->Session->read('Profile.course');
+
+        switch($period) {
+            case 'day':
+                $data = $this->ActionByUserDay->getPeriodCountGchart(array());
+                return $data;
+                break;
+            case 'week':
+                $data = $this->ActionByUserWeek->getPeriodCountGchart(array());
+                return $data;
+                break;
+            case 'month':
+                $data = $this->ActionByUserMonth->getPeriodCountGchart(array());
+                return $data;
+                break;
+        }
     }
 
     /**
@@ -123,8 +137,8 @@ class StatsController extends AppController {
      * @return array Data for chart
      */
 
-    private function getModuleData($reportType) {
-        $data = $this->MdlLog->getModuleCountTreemap($reportType, array());
+    private function getModuleData() {
+        $data = $this->ActionByUserMonth->getModuleCountTreemap(array());
         return $data;
     }
 

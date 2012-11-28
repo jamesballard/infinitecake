@@ -1,3 +1,3 @@
 <table style="width:200px">
-    <tr><th>ID</th><td><?php echo $user[0]['MdlUser']['idnumber'] ?></td></tr>
+    <tr><th>ID</th><td><?php echo $user ?></td></tr>
 </table>

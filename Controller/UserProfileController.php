@@ -10,10 +10,10 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('MdlUser', 'MdlLog');
+    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth');
 
     public function index() {
-        $this->set('user',$this->MdlUser->getUser('37953'));
+        $this->set('user','37953');
         $this->Session->write('Profile.user', '39756');
     }
 
@@ -27,11 +27,11 @@ class UserprofileController extends AppController {
 
         //Overwrite defaults if form submitted.
         if ($this->request->is('post')) {
-            $period = $this->request->data['MdlUser']['period'];
-            $chartType = $this->request->data['MdlUser']['chart'];
-            $reportType = $this->request->data['MdlUser']['report'];
-            $width = $this->request->data['MdlUser']['width'];
-            $height = $this->request->data['MdlUser']['height'];
+            $period = $this->request->data['Action']['period'];
+            $chartType = $this->request->data['Action']['chart'];
+            $reportType = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
         }
 
         $data = array(
@@ -40,7 +40,7 @@ class UserprofileController extends AppController {
             'width' => $width,
             'height' => $height
         );
-        $results = $this->getOverviewData($period, $reportType);
+        $results = $this->getOverviewData($period);
         $data = array_merge($data,$results);
 
         $this->set('data', $data);
@@ -80,10 +80,23 @@ class UserprofileController extends AppController {
      * @return array Data for chart
      */
 
-    private function getOverviewData($period, $reportType) {
+    private function getOverviewData($period) {
         $userid = $this->Session->read('Profile.user');
-        $data = $this->MdlLog->getPeriodCountGchart($period, $reportType, array('userid'=>$userid));
-        return $data;
+
+        switch($period) {
+            case 'day':
+                $data = $this->ActionByUserDay->getPeriodCountGchart(array('user'=>$userid));
+                return $data;
+            break;
+            case 'week':
+                $data = $this->ActionByUserWeek->getPeriodCountGchart(array('user'=>$userid));
+                return $data;
+            break;
+            case 'month':
+                $data = $this->ActionByUserMonth->getPeriodCountGchart(array('user'=>$userid));
+                return $data;
+            break;
+        }
     }
 
     /**
@@ -94,9 +107,9 @@ class UserprofileController extends AppController {
      * @return array Data for chart
      */
 
-    private function getModuleData($reportType) {
+    private function getModuleData() {
         $userid = $this->Session->read('Profile.user');
-        $data = $this->MdlLog->getModuleCountTreemap($reportType, array('userid'=>$userid));
+        $data = $this->ActionByUserMonth->getModuleCountTreemap(array('user'=>$userid));
         return $data;
     }
 
