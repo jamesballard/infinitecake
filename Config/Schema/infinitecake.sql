@@ -26,10 +26,15 @@ CREATE TABLE `action` (
   `name` varchar(60) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `module` varchar(20) DEFAULT NULL,
-  `user` bigint(10) unsigned DEFAULT NULL,
-  `group` bigint(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=491506 DEFAULT CHARSET=utf8;
+  `user` bigint(20) unsigned DEFAULT NULL,
+  `group` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `time_ix` (`time`),
+  KEY `user_ix` (`user`),
+  KEY `group_ix` (`group`),
+  KEY `group_time_ix` (`time`,`group`),
+  KEY `user_time_ix` (`time`,`user`)
+) ENGINE=InnoDB AUTO_INCREMENT=9586435 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_day` */
 
@@ -47,8 +52,9 @@ CREATE TABLE `action_by_user_day` (
   UNIQUE KEY `day_add_ix` (`user`,`group`,`module`,`action`,`time`),
   KEY `user_ix` (`user`,`time`),
   KEY `group_ix` (`group`,`time`),
-  KEY `user_group_ix` (`user`,`group`,`time`)
-) ENGINE=MyISAM AUTO_INCREMENT=104381 DEFAULT CHARSET=utf8;
+  KEY `user_group_ix` (`user`,`group`,`time`),
+  KEY `time_ix` (`time`)
+) ENGINE=MyISAM AUTO_INCREMENT=2266103 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_hour` */
 
@@ -68,7 +74,7 @@ CREATE TABLE `action_by_user_hour` (
   KEY `user_ix` (`user`,`hour`),
   KEY `group_ix` (`group`,`hour`),
   KEY `user_group_ix` (`user`,`group`,`hour`)
-) ENGINE=MyISAM AUTO_INCREMENT=140957 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3099523 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_month` */
 
@@ -86,8 +92,12 @@ CREATE TABLE `action_by_user_month` (
   UNIQUE KEY `month_add_ix` (`user`,`group`,`module`,`action`,`time`),
   KEY `user_ix` (`user`,`time`),
   KEY `group_ix` (`group`,`time`),
-  KEY `user_group_ix` (`user`,`group`,`time`)
-) ENGINE=MyISAM AUTO_INCREMENT=60429 DEFAULT CHARSET=utf8;
+  KEY `user_group_ix` (`user`,`group`,`time`),
+  KEY `time_ix` (`time`),
+  KEY `user_module_ix` (`user`,`module`,`time`),
+  KEY `group_module_ix` (`group`,`module`,`time`),
+  KEY `module` (`module`,`time`)
+) ENGINE=MyISAM AUTO_INCREMENT=888727 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_week` */
 
@@ -107,7 +117,7 @@ CREATE TABLE `action_by_user_week` (
   KEY `user_ix` (`user`,`year`,`week`),
   KEY `group_ix` (`group`,`year`,`week`),
   KEY `user_group_ix` (`user`,`group`,`year`,`week`)
-) ENGINE=MyISAM AUTO_INCREMENT=77053 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1490788 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `artefact` */
 
@@ -115,10 +125,10 @@ DROP TABLE IF EXISTS `artefact`;
 
 CREATE TABLE `artefact` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `group` bigint(20) unsigned DEFAULT NULL,
+  `community` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -128,9 +138,11 @@ DROP TABLE IF EXISTS `community`;
 
 CREATE TABLE `community` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `customer` bigint(20) unsigned DEFAULT NULL,
+  `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `customer` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `customer` (`customer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `condition` */
@@ -145,6 +157,19 @@ CREATE TABLE `condition` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `customer` */
+
+DROP TABLE IF EXISTS `customer`;
+
+CREATE TABLE `customer` (
+  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `zip` varchar(255) DEFAULT NULL,
+  `lat` float DEFAULT NULL,
+  `lon` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `group` */
 
 DROP TABLE IF EXISTS `group`;
@@ -156,6 +181,59 @@ CREATE TABLE `group` (
   `type` varchar(255) DEFAULT NULL,
   `system` bigint(20) unsigned DEFAULT NULL,
   `community` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `community` (`community`),
+  KEY `system` (`system`),
+  CONSTRAINT `community` FOREIGN KEY (`community`) REFERENCES `community` (`id`),
+  CONSTRAINT `system` FOREIGN KEY (`system`) REFERENCES `system` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `labour` */
+
+DROP TABLE IF EXISTS `labour`;
+
+CREATE TABLE `labour` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `person` bigint(20) unsigned DEFAULT NULL,
+  `community` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `material` */
+
+DROP TABLE IF EXISTS `material`;
+
+CREATE TABLE `material` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `module` */
+
+DROP TABLE IF EXISTS `module`;
+
+CREATE TABLE `module` (
+  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `artefact` bigint(10) unsigned DEFAULT NULL,
+  `group` bigint(10) unsigned DEFAULT NULL,
+  `system` bigint(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `object` */
+
+DROP TABLE IF EXISTS `object`;
+
+CREATE TABLE `object` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -172,6 +250,7 @@ CREATE TABLE `person` (
   `nationality` varchar(255) DEFAULT NULL,
   `ethnicity` varchar(255) DEFAULT NULL,
   `disability` varchar(255) DEFAULT NULL,
+  `customer` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -181,9 +260,21 @@ DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `user` bigint(20) unsigned DEFAULT NULL,
   `group` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `rule` */
+
+DROP TABLE IF EXISTS `rule`;
+
+CREATE TABLE `rule` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -193,7 +284,7 @@ DROP TABLE IF EXISTS `system`;
 
 CREATE TABLE `system` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `type` bigint(20) unsigned DEFAULT NULL,
+  `type` bigint(4) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
