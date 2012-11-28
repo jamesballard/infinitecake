@@ -9,11 +9,6 @@ echo '<div style="width:400px">';
 
 echo $this->Form->create();
 
-echo $this->Form->input('report', array(
-    'options' => array('Activity' => 'Activity', 'Views' => 'Views', 'Contributions' => 'Contributions'),
-    'default' => 'Activity'
-));
-
 echo $this->Form->input('width', array(
         'type' => 'text',
         'default' => '750'

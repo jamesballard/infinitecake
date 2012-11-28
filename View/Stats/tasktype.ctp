@@ -8,13 +8,8 @@ echo '<div style="width:400px">';
 
 echo $this->Form->create();
 
-echo $this->Form->input('report', array(
-    'options' => array('Activity' => 'Activity', 'Users' => 'Unique users'),
-    'default' => 'activity'
-));
-
 echo $this->Form->input('chart', array(
-    'options' => array('area' => 'area', 'bar' => 'bar', 'column' => 'column', 'line' => 'line', 'table' => 'table'),
+    'options' => array('bar' => 'bar', 'column' => 'column', 'line' => 'line', 'table' => 'table'),
     'default' => 'column'
 ));
 
