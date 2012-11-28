@@ -153,6 +153,7 @@ DROP TABLE IF EXISTS `condition`;
 
 CREATE TABLE `condition` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `systemid` bigint(10) unsigned DEFAULT NULL,
   `action` bigint(20) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
@@ -178,6 +179,7 @@ DROP TABLE IF EXISTS `group`;
 
 CREATE TABLE `group` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `systemid` bigint(10) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
@@ -209,6 +211,7 @@ DROP TABLE IF EXISTS `material`;
 
 CREATE TABLE `material` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `systemid` bigint(10) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -220,6 +223,7 @@ DROP TABLE IF EXISTS `module`;
 
 CREATE TABLE `module` (
   `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `systemid` bigint(10) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `artefact` bigint(10) unsigned DEFAULT NULL,
@@ -262,6 +266,7 @@ DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `systemid` bigint(10) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `user` bigint(20) unsigned DEFAULT NULL,
@@ -297,6 +302,7 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `systemid` bigint(10) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `person` bigint(20) unsigned DEFAULT NULL,
   `system` bigint(20) unsigned DEFAULT NULL,
