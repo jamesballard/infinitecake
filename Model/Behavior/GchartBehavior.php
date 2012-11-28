@@ -37,7 +37,20 @@ class GchartBehavior extends ModelBehavior {
         );
     }
 
-    function assimilativeActions(Model $Model) {
+    // Define the modules used for reports
+    public function getTaskTypes (Model $Model) {
+        return array(
+            'assimilative' => 'Assimilative',
+            'information' => 'Information Handling',
+            'adaptive' => 'Adaptive',
+            'communicative' => 'Communicative',
+            'productive' => 'Productive',
+            'experiential' => 'Experiential'
+        );
+    }
+
+
+    public function assimilativeActions(Model $Model) {
         return array(
             //'Assignment View' => 'assignment view',
             'Blog View' => 'blog view',
@@ -63,7 +76,19 @@ class GchartBehavior extends ModelBehavior {
             'Wiki View' => 'wiki view'
         );
     }
-    function productiveActions(Model $Model) {
+
+    public function informationActions(Model $Model) {
+        return array(
+            'Data Entry' => 'data add'
+        );
+    }
+
+    public function adaptiveActions(Model $Model) {
+        return array(
+        );
+    }
+
+    public function productiveActions(Model $Model) {
         return array(
             'Assignment Upload' => 'assignment TII API SUBMISSION',
             'Assignment Upload' => 'assignment upload',
@@ -84,12 +109,8 @@ class GchartBehavior extends ModelBehavior {
             'Edit Wiki' => 'wiki edit'
         );
     }
-    function informationActions(Model $Model) {
-        return array(
-            'Data Entry' => 'data add'
-        );
-    }
-    function communicativeActions(Model $Model) {
+
+    public function communicativeActions(Model $Model) {
         return array(
             'Chat' => 'chat talk',
             'Forum Discussion' => 'forum add discussion',
@@ -106,6 +127,12 @@ class GchartBehavior extends ModelBehavior {
             'Instant Message' => 'message write'
         );
     }
+
+    public function experientialActions(Model $Model) {
+        return array(
+        );
+    }
+
     function getActions(Model $Model) {
         return array_merge($this->assimilativeActions(),$this->productiveActions(),$this->informationActions(),$this->communicativeActions());
     }

@@ -1,13 +1,15 @@
 <?php
 
-echo $this->DrasticTreeMap->init('chart_div');
-echo $this->DrasticTreeMap->visualize('chart_div', $data);
-
-echo '<div id="chart_div"  style="width:'.$width.'px; height:'.$height.'px;"></div>';
+echo $this->Html->image('pchart/clock.php?dayData='.$dayData.'&nightData='.$nightData.'&height='.$height.'&width='.$width);
 
 echo '<div style="width:400px">';
 
 echo $this->Form->create();
+
+echo $this->Form->input('report', array(
+    'options' => array('sum' => 'Sum', 'min' => 'Minimum', 'max' => 'Maximum'),
+    'default' => 'sum'
+));
 
 echo $this->Form->input('width', array(
         'type' => 'text',

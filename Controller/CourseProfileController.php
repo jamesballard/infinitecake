@@ -12,7 +12,7 @@ class CourseprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth');
+    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth', 'ActionByUserHour');
 
     // Define the modules used for reports
     private $modules = array(
@@ -75,6 +75,36 @@ class CourseprofileController extends AppController {
 
     }
 
+    public function hourly() {
+        //Set defaults
+        $report = 'sum';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $report = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
+        }
+
+        $this->set('width', $width);
+        $this->set('height', $height);
+
+        $groupid = $this->Session->read('Profile.course');
+
+        $dayData = $this->ActionByUserHour->getHourStats('day', $report, array('group'=>$groupid));
+        $dayData = base64_encode(serialize($dayData));
+
+        $this->set('dayData', $dayData);
+
+        $nightData = $this->ActionByUserHour->getHourStats('night', $report, array('group'=>$groupid));
+        $nightData = base64_encode(serialize($nightData));
+
+        $this->set('nightData', $nightData);
+
+    }
+
     public function location() {
 
     }
@@ -98,6 +128,35 @@ class CourseprofileController extends AppController {
     }
 
     public function tasktype() {
+        //Set defaults
+        $period = 'month';
+        $chartType = 'column';
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $period = $this->request->data['Action']['period'];
+            $chartType = $this->request->data['Action']['chart'];
+            $reportType = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
+        }
+
+        $data = array(
+            'title' => $reportType,
+            'type' => $chartType,
+            'width' => $width,
+            'height' => $height
+        );
+        if($chartType = ('bar' || 'column')) {
+            $data['isStacked'] = true;
+        }
+        $results = $this->getTaskTypeData($period);
+        $data = array_merge($data,$results);
+
+        $this->set('data', $data);
 
     }
 
@@ -141,6 +200,33 @@ class CourseprofileController extends AppController {
         $courseid = $this->Session->read('Profile.course');
         $data = $this->ActionByUserMonth->getModuleCountTreemap(array('group'=>$courseid));
         return $data;
+    }
+
+    /**
+     * Contructs and returns Overview data.
+     *
+     * @param integer $period De termines how data will be grouped
+     * @param integer $reportType Determines fields to be counted
+     * @return array Data for chart
+     */
+
+    private function getTaskTypeData($period) {
+        $groupid = $this->Session->read('Profile.course');
+
+        switch($period) {
+            case 'day':
+                $data = $this->ActionByUserDay->getTaskTypeCountGchart(array('group'=>$groupid));
+                return $data;
+                break;
+            case 'week':
+                $data = $this->ActionByUserWeek->getTaskTypeCountGchart(array('group'=>$groupid));
+                return $data;
+                break;
+            case 'month':
+                $data = $this->ActionByUserMonth->getTaskTypeCountGchart(array('group'=>$groupid));
+                return $data;
+                break;
+        }
     }
 
     public function createfile() {
