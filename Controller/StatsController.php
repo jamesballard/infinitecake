@@ -10,7 +10,7 @@ class StatsController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth');
+    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth', 'ActionByUserHour');
 
     public function index() {
 
@@ -46,6 +46,36 @@ class StatsController extends AppController {
         $data = array_merge($data,$results);
 
         $this->set('data', $data);
+
+    }
+
+    public function hourly() {
+        //Set defaults
+        $report = 'sum';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $report = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
+        }
+
+        $this->set('width', $width);
+        $this->set('height', $height);
+
+        $userid = $this->Session->read('Profile.user');
+
+        $dayData = $this->ActionByUserHour->getHourStats('day', $report, array());
+        $dayData = base64_encode(serialize($dayData));
+
+        $this->set('dayData', $dayData);
+
+        $nightData = $this->ActionByUserHour->getHourStats('night', $report, array());
+        $nightData = base64_encode(serialize($nightData));
+
+        $this->set('nightData', $nightData);
 
     }
 

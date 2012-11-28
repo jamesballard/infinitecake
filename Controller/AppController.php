@@ -58,8 +58,8 @@ class AppController extends Controller {
                             'url' => array('controller' => $this->name, 'action' => 'overview', 3),
                         ),
                         array(
-                            'title' => 'Location Access',
-                            'url' => array('controller' => $this->name, 'action' => 'location', 4),
+                            'title' => 'Time of Day',
+                            'url' => array('controller' => $this->name, 'action' => 'hourly', 4),
                         ),
                     )
                 ),

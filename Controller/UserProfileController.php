@@ -6,11 +6,12 @@
  * Time: 21:37
  */
 class UserprofileController extends AppController {
-    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
+    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart',
+                        'DrasticTreeMap.DrasticTreeMap', 'pChart.pChartRadar');
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth');
+    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth', 'ActionByUserHour');
 
     public function index() {
         $this->set('user','37953');
@@ -47,6 +48,36 @@ class UserprofileController extends AppController {
     }
 
     public function location() {
+
+    }
+
+    public function hourly() {
+        //Set defaults
+        $report = 'sum';
+        $width = 750;
+        $height = 500;
+
+        //Overwrite defaults if form submitted.
+        if ($this->request->is('post')) {
+            $report = $this->request->data['Action']['report'];
+            $width = $this->request->data['Action']['width'];
+            $height = $this->request->data['Action']['height'];
+        }
+
+        $this->set('width', $width);
+        $this->set('height', $height);
+
+        $userid = $this->Session->read('Profile.user');
+
+        $dayData = $this->ActionByUserHour->getHourStats('day', $report, array('user'=>$userid));
+        $dayData = base64_encode(serialize($dayData));
+
+        $this->set('dayData', $dayData);
+
+        $nightData = $this->ActionByUserHour->getHourStats('night', $report, array('user'=>$userid));
+        $nightData = base64_encode(serialize($nightData));
+
+        $this->set('nightData', $nightData);
 
     }
 
