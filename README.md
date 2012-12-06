@@ -20,18 +20,16 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 5. Create database configuration file (config/database.php)
 
 ```php
-public $lcmoodle = array(
-    'datasource' => 'Database/Mysql',
-    'persistent' => false,
-    'host' => 'localhost', // for sockets
-    //'host' => '127.0.0.1', // for TCP
-    'login' => '{user}',
-    'password' => '{password}',
-    'database' => 'infinitecake',
-    'schema' => '',
-    'prefix' => 'mdl_',
-    'encoding' => ''
-);
+    public $default = array(
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => '{user}',
+		'password' => '{passwprd}',
+		'database' => 'infinitecake',
+		'prefix' => '',
+		//'encoding' => 'utf8',
+	);
 ```
 
 ## Use - Current State
