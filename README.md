@@ -16,7 +16,7 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 1. Clone the repository to web root
 2. Update submodules (git submodule update --init)
 3. Create temporary folders (tmp/cache/models tmp/cache/persistent tmp/logs)
-4. Import the database and data from /config/schema/lcmoodle2.sql
+4. Import the database and data from /Config/Schema/infinitecake.sql
 5. Create database configuration file (config/database.php)
 
 ```php
@@ -27,7 +27,7 @@ public $lcmoodle = array(
     //'host' => '127.0.0.1', // for TCP
     'login' => '{user}',
     'password' => '{password}',
-    'database' => 'lcmoodle2',
+    'database' => 'infinitecake',
     'schema' => '',
     'prefix' => 'mdl_',
     'encoding' => ''
