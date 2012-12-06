@@ -25,7 +25,7 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => '{user}',
-		'password' => '{passwprd}',
+		'password' => '{password}',
 		'database' => 'infinitecake',
 		'prefix' => '',
 		//'encoding' => 'utf8',
