@@ -48,15 +48,15 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 4. To create ACOs for each controller use cake bake 
    http://book.cakephp.org/2.0/en/console-and-shells/code-generation-with-bake.html
 
-   cake acl create aco root controllers
+   ```cake acl create aco root controllers```
    
 5. Use the ACLExtras plugin to sync the ACOs
    
-   cake AclExtras.AclExtras aco_sync
+   ```cake AclExtras.AclExtras aco_sync```
 
 6. Using aliases (may need to be added manually to tables aros and acos) you can then grant access permissions through CLI
 
-   cake acl grant admin controllers
+   ```cake acl grant admin controllers```
    
    Where controllers is a parent of all individual controllers
 
