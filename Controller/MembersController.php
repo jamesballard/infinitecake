@@ -46,8 +46,11 @@ class MembersController extends AppController {
             $this->redirect('/', null, false);
         }
         if(!empty($this->data)){
+            $membership = $this->Member->getMembership($this->data['Member']['username']);
+            $this->request->data['Member']['membership_id'] = $membership['Member']['membership_id'];
+
             // If the username/password match
-            if($this->Auth->login($this->data)){
+            if($this->Auth->login($this->request->data)){
                 $this->redirect('/');
             } else {
                 $this->Member->invalidate('username', 'Username and password combination is incorrect!');

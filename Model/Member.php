@@ -72,11 +72,20 @@ class Member extends AppModel {
     }
 
     public function bindNode($user) {
-        return array('model' => 'Membership', 'foreign_key' => 1);
+        return array('model' => 'Membership', 'foreign_key' => $user['Member']['Member']['membership_id']);
     }
 
     public function beforeSave($options = array()) {
         $this->data['Member']['password'] = AuthComponent::password($this->data['Member']['password']);
         return true;
+    }
+
+    public function getMembership($username) {
+        return $this->find('first', array(
+                'conditions' => array('username' => $username), //array of conditions
+                'recursive' => -1, //int
+                'fields' => array('Member.membership_id'), //array of field names
+            )
+        );
     }
 }

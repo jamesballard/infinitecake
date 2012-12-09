@@ -1,6 +1,6 @@
 /*
-SQLyog Community v10.4 Beta1
-MySQL - 5.5.24 : Database - infinitecake
+SQLyog Community v10.5 Beta1
+MySQL - 5.5.27 : Database - infinitecake
 *********************************************************************
 */
 
@@ -15,6 +15,21 @@ MySQL - 5.5.24 : Database - infinitecake
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`infinitecake` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `infinitecake`;
+
+/*Table structure for table `acos` */
+
+DROP TABLE IF EXISTS `acos`;
+
+CREATE TABLE `acos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `foreign_key` int(10) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `lft` int(10) DEFAULT NULL,
+  `rght` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action` */
 
@@ -34,7 +49,7 @@ CREATE TABLE `action` (
   KEY `group_ix` (`group`),
   KEY `group_time_ix` (`time`,`group`),
   KEY `user_time_ix` (`time`,`user`)
-) ENGINE=InnoDB AUTO_INCREMENT=9586435 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_day` */
 
@@ -120,6 +135,37 @@ CREATE TABLE `action_by_user_week` (
   KEY `group_ix` (`group`,`year`,`week`),
   KEY `user_group_ix` (`user`,`group`,`year`,`week`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1490788 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `aros` */
+
+DROP TABLE IF EXISTS `aros`;
+
+CREATE TABLE `aros` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `foreign_key` int(10) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `lft` int(10) DEFAULT NULL,
+  `rght` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `aros_acos` */
+
+DROP TABLE IF EXISTS `aros_acos`;
+
+CREATE TABLE `aros_acos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `aro_id` int(10) NOT NULL,
+  `aco_id` int(10) NOT NULL,
+  `_create` varchar(2) NOT NULL DEFAULT '0',
+  `_read` varchar(2) NOT NULL DEFAULT '0',
+  `_update` varchar(2) NOT NULL DEFAULT '0',
+  `_delete` varchar(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ARO_ACO_KEY` (`aro_id`,`aco_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `artefact` */
 
@@ -216,6 +262,35 @@ CREATE TABLE `material` (
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `members` */
+
+DROP TABLE IF EXISTS `members`;
+
+CREATE TABLE `members` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` char(40) NOT NULL,
+  `membership_id` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  KEY `membership_ix` (`membership_id`),
+  CONSTRAINT `membership` FOREIGN KEY (`membership_id`) REFERENCES `memberships` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `memberships` */
+
+DROP TABLE IF EXISTS `memberships`;
+
+CREATE TABLE `memberships` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `module` */
 
