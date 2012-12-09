@@ -33,10 +33,25 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-    public $helpers = array('MenuBuilder.MenuBuilder');
+    public $components = array(
+        'Acl',
+        'Auth' => array(
+            'authorize' => array(
+                'Actions' => array('actionPath' => 'controllers', 'userModel' => 'Member'),
+            )
+        ),
+        'Session'
+    );
+
+    public $helpers = array('Html', 'Form', 'Session', 'MenuBuilder.MenuBuilder');
 
     //TODO - set active?
     function beforeFilter() {
+        //Configure AuthComponent
+        $this->Auth->loginAction = array('controller' => 'members', 'action' => 'login');
+        $this->Auth->logoutRedirect = array('controller' => 'members', 'action' => 'login');
+        $this->Auth->loginRedirect = array('controller' => 'stats', 'action' => 'index');
+
         // Define your menu
         $menu = array(
             'main-menu' => array(

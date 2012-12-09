@@ -6,8 +6,7 @@
  * Time: 21:37
  */
 class UserprofileController extends AppController {
-    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart',
-                        'DrasticTreeMap.DrasticTreeMap', 'pChart.pChartRadar');
+    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
