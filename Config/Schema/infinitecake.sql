@@ -21,13 +21,13 @@ USE `infinitecake`;
 DROP TABLE IF EXISTS `acos`;
 
 CREATE TABLE `acos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
-  `foreign_key` int(10) DEFAULT NULL,
+  `foreign_key` int(11) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `lft` int(10) DEFAULT NULL,
-  `rght` int(10) DEFAULT NULL,
+  `lft` int(11) DEFAULT NULL,
+  `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
@@ -36,19 +36,21 @@ CREATE TABLE `acos` (
 DROP TABLE IF EXISTS `action`;
 
 CREATE TABLE `action` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `time` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `module` varchar(20) DEFAULT NULL,
-  `user` bigint(20) unsigned DEFAULT NULL,
-  `group` bigint(20) unsigned DEFAULT NULL,
+  `type` bigint(2) unsigned DEFAULT NULL,
+  `time` int(11) unsigned DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `group_id` int(11) unsigned DEFAULT NULL,
+  `module_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `time_ix` (`time`),
-  KEY `user_ix` (`user`),
-  KEY `group_ix` (`group`),
-  KEY `group_time_ix` (`time`,`group`),
-  KEY `user_time_ix` (`time`,`user`)
+  KEY `user_ix` (`user_id`),
+  KEY `group_ix` (`group_id`),
+  KEY `module_ix` (`module_id`),
+  KEY `user_time_ix` (`user_id`,`time`),
+  KEY `group_time_ix` (`group_id`,`time`),
+  KEY `module_time_ix` (`module_id`,`time`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_day` */
@@ -56,13 +58,13 @@ CREATE TABLE `action` (
 DROP TABLE IF EXISTS `action_by_user_day`;
 
 CREATE TABLE `action_by_user_day` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user` bigint(10) unsigned DEFAULT NULL,
-  `group` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) unsigned DEFAULT NULL,
+  `group` int(11) unsigned DEFAULT NULL,
   `module` varchar(20) DEFAULT NULL,
   `action` varchar(60) DEFAULT NULL,
-  `time` bigint(10) unsigned DEFAULT NULL,
-  `total` bigint(10) unsigned DEFAULT NULL,
+  `time` int(11) unsigned DEFAULT NULL,
+  `total` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `day_add_ix` (`user`,`group`,`module`,`action`,`time`),
   KEY `user_ix` (`user`,`time`),
@@ -76,14 +78,14 @@ CREATE TABLE `action_by_user_day` (
 DROP TABLE IF EXISTS `action_by_user_hour`;
 
 CREATE TABLE `action_by_user_hour` (
-  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` bigint(10) unsigned DEFAULT NULL,
-  `group` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) unsigned DEFAULT NULL,
+  `group` int(11) unsigned DEFAULT NULL,
   `module` varchar(20) DEFAULT NULL,
   `action` varchar(60) DEFAULT NULL,
   `hour` bigint(2) unsigned DEFAULT NULL,
-  `time` bigint(10) unsigned DEFAULT NULL,
-  `total` bigint(10) unsigned DEFAULT NULL,
+  `time` int(11) unsigned DEFAULT NULL,
+  `total` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `hour_add_ix` (`user`,`group`,`module`,`action`,`hour`,`time`),
   KEY `user_ix` (`user`,`hour`),
@@ -97,13 +99,13 @@ CREATE TABLE `action_by_user_hour` (
 DROP TABLE IF EXISTS `action_by_user_month`;
 
 CREATE TABLE `action_by_user_month` (
-  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` bigint(10) unsigned DEFAULT NULL,
-  `group` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) unsigned DEFAULT NULL,
+  `group` int(11) unsigned DEFAULT NULL,
   `module` varchar(20) DEFAULT NULL,
   `action` varchar(60) DEFAULT NULL,
-  `time` bigint(10) unsigned DEFAULT NULL,
-  `total` bigint(10) unsigned DEFAULT NULL,
+  `time` int(11) unsigned DEFAULT NULL,
+  `total` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `month_add_ix` (`user`,`group`,`module`,`action`,`time`),
   KEY `user_ix` (`user`,`time`),
@@ -121,14 +123,14 @@ CREATE TABLE `action_by_user_month` (
 DROP TABLE IF EXISTS `action_by_user_week`;
 
 CREATE TABLE `action_by_user_week` (
-  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` bigint(10) unsigned DEFAULT NULL,
-  `group` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) unsigned DEFAULT NULL,
+  `group` int(11) unsigned DEFAULT NULL,
   `module` varchar(20) DEFAULT NULL,
   `action` varchar(60) DEFAULT NULL,
   `year` bigint(4) unsigned DEFAULT NULL,
   `week` bigint(2) unsigned DEFAULT NULL,
-  `total` bigint(10) unsigned DEFAULT NULL,
+  `total` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `week_add_ix` (`user`,`group`,`module`,`action`,`year`,`week`),
   KEY `user_ix` (`user`,`year`,`week`),
@@ -141,13 +143,13 @@ CREATE TABLE `action_by_user_week` (
 DROP TABLE IF EXISTS `aros`;
 
 CREATE TABLE `aros` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
-  `foreign_key` int(10) DEFAULT NULL,
+  `foreign_key` int(11) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `lft` int(10) DEFAULT NULL,
-  `rght` int(10) DEFAULT NULL,
+  `lft` int(11) DEFAULT NULL,
+  `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -156,9 +158,9 @@ CREATE TABLE `aros` (
 DROP TABLE IF EXISTS `aros_acos`;
 
 CREATE TABLE `aros_acos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `aro_id` int(10) NOT NULL,
-  `aco_id` int(10) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `aro_id` int(11) NOT NULL,
+  `aco_id` int(11) NOT NULL,
   `_create` varchar(2) NOT NULL DEFAULT '0',
   `_read` varchar(2) NOT NULL DEFAULT '0',
   `_update` varchar(2) NOT NULL DEFAULT '0',
@@ -172,12 +174,15 @@ CREATE TABLE `aros_acos` (
 DROP TABLE IF EXISTS `artefact`;
 
 CREATE TABLE `artefact` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `community` bigint(20) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `type` bigint(2) unsigned DEFAULT NULL,
+  `community_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `community_ix` (`community_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `community` */
@@ -185,12 +190,15 @@ CREATE TABLE `artefact` (
 DROP TABLE IF EXISTS `community`;
 
 CREATE TABLE `community` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `customer` bigint(20) unsigned DEFAULT NULL,
+  `type` bigint(2) unsigned DEFAULT NULL,
+  `customer_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer` (`customer`)
+  KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `condition` */
@@ -198,12 +206,17 @@ CREATE TABLE `community` (
 DROP TABLE IF EXISTS `condition`;
 
 CREATE TABLE `condition` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `systemid` bigint(10) unsigned DEFAULT NULL,
-  `action` bigint(20) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `module_id` int(11) unsigned DEFAULT NULL,
+  `group_id` int(11) unsigned DEFAULT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `module_ix` (`module_id`),
+  KEY `group_ix` (`group_id`),
+  KEY `user_ix` (`user_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `customer` */
@@ -211,11 +224,13 @@ CREATE TABLE `condition` (
 DROP TABLE IF EXISTS `customer`;
 
 CREATE TABLE `customer` (
-  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `zip` varchar(255) DEFAULT NULL,
   `lat` float DEFAULT NULL,
   `lon` float DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -224,18 +239,16 @@ CREATE TABLE `customer` (
 DROP TABLE IF EXISTS `group`;
 
 CREATE TABLE `group` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `systemid` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `system` bigint(20) unsigned DEFAULT NULL,
-  `community` bigint(20) unsigned DEFAULT NULL,
+  `system_id` int(11) unsigned DEFAULT NULL,
+  `community_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `community` (`community`),
-  KEY `system` (`system`),
-  CONSTRAINT `community` FOREIGN KEY (`community`) REFERENCES `community` (`id`),
-  CONSTRAINT `system` FOREIGN KEY (`system`) REFERENCES `system` (`id`)
+  KEY `community_ix` (`community_id`),
+  KEY `system_ix` (`system_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `labour` */
@@ -243,12 +256,17 @@ CREATE TABLE `group` (
 DROP TABLE IF EXISTS `labour`;
 
 CREATE TABLE `labour` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `person` bigint(20) unsigned DEFAULT NULL,
-  `community` bigint(20) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `person_id` int(11) unsigned DEFAULT NULL,
+  `community_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `community_ix` (`community_id`),
+  KEY `person_ix` (`person_id`),
+  KEY `labour_division_ix` (`person_id`,`community_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `material` */
@@ -256,11 +274,13 @@ CREATE TABLE `labour` (
 DROP TABLE IF EXISTS `material`;
 
 CREATE TABLE `material` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `systemid` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `module_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `module_ix` (`module_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `members` */
@@ -297,14 +317,17 @@ CREATE TABLE `memberships` (
 DROP TABLE IF EXISTS `module`;
 
 CREATE TABLE `module` (
-  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
-  `systemid` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `artefact` bigint(10) unsigned DEFAULT NULL,
-  `group` bigint(10) unsigned DEFAULT NULL,
-  `system` bigint(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `artefact_id` int(11) unsigned DEFAULT NULL,
+  `group_id` int(11) unsigned DEFAULT NULL,
+  `system_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artefact_ix` (`artefact_id`),
+  KEY `group_ix` (`group_id`),
+  KEY `system_ix` (`system_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `object` */
@@ -312,10 +335,14 @@ CREATE TABLE `module` (
 DROP TABLE IF EXISTS `object`;
 
 CREATE TABLE `object` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `artefact_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artefact_ix` (`artefact_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `person` */
@@ -323,7 +350,7 @@ CREATE TABLE `object` (
 DROP TABLE IF EXISTS `person`;
 
 CREATE TABLE `person` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `gender` varchar(255) DEFAULT NULL,
@@ -331,8 +358,11 @@ CREATE TABLE `person` (
   `nationality` varchar(255) DEFAULT NULL,
   `ethnicity` varchar(255) DEFAULT NULL,
   `disability` varchar(255) DEFAULT NULL,
-  `customer` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `customer_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `customer_ix` (`customer_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `role` */
@@ -340,13 +370,16 @@ CREATE TABLE `person` (
 DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `systemid` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `user` bigint(20) unsigned DEFAULT NULL,
-  `group` bigint(20) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `group_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_ix` (`user_id`),
+  KEY `group_ix` (`group_id`),
+  KEY `role_ix` (`user_id`,`group_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `rule` */
@@ -354,10 +387,18 @@ CREATE TABLE `role` (
 DROP TABLE IF EXISTS `rule`;
 
 CREATE TABLE `rule` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `artefact_id` int(11) unsigned DEFAULT NULL,
+  `community_id` int(11) unsigned DEFAULT NULL,
+  `person_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artefact_ix` (`artefact_id`),
+  KEY `community_ix` (`community_id`),
+  KEY `person_ix` (`person_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `system` */
@@ -365,10 +406,14 @@ CREATE TABLE `rule` (
 DROP TABLE IF EXISTS `system`;
 
 CREATE TABLE `system` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` bigint(4) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `customer_id` int(11) unsigned DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `customer_ix` (`customer_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `user` */
@@ -376,12 +421,14 @@ CREATE TABLE `system` (
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `systemid` bigint(10) unsigned DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
-  `person` bigint(20) unsigned DEFAULT NULL,
-  `system` bigint(20) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `person_id` int(11) unsigned DEFAULT NULL,
+  `system_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `person_ix` (`person_id`),
+  KEY `system_ix` (`system_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Trigger structure for table `action` */

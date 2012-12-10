@@ -19,6 +19,12 @@ class Action extends AppModel {
     var $primaryKey = 'id';
     var $cacheQueries = true;
 
+//Define Action Types
+    const ACTION_TYPE_PRODUCE = 1;
+    const ACTION_TYPE_CONSUME = 2;
+    const ACTION_TYPE_EXCHANGE = 3;
+    const ACTION_TYPE_DISTRIBUTE = 4;
+
     public $hasMany = array(
         'Condition' => array(
             'className'     => 'Condition',
