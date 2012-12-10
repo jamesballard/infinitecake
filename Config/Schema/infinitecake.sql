@@ -50,7 +50,7 @@ CREATE TABLE `action` (
   KEY `module_ix` (`module_id`),
   KEY `user_time_ix` (`user_id`,`time`),
   KEY `group_time_ix` (`group_id`,`time`),
-  KEY `module_time_ix` (`module_id`,`time`),
+  KEY `module_time_ix` (`module_id`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_day` */
@@ -216,7 +216,7 @@ CREATE TABLE `condition` (
   PRIMARY KEY (`id`),
   KEY `module_ix` (`module_id`),
   KEY `group_ix` (`group_id`),
-  KEY `user_ix` (`user_id`),
+  KEY `user_ix` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `customer` */
@@ -248,7 +248,7 @@ CREATE TABLE `group` (
   `community_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `community_ix` (`community_id`),
-  KEY `system_ix` (`system_id`),
+  KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `labour` */
@@ -266,7 +266,7 @@ CREATE TABLE `labour` (
   PRIMARY KEY (`id`),
   KEY `community_ix` (`community_id`),
   KEY `person_ix` (`person_id`),
-  KEY `labour_division_ix` (`person_id`,`community_id`),
+  KEY `labour_division_ix` (`person_id`,`community_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `material` */
@@ -280,7 +280,7 @@ CREATE TABLE `material` (
   `name` varchar(255) DEFAULT NULL,
   `module_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `module_ix` (`module_id`),
+  KEY `module_ix` (`module_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `members` */
@@ -327,7 +327,7 @@ CREATE TABLE `module` (
   PRIMARY KEY (`id`),
   KEY `artefact_ix` (`artefact_id`),
   KEY `group_ix` (`group_id`),
-  KEY `system_ix` (`system_id`),
+  KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `object` */
@@ -342,7 +342,7 @@ CREATE TABLE `object` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `artefact_ix` (`artefact_id`),
+  KEY `artefact_ix` (`artefact_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `person` */
@@ -362,7 +362,7 @@ CREATE TABLE `person` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_ix` (`customer_id`),
+  KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `role` */
@@ -379,7 +379,7 @@ CREATE TABLE `role` (
   PRIMARY KEY (`id`),
   KEY `user_ix` (`user_id`),
   KEY `group_ix` (`group_id`),
-  KEY `role_ix` (`user_id`,`group_id`),
+  KEY `role_ix` (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `rule` */
@@ -398,7 +398,7 @@ CREATE TABLE `rule` (
   PRIMARY KEY (`id`),
   KEY `artefact_ix` (`artefact_id`),
   KEY `community_ix` (`community_id`),
-  KEY `person_ix` (`person_id`),
+  KEY `person_ix` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `system` */
@@ -413,7 +413,7 @@ CREATE TABLE `system` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_ix` (`customer_id`),
+  KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `user` */
@@ -428,7 +428,7 @@ CREATE TABLE `user` (
   `system_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `person_ix` (`person_id`),
-  KEY `system_ix` (`system_id`),
+  KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Trigger structure for table `action` */
@@ -449,9 +449,9 @@ DELIMITER $$
 	
 	SELECT id INTO hour_id
 	  FROM action_by_user_hour
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`time` = UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d %H:00:00')) AND
                 `hour` = FROM_UNIXTIME(new.time, '%H');	
@@ -468,14 +468,14 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_hour
 	    (`user`, `group`, `module`, `action`, `time`, `hour`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d %H:00:00')), FROM_UNIXTIME(new.time, '%H'), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d %H:00:00')), FROM_UNIXTIME(new.time, '%H'), 1);   
 	END IF;
 	
 	SELECT id INTO day_id
 	  FROM action_by_user_day
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`time` = UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d'));	
         
@@ -491,14 +491,14 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_day
 	    (`user`, `group`, `module`, `action`, `time`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d')), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d')), 1);   
 	END IF;
 	
 	SELECT id INTO week_id
 	  FROM action_by_user_week
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`year` = FROM_UNIXTIME(new.time, '%x') AND
                 `week` = FROM_UNIXTIME(new.time, '%v');	
@@ -515,14 +515,14 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_week
 	    (`user`, `group`, `module`, `action`, `year`, `week`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, FROM_UNIXTIME(new.time, '%x'), FROM_UNIXTIME(new.time, '%v'), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, FROM_UNIXTIME(new.time, '%x'), FROM_UNIXTIME(new.time, '%v'), 1);   
 	END IF;
 	
 	SELECT id INTO month_id
 	  FROM action_by_user_month
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`time` = UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-01'));	
         
@@ -538,7 +538,7 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_month
 	    (`user`, `group`, `module`, `action`, `time`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-01')), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-01')), 1);   
 	END IF;
 	
     END */$$
