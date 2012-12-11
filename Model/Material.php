@@ -1,13 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Condition Model
+ * Material Model
  *
  * @property Module $Module
- * @property Group $Group
- * @property User $User
  */
-class Condition extends AppModel {
+class Material extends AppModel {
 
 /**
  * Display field
@@ -28,20 +26,6 @@ class Condition extends AppModel {
 		'Module' => array(
 			'className' => 'Module',
 			'foreignKey' => 'module_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

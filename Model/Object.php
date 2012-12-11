@@ -1,12 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Role Model
+ * Object Model
  *
- * @property User $User
- * @property Group $Group
+ * @property Artefact $Artefact
  */
-class Role extends AppModel {
+class Object extends AppModel {
 
 /**
  * Display field
@@ -24,16 +23,9 @@ class Role extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
+		'Artefact' => array(
+			'className' => 'Artefact',
+			'foreignKey' => 'artefact_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

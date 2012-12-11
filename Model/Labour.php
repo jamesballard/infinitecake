@@ -1,13 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Condition Model
+ * Labour Model
  *
- * @property Module $Module
- * @property Group $Group
- * @property User $User
+ * @property Person $Person
+ * @property Community $Community
  */
-class Condition extends AppModel {
+class Labour extends AppModel {
 
 /**
  * Display field
@@ -25,23 +24,16 @@ class Condition extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'module_id',
+		'Person' => array(
+			'className' => 'Person',
+			'foreignKey' => 'person_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
+		'Community' => array(
+			'className' => 'Community',
+			'foreignKey' => 'community_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

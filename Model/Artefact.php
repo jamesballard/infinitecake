@@ -1,21 +1,14 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * System Model
+ * Artefact Model
  *
- * @property Customer $Customer
- * @property Group $Group
+ * @property Community $Community
  * @property Module $Module
- * @property User $User
+ * @property Object $Object
+ * @property Rule $Rule
  */
-class System extends AppModel {
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'name';
+class Artefact extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -26,9 +19,9 @@ class System extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Customer' => array(
-			'className' => 'Customer',
-			'foreignKey' => 'customer_id',
+		'Community' => array(
+			'className' => 'Community',
+			'foreignKey' => 'community_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -41,22 +34,9 @@ class System extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'system_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'Module' => array(
 			'className' => 'Module',
-			'foreignKey' => 'system_id',
+			'foreignKey' => 'artefact_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -67,9 +47,22 @@ class System extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'system_id',
+		'Object' => array(
+			'className' => 'Object',
+			'foreignKey' => 'artefact_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Rule' => array(
+			'className' => 'Rule',
+			'foreignKey' => 'artefact_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

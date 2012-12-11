@@ -1,13 +1,13 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Condition Model
+ * Rule Model
  *
- * @property Module $Module
- * @property Group $Group
- * @property User $User
+ * @property Artefact $Artefact
+ * @property Community $Community
+ * @property Person $Person
  */
-class Condition extends AppModel {
+class Rule extends AppModel {
 
 /**
  * Display field
@@ -25,23 +25,23 @@ class Condition extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'module_id',
+		'Artefact' => array(
+			'className' => 'Artefact',
+			'foreignKey' => 'artefact_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
+		'Community' => array(
+			'className' => 'Community',
+			'foreignKey' => 'community_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
+		'Person' => array(
+			'className' => 'Person',
+			'foreignKey' => 'person_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

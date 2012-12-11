@@ -33,9 +33,9 @@ CREATE TABLE `acos` (
 
 /*Table structure for table `action` */
 
-DROP TABLE IF EXISTS `action`;
+DROP TABLE IF EXISTS `actions`;
 
-CREATE TABLE `action` (
+CREATE TABLE `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) DEFAULT NULL,
   `type` bigint(2) unsigned DEFAULT NULL,
@@ -171,9 +171,9 @@ CREATE TABLE `aros_acos` (
 
 /*Table structure for table `artefact` */
 
-DROP TABLE IF EXISTS `artefact`;
+DROP TABLE IF EXISTS `artefacts`;
 
-CREATE TABLE `artefact` (
+CREATE TABLE `artefacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -187,9 +187,9 @@ CREATE TABLE `artefact` (
 
 /*Table structure for table `community` */
 
-DROP TABLE IF EXISTS `community`;
+DROP TABLE IF EXISTS `communitys`;
 
-CREATE TABLE `community` (
+CREATE TABLE `communitys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -203,9 +203,9 @@ CREATE TABLE `community` (
 
 /*Table structure for table `condition` */
 
-DROP TABLE IF EXISTS `condition`;
+DROP TABLE IF EXISTS `conditions`;
 
-CREATE TABLE `condition` (
+CREATE TABLE `conditions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -221,9 +221,9 @@ CREATE TABLE `condition` (
 
 /*Table structure for table `customer` */
 
-DROP TABLE IF EXISTS `customer`;
+DROP TABLE IF EXISTS `customers`;
 
-CREATE TABLE `customer` (
+CREATE TABLE `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `zip` varchar(255) DEFAULT NULL,
@@ -236,9 +236,9 @@ CREATE TABLE `customer` (
 
 /*Table structure for table `group` */
 
-DROP TABLE IF EXISTS `group`;
+DROP TABLE IF EXISTS `groups`;
 
-CREATE TABLE `group` (
+CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -253,9 +253,9 @@ CREATE TABLE `group` (
 
 /*Table structure for table `labour` */
 
-DROP TABLE IF EXISTS `labour`;
+DROP TABLE IF EXISTS `labours`;
 
-CREATE TABLE `labour` (
+CREATE TABLE `labours` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -271,9 +271,9 @@ CREATE TABLE `labour` (
 
 /*Table structure for table `material` */
 
-DROP TABLE IF EXISTS `material`;
+DROP TABLE IF EXISTS `materials`;
 
-CREATE TABLE `material` (
+CREATE TABLE `materials` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -314,9 +314,9 @@ CREATE TABLE `memberships` (
 
 /*Table structure for table `module` */
 
-DROP TABLE IF EXISTS `module`;
+DROP TABLE IF EXISTS `modules`;
 
-CREATE TABLE `module` (
+CREATE TABLE `modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -332,9 +332,9 @@ CREATE TABLE `module` (
 
 /*Table structure for table `object` */
 
-DROP TABLE IF EXISTS `object`;
+DROP TABLE IF EXISTS `objects`;
 
-CREATE TABLE `object` (
+CREATE TABLE `objects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -347,9 +347,9 @@ CREATE TABLE `object` (
 
 /*Table structure for table `person` */
 
-DROP TABLE IF EXISTS `person`;
+DROP TABLE IF EXISTS `persons`;
 
-CREATE TABLE `person` (
+CREATE TABLE `persons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
@@ -367,9 +367,9 @@ CREATE TABLE `person` (
 
 /*Table structure for table `role` */
 
-DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `roles`;
 
-CREATE TABLE `role` (
+CREATE TABLE `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -384,9 +384,9 @@ CREATE TABLE `role` (
 
 /*Table structure for table `rule` */
 
-DROP TABLE IF EXISTS `rule`;
+DROP TABLE IF EXISTS `rules`;
 
-CREATE TABLE `rule` (
+CREATE TABLE `rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
@@ -403,9 +403,9 @@ CREATE TABLE `rule` (
 
 /*Table structure for table `system` */
 
-DROP TABLE IF EXISTS `system`;
+DROP TABLE IF EXISTS `systems`;
 
-CREATE TABLE `system` (
+CREATE TABLE `systems` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` bigint(4) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -418,9 +418,9 @@ CREATE TABLE `system` (
 
 /*Table structure for table `user` */
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `users`;
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -437,7 +437,7 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `aggregrate_action_by_user` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `aggregrate_action_by_user` BEFORE INSERT ON `action` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `aggregrate_action_by_user` BEFORE INSERT ON `actions` FOR EACH ROW BEGIN
 	DECLARE hour_id INTEGER;
 	DECLARE hour_total INTEGER;
 	DECLARE day_id INTEGER;

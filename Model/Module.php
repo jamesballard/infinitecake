@@ -1,14 +1,16 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * System Model
+ * Module Model
  *
- * @property Customer $Customer
+ * @property Artefact $Artefact
  * @property Group $Group
- * @property Module $Module
- * @property User $User
+ * @property System $System
+ * @property Action $Action
+ * @property Condition $Condition
+ * @property Material $Material
  */
-class System extends AppModel {
+class Module extends AppModel {
 
 /**
  * Display field
@@ -26,9 +28,23 @@ class System extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Customer' => array(
-			'className' => 'Customer',
-			'foreignKey' => 'customer_id',
+		'Artefact' => array(
+			'className' => 'Artefact',
+			'foreignKey' => 'artefact_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Group' => array(
+			'className' => 'Group',
+			'foreignKey' => 'group_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'System' => array(
+			'className' => 'System',
+			'foreignKey' => 'system_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -41,9 +57,9 @@ class System extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'system_id',
+		'Action' => array(
+			'className' => 'Action',
+			'foreignKey' => 'module_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -54,9 +70,9 @@ class System extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'system_id',
+		'Condition' => array(
+			'className' => 'Condition',
+			'foreignKey' => 'module_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -67,9 +83,9 @@ class System extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'system_id',
+		'Material' => array(
+			'className' => 'Material',
+			'foreignKey' => 'module_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

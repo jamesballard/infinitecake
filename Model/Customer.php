@@ -1,14 +1,13 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * System Model
+ * Customer Model
  *
- * @property Customer $Customer
- * @property Group $Group
- * @property Module $Module
- * @property User $User
+ * @property Community $Community
+ * @property Person $Person
+ * @property System $System
  */
-class System extends AppModel {
+class Customer extends AppModel {
 
 /**
  * Display field
@@ -21,29 +20,14 @@ class System extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Customer' => array(
-			'className' => 'Customer',
-			'foreignKey' => 'customer_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
  * hasMany associations
  *
  * @var array
  */
 	public $hasMany = array(
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'system_id',
+		'Community' => array(
+			'className' => 'Community',
+			'foreignKey' => 'customer_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -54,9 +38,9 @@ class System extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'system_id',
+		'Person' => array(
+			'className' => 'Person',
+			'foreignKey' => 'customer_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -67,9 +51,9 @@ class System extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'system_id',
+		'System' => array(
+			'className' => 'System',
+			'foreignKey' => 'customer_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
