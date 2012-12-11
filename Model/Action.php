@@ -1,19 +1,21 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Role Model
+ * Action Model
  *
  * @property User $User
  * @property Group $Group
+ * @property Module $Module
  */
-class Role extends AppModel {
+class Action extends AppModel {
+
 
 /**
  * Use table
  *
  * @var mixed False or table name
  */
-    public $useTable = 'roles';
+    public $useTable = 'actions';
 
 /**
  * Display field
@@ -41,6 +43,13 @@ class Role extends AppModel {
 		'Group' => array(
 			'className' => 'Group',
 			'foreignKey' => 'group_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Module' => array(
+			'className' => 'Module',
+			'foreignKey' => 'module_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

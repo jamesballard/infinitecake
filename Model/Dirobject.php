@@ -5,7 +5,7 @@ App::uses('AppModel', 'Model');
  *
  * @property Artefact $Artefact
  */
-class Object extends AppModel {
+class Dirobject extends AppModel {
 
 /**
  * Display field

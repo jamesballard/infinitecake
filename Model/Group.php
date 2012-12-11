@@ -94,7 +94,7 @@ class Group extends AppModel {
     public $hasAndBelongsToMany = array(
         'User' => array(
             'className' => 'User',
-            'joinTable' => 'role',
+            'joinTable' => 'roles',
             'foreignKey' => 'group_id',
             'associationForeignKey' => 'user_id',
             'unique' => 'keepExisting',

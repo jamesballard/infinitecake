@@ -1,16 +1,9 @@
 <?php
 /**
- * CommunityFixture
+ * ModuleFixture
  *
  */
-class CommunityFixture extends CakeTestFixture {
-
-/**
- * Table name
- *
- * @var string
- */
-	public $table = 'communitys';
+class ModuleFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -19,15 +12,17 @@ class CommunityFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'sysid' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
-		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'artefact_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+		'group_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+		'system_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'customer_ix' => array('column' => 'customer_id', 'unique' => 0)
+			'artefact_ix' => array('column' => 'artefact_id', 'unique' => 0),
+			'group_ix' => array('column' => 'group_id', 'unique' => 0),
+			'system_ix' => array('column' => 'system_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -40,12 +35,12 @@ class CommunityFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
+			'sysid' => 1,
 			'idnumber' => 'Lorem ipsum dolor sit amet',
 			'name' => 'Lorem ipsum dolor sit amet',
-			'type' => 1,
-			'customer_id' => 1,
-			'created' => '2012-12-11 02:41:35',
-			'modified' => '2012-12-11 02:41:35'
+			'artefact_id' => 1,
+			'group_id' => 1,
+			'system_id' => 1
 		),
 	);
 

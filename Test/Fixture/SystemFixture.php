@@ -1,16 +1,9 @@
 <?php
 /**
- * CommunityFixture
+ * SystemFixture
  *
  */
-class CommunityFixture extends CakeTestFixture {
-
-/**
- * Table name
- *
- * @var string
- */
-	public $table = 'communitys';
+class SystemFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -19,9 +12,8 @@ class CommunityFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
 		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -40,12 +32,11 @@ class CommunityFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'idnumber' => 'Lorem ipsum dolor sit amet',
-			'name' => 'Lorem ipsum dolor sit amet',
 			'type' => 1,
+			'name' => 'Lorem ipsum dolor sit amet',
 			'customer_id' => 1,
-			'created' => '2012-12-11 02:41:35',
-			'modified' => '2012-12-11 02:41:35'
+			'created' => '2012-12-11 02:44:26',
+			'modified' => '2012-12-11 02:44:26'
 		),
 	);
 

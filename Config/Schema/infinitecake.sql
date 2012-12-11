@@ -332,9 +332,9 @@ CREATE TABLE `modules` (
 
 /*Table structure for table `object` */
 
-DROP TABLE IF EXISTS `objects`;
+DROP TABLE IF EXISTS `dirobjects`;
 
-CREATE TABLE `objects` (
+CREATE TABLE `dirobjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
