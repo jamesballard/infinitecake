@@ -103,19 +103,6 @@ class Community extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Position' => array(
-			'className' => 'Position',
-			'foreignKey' => 'community_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'Rule' => array(
 			'className' => 'Rule',
 			'foreignKey' => 'community_id',
