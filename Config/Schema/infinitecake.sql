@@ -351,6 +351,7 @@ DROP TABLE IF EXISTS `persons`;
 
 CREATE TABLE `persons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `gender` varchar(255) DEFAULT NULL,
