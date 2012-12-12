@@ -1,23 +1,13 @@
 <?php
 App::uses('AppModel', 'Model');
-App::uses('ActionByUserDay', 'Model');
-App::uses('ActionByUserHour', 'Model');
-App::uses('ActionByUserMonth', 'Model');
-App::uses('ActionByUserWeek', 'Model');
-App::uses('MdlLog', 'Model');
 /**
- * User
+ * Action Model
  *
+ * @property User $User
+ * @property Group $Group
+ * @property Module $Module
  */
-
 class Action extends AppModel {
-// define which database driver the model
-// needs to look upon
-    var $useDbConfig = 'default';
-// Table Name
-    var $useTable = 'action';
-    var $primaryKey = 'id';
-    var $cacheQueries = true;
 
 //Define Action Types
     const ACTION_TYPE_PRODUCE = 1;
@@ -25,29 +15,49 @@ class Action extends AppModel {
     const ACTION_TYPE_EXCHANGE = 3;
     const ACTION_TYPE_DISTRIBUTE = 4;
 
-    public $hasMany = array(
-        'Condition' => array(
-            'className'     => 'Condition',
-            'foreignKey'    => 'action'
-        )
-    );
+/**
+ * Use table
+ *
+ * @var mixed False or table name
+ */
+    public $useTable = 'actions';
 
-    public $belongsTo = array(
-        'User' => array(
-            'className'    => 'User',
-            'foreignKey'   => 'user'
-        ),
-        'Group' => array(
-            'className'    => 'Group',
-            'foreignKey'   => 'group'
-        )
-    );
+/**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'name';
 
-    public $hasOne = array(
-        'Artefact' => array(
-            'className'     => 'Artefact',
-            'foreignKey'    => 'artefact'
-        )
-    );
 
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'User' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Group' => array(
+			'className' => 'Group',
+			'foreignKey' => 'group_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Module' => array(
+			'className' => 'Module',
+			'foreignKey' => 'module_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
 }

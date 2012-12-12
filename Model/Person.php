@@ -1,30 +1,96 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * User
+ * Person Model
  *
+ * @property Customer $Customer
+ * @property Position $Position
+ * @property Rule $Rule
+ * @property User $User
  */
-
 class Person extends AppModel {
-// define which database driver the model
-// needs to look upon
-    var $useDbConfig = 'default';
-// Table Name
-    var $useTable = 'person';
-    var $primaryKey = 'id';
-    var $cacheQueries = true;
 
-    public $hasMany = array(
-        'User' => array(
-            'className'     => 'User',
-            'foreignKey'    => 'person'
-        )
-    );
+/**
+ * Use table
+ *
+ * @var mixed False or table name
+ */
+	public $useTable = 'persons';
 
-    var $hasAndBelongsToMany = array(
+/**
+ * Display field
+ *
+ * @var string
+ */
+    public $displayField = 'idnumber';
+
+
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Customer' => array(
+			'className' => 'Customer',
+			'foreignKey' => 'customer_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Rule' => array(
+			'className' => 'Rule',
+			'foreignKey' => 'person_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'User' => array(
+			'className' => 'User',
+			'foreignKey' => 'person_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
+    public $hasAndBelongsToMany = array(
         'Community' => array(
             'className' => 'Community',
-            'foreignKey' => 'community',
+            'joinTable' => 'positions',
+            'foreignKey' => 'person_id',
+            'associationForeignKey' => 'community_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
         )
     );
 

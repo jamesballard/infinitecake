@@ -33,9 +33,9 @@ CREATE TABLE `acos` (
 
 /*Table structure for table `action` */
 
-DROP TABLE IF EXISTS `action`;
+DROP TABLE IF EXISTS `actions`;
 
-CREATE TABLE `action` (
+CREATE TABLE `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) DEFAULT NULL,
   `type` bigint(2) unsigned DEFAULT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `action` (
   KEY `module_ix` (`module_id`),
   KEY `user_time_ix` (`user_id`,`time`),
   KEY `group_time_ix` (`group_id`,`time`),
-  KEY `module_time_ix` (`module_id`,`time`),
+  KEY `module_time_ix` (`module_id`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_by_user_day` */
@@ -171,9 +171,9 @@ CREATE TABLE `aros_acos` (
 
 /*Table structure for table `artefact` */
 
-DROP TABLE IF EXISTS `artefact`;
+DROP TABLE IF EXISTS `artefacts`;
 
-CREATE TABLE `artefact` (
+CREATE TABLE `artefacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -187,9 +187,9 @@ CREATE TABLE `artefact` (
 
 /*Table structure for table `community` */
 
-DROP TABLE IF EXISTS `community`;
+DROP TABLE IF EXISTS `communitys`;
 
-CREATE TABLE `community` (
+CREATE TABLE `communitys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -203,9 +203,9 @@ CREATE TABLE `community` (
 
 /*Table structure for table `condition` */
 
-DROP TABLE IF EXISTS `condition`;
+DROP TABLE IF EXISTS `conditions`;
 
-CREATE TABLE `condition` (
+CREATE TABLE `conditions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -216,14 +216,14 @@ CREATE TABLE `condition` (
   PRIMARY KEY (`id`),
   KEY `module_ix` (`module_id`),
   KEY `group_ix` (`group_id`),
-  KEY `user_ix` (`user_id`),
+  KEY `user_ix` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `customer` */
 
-DROP TABLE IF EXISTS `customer`;
+DROP TABLE IF EXISTS `customers`;
 
-CREATE TABLE `customer` (
+CREATE TABLE `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `zip` varchar(255) DEFAULT NULL,
@@ -236,9 +236,9 @@ CREATE TABLE `customer` (
 
 /*Table structure for table `group` */
 
-DROP TABLE IF EXISTS `group`;
+DROP TABLE IF EXISTS `groups`;
 
-CREATE TABLE `group` (
+CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -248,14 +248,14 @@ CREATE TABLE `group` (
   `community_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `community_ix` (`community_id`),
-  KEY `system_ix` (`system_id`),
+  KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `labour` */
+/*Table structure for table `position` */
 
-DROP TABLE IF EXISTS `labour`;
+DROP TABLE IF EXISTS `positions`;
 
-CREATE TABLE `labour` (
+CREATE TABLE `positions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -266,21 +266,21 @@ CREATE TABLE `labour` (
   PRIMARY KEY (`id`),
   KEY `community_ix` (`community_id`),
   KEY `person_ix` (`person_id`),
-  KEY `labour_division_ix` (`person_id`,`community_id`),
+  KEY `position_ix` (`person_id`,`community_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `material` */
 
-DROP TABLE IF EXISTS `material`;
+DROP TABLE IF EXISTS `materials`;
 
-CREATE TABLE `material` (
+CREATE TABLE `materials` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `module_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `module_ix` (`module_id`),
+  KEY `module_ix` (`module_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `members` */
@@ -314,9 +314,9 @@ CREATE TABLE `memberships` (
 
 /*Table structure for table `module` */
 
-DROP TABLE IF EXISTS `module`;
+DROP TABLE IF EXISTS `modules`;
 
-CREATE TABLE `module` (
+CREATE TABLE `modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -327,14 +327,14 @@ CREATE TABLE `module` (
   PRIMARY KEY (`id`),
   KEY `artefact_ix` (`artefact_id`),
   KEY `group_ix` (`group_id`),
-  KEY `system_ix` (`system_id`),
+  KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `object` */
 
-DROP TABLE IF EXISTS `object`;
+DROP TABLE IF EXISTS `dirobjects`;
 
-CREATE TABLE `object` (
+CREATE TABLE `dirobjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -342,15 +342,16 @@ CREATE TABLE `object` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `artefact_ix` (`artefact_id`),
+  KEY `artefact_ix` (`artefact_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `person` */
 
-DROP TABLE IF EXISTS `person`;
+DROP TABLE IF EXISTS `persons`;
 
-CREATE TABLE `person` (
+CREATE TABLE `persons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `gender` varchar(255) DEFAULT NULL,
@@ -362,14 +363,14 @@ CREATE TABLE `person` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_ix` (`customer_id`),
+  KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `role` */
 
-DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `roles`;
 
-CREATE TABLE `role` (
+CREATE TABLE `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -379,14 +380,14 @@ CREATE TABLE `role` (
   PRIMARY KEY (`id`),
   KEY `user_ix` (`user_id`),
   KEY `group_ix` (`group_id`),
-  KEY `role_ix` (`user_id`,`group_id`),
+  KEY `role_ix` (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `rule` */
 
-DROP TABLE IF EXISTS `rule`;
+DROP TABLE IF EXISTS `rules`;
 
-CREATE TABLE `rule` (
+CREATE TABLE `rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
@@ -398,14 +399,14 @@ CREATE TABLE `rule` (
   PRIMARY KEY (`id`),
   KEY `artefact_ix` (`artefact_id`),
   KEY `community_ix` (`community_id`),
-  KEY `person_ix` (`person_id`),
+  KEY `person_ix` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `system` */
 
-DROP TABLE IF EXISTS `system`;
+DROP TABLE IF EXISTS `systems`;
 
-CREATE TABLE `system` (
+CREATE TABLE `systems` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` bigint(4) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -413,14 +414,14 @@ CREATE TABLE `system` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_ix` (`customer_id`),
+  KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `user` */
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `users`;
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` int(11) unsigned DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
@@ -428,7 +429,7 @@ CREATE TABLE `user` (
   `system_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `person_ix` (`person_id`),
-  KEY `system_ix` (`system_id`),
+  KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Trigger structure for table `action` */
@@ -437,7 +438,7 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `aggregrate_action_by_user` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `aggregrate_action_by_user` BEFORE INSERT ON `action` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `aggregrate_action_by_user` BEFORE INSERT ON `actions` FOR EACH ROW BEGIN
 	DECLARE hour_id INTEGER;
 	DECLARE hour_total INTEGER;
 	DECLARE day_id INTEGER;
@@ -449,9 +450,9 @@ DELIMITER $$
 	
 	SELECT id INTO hour_id
 	  FROM action_by_user_hour
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`time` = UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d %H:00:00')) AND
                 `hour` = FROM_UNIXTIME(new.time, '%H');	
@@ -468,14 +469,14 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_hour
 	    (`user`, `group`, `module`, `action`, `time`, `hour`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d %H:00:00')), FROM_UNIXTIME(new.time, '%H'), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d %H:00:00')), FROM_UNIXTIME(new.time, '%H'), 1);   
 	END IF;
 	
 	SELECT id INTO day_id
 	  FROM action_by_user_day
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`time` = UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d'));	
         
@@ -491,14 +492,14 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_day
 	    (`user`, `group`, `module`, `action`, `time`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d')), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-%d')), 1);   
 	END IF;
 	
 	SELECT id INTO week_id
 	  FROM action_by_user_week
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`year` = FROM_UNIXTIME(new.time, '%x') AND
                 `week` = FROM_UNIXTIME(new.time, '%v');	
@@ -515,14 +516,14 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_week
 	    (`user`, `group`, `module`, `action`, `year`, `week`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, FROM_UNIXTIME(new.time, '%x'), FROM_UNIXTIME(new.time, '%v'), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, FROM_UNIXTIME(new.time, '%x'), FROM_UNIXTIME(new.time, '%v'), 1);   
 	END IF;
 	
 	SELECT id INTO month_id
 	  FROM action_by_user_month
-	  WHERE `user` = new.user AND
-		`group` = new.group AND
-		`module` = new.module AND
+	  WHERE `user` = new.user_id AND
+		`group` = new.group_id AND
+		`module` = new.module_id AND
 		`action` = new.name AND
 		`time` = UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-01'));	
         
@@ -538,7 +539,7 @@ DELIMITER $$
 	ELSE
 	  INSERT INTO action_by_user_month
 	    (`user`, `group`, `module`, `action`, `time`, `total`)
-	    VALUES (new.user, new.group, new.module, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-01')), 1);   
+	    VALUES (new.user_id, new.group_id, new.module_id, new.name, UNIX_TIMESTAMP(FROM_UNIXTIME(new.time, '%Y-%m-01')), 1);   
 	END IF;
 	
     END */$$
