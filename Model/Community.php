@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Customer $Customer
  * @property Artefact $Artefact
  * @property Group $Group
- * @property Labour $Labour
+ * @property Position $Position
  * @property Rule $Rule
  * @property User $User
  */
@@ -103,8 +103,8 @@ class Community extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Labour' => array(
-			'className' => 'Labour',
+		'Position' => array(
+			'className' => 'Position',
 			'foreignKey' => 'community_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -141,7 +141,7 @@ class Community extends AppModel {
     public $hasAndBelongsToMany = array(
 		'Person' => array(
             'className' => 'Person',
-            'joinTable' => 'labours',
+            'joinTable' => 'positions',
             'foreignKey' => 'community_id',
             'associationForeignKey' => 'person_id',
 			'unique' => 'keepExisting',

@@ -251,11 +251,11 @@ CREATE TABLE `groups` (
   KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `labour` */
+/*Table structure for table `position` */
 
-DROP TABLE IF EXISTS `labours`;
+DROP TABLE IF EXISTS `positions`;
 
-CREATE TABLE `labours` (
+CREATE TABLE `positions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -266,7 +266,7 @@ CREATE TABLE `labours` (
   PRIMARY KEY (`id`),
   KEY `community_ix` (`community_id`),
   KEY `person_ix` (`person_id`),
-  KEY `labour_division_ix` (`person_id`,`community_id`)
+  KEY `position_ix` (`person_id`,`community_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `material` */

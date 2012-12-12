@@ -9,6 +9,11 @@ App::uses('AppModel', 'Model');
  */
 class Action extends AppModel {
 
+//Define Action Types
+    const ACTION_TYPE_PRODUCE = 1;
+    const ACTION_TYPE_CONSUME = 2;
+    const ACTION_TYPE_EXCHANGE = 3;
+    const ACTION_TYPE_DISTRIBUTE = 4;
 
 /**
  * Use table

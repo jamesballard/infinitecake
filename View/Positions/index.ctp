@@ -1,5 +1,5 @@
-<div class="labours index">
-	<h2><?php echo __('Labours'); ?></h2>
+<div class="positions index">
+	<h2><?php echo __('Positions'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -12,19 +12,19 @@
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
-	foreach ($labours as $labour): ?>
+	foreach ($positions as $position): ?>
 	<tr>
-		<td><?php echo h($labour['Labour']['id']); ?>&nbsp;</td>
-		<td><?php echo h($labour['Labour']['idnumber']); ?>&nbsp;</td>
-		<td><?php echo h($labour['Labour']['name']); ?>&nbsp;</td>
-		<td><?php echo h($labour['Labour']['person_id']); ?>&nbsp;</td>
-		<td><?php echo h($labour['Labour']['community_id']); ?>&nbsp;</td>
-		<td><?php echo h($labour['Labour']['created']); ?>&nbsp;</td>
-		<td><?php echo h($labour['Labour']['modified']); ?>&nbsp;</td>
+		<td><?php echo h($position['Position']['id']); ?>&nbsp;</td>
+		<td><?php echo h($position['Position']['idnumber']); ?>&nbsp;</td>
+		<td><?php echo h($position['Position']['name']); ?>&nbsp;</td>
+		<td><?php echo h($position['Position']['person_id']); ?>&nbsp;</td>
+		<td><?php echo h($position['Position']['community_id']); ?>&nbsp;</td>
+		<td><?php echo h($position['Position']['created']); ?>&nbsp;</td>
+		<td><?php echo h($position['Position']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $labour['Labour']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $labour['Labour']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $labour['Labour']['id']), null, __('Are you sure you want to delete # %s?', $labour['Labour']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $position['Position']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $position['Position']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $position['Position']['id']), null, __('Are you sure you want to delete # %s?', $position['Position']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -47,6 +47,6 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Labour'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('New Position'), array('action' => 'add')); ?></li>
 	</ul>
 </div>

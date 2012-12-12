@@ -1,12 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Labour Model
+ * Position Model
  *
  * @property Person $Person
  * @property Community $Community
  */
-class Labour extends AppModel {
+class Position extends AppModel {
 
 /**
  * Display field

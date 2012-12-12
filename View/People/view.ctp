@@ -67,8 +67,8 @@
 		<li><?php echo $this->Html->link(__('New Person'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Customers'), array('controller' => 'customers', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Customer'), array('controller' => 'customers', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Labours'), array('controller' => 'labours', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Labour'), array('controller' => 'labours', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Positions'), array('controller' => 'positions', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Position'), array('controller' => 'positions', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Rules'), array('controller' => 'rules', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Rule'), array('controller' => 'rules', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
@@ -78,8 +78,8 @@
 	</ul>
 </div>
 <div class="related">
-	<h3><?php echo __('Related Labours'); ?></h3>
-	<?php if (!empty($person['Labour'])): ?>
+	<h3><?php echo __('Related Positions'); ?></h3>
+	<?php if (!empty($person['Position'])): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
@@ -93,19 +93,19 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($person['Labour'] as $labour): ?>
+		foreach ($person['Position'] as $position): ?>
 		<tr>
-			<td><?php echo $labour['id']; ?></td>
-			<td><?php echo $labour['idnumber']; ?></td>
-			<td><?php echo $labour['name']; ?></td>
-			<td><?php echo $labour['person_id']; ?></td>
-			<td><?php echo $labour['community_id']; ?></td>
-			<td><?php echo $labour['created']; ?></td>
-			<td><?php echo $labour['modified']; ?></td>
+			<td><?php echo $position['id']; ?></td>
+			<td><?php echo $position['idnumber']; ?></td>
+			<td><?php echo $position['name']; ?></td>
+			<td><?php echo $position['person_id']; ?></td>
+			<td><?php echo $position['community_id']; ?></td>
+			<td><?php echo $position['created']; ?></td>
+			<td><?php echo $position['modified']; ?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'labours', 'action' => 'view', $labour['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'labours', 'action' => 'edit', $labour['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'labours', 'action' => 'delete', $labour['id']), null, __('Are you sure you want to delete # %s?', $labour['id'])); ?>
+				<?php echo $this->Html->link(__('View'), array('controller' => 'positions', 'action' => 'view', $position['id'])); ?>
+				<?php echo $this->Html->link(__('Edit'), array('controller' => 'positions', 'action' => 'edit', $position['id'])); ?>
+				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'positions', 'action' => 'delete', $position['id']), null, __('Are you sure you want to delete # %s?', $position['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
@@ -114,7 +114,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(__('New Labour'), array('controller' => 'labours', 'action' => 'add')); ?> </li>
+			<li><?php echo $this->Html->link(__('New Position'), array('controller' => 'positions', 'action' => 'add')); ?> </li>
 		</ul>
 	</div>
 </div>

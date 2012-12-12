@@ -60,8 +60,8 @@
 		<li><?php echo $this->Html->link(__('New Person'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Customers'), array('controller' => 'customers', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Customer'), array('controller' => 'customers', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Labours'), array('controller' => 'labours', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Labour'), array('controller' => 'labours', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Positions'), array('controller' => 'positions', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Position'), array('controller' => 'positions', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Rules'), array('controller' => 'rules', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Rule'), array('controller' => 'rules', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>

@@ -1,9 +1,9 @@
 <?php
 /**
- * LabourFixture
+ * PositionFixture
  *
  */
-class LabourFixture extends CakeTestFixture {
+class PositionFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -22,7 +22,7 @@ class LabourFixture extends CakeTestFixture {
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'community_ix' => array('column' => 'community_id', 'unique' => 0),
 			'person_ix' => array('column' => 'person_id', 'unique' => 0),
-			'labour_division_ix' => array('column' => array('person_id', 'community_id'), 'unique' => 0)
+			'position_ix' => array('column' => array('person_id', 'community_id'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);

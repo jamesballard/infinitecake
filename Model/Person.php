@@ -4,7 +4,7 @@ App::uses('AppModel', 'Model');
  * Person Model
  *
  * @property Customer $Customer
- * @property Labour $Labour
+ * @property Position $Position
  * @property Rule $Rule
  * @property User $User
  */
@@ -48,19 +48,6 @@ class Person extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Labour' => array(
-			'className' => 'Labour',
-			'foreignKey' => 'person_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'Rule' => array(
 			'className' => 'Rule',
 			'foreignKey' => 'person_id',
@@ -92,7 +79,7 @@ class Person extends AppModel {
     public $hasAndBelongsToMany = array(
         'Community' => array(
             'className' => 'Community',
-            'joinTable' => 'labours',
+            'joinTable' => 'positions',
             'foreignKey' => 'person_id',
             'associationForeignKey' => 'community_id',
             'unique' => 'keepExisting',
