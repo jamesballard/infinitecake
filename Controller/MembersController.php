@@ -9,8 +9,8 @@ class MembersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->Auth->allow(array('login', 'logout'));
         $this->Auth->allow('*');
-        $this->Auth->allow(array('register', 'login', 'logout'));
     }
 
     public $helpers = array('Html', 'Form');
