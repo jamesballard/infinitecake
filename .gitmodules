@@ -10,3 +10,6 @@
 [submodule "Plugin/AclExtras"]
 	path = Plugin/AclExtras
 	url = git://github.com/markstory/acl_extras.git
+[submodule "webroot/api"]
+	path = webroot/api
+	url = git@github.com:jamesballard/infiniteimport.git
