@@ -581,6 +581,9 @@ CREATE TABLE `systems` (
   `customer_id` int(11) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
+  `certificate` text,
+  `site_name` varchar(200) DEFAULT NULL,
+  `contact_email` varchar(200) DEFAULT NULL
   PRIMARY KEY (`id`),
   KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
