@@ -14,6 +14,7 @@ class Action extends AppModel {
     const ACTION_TYPE_CONSUME = 2;
     const ACTION_TYPE_EXCHANGE = 3;
     const ACTION_TYPE_DISTRIBUTE = 4;
+    const ACTION_TYPE_OPERATE = 5;
 
 /**
  * Use table

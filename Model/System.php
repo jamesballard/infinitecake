@@ -10,6 +10,11 @@ App::uses('AppModel', 'Model');
  */
 class System extends AppModel {
 
+//Define Action Types
+    const SYSTEM_TYPE_MOODLE = 1;
+    const SYSTEM_TYPE_ULCCILP = 2;
+    const SYSTEM_TYPE_MAHARA = 3;
+
 /**
  * Display field
  *

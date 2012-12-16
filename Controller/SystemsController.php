@@ -7,6 +7,13 @@ App::uses('AppController', 'Controller');
  */
 class SystemsController extends AppController {
 
+    function beforeFilter() {
+        // conditional ensures only actions that need the vars will receive them
+        if (in_array($this->action, array('index', 'add', 'edit'))) {
+            $this->set('customers', $this->System->Customer->find('list'));
+        }
+    }
+
 /**
  * index method
  *
