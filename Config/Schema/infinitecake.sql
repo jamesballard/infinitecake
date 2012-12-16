@@ -163,7 +163,8 @@ CREATE TABLE `aros` (
   `alias` varchar(255) DEFAULT NULL,
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `aros` */
@@ -604,85 +605,118 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-/* Trigger structure for table `actions` */
+/* Procedure structure for procedure `aggregrate_user_actions` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `aggregrate_user_actions` */;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `aggregrate_user_actions` */$$
-
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `aggregrate_user_actions` BEFORE INSERT ON `actions` FOR EACH ROW BEGIN
-        DECLARE time_id INTEGER;
-	DECLARE date_id INTEGER;
-	DECLARE verb_id INTEGER;
-	
-	SELECT id INTO time_id
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `aggregrate_user_actions`(
+  IN timestart DATE,
+  IN timeend DATE
+)
+    MODIFIES SQL DATA
+BEGIN
+  /*
+    All 'DECLARE' statements must come first
+  */
+  -- Declare '_val' variables to read in each record from the cursor
+  DECLARE time_id_val INT(11);
+  DECLARE date_id_val INT(11);
+  DECLARE artefact_id_val INT(11);
+  DECLARE time_val INT(11);
+  DECLARE user_id_val INT(11);
+  DECLARE module_id_val INT(11);
+  DECLARE dimension_verb_id_val INT(11);
+  -- Declare variables used just for cursor and loop control
+  DECLARE no_more_rows BOOLEAN;
+  DECLARE loop_cntr INT DEFAULT 0;
+  DECLARE num_rows INT DEFAULT 0;
+  -- Declare the cursor
+  DECLARE actions_cur CURSOR FOR
+    SELECT `time`, `user_id`, `module_id`, `dimension_verb_id` 
+    FROM infinitecake.actions
+    WHERE `time` > UNIX_TIMESTAMP(timestart)
+      AND `time` < UNIX_TIMESTAMP(timeend);
+  -- Declare 'handlers' for exceptions
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+    SET no_more_rows = TRUE;
+  /*
+    Now the programming logic
+  */
+  -- 'open' the cursor and capture the number of rows returned
+  -- (the 'select' gets invoked when the cursor is 'opened')
+  OPEN actions_cur;
+  select FOUND_ROWS() into num_rows;
+  the_loop: LOOP
+    FETCH  actions_cur
+    INTO   time_val, user_id_val, module_id_val, dimension_verb_id_val;
+    -- break out of the loop if
+      -- 1) there were no records, or
+      -- 2) we've processed them all
+    IF no_more_rows THEN
+        CLOSE actions_cur;
+        LEAVE the_loop;
+    END IF;
+    
+    -- Get dimension ids     
+    SELECT id INTO time_id_val
 	  FROM dimension_time
-	  WHERE fulltime = FROM_UNIXTIME(new.time, '%H:%i:%s');
+	  WHERE fulltime = FROM_UNIXTIME(time_val, '%H:%i:%s');
 	
-	SELECT id INTO date_id
+    SELECT id INTO date_id_val
 	  FROM dimension_date
-	  WHERE date = FROM_UNIXTIME(new.time, '%Y-%m-%d');
+	  WHERE DATE = FROM_UNIXTIME(time_val, '%Y-%m-%d');
 	  
-        IF NOT EXISTS (SELECT id FROM dimension_verb WHERE sysname=new.name)
-	THEN 
-	  INSERT INTO dimension_verb (sysname)
-	  VALUES (new.name);
-	END IF;
-	   
-	SELECT id INTO verb_id
-	  FROM dimension_verb
-	  WHERE sysname = new.name;
-	
-	INSERT INTO fact_user_actions_date (user_id, module_id, verb_id, dimension_date_id, total, production, consumption, distribution, exchange, operation)
-	    VALUES (new.user_id, new.module_id, verb_id, dimension_date_id, 1, 0, 0, 0, 0, 0)
+    SELECT artefact_id INTO artefact_id_val
+          FROM modules
+          WHERE id = module_id_val;
+    -- Update fact aggregation tables
+    INSERT INTO fact_user_actions_date (user_id, artefact_id, dimension_verb_id, dimension_date_id, total, production, consumption, distribution, exchange, operation)
+	    VALUES (user_id_val, artefact_id_val, dimension_verb_id_val, date_id_val, 1, 0, 0, 0, 0, 0)
 	    ON DUPLICATE KEY
 	    UPDATE total = total+1;
 	
-	INSERT INTO fact_user_actions_time (user_id, dimension_time_id, total)
-	    VALUES (new.user_id, dimension_time_id, 1)
+    INSERT INTO fact_user_actions_time (user_id, dimension_time_id, total)
+	    VALUES (user_id_val, time_id_val, 1)
 	    ON DUPLICATE KEY
 	    UPDATE total = total+1;
-	
-	IF new.type = 1 THEN 
-	      UPDATE fact_user_actions_date SET production = production+1
-	      WHERE user_id = new.user_id
-	        AND module_id = new.module_id
-	        AND verb_id = verb_id
-	        AND date_id = date_id
-	        AND time_id = time_id; 	 
-	END IF;     
-	IF new.type = 2 THEN UPDATE fact_user_actions_date SET consumption = consumption+1
-	      WHERE user_id = new.user_id
-	        AND module_id = new.module_id
-	        AND verb_id = verb_id
-	        AND date_id = date_id
-	        AND time_id = time_id;
-	END IF; 
-	IF new.type = 3 THEN UPDATE fact_user_actions_date SET distibution = distibution+1
-	      WHERE user_id = new.user_id
-	        AND module_id = new.module_id
-	        AND verb_id = verb_id
-	        AND date_id = date_id
-	        AND time_id = time_id;
-	END IF; 
-	IF new.type = 4 THEN UPDATE fact_user_actions_date SET exchange = exchange+1
-	      WHERE user_id = new.user_id
-	        AND module_id = new.module_id
-	        AND verb_id = verb_id
-	        AND date_id = date_id
-	        AND time_id = time_id;
-	END IF; 
-	IF new.type = 5 THEN UPDATE fact_user_actions_date SET operation = operation+1
-	      WHERE user_id = new.user_id
-	        AND module_id = new.module_id
-	        AND verb_id = verb_id
-	        AND date_id = date_id
-	        AND time_id = time_id;
-	END IF; 
-	
+    -- count the number of times looped
+    SET loop_cntr = loop_cntr + 1;
+  END LOOP the_loop;
+  -- 'print' the output so we can see they are the same
+  select num_rows, loop_cntr;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `timedimbuild` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `timedimbuild` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `timedimbuild`()
+BEGIN
+	DECLARE v_full_date DATETIME;
+	DELETE FROM dimension_time;
+	SET v_full_date = '2009-03-01 00:00:00';
+	WHILE v_full_date < '2009-03-02 00:00:00' DO
+	INSERT INTO dimension_time (
+	    fulltime ,
+	    HOUR ,
+	    MINUTE ,
+	    SECOND ,
+	    ampm
+	) VALUES (
+	    TIME(v_full_date),
+	    HOUR(v_full_date),
+	    MINUTE(v_full_date),
+	    SECOND(v_full_date),
+	    DATE_FORMAT(v_full_date,'%p')
+	);
+	SET v_full_date = DATE_ADD(v_full_date, INTERVAL 1 SECOND);
+	END WHILE;
     END */$$
-
-
 DELIMITER ;
 
 /* Procedure structure for procedure `timedimbuild` */
