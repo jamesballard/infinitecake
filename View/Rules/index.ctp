@@ -24,9 +24,7 @@
 		<td>
 			<?php echo $this->Html->link($rule['Community']['name'], array('controller' => 'communities', 'action' => 'view', $rule['Community']['id'])); ?>
 		</td>
-		<td>
-			<?php echo $this->Html->link($rule['Person']['idnumber'], array('controller' => 'people', 'action' => 'view', $rule['Person']['id'])); ?>
-		</td>
+		<td><?php echo h($rule['Rule']['person_id']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['created']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['modified']); ?>&nbsp;</td>
 		<td class="actions">
@@ -60,7 +58,7 @@
 		<li><?php echo $this->Html->link(__('New Artefact'), array('controller' => 'artefacts', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Communities'), array('controller' => 'communities', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Community'), array('controller' => 'communities', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List People'), array('controller' => 'people', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Person'), array('controller' => 'people', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Conditions'), array('controller' => 'conditions', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Condition'), array('controller' => 'conditions', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

@@ -54,6 +54,21 @@ class Condition extends AppModel {
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => ''
+        ),
+        'DimensionVerb' => array(
+            'className' => 'DimensionVerb',
+            'joinTable' => 'dimension_verb_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'dimension_verb_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
         )
     );
 }

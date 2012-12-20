@@ -48,7 +48,9 @@ class DimensionVerb extends AppModel {
 		)
 	);
 
-/**
+
+
+    /**
  * hasMany associations
  *
  * @var array
@@ -81,5 +83,23 @@ class DimensionVerb extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+    public $hasAndBelongsToMany = array(
+        'Condition' => array(
+            'className' => 'Condition',
+            'joinTable' => 'dimension_verb_conditions',
+            'foreignKey' => 'dimension_verb_id',
+            'associationForeignKey' => 'condition_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 
 }
