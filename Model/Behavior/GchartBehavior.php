@@ -1,4 +1,5 @@
 <?php
+App::uses('Artefact', 'Model');
 /**
  * GChart behavior
  *
@@ -8,34 +9,6 @@
  * @link
  */
 class GchartBehavior extends ModelBehavior {
-
-    // Define the modules used for reports
-    public function getModules (Model $Model) {
-        return array(
-            'assignment' => 'Assessment',
-            'blog' => 'Communication',
-            'book' => 'Resource',
-            'chat' => 'Communication',
-            'choice' => 'Assessment',
-            'data' => 'Collaboration',
-            'feedback' => 'Assessment',
-            'folder' => 'Resource',
-            'forum' => 'Communication',
-            'glossary' => 'Collaboration',
-            'imscp' => 'Resource',
-            'label' => 'Resource',
-            'lesson' => 'Assessment',
-            'lightboxgallery' => 'Resource',
-            'message' => 'Communication',
-            'nln' => 'Resource',
-            'page' => 'Resource',
-            'quiz' => 'Assessment',
-            'resource' => 'Resource',
-            'scorm' => 'Resource',
-            'url' => 'Resource',
-            'wiki' => 'Collaboration'
-        );
-    }
 
     // Define the modules used for reports
     public function getTaskTypes (Model $Model) {
@@ -175,14 +148,34 @@ class GchartBehavior extends ModelBehavior {
         $data = array();
         $data['labels'][] = array('string' => 'Module');
         $data['labels'][] = array('string' => 'Type');
-        $modules = $this->getModules($Model);
+        $Artefact = new Artefact();
+        $modules = $Artefact->getArtefacts();
         foreach ($results as $year=>$period) {
             $data['labels'][] = array('number' => $year);
             $n = 0;
             foreach ($period as $pair) {
+
                 foreach($pair as $key=>$value) {
                     $data['data'][$n][0] = $key;
-                    $data['data'][$n][1] = $modules[$key];
+                    $type = $Artefact->find('first', array(
+                                            'fields' => array('type'),
+                                            'recursive' => -1,
+                                            'conditions' => array('name' => $key)
+                                            ));
+                    switch($type['Artefact']['type']) {
+                        case Artefact::ARTEFACT_TYPE_ASSESSMENT:
+                            $data['data'][$n][1] = 'Assessment';
+                            break;
+                        case Artefact::ARTEFACT_TYPE_COLLABORATION:
+                            $data['data'][$n][1] = 'Collaboration';
+                            break;
+                        case Artefact::ARTEFACT_TYPE_COMMUNICATION:
+                            $data['data'][$n][1] = 'Communication';
+                            break;
+                        case Artefact::ARTEFACT_TYPE_RESOURCE:
+                            $data['data'][$n][1] = 'Resource';
+                            break;
+                    }
                     $data['data'][$n][$i] = $value;
                 }
                 $n++;

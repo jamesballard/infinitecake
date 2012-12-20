@@ -38,13 +38,24 @@ class Rule extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Person' => array(
-			'className' => 'Person',
-			'foreignKey' => 'person_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
+
+    public $hasAndBelongsToMany = array(
+        'Condition' => array(
+            'className' => 'Condition',
+            'joinTable' => 'rule_conditions',
+            'foreignKey' => 'rule_id',
+            'associationForeignKey' => 'condition_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 }

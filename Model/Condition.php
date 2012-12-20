@@ -24,27 +24,36 @@ class Condition extends AppModel {
  *
  * @var array
  */
-	public $belongsTo = array(
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'module_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
+    public $hasAndBelongsToMany = array(
+        'Rule' => array(
+            'className' => 'Rule',
+            'joinTable' => 'rule_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'rule_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        ),
+        'Action' => array(
+            'className' => 'Action',
+            'joinTable' => 'action_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'action_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 }

@@ -10,6 +10,14 @@ App::uses('AppModel', 'Model');
  */
 class Artefact extends AppModel {
 
+    //Define Artefact Types
+    const ARTEFACT_TYPE_ASSESSMENT = 1;
+    const ARTEFACT_TYPE_COMMUNICATION = 2;
+    const ARTEFACT_TYPE_COLLABORATION = 3;
+    const ARTEFACT_TYPE_RESOURCE = 4;
+    const ARTEFACT_TYPE_OPERATION = 5;
+
+    public $validate = array('name' => 'unique');
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -47,8 +55,8 @@ class Artefact extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Object' => array(
-			'className' => 'Object',
+		'Dirobject' => array(
+			'className' => 'Dirobject',
 			'foreignKey' => 'artefact_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -74,5 +82,21 @@ class Artefact extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+    public function getArtefacts() {
+        // Define the artefacts for reports
+        return $this->find('all', array(
+                                'fields' => array('id', 'name', 'type'),
+                                'recursive' => -1,
+                                'conditions' => array('type' => array(
+                                    Artefact::ARTEFACT_TYPE_ASSESSMENT,
+                                    Artefact::ARTEFACT_TYPE_COMMUNICATION,
+                                    Artefact::ARTEFACT_TYPE_COLLABORATION,
+                                    Artefact::ARTEFACT_TYPE_RESOURCE
+                                    )
+                                )
+                           )
+            );
+    }
 
 }

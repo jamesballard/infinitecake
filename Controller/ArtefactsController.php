@@ -7,6 +7,7 @@ App::uses('AppController', 'Controller');
  */
 class ArtefactsController extends AppController {
 
+
 /**
  * index method
  *

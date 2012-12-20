@@ -10,11 +10,11 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth', 'ActionByUserHour');
+    var $uses = array('Action', 'FactUserActionsDate', 'FactUserActionsTime');
 
     public function index() {
-        $this->set('user','37953');
-        $this->Session->write('Profile.user', '39756');
+        $this->set('user','207');
+        $this->Session->write('Profile.user', '207');
     }
 
     public function overview() {
@@ -68,12 +68,12 @@ class UserprofileController extends AppController {
 
         $userid = $this->Session->read('Profile.user');
 
-        $dayData = $this->ActionByUserHour->getHourStats('day', $report, array('user'=>$userid));
+        $dayData = $this->FactUserActionsTime->getHourStats('day', $report, array('user_id'=>$userid));
         $dayData = base64_encode(serialize($dayData));
 
         $this->set('dayData', $dayData);
 
-        $nightData = $this->ActionByUserHour->getHourStats('night', $report, array('user'=>$userid));
+        $nightData = $this->FactUserActionsTime->getHourStats('night', $report, array('user_id'=>$userid));
         $nightData = base64_encode(serialize($nightData));
 
         $this->set('nightData', $nightData);
@@ -144,15 +144,21 @@ class UserprofileController extends AppController {
 
         switch($period) {
             case 'day':
-                $data = $this->ActionByUserDay->getPeriodCountGchart(array('user'=>$userid));
+                $interval = 'P1D';
+                $dateFormat = "d-M";
+                $data = $this->FactUserActionsDate->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
             break;
             case 'week':
-                $data = $this->ActionByUserWeek->getPeriodCountGchart(array('user'=>$userid));
+                $interval = 'P1W';
+                $dateFormat = 'W';
+                $data = $this->FactUserActionsDate->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
             break;
             case 'month':
-                $data = $this->ActionByUserMonth->getPeriodCountGchart(array('user'=>$userid));
+                $interval = 'P1M';
+                $dateFormat = "M";
+                $data = $this->FactUserActionsDate->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
             break;
         }
@@ -168,7 +174,7 @@ class UserprofileController extends AppController {
 
     private function getModuleData() {
         $userid = $this->Session->read('Profile.user');
-        $data = $this->ActionByUserMonth->getModuleCountTreemap(array('user'=>$userid));
+        $data = $this->FactUserActionsDate->getModuleCountTreemap(array('user_id'=>$userid));
         return $data;
     }
 
@@ -185,15 +191,21 @@ class UserprofileController extends AppController {
 
         switch($period) {
             case 'day':
-                $data = $this->ActionByUserDay->getTaskTypeCountGchart(array('user'=>$userid));
+                $interval = 'P1D';
+                $dateFormat = "d-M";
+                $data = $this->FactUserActionsDate->getTaskTypeCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'week':
-                $data = $this->ActionByUserWeek->getTaskTypeCountGchart(array('user'=>$userid));
+                $interval = 'P1W';
+                $dateFormat = 'W';
+                $data = $this->FactUserActionsDate->getTaskTypeCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'month':
-                $data = $this->ActionByUserMonth->getTaskTypeCountGchart(array('user'=>$userid));
+                $interval = 'P1M';
+                $dateFormat = "M";
+                $data = $this->FactUserActionsDate->getTaskTypeCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
         }
