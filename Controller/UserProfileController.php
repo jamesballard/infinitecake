@@ -10,7 +10,7 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'FactUserActionsDate', 'FactUserActionsTime');
+    var $uses = array('Action', 'FactUserActionsDate', 'FactUserActionsTime', 'FactUserVerbRuleDate');
 
     public function index() {
         $this->set('user','207');
@@ -192,20 +192,20 @@ class UserprofileController extends AppController {
         switch($period) {
             case 'day':
                 $interval = 'P1D';
-                $dateFormat = "d-M";
-                $data = $this->FactUserActionsDate->getTaskTypeCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
+                $dateFormat = "d-M-y";
+                $data = $this->FactUserActionsDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'week':
                 $interval = 'P1W';
-                $dateFormat = 'W';
-                $data = $this->FactUserActionsDate->getTaskTypeCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
+                $dateFormat = 'W-o';
+                $data = $this->FactUserVerbRuleDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'month':
                 $interval = 'P1M';
-                $dateFormat = "M";
-                $data = $this->FactUserActionsDate->getTaskTypeCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
+                $dateFormat = "M-y";
+                $data = $this->FactUserVerbRuleDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
         }

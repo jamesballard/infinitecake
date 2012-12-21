@@ -71,4 +71,18 @@ class Condition extends AppModel {
             'insertQuery' => ''
         )
     );
+
+    public function get_rule_conditions($rule_id) {
+        return $this->Rule->find('all', array(
+            'conditions' => array(
+                'Rule.id' => $rule_id
+            ),
+            'contain' => array(
+                'Condition' => array(
+                    'fields' => array('Condition.id', 'Condition.name'),
+                )
+            ),
+        ));
+    }
+
 }
