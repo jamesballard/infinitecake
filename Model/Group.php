@@ -34,13 +34,6 @@ class Group extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Community' => array(
-			'className' => 'Community',
-			'foreignKey' => 'community_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 
@@ -52,19 +45,6 @@ class Group extends AppModel {
 	public $hasMany = array(
 		'Action' => array(
 			'className' => 'Action',
-			'foreignKey' => 'group_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Condition' => array(
-			'className' => 'Condition',
 			'foreignKey' => 'group_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -106,7 +86,21 @@ class Group extends AppModel {
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => ''
+        ),
+        'Condition' => array(
+            'className' => 'Condition',
+            'joinTable' => 'group_conditions',
+            'foreignKey' => 'group_id',
+            'associationForeignKey' => 'condition_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
         )
     );
-
 }

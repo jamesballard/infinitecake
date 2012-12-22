@@ -29,8 +29,8 @@
 		<li><?php echo $this->Html->link(__('New Rule'), array('controller' => 'rules', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Actions'), array('controller' => 'actions', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Action'), array('controller' => 'actions', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Dimension Verb Conditions'), array('controller' => 'dimension_verb_conditions', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Dimension Verb Condition'), array('controller' => 'dimension_verb_conditions', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Verbs'), array('controller' => 'dimension_verb', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Verbs'), array('controller' => 'dimension_verb', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
@@ -41,9 +41,8 @@
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Name'); ?></th>
 		<th><?php echo __('Value'); ?></th>
-		<th><?php echo __('Artefact Id'); ?></th>
-		<th><?php echo __('Community Id'); ?></th>
-		<th><?php echo __('Person Id'); ?></th>
+		<th><?php echo __('Type'); ?></th>
+		<th><?php echo __('Customer'); ?></th>
 		<th><?php echo __('Created'); ?></th>
 		<th><?php echo __('Modified'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
@@ -55,9 +54,23 @@
 			<td><?php echo $rule['id']; ?></td>
 			<td><?php echo $rule['name']; ?></td>
 			<td><?php echo $rule['value']; ?></td>
-			<td><?php echo $rule['artefact_id']; ?></td>
-			<td><?php echo $rule['community_id']; ?></td>
-			<td><?php echo $rule['person_id']; ?></td>
+			<td><?php
+                switch ($rule['type']) {
+                    case Rule::RULE_TYPE_ACTION:
+                        echo 'Action';
+                        break;
+                    case Rule::RULE_TYPE_ARTEFACT:
+                        echo 'Artefact';
+                        break;
+                    case Rule::RULE_TYPE_DIMENSION_VERB:
+                        echo 'Verb';
+                        break;
+                    case Rule::RULE_TYPE_MODULE:
+                        echo 'Module';
+                        break;
+                }
+                ?></td>
+			<td><?php echo $rule['Customer']['name']; ?></td>
 			<td><?php echo $rule['created']; ?></td>
 			<td><?php echo $rule['modified']; ?></td>
 			<td class="actions">
@@ -118,26 +131,26 @@
 	</div>
 </div>
 <div class="related">
-	<h3><?php echo __('Related Dimension Verb Conditions'); ?></h3>
-	<?php if (!empty($condition['DimensionVerbCondition'])): ?>
+	<h3><?php echo __('Related Verbs'); ?></h3>
+	<?php if (!empty($condition['DimensionVerb'])): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Dimension Verb Id'); ?></th>
-		<th><?php echo __('Condition Id'); ?></th>
+		<th><?php echo __('System Name'); ?></th>
+		<th><?php echo __('Name'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($condition['DimensionVerbCondition'] as $dimensionVerbCondition): ?>
+		foreach ($condition['DimensionVerb'] as $dimensionVerb): ?>
 		<tr>
-			<td><?php echo $dimensionVerbCondition['id']; ?></td>
-			<td><?php echo $dimensionVerbCondition['dimension_verb_id']; ?></td>
-			<td><?php echo $dimensionVerbCondition['condition_id']; ?></td>
+			<td><?php echo $dimensionVerb['id']; ?></td>
+			<td><?php echo $dimensionVerb['sysname']; ?></td>
+			<td><?php echo $dimensionVerb['name']; ?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'dimension_verb_conditions', 'action' => 'view', $dimensionVerbCondition['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'dimension_verb_conditions', 'action' => 'edit', $dimensionVerbCondition['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'dimension_verb_conditions', 'action' => 'delete', $dimensionVerbCondition['id']), null, __('Are you sure you want to delete # %s?', $dimensionVerbCondition['id'])); ?>
+				<?php echo $this->Html->link(__('View'), array('controller' => 'dimension_verb', 'action' => 'view', $dimensionVerb['id'])); ?>
+				<?php echo $this->Html->link(__('Edit'), array('controller' => 'dimension_verb', 'action' => 'edit', $dimensionVerb['id'])); ?>
+				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'dimension_verb', 'action' => 'delete', $dimensionVerb['id']), null, __('Are you sure you want to delete # %s?', $dimensionVerb['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>

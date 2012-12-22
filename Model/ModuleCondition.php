@@ -1,18 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Material Model
+ * ActionCondition Model
  *
  * @property Module $Module
+ * @property Condition $Condition
  */
-class Material extends AppModel {
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'name';
+class ModuleCondition extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -26,6 +20,13 @@ class Material extends AppModel {
 		'Module' => array(
 			'className' => 'Module',
 			'foreignKey' => 'module_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Condition' => array(
+			'className' => 'Condition',
+			'foreignKey' => 'condition_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

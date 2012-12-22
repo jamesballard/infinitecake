@@ -16,19 +16,29 @@
 			<?php echo h($rule['Rule']['value']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Artefact'); ?></dt>
+        <dt><?php echo __('Type'); ?></dt>
+        <dd>
+            <?php
+                switch (h($rule['Rule']['type'])) {
+                    case Rule::RULE_TYPE_ACTION:
+                        echo 'Action';
+                        break;
+                    case Rule::RULE_TYPE_ARTEFACT:
+                        echo 'Artefact';
+                        break;
+                    case Rule::RULE_TYPE_DIMENSION_VERB:
+                        echo 'Verb';
+                        break;
+                    case Rule::RULE_TYPE_MODULE:
+                        echo 'Module';
+                        break;
+                }
+            ?>
+            &nbsp;
+        </dd>
+		<dt><?php echo __('Customer'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($rule['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $rule['Artefact']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Community'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($rule['Community']['name'], array('controller' => 'communities', 'action' => 'view', $rule['Community']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Person Id'); ?></dt>
-		<dd>
-			<?php echo h($rule['Rule']['person_id']); ?>
+			<?php echo $this->Html->link($rule['Customer']['name'], array('controller' => 'customers', 'action' => 'view', $rule['Customer']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
@@ -50,10 +60,6 @@
 		<li><?php echo $this->Form->postLink(__('Delete Rule'), array('action' => 'delete', $rule['Rule']['id']), null, __('Are you sure you want to delete # %s?', $rule['Rule']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Rules'), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Rule'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Artefacts'), array('controller' => 'artefacts', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Artefact'), array('controller' => 'artefacts', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Communities'), array('controller' => 'communities', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Community'), array('controller' => 'communities', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Conditions'), array('controller' => 'conditions', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Condition'), array('controller' => 'conditions', 'action' => 'add')); ?> </li>
 	</ul>

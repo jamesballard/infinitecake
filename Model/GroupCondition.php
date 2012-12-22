@@ -1,19 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Position Model
+ * ActionCondition Model
  *
- * @property Person $Person
- * @property Community $Community
+ * @property Group $Group
+ * @property Condition $Condition
  */
-class Position extends AppModel {
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'name';
+class GroupCondition extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -24,16 +17,16 @@ class Position extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Person' => array(
-			'className' => 'Person',
-			'foreignKey' => 'person_id',
+		'Group' => array(
+			'className' => 'Group',
+			'foreignKey' => 'group_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Community' => array(
-			'className' => 'Community',
-			'foreignKey' => 'community_id',
+		'Condition' => array(
+			'className' => 'Condition',
+			'foreignKey' => 'condition_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

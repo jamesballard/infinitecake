@@ -193,7 +193,7 @@ class UserprofileController extends AppController {
             case 'day':
                 $interval = 'P1D';
                 $dateFormat = "d-M-y";
-                $data = $this->FactUserActionsDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactUserVerbRuleDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'week':

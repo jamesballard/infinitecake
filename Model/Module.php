@@ -70,19 +70,6 @@ class Module extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Condition' => array(
-			'className' => 'Condition',
-			'foreignKey' => 'module_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'Material' => array(
 			'className' => 'Material',
 			'foreignKey' => 'module_id',
@@ -98,4 +85,21 @@ class Module extends AppModel {
 		)
 	);
 
+    public $hasAndBelongsToMany = array(
+        'Condition' => array(
+            'className' => 'Condition',
+            'joinTable' => 'module_conditions',
+            'foreignKey' => 'module_id',
+            'associationForeignKey' => 'condition_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 }

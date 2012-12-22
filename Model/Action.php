@@ -24,7 +24,7 @@ class Action extends AppModel {
 	public $displayField = 'name';
 
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -52,7 +52,14 @@ class Action extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'DimensionVerb' => array(
+            'className' => 'DimensionVerb',
+            'foreignKey' => 'dimension_verb_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
 	);
 
     public $hasAndBelongsToMany = array(
