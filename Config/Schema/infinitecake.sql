@@ -16,22 +16,6 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`infinitecake` /*!40100 DEFAULT CHARACTE
 
 USE `infinitecake`;
 
-/*Table structure for table `_conditions` */
-
-DROP TABLE IF EXISTS `_conditions`;
-
-CREATE TABLE `_conditions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `dimension_verb_id` int(11) unsigned DEFAULT NULL,
-  `condition_id` int(11) unsigned DEFAULT NULL,
-  `weight` int(5) DEFAULT '1',
-  `created` date DEFAULT NULL,
-  `modified` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `verb_ix` (`dimension_verb_id`),
-  KEY `condition_ix` (`condition_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `acos` */
 
 DROP TABLE IF EXISTS `acos`;
@@ -176,7 +160,7 @@ CREATE TABLE `customers` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `dimension_date` */
 
@@ -230,6 +214,22 @@ CREATE TABLE `dimension_verb` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_name` (`artefact_id`,`sysname`),
   KEY `artefact_ix` (`artefact_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `dimension_verb_conditions` */
+
+DROP TABLE IF EXISTS `dimension_verb_conditions`;
+
+CREATE TABLE `dimension_verb_conditions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dimension_verb_id` int(11) unsigned DEFAULT NULL,
+  `condition_id` int(11) unsigned DEFAULT NULL,
+  `weight` int(5) DEFAULT '1',
+  `created` date DEFAULT NULL,
+  `modified` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `verb_ix` (`dimension_verb_id`),
+  KEY `condition_ix` (`condition_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `fact_summed_actions_date` */
@@ -505,7 +505,7 @@ CREATE TABLE `systems` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `customer_ix` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `users` */
 

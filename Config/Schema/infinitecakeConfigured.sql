@@ -16,24 +16,6 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`infinitecake` /*!40100 DEFAULT CHARACTE
 
 USE `infinitecake`;
 
-/*Table structure for table `_conditions` */
-
-DROP TABLE IF EXISTS `_conditions`;
-
-CREATE TABLE `_conditions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `dimension_verb_id` int(11) unsigned DEFAULT NULL,
-  `condition_id` int(11) unsigned DEFAULT NULL,
-  `weight` int(5) DEFAULT '1',
-  `created` date DEFAULT NULL,
-  `modified` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `verb_ix` (`dimension_verb_id`),
-  KEY `condition_ix` (`condition_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `_conditions` */
-
 /*Table structure for table `acos` */
 
 DROP TABLE IF EXISTS `acos`;
@@ -200,11 +182,11 @@ CREATE TABLE `customers` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `customers` */
 
-insert  into `customers`(`id`,`name`,`zip`,`lat`,`lon`,`created`,`modified`) values (1,'All Customers','',NULL,NULL,'2012-12-24 07:18:29','2012-12-24 07:18:29');
+insert  into `customers`(`id`,`name`,`zip`,`lat`,`lon`,`created`,`modified`) values (1,'All Customers','',NULL,NULL,'2012-12-24 07:18:29','2012-12-24 07:18:29'),(2,'Lewisham College','SE4 1UT',51.4682,-0.0259369,'2012-12-24 07:41:05','2012-12-24 07:41:05');
 
 /*Table structure for table `dimension_date` */
 
@@ -269,6 +251,24 @@ CREATE TABLE `dimension_verb` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `dimension_verb` */
+
+/*Table structure for table `dimension_verb_conditions` */
+
+DROP TABLE IF EXISTS `dimension_verb_conditions`;
+
+CREATE TABLE `dimension_verb_conditions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dimension_verb_id` int(11) unsigned DEFAULT NULL,
+  `condition_id` int(11) unsigned DEFAULT NULL,
+  `weight` int(5) DEFAULT '1',
+  `created` date DEFAULT NULL,
+  `modified` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `verb_ix` (`dimension_verb_id`),
+  KEY `condition_ix` (`condition_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `dimension_verb_conditions` */
 
 /*Table structure for table `fact_summed_actions_date` */
 
@@ -583,9 +583,11 @@ CREATE TABLE `systems` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `customer_ix` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `systems` */
+
+insert  into `systems`(`id`,`type`,`name`,`certificate`,`site_name`,`contact_email`,`customer_id`,`created`,`modified`) values (1,1,'eME',NULL,NULL,NULL,2,'2012-12-24 07:41:25','2012-12-24 07:41:25'),(2,2,'Individual Learning Plan',NULL,NULL,NULL,2,'2012-12-24 07:41:34','2012-12-24 07:43:18'),(3,3,'eME Learning Portfolio',NULL,NULL,NULL,2,'2012-12-24 07:41:44','2012-12-24 07:43:29');
 
 /*Table structure for table `users` */
 
