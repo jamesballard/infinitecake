@@ -328,7 +328,7 @@ DROP TABLE IF EXISTS `groups`;
 
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sysid` int(11) unsigned DEFAULT NULL,
+  `sysid` varchar(255) DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
@@ -390,7 +390,7 @@ DROP TABLE IF EXISTS `modules`;
 
 CREATE TABLE `modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sysid` int(11) unsigned DEFAULT NULL,
+  `sysid` varchar(255) DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `artefact_id` int(11) unsigned DEFAULT NULL,
@@ -445,7 +445,7 @@ DROP TABLE IF EXISTS `roles`;
 
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sysid` int(11) unsigned DEFAULT NULL,
+  `sysid` varchar(255) DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
@@ -513,7 +513,7 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sysid` int(11) unsigned DEFAULT NULL,
+  `sysid` varchar(255) DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `person_id` int(11) unsigned DEFAULT NULL,
   `system_id` int(11) unsigned DEFAULT NULL,
