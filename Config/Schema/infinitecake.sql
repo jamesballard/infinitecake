@@ -30,7 +30,7 @@ CREATE TABLE `_conditions` (
   PRIMARY KEY (`id`),
   KEY `verb_ix` (`dimension_verb_id`),
   KEY `condition_ix` (`condition_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `acos` */
 
@@ -48,7 +48,7 @@ CREATE TABLE `acos` (
   KEY `alias_ix` (`alias`),
   KEY `left` (`lft`),
   KEY `right` (`rght`)
-) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_conditions` */
 
@@ -102,7 +102,7 @@ CREATE TABLE `aros` (
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `aros_acos` */
 
@@ -118,7 +118,7 @@ CREATE TABLE `aros_acos` (
   `_delete` varchar(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ARO_ACO_KEY` (`aro_id`,`aco_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `artefact_conditions` */
 
@@ -150,7 +150,7 @@ CREATE TABLE `artefacts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idnumber` (`idnumber`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `conditions` */
 
@@ -161,7 +161,7 @@ CREATE TABLE `conditions` (
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `customers` */
 
@@ -176,7 +176,7 @@ CREATE TABLE `customers` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `dimension_date` */
 
@@ -214,7 +214,7 @@ CREATE TABLE `dimension_time` (
   `ampm` char(2) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `fulltime` (`fulltime`)
-) ENGINE=InnoDB AUTO_INCREMENT=1441 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `dimension_verb` */
 
@@ -230,7 +230,7 @@ CREATE TABLE `dimension_verb` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_name` (`artefact_id`,`sysname`),
   KEY `artefact_ix` (`artefact_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `fact_summed_actions_date` */
 
@@ -366,7 +366,7 @@ CREATE TABLE `memberships` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `module_conditions` */
 
@@ -470,7 +470,7 @@ CREATE TABLE `rule_conditions` (
   PRIMARY KEY (`id`),
   KEY `rule_ix` (`rule_id`),
   KEY `condition_ix` (`condition_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `rules` */
 
@@ -487,7 +487,7 @@ CREATE TABLE `rules` (
   PRIMARY KEY (`id`),
   KEY `artefact_ix` (`type`),
   KEY `community_ix` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `systems` */
 
