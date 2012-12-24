@@ -9,13 +9,6 @@ App::uses('AppModel', 'Model');
  */
 class Action extends AppModel {
 
-//Define Action Types
-    const ACTION_TYPE_PRODUCE = 1;
-    const ACTION_TYPE_CONSUME = 2;
-    const ACTION_TYPE_EXCHANGE = 3;
-    const ACTION_TYPE_DISTRIBUTE = 4;
-    const ACTION_TYPE_OPERATE = 5;
-
 /**
  * Use table
  *
@@ -31,7 +24,7 @@ class Action extends AppModel {
 	public $displayField = 'name';
 
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -59,6 +52,31 @@ class Action extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'DimensionVerb' => array(
+            'className' => 'DimensionVerb',
+            'foreignKey' => 'dimension_verb_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
 	);
+
+    public $hasAndBelongsToMany = array(
+        'Condition' => array(
+            'className' => 'Condition',
+            'joinTable' => 'action_conditions',
+            'foreignKey' => 'action_id',
+            'associationForeignKey' => 'condition_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 }

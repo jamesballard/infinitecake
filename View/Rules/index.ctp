@@ -5,9 +5,8 @@
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('value'); ?></th>
-			<th><?php echo $this->Paginator->sort('artefact_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('community_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('person_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('type'); ?></th>
+			<th><?php echo $this->Paginator->sort('customer_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -18,14 +17,9 @@
 		<td><?php echo h($rule['Rule']['id']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['name']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['value']); ?>&nbsp;</td>
+        <td><?php echo h($rule['Rule']['type']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($rule['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $rule['Artefact']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($rule['Community']['name'], array('controller' => 'communities', 'action' => 'view', $rule['Community']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($rule['Person']['idnumber'], array('controller' => 'people', 'action' => 'view', $rule['Person']['id'])); ?>
+			<?php echo $this->Html->link($rule['Customer']['name'], array('controller' => 'customers', 'action' => 'view', $rule['Customer']['id'])); ?>
 		</td>
 		<td><?php echo h($rule['Rule']['created']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['modified']); ?>&nbsp;</td>
@@ -56,11 +50,9 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Rule'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Artefacts'), array('controller' => 'artefacts', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Artefact'), array('controller' => 'artefacts', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Communities'), array('controller' => 'communities', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Community'), array('controller' => 'communities', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List People'), array('controller' => 'people', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Person'), array('controller' => 'people', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Customers'), array('controller' => 'customers', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Customer'), array('controller' => 'customers', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Conditions'), array('controller' => 'conditions', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Condition'), array('controller' => 'conditions', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

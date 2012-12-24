@@ -25,19 +25,6 @@ class Customer extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Community' => array(
-			'className' => 'Community',
-			'foreignKey' => 'customer_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'Person' => array(
 			'className' => 'Person',
 			'foreignKey' => 'customer_id',
@@ -63,7 +50,20 @@ class Customer extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+        'Rule' => array(
+            'className' => 'Rule',
+            'foreignKey' => 'customer_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
 	);
 
 }

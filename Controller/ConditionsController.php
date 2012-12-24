@@ -47,10 +47,12 @@ class ConditionsController extends AppController {
 				$this->Session->setFlash(__('The condition could not be saved. Please, try again.'));
 			}
 		}
-		$modules = $this->Condition->Module->find('list');
-		$groups = $this->Condition->Group->find('list');
-		$users = $this->Condition->User->find('list');
-		$this->set(compact('modules', 'groups', 'users'));
+        $rulesRecords = $this->Condition->Rule->find('all', array('fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name')));
+        $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
+        $this->Condition->DimensionVerb->recursive = 0;
+		$dimensionVerbsRecords = $this->Condition->DimensionVerb->find('all', array('fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')));
+        $dimensionVerbs = Set::combine($dimensionVerbsRecords, '{n}.DimensionVerb.id', '{n}.0.name');
+		$this->set(compact('rules', 'dimensionVerbs'));
 	}
 
 /**
@@ -75,10 +77,12 @@ class ConditionsController extends AppController {
 		} else {
 			$this->request->data = $this->Condition->read(null, $id);
 		}
-		$modules = $this->Condition->Module->find('list');
-		$groups = $this->Condition->Group->find('list');
-		$users = $this->Condition->User->find('list');
-		$this->set(compact('modules', 'groups', 'users'));
+        $rulesRecords = $this->Condition->Rule->find('all', array('fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name')));
+        $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
+        $this->Condition->DimensionVerb->recursive = 0;
+        $dimensionVerbsRecords = $this->Condition->DimensionVerb->find('all', array('fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')));
+        $dimensionVerbs = Set::combine($dimensionVerbsRecords, '{n}.DimensionVerb.id', '{n}.0.name');
+        $this->set(compact('rules', 'dimensionVerbs'));
 	}
 
 /**
@@ -145,10 +149,10 @@ class ConditionsController extends AppController {
 				$this->Session->setFlash(__('The condition could not be saved. Please, try again.'));
 			}
 		}
-		$modules = $this->Condition->Module->find('list');
-		$groups = $this->Condition->Group->find('list');
-		$users = $this->Condition->User->find('list');
-		$this->set(compact('modules', 'groups', 'users'));
+		$rules = $this->Condition->Rule->find('list');
+		$actions = $this->Condition->Action->find('list');
+		$dimensionVerbConditions = $this->Condition->DimensionVerbCondition->find('list');
+		$this->set(compact('rules', 'actions', 'dimensionVerbConditions'));
 	}
 
 /**
@@ -173,10 +177,10 @@ class ConditionsController extends AppController {
 		} else {
 			$this->request->data = $this->Condition->read(null, $id);
 		}
-		$modules = $this->Condition->Module->find('list');
-		$groups = $this->Condition->Group->find('list');
-		$users = $this->Condition->User->find('list');
-		$this->set(compact('modules', 'groups', 'users'));
+		$rules = $this->Condition->Rule->find('list');
+		$actions = $this->Condition->Action->find('list');
+		$dimensionVerbConditions = $this->Condition->DimensionVerbCondition->find('list');
+		$this->set(compact('rules', 'actions', 'dimensionVerbConditions'));
 	}
 
 /**

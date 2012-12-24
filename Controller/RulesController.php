@@ -47,6 +47,10 @@ class RulesController extends AppController {
 				$this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
 			}
 		}
+        $customers = $this->Rule->Customer->find('list');
+        $conditionsRecords = $this->Rule->Condition->find('all', array('fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name')));
+        $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
+        $this->set(compact('customers', 'conditions'));
 	}
 
 /**
@@ -71,6 +75,10 @@ class RulesController extends AppController {
 		} else {
 			$this->request->data = $this->Rule->read(null, $id);
 		}
+		$customers = $this->Rule->Customer->find('list');
+        $conditionsRecords = $this->Rule->Condition->find('all', array('fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name')));
+        $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
+		$this->set(compact('customers', 'conditions'));
 	}
 
 /**
@@ -137,6 +145,10 @@ class RulesController extends AppController {
 				$this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
 			}
 		}
+		$artefacts = $this->Rule->Artefact->find('list');
+		$communities = $this->Rule->Community->find('list');
+		$conditions = $this->Rule->Condition->find('list');
+		$this->set(compact('artefacts', 'communities', 'conditions'));
 	}
 
 /**
@@ -161,6 +173,10 @@ class RulesController extends AppController {
 		} else {
 			$this->request->data = $this->Rule->read(null, $id);
 		}
+		$artefacts = $this->Rule->Artefact->find('list');
+		$communities = $this->Rule->Community->find('list');
+		$conditions = $this->Rule->Condition->find('list');
+		$this->set(compact('artefacts', 'communities', 'conditions'));
 	}
 
 /**

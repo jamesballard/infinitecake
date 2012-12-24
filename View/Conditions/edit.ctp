@@ -4,12 +4,10 @@
 		<legend><?php echo __('Edit Condition'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('sysid');
 		echo $this->Form->input('name');
 		echo $this->Form->input('value');
-		echo $this->Form->input('module_id');
-		echo $this->Form->input('group_id');
-		echo $this->Form->input('user_id');
+        echo $this->Form->input('Rule');
+        echo $this->Form->input('DimensionVerb');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
@@ -20,5 +18,11 @@
 
 		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Condition.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Condition.id'))); ?></li>
 		<li><?php echo $this->Html->link(__('List Conditions'), array('action' => 'index')); ?></li>
+		<li><?php echo $this->Html->link(__('List Rules'), array('controller' => 'rules', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Rule'), array('controller' => 'rules', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Actions'), array('controller' => 'actions', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Action'), array('controller' => 'actions', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Dimension Verb Conditions'), array('controller' => 'dimension_verb_conditions', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Dimension Verb Condition'), array('controller' => 'dimension_verb_conditions', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

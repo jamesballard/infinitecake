@@ -9,6 +9,13 @@ App::uses('AppModel', 'Model');
  */
 class Rule extends AppModel {
 
+//Define Rule Types
+    const RULE_TYPE_ACTION = 1;
+    const RULE_TYPE_DIMENSION_VERB = 2;
+    const RULE_TYPE_MODULE = 3;
+    const RULE_TYPE_ARTEFACT = 4;
+    const RULE_TYPE_GROUP = 5;
+
 /**
  * Display field
  *
@@ -25,26 +32,30 @@ class Rule extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Artefact' => array(
-			'className' => 'Artefact',
-			'foreignKey' => 'artefact_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Community' => array(
-			'className' => 'Community',
-			'foreignKey' => 'community_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Person' => array(
-			'className' => 'Person',
-			'foreignKey' => 'person_id',
+		'Customer' => array(
+			'className' => 'Customer',
+			'foreignKey' => 'customer_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
+
+    public $hasAndBelongsToMany = array(
+        'Condition' => array(
+            'className' => 'Condition',
+            'joinTable' => 'rule_conditions',
+            'foreignKey' => 'rule_id',
+            'associationForeignKey' => 'condition_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 }

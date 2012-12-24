@@ -48,19 +48,6 @@ class Person extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Rule' => array(
-			'className' => 'Rule',
-			'foreignKey' => 'person_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'person_id',
@@ -75,23 +62,4 @@ class Person extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
-    public $hasAndBelongsToMany = array(
-        'Community' => array(
-            'className' => 'Community',
-            'joinTable' => 'positions',
-            'foreignKey' => 'person_id',
-            'associationForeignKey' => 'community_id',
-            'unique' => 'keepExisting',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-            'deleteQuery' => '',
-            'insertQuery' => ''
-        )
-    );
-
 }

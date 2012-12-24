@@ -24,27 +24,65 @@ class Condition extends AppModel {
  *
  * @var array
  */
-	public $belongsTo = array(
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'module_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
+    public $hasAndBelongsToMany = array(
+        'Rule' => array(
+            'className' => 'Rule',
+            'joinTable' => 'rule_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'rule_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        ),
+        'Action' => array(
+            'className' => 'Action',
+            'joinTable' => 'action_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'action_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        ),
+        'DimensionVerb' => array(
+            'className' => 'DimensionVerb',
+            'joinTable' => 'dimension_verb_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'dimension_verb_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
+
+    public function get_rule_conditions($rule_id) {
+        return $this->Rule->find('all', array(
+            'conditions' => array(
+                'Rule.id' => $rule_id
+            ),
+            'contain' => array(
+                'Condition' => array(
+                    'fields' => array('Condition.id', 'Condition.name'),
+                )
+            ),
+        ));
+    }
+
 }

@@ -52,12 +52,13 @@ class AcademicperiodBehavior extends ModelBehavior {
  */
     function getYears(Model $Model, $start=0) {
         if($start > 0) {
-            $begin = new DateTime(date('Y-m-01', $start));
+            $yearStart = strtotime ( '-7 months' , $start ) ;
+            $begin = new DateTime(date('Y-m-01', $yearStart));
         }else{
             $begin = new DateTime(date('Y-m-01',strtotime("-1 year", time())));
         }
 
-        //Add 4 months to push into next academic year (e.g. August +5)
+        //Add 4 months to push into next academic year (e.g. August +5) = UK Academic Year
         $end = new DateTime( date('Y-m-01',strtotime("+5 months")));
         // Get years as range.
         $interval = new DateInterval('P1Y');
