@@ -605,6 +605,196 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
+/* Procedure structure for procedure `aggregrate_summed_actions` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `aggregrate_summed_actions` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `aggregrate_summed_actions`(
+  IN timestart DATE,
+  IN timeend DATE
+)
+    MODIFIES SQL DATA
+BEGIN
+  /*
+    All 'DECLARE' statements must come first
+  */
+  -- Declare '_val' variables to read in each record from the cursor
+  DECLARE time_id_val INT(11);
+  DECLARE date_id_val INT(11);
+  DECLARE system_id_val INT(11);
+  DECLARE group_id_val INT(11);
+  DECLARE artefact_id_val INT(11);
+  DECLARE time_val INT(11);
+  DECLARE user_id_val INT(11);
+  DECLARE module_id_val INT(11);
+  -- Declare variables used just for cursor and loop control
+  DECLARE no_more_rows BOOLEAN;
+  DECLARE loop_cntr INT DEFAULT 0;
+  DECLARE num_rows INT DEFAULT 0;
+  -- Declare the cursor
+  DECLARE actions_cur CURSOR FOR
+    SELECT `time`, `user_id`, `group_id`, `module_id` 
+    FROM infinitecake.actions
+    WHERE `time` > UNIX_TIMESTAMP(timestart)
+      AND `time` < UNIX_TIMESTAMP(timeend);
+  -- Declare 'handlers' for exceptions
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+    SET no_more_rows = TRUE;
+  /*
+    Now the programming logic
+  */
+  -- 'open' the cursor and capture the number of rows returned
+  -- (the 'select' gets invoked when the cursor is 'opened')
+  OPEN actions_cur;
+  SELECT FOUND_ROWS() INTO num_rows;
+  the_loop: LOOP
+    FETCH  actions_cur
+    INTO   time_val, user_id_val, group_id_val, module_id_val;
+    -- break out of the loop if
+      -- 1) there were no records, or
+      -- 2) we've processed them all
+    IF no_more_rows THEN
+        CLOSE actions_cur;
+        LEAVE the_loop;
+    END IF;
+    
+    -- Get dimension ids     
+    SELECT id INTO time_id_val
+	  FROM dimension_time
+	  WHERE fulltime = FROM_UNIXTIME(time_val, '%H:%i:%s');
+	
+    SELECT id INTO date_id_val
+	  FROM dimension_date
+	  WHERE DATE = FROM_UNIXTIME(time_val, '%Y-%m-%d');
+	  
+    SELECT artefact_id INTO artefact_id_val
+          FROM modules
+          WHERE id = module_id_val;
+    
+    SELECT system_id INTO system_id_val
+          FROM users
+          WHERE id = user_id_val;
+    -- Update fact aggregation tables
+    INSERT INTO fact_summed_actions_date (system_id, group_id, user_id, artefact_id, dimension_date_id, total)
+	    VALUES (system_id_val, group_id_val, user_id_val, artefact_id_val, dimension_verb_id_val, date_id_val, 1)
+	    ON DUPLICATE KEY
+	    UPDATE total = total+1;
+	
+    INSERT INTO fact_summed_actions_date (system_id, group_id, user_id, artefact_id, dimension_date_id, dimension_time_id, total)
+	    VALUES (system_id_val, group_id_val, user_id_val, artefact_id_val, dimension_verb_id_val, date_id_val, time_id_val, 1)
+	    ON DUPLICATE KEY
+	    UPDATE total = total+1;
+    -- count the number of times looped
+    SET loop_cntr = loop_cntr + 1;
+  END LOOP the_loop;
+  -- 'print' the output so we can see they are the same
+  SELECT num_rows, loop_cntr;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `aggregrate_summed_verb_conditions` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `aggregrate_summed_verb_conditions` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `aggregrate_summed_verb_conditions`(
+  IN timestart DATE,
+  IN timeend DATE,
+  IN rule_id INT(11)
+)
+    MODIFIES SQL DATA
+BEGIN
+  /*
+    All 'DECLARE' statements must come first
+  */
+  -- Declare '_val' variables to read in each record from the cursor
+  DECLARE time_id_val INT(11);
+  DECLARE date_id_val INT(11);
+  DECLARE time_val INT(11);
+  DECLARE system_id_val INT(11);
+  DECLARE group_id_val INT(11);
+  DECLARE user_id_val INT(11);
+  DECLARE condition_id_val INT(11);
+  DECLARE dimension_verb_id_val INT(11);
+  -- Declare variables used just for cursor and loop control
+  DECLARE no_more_rows BOOLEAN;
+  DECLARE inside_null BOOLEAN;
+  DECLARE loop_cntr INT DEFAULT 0;
+  DECLARE num_rows INT DEFAULT 0;
+  -- Declare the cursor
+  DECLARE actions_cur CURSOR FOR
+    SELECT `time`, `user_id`, `group_id`, `dimension_verb_id` 
+    FROM infinitecake.actions
+    WHERE `time` > UNIX_TIMESTAMP(timestart)
+      AND `time` < UNIX_TIMESTAMP(timeend);
+  -- Declare 'handlers' for exceptions
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+    SET no_more_rows = TRUE;
+  /*
+    Now the programming logic
+  */ 
+  -- 'open' the cursor and capture the number of rows returned
+  -- (the 'select' gets invoked when the cursor is 'opened')
+  OPEN actions_cur;
+  SELECT FOUND_ROWS() INTO num_rows;
+  the_loop: LOOP
+    FETCH  actions_cur
+    INTO   time_val, user_id_val, group_id_val, dimension_verb_id_val;
+    -- break out of the loop if
+      -- 1) there were no records, or
+      -- 2) we've processed them all
+    IF no_more_rows THEN
+        CLOSE actions_cur;
+        LEAVE the_loop;
+    END IF;
+    
+    -- Get dimension ids  
+    BEGIN 
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET inside_null = 1;  
+    SELECT id INTO time_id_val
+	  FROM dimension_time
+	  WHERE fulltime = FROM_UNIXTIME(time_val, '%H:%i:%s');
+	   
+    SELECT id INTO date_id_val
+	  FROM dimension_date
+	  WHERE DATE = FROM_UNIXTIME(time_val, '%Y-%m-%d');
+	  
+    SELECT system_id INTO system_id_val
+          FROM users
+          WHERE id = user_id_val;
+	     
+    SELECT c.id INTO condition_id_val
+          FROM conditions c, dimension_verb_conditions vc, rule_conditions rc 
+	  WHERE vc.condition_id = c.id
+	  AND rc.condition_id = c.id 
+	  AND vc.dimension_verb_id = dimension_verb_id_val
+	  AND rc.rule_id = rule_id;
+    END;
+      
+    IF condition_id_val IS NOT NULL THEN
+        -- Update fact aggregation tables
+        INSERT INTO fact_user_verb_rule_date (system_id, group_id, user_id, rule_id, condition_id, dimension_date_id, total)
+	    VALUES (system_id_val, group_id_val, user_id_val, rule_id, condition_id_val, date_id_val, 1)
+	    ON DUPLICATE KEY
+	    UPDATE total = total+1;
+	
+        INSERT INTO fact_user_verb_rule_time (system_id, group_id, user_id, rule_id, condition_id, dimension_date_id, dimension_time_id, total)
+	    VALUES (system_id_val, group_id_val, user_id_val, rule_id, condition_id_val, date_id_val, time_id_val, 1)
+	    ON DUPLICATE KEY
+	    UPDATE total = total+1;
+    END IF;
+    -- count the number of times looped
+    SET loop_cntr = loop_cntr + 1;
+    
+  END LOOP the_loop;
+  -- 'print' the output so we can see they are the same
+  SELECT num_rows, loop_cntr;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `timedimbuild` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `timedimbuild` */;
