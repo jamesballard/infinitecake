@@ -56,8 +56,10 @@ DROP TABLE IF EXISTS `actions`;
 
 CREATE TABLE `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` varchar(255) DEFAULT NULL,
   `name` varchar(60) DEFAULT NULL,
   `time` int(11) unsigned DEFAULT NULL,
+  `system_id` int(11) unsigned DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
   `group_id` int(11) unsigned DEFAULT NULL,
   `module_id` int(11) unsigned DEFAULT NULL,
@@ -335,7 +337,7 @@ CREATE TABLE `groups` (
   `system_id` int(11) unsigned DEFAULT NULL,
   `community_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `system_group` (`system_id`,`sysid`),
+  UNIQUE KEY `system_group` (`system_id`,`sysid`,`type`),
   KEY `community_ix` (`community_id`),
   KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -453,7 +455,8 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`id`),
   KEY `user_ix` (`user_id`),
   KEY `group_ix` (`group_id`),
-  KEY `role_ix` (`user_id`,`group_id`)
+  KEY `role_ix` (`user_id`,`group_id`),
+  KEY `sys_user_group_ix` (`sysid`,`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `rule_conditions` */

@@ -4,13 +4,17 @@ App::uses('AppModel', 'Model');
  * Group Model
  *
  * @property System $System
- * @property Community $Community
  * @property Action $Action
  * @property Condition $Condition
  * @property Module $Module
  * @property Role $Role
  */
 class Group extends AppModel {
+
+//Define Group Types
+    const GROUP_TYPE_COURSE = 1; //A group of 2 or more students led by teacher.
+    const GROUP_TYPE_TUTOR = 2; //A one-to-one group of tutor and student.
+    const GROUP_TYPE_SOCIAL = 3; //A group of 2 or more people
 
 /**
  * Display field
