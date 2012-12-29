@@ -12,9 +12,9 @@ App::uses('AppModel', 'Model');
 class Group extends AppModel {
 
 //Define Group Types
-    const GROUP_TYPE_COURSE = 1; //A group of 2 or more students led by teacher.
-    const GROUP_TYPE_TUTOR = 2; //A one-to-one group of tutor and student.
-    const GROUP_TYPE_SOCIAL = 3; //A group of 2 or more people
+    const GROUP_TYPE_COURSE = 1; //A course group focuses around a shared curriculum and has fixed membership - the Course is the group.
+    const GROUP_TYPE_PERSONAL = 2; //This focuses on an individual user (e.g. tutor or private) - the student is the group.
+    const GROUP_TYPE_SOCIAL = 3; //A social group is self-forming and has open membership - the Group is the group.
 
 /**
  * Display field

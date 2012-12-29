@@ -2,7 +2,8 @@
 SQLyog Community v10.5 Beta1
 MySQL - 5.5.27-log : Database - infinitecake
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -130,12 +131,13 @@ CREATE TABLE `artefacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `type` bigint(2) unsigned DEFAULT NULL,
+  `type` int(4) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idnumber` (`idnumber`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`),
+  KEY `type_ix` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `conditions` */
@@ -146,7 +148,9 @@ CREATE TABLE `conditions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `type` int(4) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `type_ix` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `customers` */
@@ -215,7 +219,8 @@ CREATE TABLE `dimension_verb` (
   `artefact_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_name` (`artefact_id`,`sysname`),
-  KEY `artefact_ix` (`artefact_id`)
+  KEY `artefact_ix` (`artefact_id`),
+  KEY `type_ix` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `dimension_verb_conditions` */
@@ -333,13 +338,12 @@ CREATE TABLE `groups` (
   `sysid` varchar(255) DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
+  `type` int(4) unsigned DEFAULT NULL,
   `system_id` int(11) unsigned DEFAULT NULL,
-  `community_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `system_group` (`system_id`,`sysid`,`type`),
-  KEY `community_ix` (`community_id`),
-  KEY `system_ix` (`system_id`)
+  KEY `system_ix` (`system_id`),
+  KEY `type_ix` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `members` */
@@ -483,13 +487,13 @@ CREATE TABLE `rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
-  `type` int(2) unsigned DEFAULT NULL,
+  `type` int(4) unsigned DEFAULT NULL,
   `customer_id` int(11) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `artefact_ix` (`type`),
-  KEY `community_ix` (`customer_id`)
+  KEY `type_ix` (`type`),
+  KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `systems` */
@@ -507,7 +511,8 @@ CREATE TABLE `systems` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_ix` (`customer_id`)
+  KEY `customer_ix` (`customer_id`),
+  KEY `type_ix` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `users` */

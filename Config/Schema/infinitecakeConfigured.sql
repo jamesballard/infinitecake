@@ -383,10 +383,8 @@ CREATE TABLE `groups` (
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `system_id` int(11) unsigned DEFAULT NULL,
-  `community_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `system_group` (`system_id`,`sysid`,`type`),
-  KEY `community_ix` (`community_id`),
   KEY `system_ix` (`system_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
