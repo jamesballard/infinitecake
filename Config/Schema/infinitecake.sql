@@ -2,8 +2,7 @@
 SQLyog Community v10.5 Beta1
 MySQL - 5.5.27-log : Database - infinitecake
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -59,13 +58,14 @@ CREATE TABLE `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` varchar(255) DEFAULT NULL,
   `name` varchar(60) DEFAULT NULL,
-  `time` int(11) unsigned DEFAULT NULL,
+  `time` varchar(255) DEFAULT NULL,
   `system_id` int(11) unsigned DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
   `group_id` int(11) unsigned DEFAULT NULL,
   `module_id` int(11) unsigned DEFAULT NULL,
   `dimension_verb_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `system_ix` (`sysid`,`system_id`),
   KEY `time_ix` (`time`),
   KEY `user_ix` (`user_id`),
   KEY `group_ix` (`group_id`),
@@ -74,7 +74,7 @@ CREATE TABLE `actions` (
   KEY `group_time_ix` (`group_id`,`time`),
   KEY `module_time_ix` (`module_id`,`time`),
   KEY `verb_ix` (`dimension_verb_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5795860 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `aros` */
 
@@ -131,14 +131,13 @@ CREATE TABLE `artefacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `type` int(4) unsigned DEFAULT NULL,
+  `type` bigint(2) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idnumber` (`idnumber`),
-  UNIQUE KEY `name` (`name`),
-  KEY `type_ix` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `conditions` */
 
@@ -150,8 +149,8 @@ CREATE TABLE `conditions` (
   `value` varchar(255) DEFAULT NULL,
   `type` int(4) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `type_ix` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name_type_ix` (`name`,`value`,`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=9372 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `customers` */
 
@@ -219,9 +218,8 @@ CREATE TABLE `dimension_verb` (
   `artefact_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_name` (`artefact_id`,`sysname`),
-  KEY `artefact_ix` (`artefact_id`),
-  KEY `type_ix` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `artefact_ix` (`artefact_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=286 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `dimension_verb_conditions` */
 
@@ -338,13 +336,12 @@ CREATE TABLE `groups` (
   `sysid` varchar(255) DEFAULT NULL,
   `idnumber` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `type` int(4) unsigned DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   `system_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `system_group` (`system_id`,`sysid`,`type`),
-  KEY `system_ix` (`system_id`),
-  KEY `type_ix` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `system_ix` (`system_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33687 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `members` */
 
@@ -407,7 +404,7 @@ CREATE TABLE `modules` (
   KEY `artefact_ix` (`artefact_id`),
   KEY `group_ix` (`group_id`),
   KEY `system_ix` (`system_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=192936 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `numbers` */
 
@@ -487,13 +484,13 @@ CREATE TABLE `rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
-  `type` int(4) unsigned DEFAULT NULL,
+  `type` int(2) unsigned DEFAULT NULL,
   `customer_id` int(11) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `type_ix` (`type`),
-  KEY `customer_ix` (`customer_id`)
+  KEY `artefact_ix` (`type`),
+  KEY `community_ix` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `systems` */
@@ -511,8 +508,7 @@ CREATE TABLE `systems` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `customer_ix` (`customer_id`),
-  KEY `type_ix` (`type`)
+  KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `users` */
@@ -529,7 +525,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `system_user` (`system_id`,`sysid`),
   KEY `person_ix` (`person_id`),
   KEY `system_ix` (`system_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34641 DEFAULT CHARSET=utf8;
 
 /* Procedure structure for procedure `aggregrate_summed_actions` */
 
