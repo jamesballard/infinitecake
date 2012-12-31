@@ -43,7 +43,7 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $helpers = array('Html', 'Form', 'Session', 'MenuBuilder.MenuBuilder');
+    public $helpers = array('Html', 'Form', 'Session', 'MenuBuilder.MenuBuilder', 'Chosen.Chosen');
 
     //TODO - set active?
     function beforeFilter() {

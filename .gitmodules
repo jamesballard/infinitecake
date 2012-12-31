@@ -13,3 +13,6 @@
 [submodule "webroot/api"]
 	path = webroot/api
 	url = git@github.com:jamesballard/infiniteimport.git
+[submodule "Plugin/Chosen"]
+	path = Plugin/Chosen
+	url = git@github.com:paulredmond/chosen-cakephp.git

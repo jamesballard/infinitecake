@@ -10,11 +10,19 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'FactUserActionsDate', 'FactUserActionsTime', 'FactUserVerbRuleDate');
+    var $uses = array('Action', 'User', 'FactUserActionsDate', 'FactUserActionsTime', 'FactUserVerbRuleDate');
 
     public function index() {
-        $this->set('user','207');
-        $this->Session->write('Profile.user', '207');
+        //Create selected user as session variable.
+        if ($this->request->is('post')) {
+            $user = $this->request->data['Action']['user'];
+            $this->set('user',$user);
+            $this->Session->write('Profile.user', $user);
+        }else{
+            $this->set('user','');
+        }
+        $users = $this->User->find('list');
+		$this->set(compact('users'));
     }
 
     public function overview() {
