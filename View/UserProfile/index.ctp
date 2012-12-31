@@ -10,7 +10,7 @@ echo $this->Form->create();
 echo $this->Chosen->select(
     'user',
     $users,
-    array('data-placeholder' => 'Select user...', 'deselect' => true)
+    array('data-placeholder' => 'Select user...', 'default' => $user, 'deselect' => true)
 );
 
 echo $this->Form->end('Change');

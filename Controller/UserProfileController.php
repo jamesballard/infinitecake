@@ -10,7 +10,7 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'User', 'FactUserActionsDate', 'FactUserActionsTime', 'FactUserVerbRuleDate');
+    var $uses = array('Action', 'User', 'FactSummedActionsDate', 'FactSummedActionsDatetime', 'FactUserVerbRuleDate');
 
     public function index() {
         //Create selected user as session variable.
@@ -18,8 +18,10 @@ class UserprofileController extends AppController {
             $user = $this->request->data['Action']['user'];
             $this->set('user',$user);
             $this->Session->write('Profile.user', $user);
+        }elseif($userid = $this->Session->read('Profile.user')){
+            $this->set('user', $userid);
         }else{
-            $this->set('user','');
+            $this->set('user','917');
         }
         $users = $this->User->find('list');
 		$this->set(compact('users'));
@@ -76,12 +78,12 @@ class UserprofileController extends AppController {
 
         $userid = $this->Session->read('Profile.user');
 
-        $dayData = $this->FactUserActionsTime->getHourStats('day', $report, array('user_id'=>$userid));
+        $dayData = $this->FactSummedActionsDatetime->getHourStats('day', $report, array('user_id'=>$userid));
         $dayData = base64_encode(serialize($dayData));
 
         $this->set('dayData', $dayData);
 
-        $nightData = $this->FactUserActionsTime->getHourStats('night', $report, array('user_id'=>$userid));
+        $nightData = $this->FactSummedActionsDatetime->getHourStats('night', $report, array('user_id'=>$userid));
         $nightData = base64_encode(serialize($nightData));
 
         $this->set('nightData', $nightData);
@@ -154,19 +156,19 @@ class UserprofileController extends AppController {
             case 'day':
                 $interval = 'P1D';
                 $dateFormat = "d-M";
-                $data = $this->FactUserActionsDate->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedActionsDatetime->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
             break;
             case 'week':
                 $interval = 'P1W';
                 $dateFormat = 'W';
-                $data = $this->FactUserActionsDate->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedActionsDatetime->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
             break;
             case 'month':
                 $interval = 'P1M';
                 $dateFormat = "M";
-                $data = $this->FactUserActionsDate->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedActionsDatetime->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
             break;
         }
@@ -182,7 +184,7 @@ class UserprofileController extends AppController {
 
     private function getModuleData() {
         $userid = $this->Session->read('Profile.user');
-        $data = $this->FactUserActionsDate->getModuleCountTreemap(array('user_id'=>$userid));
+        $data = $this->FactSummedActionsDatetime->getModuleCountTreemap(array('user_id'=>$userid));
         return $data;
     }
 
@@ -201,19 +203,19 @@ class UserprofileController extends AppController {
             case 'day':
                 $interval = 'P1D';
                 $dateFormat = "d-M-y";
-                $data = $this->FactUserVerbRuleDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'week':
                 $interval = 'P1W';
                 $dateFormat = 'W-o';
-                $data = $this->FactUserVerbRuleDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'month':
                 $interval = 'P1M';
                 $dateFormat = "M-y";
-                $data = $this->FactUserVerbRuleDate->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
         }

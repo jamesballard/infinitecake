@@ -24,7 +24,7 @@ class AcademicperiodBehavior extends ModelBehavior {
             $conditions = $filter;
         }
         $result = $action->find('first', array(
-            'fields' => "MIN(time) AS start", //array of field names
+            'fields' => "UNIX_TIMESTAMP(MIN(time)) AS start", //array of field names
             'recursive' => -1,
             'conditions' => $conditions
         ));

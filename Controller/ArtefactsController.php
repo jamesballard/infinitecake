@@ -48,8 +48,6 @@ class ArtefactsController extends AppController {
 				$this->Session->setFlash(__('The artefact could not be saved. Please, try again.'));
 			}
 		}
-		$communities = $this->Artefact->Community->find('list');
-		$this->set(compact('communities'));
 	}
 
 /**
@@ -74,8 +72,6 @@ class ArtefactsController extends AppController {
 		} else {
 			$this->request->data = $this->Artefact->read(null, $id);
 		}
-		$communities = $this->Artefact->Community->find('list');
-		$this->set(compact('communities'));
 	}
 
 /**
@@ -142,8 +138,6 @@ class ArtefactsController extends AppController {
 				$this->Session->setFlash(__('The artefact could not be saved. Please, try again.'));
 			}
 		}
-		$communities = $this->Artefact->Community->find('list');
-		$this->set(compact('communities'));
 	}
 
 /**
@@ -168,8 +162,6 @@ class ArtefactsController extends AppController {
 		} else {
 			$this->request->data = $this->Artefact->read(null, $id);
 		}
-		$communities = $this->Artefact->Community->find('list');
-		$this->set(compact('communities'));
 	}
 
 /**

@@ -6,7 +6,6 @@
 			<th><?php echo $this->Paginator->sort('idnumber'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
-			<th><?php echo $this->Paginator->sort('community_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -18,7 +17,6 @@
 		<td><?php echo h($artefact['Artefact']['idnumber']); ?>&nbsp;</td>
 		<td><?php echo h($artefact['Artefact']['name']); ?>&nbsp;</td>
 		<td><?php echo h($artefact['Artefact']['type']); ?>&nbsp;</td>
-		<td><?php echo h($artefact['Artefact']['community_id']); ?>&nbsp;</td>
 		<td><?php echo h($artefact['Artefact']['created']); ?>&nbsp;</td>
 		<td><?php echo h($artefact['Artefact']['modified']); ?>&nbsp;</td>
 		<td class="actions">
