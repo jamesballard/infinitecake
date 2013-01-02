@@ -9,6 +9,11 @@ echo '<div style="width:400px">';
 
 echo $this->Form->create();
 
+echo $this->Form->input('system', array(
+    'options' => $systems,
+    'default' => 0
+));
+
 echo $this->Form->input('width', array(
         'type' => 'text',
         'default' => '750'

@@ -22,6 +22,7 @@ class AcademicperiodBehavior extends ModelBehavior {
         $conditions = array();
         if($filter) {
             $conditions = $filter;
+            unset($conditions['FactSummedActionsDatetime.system_id']);
         }
         $result = $action->find('first', array(
             'fields' => "UNIX_TIMESTAMP(MIN(time)) AS start", //array of field names

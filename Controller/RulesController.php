@@ -48,7 +48,11 @@ class RulesController extends AppController {
 			}
 		}
         $customers = $this->Rule->Customer->find('list');
-        $conditionsRecords = $this->Rule->Condition->find('all', array('fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name')));
+        $conditionsRecords = $this->Rule->Condition->find('all', array(
+                'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
+                'conditions' => array('type' => 1)
+            )
+        );
         $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
         $this->set(compact('customers', 'conditions'));
 	}

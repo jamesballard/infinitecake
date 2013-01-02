@@ -23,6 +23,12 @@ echo $this->Form->input('period', array(
     'default' => 'month'
 ));
 
+echo $this->Form->input('system', array(
+    'options' => $systems,
+    'default' => 0
+));
+
+
 echo $this->Form->input('width', array(
         'type' => 'text',
         'default' => '750'

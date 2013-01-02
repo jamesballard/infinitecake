@@ -10,7 +10,7 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'User', 'FactSummedActionsDate', 'FactSummedActionsDatetime', 'FactUserVerbRuleDate');
+    var $uses = array('Action', 'Person', 'User', 'FactSummedActionsDate', 'FactSummedActionsDatetime', 'FactUserVerbRuleDate');
 
     public function index() {
         //Create selected user as session variable.
@@ -23,7 +23,7 @@ class UserprofileController extends AppController {
         }else{
             $this->set('user','');
         }
-        $users = $this->User->find('list');
+        $users = $this->Person->find('list');
 		$this->set(compact('users'));
     }
 
@@ -37,6 +37,7 @@ class UserprofileController extends AppController {
             $period = 'month';
             $chartType = 'area';
             $reportType = 'Activity';
+            $system = 0;
             $width = 750;
             $height = 500;
 
@@ -45,6 +46,7 @@ class UserprofileController extends AppController {
                 $period = $this->request->data['Action']['period'];
                 $chartType = $this->request->data['Action']['chart'];
                 $reportType = $this->request->data['Action']['report'];
+                $system = $this->request->data['Action']['system'];
                 $width = $this->request->data['Action']['width'];
                 $height = $this->request->data['Action']['height'];
             }
@@ -55,8 +57,12 @@ class UserprofileController extends AppController {
                 'width' => $width,
                 'height' => $height
             );
-            $results = $this->getOverviewData($period);
+            $results = $this->getOverviewData($period, $system);
             $data = array_merge($data,$results);
+
+            $systems = array(0=>'All');
+            $systems = array_merge($systems, $this->FactSummedActionsDatetime->System->find('list'));
+            $this->set(compact('systems'));
 
             $this->set('data', $data);
         }
@@ -109,19 +115,25 @@ class UserprofileController extends AppController {
         }else{
             //Set defaults
             $reportType = 'Activity';
+            $system = 0;
             $width = 750;
             $height = 500;
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
                 $reportType = $this->request->data['MdlUser']['report'];
+                $system = $this->request->data['MdlUser']['system'];
                 $width = $this->request->data['MdlUser']['width'];
                 $height = $this->request->data['MdlUser']['height'];
             }
 
             $this->set('width', $width);
             $this->set('height', $height);
-            $this->set('data', $this->getModuleData($reportType));
+            $this->set('data', $this->getModuleData($system));
+
+            $systems = array(0=>'All');
+            $systems = array_merge($systems, $this->FactSummedActionsDatetime->System->find('list'));
+            $this->set(compact('systems'));
         }
     }
 
@@ -171,29 +183,37 @@ class UserprofileController extends AppController {
      * @return array Data for chart
      */
 
-    private function getOverviewData($period) {
+    private function getOverviewData($period, $system) {
         $userid = $this->Session->read('Profile.user');
 
         switch($period) {
             case 'day':
                 $interval = 'P1D';
                 $dateFormat = "d-M";
-                $data = $this->FactSummedActionsDatetime->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
-                return $data;
             break;
             case 'week':
                 $interval = 'P1W';
                 $dateFormat = 'W';
-                $data = $this->FactSummedActionsDatetime->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
-                return $data;
             break;
             case 'month':
                 $interval = 'P1M';
                 $dateFormat = "M";
-                $data = $this->FactSummedActionsDatetime->getPeriodCountGchart(array('user_id'=>$userid), $interval, $dateFormat);
-                return $data;
             break;
         }
+
+        $user_ids = $this->User->find('list', array(
+                'conditions' => array('person_id' => $userid), //array of conditions
+                'recursive' => -1, //int
+                'fields' => array('User.id'), //array of field names
+            )
+        );
+
+        $conditions = array('user_id'=>$user_ids);
+        if($system > 0) {
+            $conditions = array_merge($conditions,array('FactSummedActionsDatetime.system_id' => $system));
+        }
+        $data = $this->FactSummedActionsDatetime->getPeriodCountGchart($conditions, $interval, $dateFormat);
+        return $data;
     }
 
     /**
@@ -204,9 +224,20 @@ class UserprofileController extends AppController {
      * @return array Data for chart
      */
 
-    private function getModuleData() {
+    private function getModuleData($system) {
         $userid = $this->Session->read('Profile.user');
-        $data = $this->FactSummedActionsDatetime->getModuleCountTreemap(array('user_id'=>$userid));
+        $user_ids = $this->User->find('list', array(
+                'conditions' => array('person_id' => $userid), //array of conditions
+                'recursive' => -1, //int
+                'fields' => array('User.id'), //array of field names
+            )
+        );
+
+        $conditions = array('user_id'=>$user_ids);
+        if($system > 0) {
+            $conditions = array_merge($conditions,array('FactSummedActionsDatetime.system_id' => $system));
+        }
+        $data = $this->FactSummedActionsDatetime->getModuleCountTreemap($conditions);
         return $data;
     }
 
