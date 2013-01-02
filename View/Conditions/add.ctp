@@ -6,7 +6,11 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('value');
 		echo $this->Form->input('Rule');
-		echo $this->Form->input('DimensionVerb');
+        echo $this->Chosen->select(
+            'DimensionVerb',
+            $dimensionVerbs,
+            array('data-placeholder' => 'Select verbs...', 'multiple' => true, 'deselect' => true)
+        );
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
