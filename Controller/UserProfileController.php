@@ -21,39 +21,45 @@ class UserprofileController extends AppController {
         }elseif($userid = $this->Session->read('Profile.user')){
             $this->set('user', $userid);
         }else{
-            $this->set('user','917');
+            $this->set('user','');
         }
         $users = $this->User->find('list');
 		$this->set(compact('users'));
     }
 
     public function overview() {
-        //Set defaults
-        $period = 'month';
-        $chartType = 'area';
-        $reportType = 'Activity';
-        $width = 750;
-        $height = 500;
+        $userid = $this->Session->read('Profile.user');
+        if(!$userid) {
+            $this->Session->setFlash(__('No user selected'));
+            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+        }else{
+            //Set defaults
+            $period = 'month';
+            $chartType = 'area';
+            $reportType = 'Activity';
+            $width = 750;
+            $height = 500;
 
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $period = $this->request->data['Action']['period'];
-            $chartType = $this->request->data['Action']['chart'];
-            $reportType = $this->request->data['Action']['report'];
-            $width = $this->request->data['Action']['width'];
-            $height = $this->request->data['Action']['height'];
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $period = $this->request->data['Action']['period'];
+                $chartType = $this->request->data['Action']['chart'];
+                $reportType = $this->request->data['Action']['report'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
+
+            $data = array(
+                'title' => $reportType,
+                'type' => $chartType,
+                'width' => $width,
+                'height' => $height
+            );
+            $results = $this->getOverviewData($period);
+            $data = array_merge($data,$results);
+
+            $this->set('data', $data);
         }
-
-        $data = array(
-            'title' => $reportType,
-            'type' => $chartType,
-            'width' => $width,
-            'height' => $height
-        );
-        $results = $this->getOverviewData($period);
-        $data = array_merge($data,$results);
-
-        $this->set('data', $data);
     }
 
     public function location() {
@@ -61,84 +67,100 @@ class UserprofileController extends AppController {
     }
 
     public function hourly() {
-        //Set defaults
-        $report = 'sum';
-        $width = 750;
-        $height = 500;
-
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $report = $this->request->data['Action']['report'];
-            $width = $this->request->data['Action']['width'];
-            $height = $this->request->data['Action']['height'];
-        }
-
-        $this->set('width', $width);
-        $this->set('height', $height);
-
         $userid = $this->Session->read('Profile.user');
+        if(!$userid) {
+            $this->Session->setFlash(__('No user selected'));
+            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+        }else{
+            //Set defaults
+            $report = 'sum';
+            $width = 750;
+            $height = 500;
 
-        $dayData = $this->FactSummedActionsDatetime->getHourStats('day', $report, array('user_id'=>$userid));
-        $dayData = base64_encode(serialize($dayData));
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $report = $this->request->data['Action']['report'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
 
-        $this->set('dayData', $dayData);
+            $this->set('width', $width);
+            $this->set('height', $height);
 
-        $nightData = $this->FactSummedActionsDatetime->getHourStats('night', $report, array('user_id'=>$userid));
-        $nightData = base64_encode(serialize($nightData));
+            $userid = $this->Session->read('Profile.user');
 
-        $this->set('nightData', $nightData);
+            $dayData = $this->FactSummedActionsDatetime->getHourStats('day', $report, array('user_id'=>$userid));
+            $dayData = base64_encode(serialize($dayData));
 
+            $this->set('dayData', $dayData);
+
+            $nightData = $this->FactSummedActionsDatetime->getHourStats('night', $report, array('user_id'=>$userid));
+            $nightData = base64_encode(serialize($nightData));
+
+            $this->set('nightData', $nightData);
+        }
     }
 
     public function modules() {
-        //Set defaults
-        $reportType = 'Activity';
-        $width = 750;
-        $height = 500;
+        $userid = $this->Session->read('Profile.user');
+        if(!$userid) {
+            $this->Session->setFlash(__('No user selected'));
+            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+        }else{
+            //Set defaults
+            $reportType = 'Activity';
+            $width = 750;
+            $height = 500;
 
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $reportType = $this->request->data['MdlUser']['report'];
-            $width = $this->request->data['MdlUser']['width'];
-            $height = $this->request->data['MdlUser']['height'];
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $reportType = $this->request->data['MdlUser']['report'];
+                $width = $this->request->data['MdlUser']['width'];
+                $height = $this->request->data['MdlUser']['height'];
+            }
+
+            $this->set('width', $width);
+            $this->set('height', $height);
+            $this->set('data', $this->getModuleData($reportType));
         }
-
-        $this->set('width', $width);
-        $this->set('height', $height);
-        $this->set('data', $this->getModuleData($reportType));
     }
 
     public function tasktype() {
-        //Set defaults
-        $period = 'month';
-        $chartType = 'column';
-        $reportType = 'Activity';
-        $width = 750;
-        $height = 500;
+        $userid = $this->Session->read('Profile.user');
+        if(!$userid) {
+            $this->Session->setFlash(__('No user selected'));
+            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+        }else{
+            //Set defaults
+            $period = 'month';
+            $chartType = 'column';
+            $reportType = 'Activity';
+            $width = 750;
+            $height = 500;
 
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $period = $this->request->data['Action']['period'];
-            $chartType = $this->request->data['Action']['chart'];
-            $reportType = $this->request->data['Action']['report'];
-            $width = $this->request->data['Action']['width'];
-            $height = $this->request->data['Action']['height'];
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $period = $this->request->data['Action']['period'];
+                $chartType = $this->request->data['Action']['chart'];
+                $reportType = $this->request->data['Action']['report'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
+
+            $data = array(
+                'title' => $reportType,
+                'type' => $chartType,
+                'width' => $width,
+                'height' => $height
+            );
+            if($chartType = ('bar' || 'column')) {
+                $data['isStacked'] = true;
+            }
+            $results = $this->getTaskTypeData($period);
+            $data = array_merge($data,$results);
+
+            $this->set('data', $data);
         }
-
-        $data = array(
-            'title' => $reportType,
-            'type' => $chartType,
-            'width' => $width,
-            'height' => $height
-        );
-        if($chartType = ('bar' || 'column')) {
-            $data['isStacked'] = true;
-        }
-        $results = $this->getTaskTypeData($period);
-        $data = array_merge($data,$results);
-
-        $this->set('data', $data);
-
     }
 
     /**
