@@ -53,7 +53,7 @@
 <div class="related">
 	<h3><?php echo __('Related Groups'); ?></h3>
 	<?php if (!empty($system['Group'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Sysid'); ?></th>
@@ -94,7 +94,7 @@
 <div class="related">
 	<h3><?php echo __('Related Modules'); ?></h3>
 	<?php if (!empty($system['Module'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Sysid'); ?></th>
@@ -135,7 +135,7 @@
 <div class="related">
 	<h3><?php echo __('Related Users'); ?></h3>
 	<?php if (!empty($system['User'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Sysid'); ?></th>

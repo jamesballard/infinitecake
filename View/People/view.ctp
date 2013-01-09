@@ -80,7 +80,7 @@
 <div class="related">
 	<h3><?php echo __('Related Positions'); ?></h3>
 	<?php if (!empty($person['Position'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Idnumber'); ?></th>
@@ -121,7 +121,7 @@
 <div class="related">
 	<h3><?php echo __('Related Rules'); ?></h3>
 	<?php if (!empty($person['Rule'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Name'); ?></th>
@@ -164,7 +164,7 @@
 <div class="related">
 	<h3><?php echo __('Related Users'); ?></h3>
 	<?php if (!empty($person['User'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Sysid'); ?></th>
@@ -201,7 +201,7 @@
 <div class="related">
 	<h3><?php echo __('Related Communities'); ?></h3>
 	<?php if (!empty($person['Community'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Idnumber'); ?></th>

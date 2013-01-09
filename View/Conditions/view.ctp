@@ -36,7 +36,7 @@
 <div class="related">
 	<h3><?php echo __('Related Rules'); ?></h3>
 	<?php if (!empty($condition['Rule'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Name'); ?></th>
@@ -92,7 +92,7 @@
 <div class="related">
 	<h3><?php echo __('Related Actions'); ?></h3>
 	<?php if (!empty($condition['Action'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Name'); ?></th>
@@ -133,7 +133,7 @@
 <div class="related">
 	<h3><?php echo __('Related Verbs'); ?></h3>
 	<?php if (!empty($condition['DimensionVerb'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('System Name'); ?></th>

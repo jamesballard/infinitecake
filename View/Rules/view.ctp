@@ -67,7 +67,7 @@
 <div class="related">
 	<h3><?php echo __('Related Conditions'); ?></h3>
 	<?php if (!empty($rule['Condition'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Name'); ?></th>
