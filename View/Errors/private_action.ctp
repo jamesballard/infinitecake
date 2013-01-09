@@ -17,12 +17,9 @@
  */
 ?>
 <div class="alert alert-error">
-<h4><?php echo $name; ?></h4>
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php echo __d('cake', 'An Internal Error Has Occurred.'); ?>
+<h4><?php echo __d('cake_dev', 'Private Method in %s', $controller); ?></h4>
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', '%s%s cannot be accessed directly.', '<em>' . $controller . '::</em>', '<em>' . $action . '()</em>'); ?>
 </div>
-<?php
-if (Configure::read('debug') > 0 ):
-	echo $this->element('exception_stack_trace');
-endif;
-?>
+
+<?php echo $this->element('exception_stack_trace'); ?>

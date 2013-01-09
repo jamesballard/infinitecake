@@ -17,12 +17,13 @@
  */
 ?>
 <div class="alert alert-error">
-<h4><?php echo $name; ?></h4>
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php echo __d('cake', 'An Internal Error Has Occurred.'); ?>
+<h4><?php echo __d('cake_dev', 'Missing Database Connection'); ?></h4>
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', 'Scaffold requires a database connection'); ?>
 </div>
-<?php
-if (Configure::read('debug') > 0 ):
-	echo $this->element('exception_stack_trace');
-endif;
-?>
+<div class="alert alert-block">
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', 'Confirm you have created the file: %s', APP_DIR . DS . 'Config' . DS . 'database.php'); ?>
+</div>
+
+<?php echo $this->element('exception_stack_trace'); ?>

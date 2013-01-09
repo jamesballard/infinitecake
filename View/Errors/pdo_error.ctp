@@ -17,12 +17,19 @@
  */
 ?>
 <div class="alert alert-error">
-<h4><?php echo $name; ?></h4>
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php echo __d('cake', 'An Internal Error Has Occurred.'); ?>
+<h4><?php echo __d('cake_dev', 'Database Error'); ?></h4>
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo h($error->getMessage()); ?>
 </div>
-<?php
-if (Configure::read('debug') > 0 ):
-	echo $this->element('exception_stack_trace');
-endif;
-?>
+<?php if (!empty($error->queryString)) : ?>
+	<div class="alert alert-block">
+		<strong><?php echo __d('cake_dev', 'SQL Query'); ?>: </strong>
+		<?php echo  $error->queryString; ?>
+	</div>
+<?php endif; ?>
+<?php if (!empty($error->params)) : ?>
+		<strong><?php echo __d('cake_dev', 'SQL Query Params'); ?>: </strong>
+		<?php echo  Debugger::dump($error->params); ?>
+<?php endif; ?>
+
+<?php echo $this->element('exception_stack_trace'); ?>

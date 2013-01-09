@@ -21,14 +21,14 @@
 echo $this->Html->css('error');
 ?>
 <div class="container">
-    <h1>Not found <span>:(</span></h1>
-    <p class="error">
+    <div class="alert alert-error">
+	<h4>Not found <span>:(</span></h4>
         <strong><?php echo __d('cake', 'Error'); ?>: </strong>
         <?php printf(
         __d('cake', 'The requested address %s was not found on this server.'),
         "<strong>'{$url}'</strong>"
     ); ?>
-    </p>
+    </h4>
     <p>Sorry, but the page you were trying to view does not exist.</p>
     <p>It looks like this was the result of either:</p>
     <ul>

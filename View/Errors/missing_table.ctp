@@ -17,12 +17,9 @@
  */
 ?>
 <div class="alert alert-error">
-<h4><?php echo $name; ?></h4>
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php echo __d('cake', 'An Internal Error Has Occurred.'); ?>
+	<h4><?php echo __d('cake_dev', 'Missing Database Table'); ?></h4>
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', 'Table %1$s for model %2$s was not found in datasource %3$s.', '<em>' . $table . '</em>',  '<em>' . $class . '</em>', '<em>' . $ds . '</em>'); ?>
 </div>
-<?php
-if (Configure::read('debug') > 0 ):
-	echo $this->element('exception_stack_trace');
-endif;
-?>
+
+<?php echo $this->element('exception_stack_trace'); ?>

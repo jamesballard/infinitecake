@@ -17,12 +17,13 @@
  */
 ?>
 <div class="alert alert-error">
-<h4><?php echo $name; ?></h4>
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php echo __d('cake', 'An Internal Error Has Occurred.'); ?>
+<h4><?php echo __d('cake_dev', 'Missing View'); ?></h4>
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', 'The view for %1$s%2$s was not found.', '<em>' . Inflector::camelize($this->request->controller) . 'Controller::</em>', '<em>' . $this->request->action . '()</em>'); ?>
 </div>
-<?php
-if (Configure::read('debug') > 0 ):
-	echo $this->element('exception_stack_trace');
-endif;
-?>
+<div class="alert alert-block">
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', 'Confirm you have created the file: %s', $file); ?>
+</div>
+
+<?php echo $this->element('exception_stack_trace'); ?>

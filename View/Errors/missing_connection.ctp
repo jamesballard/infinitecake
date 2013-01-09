@@ -17,12 +17,22 @@
  */
 ?>
 <div class="alert alert-error">
-<h4><?php echo $name; ?></h4>
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php echo __d('cake', 'An Internal Error Has Occurred.'); ?>
+<h4><?php echo __d('cake_dev', 'Missing Database Connection'); ?></h4>
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', 'A Database connection using "%s" was missing or unable to connect. ', $class); ?>
+	<br />
+	<?php
+	if (isset($message)):
+		echo __d('cake_dev', 'The database server returned this error: %s', $message);
+	endif;
+	?>
 </div>
+<?php if (!$enabled) : ?>
+<div class="alert alert-block">
+	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
+	<?php echo __d('cake_dev', '%s driver is NOT enabled', $class); ?>
+</div>
+<?php endif; ?>
+
 <?php
-if (Configure::read('debug') > 0 ):
-	echo $this->element('exception_stack_trace');
-endif;
-?>
+echo $this->element('exception_stack_trace');
