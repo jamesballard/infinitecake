@@ -17,6 +17,7 @@
  */
 
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+$url = $this->request->here;
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -58,10 +59,10 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			<p id="tagline">Learner Enhanced Technology</p>
 		</div>
 		<div id="menu">
-      <ul>
-        <li class="first"><?php echo $this->Html->link('Overall Statistics', '/stats'); ?></li>
-        <li><?php echo $this->Html->link('Course Profile', '/courseprofile'); ?></li>
-        <li><?php echo $this->Html->link('User Profile', '/userprofile'); ?></li>
+      <ul class="nav nav-pills">
+        <li class="first<?php echo (preg_match("/Stats/", $url))? ' active' : ''?>"><?php echo $this->Html->link('Overall Statistics', '/Stats'); ?></li>
+        <li<?php echo (preg_match("/Courseprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('Course Profile', '/Courseprofile'); ?></li>
+        <li<?php echo (preg_match("/Userprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/Userprofile'); ?></li>
       </ul>
     </div>
 		<div id="content">
