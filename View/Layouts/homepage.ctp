@@ -34,10 +34,14 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
         echo $this->Html->css('normalize');
         echo $this->Html->css('main');
+        echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('jquery-ui');
-        echo $this->Html->css('cake.generic');
+        echo $this->Html->css('infiniterooms');
 
         echo $this->Html->script('modernizr');
+        echo $this->Html->script('jquery');
+        echo $this->Html->script('jquery-ui');
+        echo $this->Html->script('bootstrap.min');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
