@@ -7,6 +7,20 @@ This is the initial Cake PHP version setup for the site
 
 http://cakephp.org/
 
+## Git ignore global ##
+
+```
+# CakePHP files #
+#######################
+tmp/*
+[Cc]onfig/core.php
+[Cc]onfig/database.php
+app/tmp/*
+app/[Cc]onfig/core.php
+app/[Cc]onfig/database.php
+!empty
+```
+
 ## Branching Strategy
 
 Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
