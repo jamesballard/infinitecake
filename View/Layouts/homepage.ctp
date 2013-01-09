@@ -68,7 +68,6 @@ $url = $this->request->here;
 		<div class="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
-            Boo
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

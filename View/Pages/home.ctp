@@ -22,44 +22,97 @@ App::uses('Debugger', 'Utility');
 ?>
 <div class="row-fluid">
   <div class="span12">
-    <h3>Hello <?php echo $current_user['Member']['firstname']; ?>,</h3>
-    <div class="row-fluid">
-      <div class="span6">
-        Fluid 6
-        <div class="row-fluid">
-          <div class="span6">Fluid 6</div>
-          <div class="span6">Fluid 6</div>
-        </div>
-      </div>
-      <div class="span6">Fluid 6</div>
-    </div>
+    <h3>Hi, <?php echo $current_user['Member']['firstname']; ?>!</h3>
+    
+    <?php
+    //Print the main analytics navigation for all user 
+    if(in_array($current_user['Membership']['id'], array(1,2,3))) { ?>
+	    <div class="row-fluid">	
+	        <div class="row-fluid">
+	          <div class="span4 hero-unit analytics">
+	          	<div class="">
+				  <h2>Site</h2>
+				  <p>View overall site reports</p>
+				  <p>
+				    <a href="/Stats" class="btn btn-primary btn-large">
+				      View
+				    </a>
+				  </p>
+				</div>
+	          </div>
+	          <div class="span4 hero-unit analytics">
+	          	<div class="">
+				  <h2>Course</h2>
+				  <p>Individual course profiles.</p>
+				  <p>
+				    <a href="/Courseprofile" class="btn btn-primary btn-large">
+				      View
+				    </a>
+				  </p>
+				</div>
+	          </div>
+	          <div class="span4 hero-unit analytics">
+	          	<div class="">
+				  <h2>User</h2>
+				  <p>User profiles</p>
+				  <p>
+				    <a href="/Userprofile" class="btn btn-primary btn-large">
+				      View
+				    </a>
+				  </p>
+				</div>
+	          </div>
+	      </div>
+	    </div>
+	<?php } ?>
+	
+	
+    <?php
+    //Print the configuration management navigation for admin and managers 
+    if(in_array($current_user['Membership']['id'], array(1,2))) { ?>
+	    <div class="row-fluid">	
+	      <div class="span8 well well-small">
+	        <h4>Configure Reports</h4>
+	        <div class="row-fluid">
+	          <div class="span6 well well-large"><?php echo $this->Html->link('Rules', '/Rules', array('class' => 'btn')); ?></div>
+	          <div class="span6 well well-large"><?php echo $this->Html->link('Conditions', '/Conditions', array('class' => 'btn')); ?></div>
+	        </div>
+	      </div>
+	      <div class="span4 well well-small">
+	        <h4>Add Accounts</h4>
+	        <div class="row-fluid">
+	          <div class="span12 well well-large"><?php echo $this->Html->link('Members', '/Members', array('class' => 'btn')); ?></div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="row-fluid">	
+	      <div class="span12 well well-small">
+	        <h4>Manage System Data</h4>
+	        <div class="row-fluid">
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Systems', '/Systems', array('class' => 'btn')); ?></div>
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Users', '/Users', array('class' => 'btn')); ?></div>
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Groups', '/Groups', array('class' => 'btn')); ?></div>
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Modules', '/Modules', array('class' => 'btn')); ?></div>
+	        </div>
+	      </div>
+	    </div>
+	<?php } ?>
+	
+	<?php 
+	//Print the administration navigation for admin only
+    if(in_array($current_user['Membership']['id'], array(1))) { ?>
+	    <div class="row-fluid">	
+	      <div class="span12 well">
+	        <h4>Adminsitration</h4>
+	        <div class="row-fluid">
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Customers', '/Customers', array('class' => 'btn')); ?></div>
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Memberships', '/Memberships', array('class' => 'btn')); ?></div>
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Artefacts', '/Artefacts', array('class' => 'btn')); ?></div>
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Verbs', '/DimensionVerbs', array('class' => 'btn')); ?></div>
+	        </div>
+	      </div>
+	    </div>
+	<?php } ?>
+	
   </div>
 </div>
-<h3><?php echo __d('cake_dev', 'Editing this Page'); ?></h3>
-<p>
-<?php
-echo __d('cake_dev', 'To change the content of this page, edit: APP/View/Pages/home.ctp.<br />
-To change its layout, edit: APP/View/Layouts/default.ctp.<br />
-You can also add some CSS styles for your pages at: APP/webroot/css.');
-?>
-</p>
-
-<h3><?php echo __d('cake_dev', 'Getting Started'); ?></h3>
-<p>
-	<?php
-		echo $this->Html->link(
-			sprintf('<strong>%s</strong> %s', __d('cake_dev', 'New'), __d('cake_dev', 'CakePHP 2.0 Docs')),
-			'http://book.cakephp.org/2.0/en/',
-			array('target' => '_blank', 'escape' => false)
-		);
-	?>
-</p>
-<p>
-	<?php
-		echo $this->Html->link(
-			__d('cake_dev', 'The 15 min Blog Tutorial'),
-			'http://book.cakephp.org/2.0/en/tutorials-and-examples/blog/blog.html',
-			array('target' => '_blank', 'escape' => false)
-		);
-	?>
-</p>
