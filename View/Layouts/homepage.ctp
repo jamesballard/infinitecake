@@ -65,7 +65,7 @@ $url = $this->request->here;
         <li<?php echo (preg_match("/Userprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/Userprofile'); ?></li>
       </ul>
     </div>
-		<div id="content">
+		<div class="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
             Boo

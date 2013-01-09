@@ -95,12 +95,11 @@ p#tagline {
 	color: #fff !important
 }
 
-#left-sidebar {
+.content{
     background: url(../img/a3.gif) repeat-x;
-    clear: both;
-    float:left;
-    padding: 15px 20px 40px 5px;
-    min-width: 250px;
+	color: #333;
+	padding: 15px 20px 40px 20px;
+	overflow: auto;
 }
 
 .ui-accordion .ui-accordion-icons {
@@ -110,12 +109,6 @@ p#tagline {
     padding-left: 20px;
 }
 
-#content{
-    background: url(../img/a3.gif) repeat-x;
-	color: #333;
-	padding: 15px 20px 40px 20px;
-	overflow: auto;
-}
 #footer {
 	clear: both;
 	padding: 6px 10px;

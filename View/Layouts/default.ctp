@@ -66,26 +66,32 @@ $url = $this->request->here;
         <li<?php echo (preg_match("/Userprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/Userprofile'); ?></li>
       </ul>
     </div>
-        <div id="left-sidebar">
-        <?php
-            echo $this->menuBuilder->build('left-menu');
-            echo $this->Html->scriptBlock(
-                '$(function() {
-                    $( "#left-menu" ).accordion({
-                        collapsible: true,
-                    });
-                });'
-            );
-            //TODO - open accordion at correct point
-            echo $this->Html->scriptBlock(
-                '$( "#left-menu" ).accordion("activate" , "li.active");'
-            );
-        ?>
-        </div>
-		<div id="content">
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->fetch('content'); ?>
-		</div>
+    <div class="container-fluid content">
+		  <div class="row-fluid">
+			    <div class="span2">
+			      <!--Sidebar content-->
+			      <?php
+			            echo $this->menuBuilder->build('left-menu');
+			            echo $this->Html->scriptBlock(
+			                '$(function() {
+			                    $( "#left-menu" ).accordion({
+			                        collapsible: true,
+			                    });
+			                });'
+			            );
+			            //TODO - open accordion at correct point
+			            echo $this->Html->scriptBlock(
+			                '$( "#left-menu" ).accordion("activate" , "li.active");'
+			            );
+			      ?>
+			    </div>
+			    <div class="span10">
+				    <!--Body content-->
+				    <?php echo $this->Session->flash(); ?>
+					<?php echo $this->fetch('content'); ?>
+			    </div>
+		  </div>
+	</div>
 		<div id="footer">
 			<?php echo $this->Html->link(
 					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
