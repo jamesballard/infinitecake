@@ -20,6 +20,21 @@ if (Configure::read('debug') == 0):
 endif;
 App::uses('Debugger', 'Utility');
 ?>
+<div class="row-fluid">
+  <div class="span12">
+    <h3>Hello <?php echo $current_user['Member']['firstname']; ?>,</h3>
+    <div class="row-fluid">
+      <div class="span6">
+        Fluid 6
+        <div class="row-fluid">
+          <div class="span6">Fluid 6</div>
+          <div class="span6">Fluid 6</div>
+        </div>
+      </div>
+      <div class="span6">Fluid 6</div>
+    </div>
+  </div>
+</div>
 <h3><?php echo __d('cake_dev', 'Editing this Page'); ?></h3>
 <p>
 <?php
