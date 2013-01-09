@@ -55,7 +55,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link('Infinite Rooms', '/'); ?></h1>
-			<p id="tagline">Learner Enhanced Technologies</p>
+			<p id="tagline">Learner Enhanced Technology</p>
 		</div>
 		<div id="menu">
       <ul>

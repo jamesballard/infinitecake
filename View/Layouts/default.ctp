@@ -26,7 +26,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Infinite Rooms: Learner Enhanced Technologies</title>
+	<title>Infinite Rooms: Learner Enhanced Technology</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 	<?php
