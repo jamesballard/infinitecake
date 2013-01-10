@@ -22,7 +22,7 @@ if(preg_match("/Userprofile/", $url)) {
   <?php echo $this->Html->link('Location', array('controller' => $this->name, 'action' => 'location')); ?>
 </li>
 <li<?php echo (preg_match("/modules/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Tools', array('controller' => $this->name, 'action' => 'modules')); ?>
+  <?php echo $this->Html->link('Modules', array('controller' => $this->name, 'action' => 'modules')); ?>
 </li>
 <li<?php echo (preg_match("/tasktype/", $url))? ' class="active"' : ''?>>
   <?php echo $this->Html->link('Task Type', array('controller' => $this->name, 'action' => 'tasktype')); ?>
