@@ -1,5 +1,10 @@
 <?php
 
+$this->start('sidebar');
+echo $this->element('reportSidebar');
+echo $this->element('helpSidebar');
+$this->end();
+
 echo $this->DrasticTreeMap->init('chart_div');
 echo $this->DrasticTreeMap->visualize('chart_div', $data);
 

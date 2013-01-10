@@ -69,26 +69,19 @@ $url = $this->request->here;
     <div class="container-fluid content">
 		  <div class="row-fluid">
 			    <div class="span2">
-			      <!--Sidebar content-->
-			      <?php
-			            echo $this->menuBuilder->build('left-menu');
-			            echo $this->Html->scriptBlock(
-			                '$(function() {
-			                    $( "#left-menu" ).accordion({
-			                        collapsible: true,
-			                    });
-			                });'
-			            );
-			            //TODO - open accordion at correct point
-			            echo $this->Html->scriptBlock(
-			                '$( "#left-menu" ).accordion("activate" , "li.active");'
-			            );
-			      ?>
+			      <div class="sidebar">
+			        <ul class="nav nav-list">
+			          <!--Sidebar content-->
+			          <?php echo $this->fetch( 'sidebar' ); ?>
+			        </ul>
+			      </div>
 			    </div>
 			    <div class="span10">
+			      <div class="main-content">
 				    <!--Body content-->
 				    <?php echo $this->Session->flash(); ?>
 					<?php echo $this->fetch('content'); ?>
+				  </div>
 			    </div>
 		  </div>
 	</div>

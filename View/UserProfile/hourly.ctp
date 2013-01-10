@@ -1,5 +1,10 @@
 <?php
 
+$this->start('sidebar');
+echo $this->element('reportSidebar');
+echo $this->element('helpSidebar');
+$this->end();
+
 echo $this->Html->image('pchart/clock.php?dayData='.$dayData.'&nightData='.$nightData.'&height='.$height.'&width='.$width);
 
 echo '<div style="width:400px">';

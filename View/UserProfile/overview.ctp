@@ -1,5 +1,10 @@
 <?php
 
+$this->start('sidebar');
+echo $this->element('reportSidebar');
+echo $this->element('helpSidebar');
+$this->end();
+
 $this->Html->script('https://www.google.com/jsapi', false);
 echo $this->GChart->start('chart_div');
 echo $this->GChart->visualize('chart_div', $data);

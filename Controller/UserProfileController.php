@@ -79,6 +79,14 @@ class UserprofileController extends AppController {
     public function location() {
 
     }
+    
+    public function stream() {
+    
+    }
+    
+    public function help() {
+    
+    }
 
     public function hourly() {
         $userid = $this->Session->read('Profile.user');

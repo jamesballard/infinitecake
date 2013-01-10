@@ -1,17 +1,5 @@
 @charset "utf-8";
 
-/** Link Colour **/
-
-a {
-	color: #003d4c;
-	text-decoration: none;
-	font-weight: bold;
-}
-a:hover {
-	color: #367889;
-	text-decoration:none;
-}
-
 /** Layout **/
 
 #container {
@@ -42,7 +30,7 @@ p#tagline {
     font-size: 90%;
 }
 
-/* Menu */
+/* Top Menu */
 
 #menu
 {
@@ -101,6 +89,12 @@ p#tagline {
 	padding: 15px 20px 40px 20px;
 	overflow: auto;
 }
+
+/* Side Menu */
+.sidebar li i {
+	float: left;
+ 	margin-right: 3px;
+} 
 
 .ui-accordion .ui-accordion-icons {
     padding-left: 30px;

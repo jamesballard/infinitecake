@@ -1,3 +1,4 @@
+<?php $this->layout = 'homepage'; ?>
 <h2>Login</h2>
 <?php
 echo $this->Form->create('Member', array('url' => array('controller' => 'members', 'action' => 'login')));
