@@ -49,34 +49,30 @@ class StatsController extends AppController {
 
     }
 
-    public function hourly() {
-        //Set defaults
-        $report = 'sum';
-        $width = 750;
-        $height = 500;
+	public function hourly() {
+            $report = 'sum';
+            $width = 750;
+            $height = 500;
 
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $report = $this->request->data['Action']['report'];
-            $width = $this->request->data['Action']['width'];
-            $height = $this->request->data['Action']['height'];
-        }
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $report = $this->request->data['Action']['report'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
 
-        $this->set('width', $width);
-        $this->set('height', $height);
+            $this->set('width', $width);
+            $this->set('height', $height);
 
-        $userid = $this->Session->read('Profile.user');
+            $dayData = $this->FactSummedActionsDatetime->getHourStats('day', $report, array());
+            $dayData = base64_encode(serialize($dayData));
 
-        $dayData = $this->ActionByUserHour->getHourStats('day', $report, array());
-        $dayData = base64_encode(serialize($dayData));
+            $this->set('dayData', $dayData);
 
-        $this->set('dayData', $dayData);
+            $nightData = $this->FactSummedActionsDatetime->getHourStats('night', $report, array());
+            $nightData = base64_encode(serialize($nightData));
 
-        $nightData = $this->ActionByUserHour->getHourStats('night', $report, array());
-        $nightData = base64_encode(serialize($nightData));
-
-        $this->set('nightData', $nightData);
-
+            $this->set('nightData', $nightData);
     }
 
     public function location() {

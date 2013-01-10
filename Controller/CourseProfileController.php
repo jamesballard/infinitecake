@@ -79,34 +79,39 @@ class CourseprofileController extends AppController {
     	}
     }
 
-    public function hourly() {
-        //Set defaults
-        $report = 'sum';
-        $width = 750;
-        $height = 500;
+	public function hourly() {
+        $groupid = $this->Session->read('Profile.group');
+        if(!$groupid) {
+            $this->Session->setFlash(__('No group selected'));
+            $this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
+        }else{
+            //Set defaults
+            $report = 'sum';
+            $width = 750;
+            $height = 500;
 
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $report = $this->request->data['Action']['report'];
-            $width = $this->request->data['Action']['width'];
-            $height = $this->request->data['Action']['height'];
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $report = $this->request->data['Action']['report'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
+
+            $this->set('width', $width);
+            $this->set('height', $height);
+
+            $userid = $this->Session->read('Profile.group');
+
+            $dayData = $this->FactSummedActionsDatetime->getHourStats('day', $report, array('group_id'=>$groupid));
+            $dayData = base64_encode(serialize($dayData));
+
+            $this->set('dayData', $dayData);
+
+            $nightData = $this->FactSummedActionsDatetime->getHourStats('night', $report, array('group_id'=>$groupid));
+            $nightData = base64_encode(serialize($nightData));
+
+            $this->set('nightData', $nightData);
         }
-
-        $this->set('width', $width);
-        $this->set('height', $height);
-
-        $groupid = $this->Session->read('Profile.course');
-
-        $dayData = $this->ActionByUserHour->getHourStats('day', $report, array('group'=>$groupid));
-        $dayData = base64_encode(serialize($dayData));
-
-        $this->set('dayData', $dayData);
-
-        $nightData = $this->ActionByUserHour->getHourStats('night', $report, array('group'=>$groupid));
-        $nightData = base64_encode(serialize($nightData));
-
-        $this->set('nightData', $nightData);
-
     }
 
     public function location() {
