@@ -81,20 +81,25 @@ class StatsController extends AppController {
 
     public function modules() {
         //Set defaults
-        $reportType = 'Activity';
-        $width = 750;
-        $height = 500;
+            $reportType = 'Activity';
+            $system = 0;
+            $width = 750;
+            $height = 500;
 
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $reportType = $this->request->data['MdlLog']['report'];
-            $width = $this->request->data['MdlLog']['width'];
-            $height = $this->request->data['MdlLog']['height'];
-        }
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $system = $this->request->data['Action']['system'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
 
-        $this->set('width', $width);
-        $this->set('height', $height);
-        $this->set('data', $this->getModuleData($reportType));
+            $this->set('width', $width);
+            $this->set('height', $height);
+            $this->set('data', $this->getModuleData($system));
+
+            $systems = array(0=>'All');
+            $systems = array_merge($systems, $this->FactSummedActionsDatetime->System->find('list'));
+            $this->set(compact('systems'));
 
     }
 
@@ -172,15 +177,7 @@ class StatsController extends AppController {
      */
 
     private function getModuleData($system) {
-        $groupid = $this->Session->read('Profile.group');
-        $group_ids = $this->Group->find('list', array(
-                'conditions' => array('group_id' => $groupid), //array of conditions
-                'recursive' => -1, //int
-                'fields' => array('Group.id'), //array of field names
-            )
-        );
-
-        $conditions = array('group_id'=>$group_ids);
+        $conditions = array();
         if($system > 0) {
             $conditions = array_merge($conditions,array('FactSummedActionsDatetime.system_id' => $system));
         }

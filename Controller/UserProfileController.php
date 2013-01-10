@@ -137,10 +137,10 @@ class UserprofileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $reportType = $this->request->data['MdlUser']['report'];
-                $system = $this->request->data['MdlUser']['system'];
-                $width = $this->request->data['MdlUser']['width'];
-                $height = $this->request->data['MdlUser']['height'];
+                $reportType = $this->request->data['Action']['report'];
+                $system = $this->request->data['Action']['system'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
             }
 
             $this->set('width', $width);
