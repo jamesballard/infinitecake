@@ -10,7 +10,7 @@ class UserprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'Person', 'User', 'FactSummedActionsDatetime', 'FactUserVerbRuleDatetime');
+    var $uses = array('Action', 'Person', 'User', 'FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime');
 
     public function index() {
         //Create selected user as session variable.            
@@ -181,7 +181,7 @@ class UserprofileController extends AppController {
                 'width' => $width,
                 'height' => $height
             );
-            if($chartType = ('bar' || 'column')) {
+            if($chartType == ('bar' || 'column')) {
                 $data['isStacked'] = true;
             }
             $results = $this->getTaskTypeData($period);
@@ -272,19 +272,19 @@ class UserprofileController extends AppController {
             case 'day':
                 $interval = 'P1D';
                 $dateFormat = "d-M-y";
-                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'week':
                 $interval = 'P1W';
                 $dateFormat = 'W-o';
-                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'month':
                 $interval = 'P1M';
                 $dateFormat = "M-y";
-                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
+                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array('user_id'=>$userid), $interval, $dateFormat);
                 return $data;
                 break;
         }
