@@ -115,6 +115,12 @@ p#tagline {
 	text-align: right;
 }
 
+/* jQuery UI */
+
+.ui-autocomplete-loading {
+    background: white url('../img/ajax-loader.gif') right center no-repeat;
+}
+
 /* SQL log */
 .cake-sql-log {
 	background: #fff;

@@ -6,32 +6,31 @@
  * Time: 21:37
  */
 class UserprofileController extends AppController {
-    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
+    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'Person', 'User', 'FactSummedActionsDate', 'FactSummedActionsDatetime', 'FactUserVerbRuleDate');
+    var $uses = array('Action', 'Person', 'User', 'FactSummedActionsDatetime', 'FactUserVerbRuleDatetime');
 
     public function index() {
-        //Create selected user as session variable.
+        //Create selected user as session variable.            
+        $userid = $this->Session->read('Profile.user');
         if ($this->request->is('post')) {
-            $user = $this->request->data['Action']['user'];
-            $this->set('user',$user);
+            $user = $this->request->data['Action']['userid'];
+            $this->set('userid',$user);
             $this->Session->write('Profile.user', $user);
-        }elseif($userid = $this->Session->read('Profile.user')){
-            $this->set('user', $userid);
+        }elseif($userid){
+            $this->set('userid', $userid);
         }else{
-            $this->set('user','');
+            $this->set('userid','');
         }
-        $users = $this->Person->find('list');
-		$this->set(compact('users'));
     }
 
     public function overview() {
         $userid = $this->Session->read('Profile.user');
         if(!$userid) {
             $this->Session->setFlash(__('No user selected'));
-            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+            $this->redirect(array('controller' => 'Userprofile', 'action' => ''));
         }else{
             //Set defaults
             $period = 'month';
@@ -76,7 +75,7 @@ class UserprofileController extends AppController {
         $userid = $this->Session->read('Profile.user');
         if(!$userid) {
             $this->Session->setFlash(__('No user selected'));
-            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+            $this->redirect(array('controller' => 'Userprofile', 'action' => ''));
         }else{
             //Set defaults
             $report = 'sum';
@@ -111,7 +110,7 @@ class UserprofileController extends AppController {
         $userid = $this->Session->read('Profile.user');
         if(!$userid) {
             $this->Session->setFlash(__('No user selected'));
-            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+            $this->redirect(array('controller' => 'Userprofile', 'action' => ''));
         }else{
             //Set defaults
             $reportType = 'Activity';
@@ -141,7 +140,7 @@ class UserprofileController extends AppController {
         $userid = $this->Session->read('Profile.user');
         if(!$userid) {
             $this->Session->setFlash(__('No user selected'));
-            $this->redirect(array('controller' => 'userprofile', 'action' => ''));
+            $this->redirect(array('controller' => 'Userprofile', 'action' => ''));
         }else{
             //Set defaults
             $period = 'month';

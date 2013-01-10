@@ -76,6 +76,7 @@ CakePlugin::load('DrasticTreeMap');
 CakePlugin::load('GChart');
 CakePlugin::load('MenuBuilder');
 CakePlugin::load('Chosen');
+CakePlugin::load('autoComplete');
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:

@@ -90,7 +90,7 @@ App::uses('Debugger', 'Utility');
 	        <h4>Manage System Data</h4>
 	        <div class="row-fluid">
 	          <div class="span3 well well-large"><?php echo $this->Html->link('Systems', '/Systems', array('class' => 'btn')); ?></div>
-	          <div class="span3 well well-large"><?php echo $this->Html->link('Users', '/Users', array('class' => 'btn')); ?></div>
+	          <div class="span3 well well-large"><?php echo $this->Html->link('Users', '/People', array('class' => 'btn')); ?></div>
 	          <div class="span3 well well-large"><?php echo $this->Html->link('Groups', '/Groups', array('class' => 'btn')); ?></div>
 	          <div class="span3 well well-large"><?php echo $this->Html->link('Modules', '/Modules', array('class' => 'btn')); ?></div>
 	        </div>
