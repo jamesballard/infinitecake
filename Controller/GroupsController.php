@@ -104,6 +104,18 @@ class GroupsController extends AppController {
 		$this->Session->setFlash(__('Group was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	public function jsonfeed() {
+		$groups = $this->Group->find('all',array(
+				'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%', 'type' => 1), //array of conditions
+				'recursive' => -1, //int
+				'fields' => array('idnumber AS label','id AS value'), //array of field names
+		)
+		);
+		$groups = Set::extract('/Group/.', $groups);
+	
+		return new CakeResponse(array('body' => json_encode($groups)));
+	}
 
 /**
  * admin_index method

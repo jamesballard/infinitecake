@@ -107,7 +107,7 @@ class PeopleController extends AppController {
 					    'fields' => array('idnumber AS label','id AS value'), //array of field names
 					)
 				);
-		$users = Set::extract('./Person/.', $users);		
+		$users = Set::extract('/Person/.', $users);		
 	
 		return new CakeResponse(array('body' => json_encode($users)));
 	}

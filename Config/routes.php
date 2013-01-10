@@ -32,6 +32,11 @@
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 /**
+ * Connect the stats controller to the overview page as there is no select index.
+ */
+	Router::connect('/Stats', array('controller' => 'stats', 'action' => 'overview'));
+
+/**
  * Load all plugin routes.  See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */

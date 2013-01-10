@@ -6,46 +6,46 @@
  * Time: 20:50
  */
 class StatsController extends AppController {
-    public $helpers = array('Html', 'Form', 'Session', 'GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
+    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'ActionByUserDay', 'ActionByUserWeek', 'ActionByUserMonth', 'ActionByUserHour');
+    var $uses = array('Action', 'FactSummedActionsDatetime', 'FactUserVerbRuleDatetime');
+       
+	public function overview() {
+    		//Set defaults
+	        $period = 'month';
+	        $chartType = 'area';
+	        $reportType = 'Activity';
+	        $system = 0;
+	        $width = 750;
+	        $height = 500;
 
-    public function index() {
+    		//Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $period = $this->request->data['Action']['period'];
+                $chartType = $this->request->data['Action']['chart'];
+                $reportType = $this->request->data['Action']['report'];
+                $system = $this->request->data['Action']['system'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
 
-    }
+	        $data = array(
+	            'title' => $reportType,
+	            'type' => $chartType,
+	            'width' => $width,
+	            'height' => $height
+	        );
+        	
+	        $results = $this->getOverviewData($period, $system);
+            $data = array_merge($data,$results);
 
-    public function overview() {
+            $systems = array(0=>'All');
+            $systems = array_merge($systems, $this->FactSummedActionsDatetime->System->find('list'));
+            $this->set(compact('systems'));
 
-        //Set defaults
-
-        $period = 'month';
-        $chartType = 'area';
-        $reportType = 'Activity';
-        $width = 750;
-        $height = 500;
-
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $period = $this->request->data['Action']['period'];
-            $chartType = $this->request->data['Action']['chart'];
-            $reportType = $this->request->data['Action']['report'];
-            $width = $this->request->data['Action']['width'];
-            $height = $this->request->data['Action']['height'];
-        }
-
-        $data = array(
-            'title' => $reportType,
-            'type' => $chartType,
-            'width' => $width,
-            'height' => $height
-        );
-
-        $results = $this->getOverviewData($period);
-        $data = array_merge($data,$results);
-
-        $this->set('data', $data);
+            $this->set('data', $data);
 
     }
 
@@ -135,7 +135,7 @@ class StatsController extends AppController {
 
     }
 
-    /**
+        /**
      * Contructs and returns Overview data.
      *
      * @param integer $period De termines how data will be grouped
@@ -143,23 +143,28 @@ class StatsController extends AppController {
      * @return array Data for chart
      */
 
-    private function getOverviewData($period) {
-        $courseid = $this->Session->read('Profile.course');
-
+    private function getOverviewData($period, $system) {
         switch($period) {
             case 'day':
-                $data = $this->ActionByUserDay->getPeriodCountGchart(array());
-                return $data;
-                break;
+                $interval = 'P1D';
+                $dateFormat = "d-M";
+            break;
             case 'week':
-                $data = $this->ActionByUserWeek->getPeriodCountGchart(array());
-                return $data;
-                break;
+                $interval = 'P1W';
+                $dateFormat = 'W';
+            break;
             case 'month':
-                $data = $this->ActionByUserMonth->getPeriodCountGchart(array());
-                return $data;
-                break;
+                $interval = 'P1M';
+                $dateFormat = "M";
+            break;
         }
+
+        $conditions = array();
+        if($system > 0) {
+            $conditions = array_merge($conditions,array('FactSummedActionsDatetime.system_id' => $system));
+        }
+        $data = $this->FactSummedActionsDatetime->getPeriodCountGchart($conditions, $interval, $dateFormat);
+        return $data;
     }
 
     /**
@@ -170,8 +175,20 @@ class StatsController extends AppController {
      * @return array Data for chart
      */
 
-    private function getModuleData() {
-        $data = $this->ActionByUserMonth->getModuleCountTreemap(array());
+    private function getModuleData($system) {
+        $groupid = $this->Session->read('Profile.group');
+        $group_ids = $this->Group->find('list', array(
+                'conditions' => array('group_id' => $groupid), //array of conditions
+                'recursive' => -1, //int
+                'fields' => array('Group.id'), //array of field names
+            )
+        );
+
+        $conditions = array('group_id'=>$group_ids);
+        if($system > 0) {
+            $conditions = array_merge($conditions,array('FactSummedActionsDatetime.system_id' => $system));
+        }
+        $data = $this->FactSummedActionsDatetime->getModuleCountTreemap($conditions);
         return $data;
     }
 
@@ -184,21 +201,28 @@ class StatsController extends AppController {
      */
 
     private function getTaskTypeData($period) {
+        $groupid = $this->Session->read('Profile.group');
+
         switch($period) {
             case 'day':
-                $data = $this->ActionByUserDay->getTaskTypeCountGchart(array());
+                $interval = 'P1D';
+                $dateFormat = "d-M-y";
+                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'week':
-                $data = $this->ActionByUserWeek->getTaskTypeCountGchart(array());
+                $interval = 'P1W';
+                $dateFormat = 'W-o';
+                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'month':
-                $data = $this->ActionByUserMonth->getTaskTypeCountGchart(array());
+                $interval = 'P1M';
+                $dateFormat = "M-y";
+                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
                 return $data;
                 break;
         }
     }
-
 }
 
