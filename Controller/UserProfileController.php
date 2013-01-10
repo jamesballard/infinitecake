@@ -17,12 +17,21 @@ class UserprofileController extends AppController {
         $userid = $this->Session->read('Profile.user');
         if ($this->request->is('post')) {
             $user = $this->request->data['Action']['userid'];
-            $this->set('userid',$user);
+            $this->set('userid', $user);
+            $this->set('userdefault', $user);
             $this->Session->write('Profile.user', $user);
         }elseif($userid){
-            $this->set('userid', $userid);
+        	$selecteduser = $this->Person->find('first',array(
+	        			'conditions' => array('id'=>$userid), //array of conditions
+	        			'recursive' => -1, //int
+	        			'fields' => array('idnumber'), //array of field names
+	        		)
+        	);
+        	$this->set('userid', $userid);
+            $this->set('userdefault', $selecteduser['Person']['idnumber']);
         }else{
-            $this->set('userid','');
+        	$this->set('userid','');
+            $this->set('userdefault','');
         }
     }
 
