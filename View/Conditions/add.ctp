@@ -5,6 +5,7 @@
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('value');
+		echo $this->Form->input('type', array( 'value' => 1 , 'type' => 'hidden') );
 		echo $this->Form->input('Rule');
         echo $this->Chosen->select(
             'DimensionVerb',
