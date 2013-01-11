@@ -99,7 +99,7 @@ class FactSummedVerbRuleDatetime extends AppModel {
 	 */
 	function getVerbRuleCount($rule, $filter, $interval, $dateFormat) {
 		$interval = new DateInterval($interval);
-		$begin = new DateTime(date('Y-08-01', strtotime("-1 year")));
+		$begin = new DateTime(date('Y-08-01', strtotime("-3 years")));
 		$end = new DateTime( date('Y-m-d',time()));
 		$daterange = new DatePeriod($begin, $interval, $end);
 	

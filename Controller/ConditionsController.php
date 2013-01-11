@@ -14,6 +14,9 @@ class ConditionsController extends AppController {
  */
 	public function index() {
 		$this->Condition->recursive = 0;
+		$this->paginate = array(
+			'conditions' => array('Condition.type !=' => 2),
+		);
 		$this->set('conditions', $this->paginate());
 	}
 

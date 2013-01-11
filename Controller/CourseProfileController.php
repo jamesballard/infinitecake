@@ -12,7 +12,7 @@ class CourseprofileController extends AppController {
     public $components = array('Session');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'Group', 'FactSummedActionsDatetime', 'FactUserVerbRuleDatetime');
+    var $uses = array('Action', 'Group', 'FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime');
 
     public function index() {
      //Create selected group as session variable.            
@@ -113,12 +113,22 @@ class CourseprofileController extends AppController {
             $this->set('nightData', $nightData);
         }
     }
+    
+    public function stream() {
+    
+    }
+    
 
     public function location() {
 
     }
 
-public function modules() {
+    public function help() {
+    
+    }
+    
+    
+	public function modules() {
         $groupid = $this->Session->read('Profile.group');
         if(!$groupid) {
             $this->Session->setFlash(__('No group selected'));
@@ -149,39 +159,44 @@ public function modules() {
     }
 
     public function tasktype() {
-        //Set defaults
-        $period = 'month';
-        $chartType = 'column';
-        $reportType = 'Activity';
-        $width = 750;
-        $height = 500;
+        $groupid = $this->Session->read('Profile.group');
+        if(!$groupid) {
+            $this->Session->setFlash(__('No group selected'));
+            $this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
+        }else{
+            //Set defaults
+            $period = 'month';
+            $chartType = 'column';
+            $reportType = 'Activity';
+            $width = 750;
+            $height = 500;
 
-        //Overwrite defaults if form submitted.
-        if ($this->request->is('post')) {
-            $period = $this->request->data['Action']['period'];
-            $chartType = $this->request->data['Action']['chart'];
-            $reportType = $this->request->data['Action']['report'];
-            $width = $this->request->data['Action']['width'];
-            $height = $this->request->data['Action']['height'];
+            //Overwrite defaults if form submitted.
+            if ($this->request->is('post')) {
+                $period = $this->request->data['Action']['period'];
+                $chartType = $this->request->data['Action']['chart'];
+                $reportType = $this->request->data['Action']['report'];
+                $width = $this->request->data['Action']['width'];
+                $height = $this->request->data['Action']['height'];
+            }
+
+            $data = array(
+                'title' => $reportType,
+                'type' => $chartType,
+                'width' => $width,
+                'height' => $height
+            );
+            if($chartType == ('bar' || 'column')) {
+                $data['isStacked'] = true;
+            }
+            $results = $this->getTaskTypeData($period);
+            $data = array_merge($data,$results);
+
+            $this->set('data', $data);
         }
-
-        $data = array(
-            'title' => $reportType,
-            'type' => $chartType,
-            'width' => $width,
-            'height' => $height
-        );
-        if($chartType = ('bar' || 'column')) {
-            $data['isStacked'] = true;
-        }
-        $results = $this->getTaskTypeData($period);
-        $data = array_merge($data,$results);
-
-        $this->set('data', $data);
-
     }
-
-        /**
+    
+    /**
      * Contructs and returns Overview data.
      *
      * @param integer $period De termines how data will be grouped
@@ -247,7 +262,7 @@ public function modules() {
         return $data;
     }
 
-    /**
+   /**
      * Contructs and returns Overview data.
      *
      * @param integer $period De termines how data will be grouped
@@ -262,19 +277,19 @@ public function modules() {
             case 'day':
                 $interval = 'P1D';
                 $dateFormat = "d-M-y";
-                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
+                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'week':
                 $interval = 'P1W';
                 $dateFormat = 'W-o';
-                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
+                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
                 return $data;
                 break;
             case 'month':
                 $interval = 'P1M';
                 $dateFormat = "M-y";
-                $data = $this->FactSummedActionsDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
+                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array('group_id'=>$groupid), $interval, $dateFormat);
                 return $data;
                 break;
         }
