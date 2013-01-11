@@ -147,4 +147,77 @@ class FactSummedVerbRuleDatetime extends AppModel {
 		$data = $this->transformGchartArray($results);
 		return $data;
 	}
+	
+	/**
+	 * Returns a Count for selected interval for the years available
+	 *
+	 * @param string $fields the fields intended to be counted
+	 * @param DateInterval $interval http://php.net/manual/en/class.dateinterval.php
+	 * @param string $format date format (e.g. 'M')
+	 * @return array Academic Year => Period => Count
+	 */
+	function getIPRuleCount($rule, $filter, $interval, $dateFormat) {
+		$interval = new DateInterval($interval);
+		$begin = new DateTime(date('Y-08-01', strtotime("-2 years")));
+		$end = new DateTime( date('Y-m-d',time()));
+		$daterange = new DatePeriod($begin, $interval, $end);
+	
+		$data = array();
+		foreach ($daterange as $date) {
+			//In a leap year this creates an irreconcilable offset so skip this day
+			if($date->format("d-M") != '29-Feb') {
+				$conditions = array('rule_id' => $rule);
+				$conditions = array_merge($conditions,array('DimensionDate.date >='=>$date->format("Y-m-d")));
+				$date->add($interval);
+				$conditions = array_merge($conditions,array('DimensionDate.date <'=>$date->format("Y-m-d")));
+				$conditions = array_merge($conditions,$filter);
+				//Iterate through rule condition to get count of each condition
+				$rule_conditions = $this->Condition->get_rule_conditions($rule);
+				$zero_condition = array_merge($conditions, array('condition_id' => 0));
+				foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
+					$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
+					$value = $this->find('first', array(
+							'conditions' => $conditions, //array of conditions
+							'recursive' => 0, //int
+							'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
+					)
+					);
+					if($value[0]['total']) {
+						$count = $value[0]['total'];
+					}else{
+						$count = 0;
+					}
+					$data[$rule_condition['name']][] = array((string)$date->format($dateFormat) => $count);
+				}
+				//Creates the other record for IP address with zero condition
+				$value = $this->find('first', array(
+						'conditions' => $zero_condition, //array of conditions
+						'recursive' => 0, //int
+						'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total",
+						) //array of field names
+				);
+				if($value[0]['total']) {
+					$count = $value[0]['total'];
+				}else{
+					$count = 0;
+				}
+				$data['Other'][] = array((string)$date->format($dateFormat) => $count);
+			}
+		}
+		return $data;
+	}
+	
+	/**
+	 * Returns a Count for selected interval for the years available in GChart format
+	 *
+	 * @param string $fields the fields intended to be counted
+	 * @param DateInterval $interval http://php.net/manual/en/class.dateinterval.php
+	 * @param string $format date format (e.g. 'M')
+	 * @return array Academic Year => Period => Count
+	 */
+	function getIPRuleCountGchart($rule, $filter, $interval, $dateFormat) {
+		$results = $this->getIPRuleCount($rule, $filter, $interval, $dateFormat);
+		$data = $this->transformGchartArray($results);
+		return $data;
+	}
 }

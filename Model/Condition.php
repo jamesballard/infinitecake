@@ -78,6 +78,7 @@ class Condition extends AppModel {
 
     public function get_rule_conditions($rule_id) {
         return $this->Rule->find('all', array(
+        	'recursive' => 1,
             'conditions' => array(
                 'Rule.id' => $rule_id
             ),
