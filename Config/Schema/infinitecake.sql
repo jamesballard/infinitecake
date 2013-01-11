@@ -32,7 +32,7 @@ CREATE TABLE `acos` (
   KEY `alias_ix` (`alias`),
   KEY `left` (`lft`),
   KEY `right` (`rght`)
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_conditions` */
 
@@ -48,7 +48,7 @@ CREATE TABLE `action_conditions` (
   PRIMARY KEY (`id`),
   KEY `action_ix` (`action_id`),
   KEY `condition_ix` (`condition_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5728024 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `actions` */
 
@@ -58,7 +58,7 @@ CREATE TABLE `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sysid` varchar(255) DEFAULT NULL,
   `name` varchar(60) DEFAULT NULL,
-  `time` varchar(255) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
   `system_id` int(11) unsigned DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
   `group_id` int(11) unsigned DEFAULT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE `actions` (
   KEY `group_time_ix` (`group_id`,`time`),
   KEY `module_time_ix` (`module_id`,`time`),
   KEY `verb_ix` (`dimension_verb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5795860 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5780481 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `aros` */
 
@@ -149,8 +149,9 @@ CREATE TABLE `conditions` (
   `value` varchar(255) DEFAULT NULL,
   `type` int(4) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name_type_ix` (`name`,`value`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=9372 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name_type_ix` (`name`,`value`,`type`),
+  KEY `type_ix` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=97899 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `customers` */
 
@@ -235,26 +236,7 @@ CREATE TABLE `dimension_verb_conditions` (
   PRIMARY KEY (`id`),
   KEY `verb_ix` (`dimension_verb_id`),
   KEY `condition_ix` (`condition_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `fact_summed_actions_date` */
-
-DROP TABLE IF EXISTS `fact_summed_actions_date`;
-
-CREATE TABLE `fact_summed_actions_date` (
-  `system_id` int(11) unsigned NOT NULL,
-  `group_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `artefact_id` int(11) unsigned NOT NULL,
-  `dimension_date_id` int(11) unsigned NOT NULL,
-  `total` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`artefact_id`,`dimension_date_id`,`system_id`,`group_id`),
-  KEY `user_ix` (`user_id`),
-  KEY `artefact_ix` (`artefact_id`),
-  KEY `date_ix` (`dimension_date_id`),
-  KEY `system_ix` (`system_id`),
-  KEY `group_ix` (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `fact_summed_actions_datetime` */
 
@@ -277,38 +259,27 @@ CREATE TABLE `fact_summed_actions_datetime` (
   KEY `time_ix` (`dimension_time_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-/*Table structure for table `fact_summed_verb_rule_date` */
-
-DROP TABLE IF EXISTS `fact_summed_verb_rule_date`;
-
-CREATE TABLE `fact_summed_verb_rule_date` (
-  `system_id` int(11) unsigned NOT NULL,
-  `group_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `rule_id` int(11) unsigned NOT NULL,
-  `condition_id` int(11) unsigned NOT NULL,
-  `dimension_date_id` int(11) unsigned NOT NULL,
-  `total` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`system_id`,`group_id`,`user_id`,`rule_id`,`condition_id`,`dimension_date_id`),
-  KEY `user_ix` (`user_id`),
-  KEY `date_ix` (`dimension_date_id`),
-  KEY `condition_ix` (`condition_id`),
-  KEY `rule_ix` (`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
 /*Table structure for table `fact_summed_verb_rule_datetime` */
 
 DROP TABLE IF EXISTS `fact_summed_verb_rule_datetime`;
 
 CREATE TABLE `fact_summed_verb_rule_datetime` (
   `system_id` int(11) unsigned NOT NULL,
-  `rule_id` int(11) unsigned NOT NULL,
-  `condition_id` int(11) unsigned NOT NULL,
-  `dimension_time_id` int(11) unsigned NOT NULL,
-  `total` int(11) unsigned DEFAULT NULL,
   `group_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`rule_id`,`condition_id`,`dimension_time_id`,`system_id`,`group_id`)
+  `rule_id` int(11) unsigned NOT NULL,
+  `condition_id` int(11) unsigned NOT NULL,
+  `dimension_date_id` int(11) unsigned NOT NULL,
+  `dimension_time_id` int(11) unsigned NOT NULL,
+  `total` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`system_id`,`group_id`,`user_id`,`rule_id`,`condition_id`,`dimension_date_id`,`dimension_time_id`),
+  KEY `system_ix` (`system_id`),
+  KEY `group_ix` (`group_id`),
+  KEY `user_ix` (`user_id`),
+  KEY `rule_ix` (`rule_id`),
+  KEY `condition_ix` (`condition_id`),
+  KEY `date_ix` (`dimension_date_id`),
+  KEY `time_ix` (`dimension_time_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*Table structure for table `group_conditions` */
@@ -351,6 +322,9 @@ CREATE TABLE `members` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` char(40) NOT NULL,
+  `firstname` varchar(255) DEFAULT NULL,
+  `lastname` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `membership_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -428,6 +402,7 @@ DROP TABLE IF EXISTS `persons`;
 
 CREATE TABLE `persons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idnumber` varchar(255) DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `gender` varchar(255) DEFAULT NULL,
@@ -439,8 +414,9 @@ CREATE TABLE `persons` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `customer_idnumber` (`customer_id`,`idnumber`),
   KEY `customer_ix` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34641 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roles` */
 
@@ -474,7 +450,7 @@ CREATE TABLE `rule_conditions` (
   PRIMARY KEY (`id`),
   KEY `rule_ix` (`rule_id`),
   KEY `condition_ix` (`condition_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `rules` */
 
@@ -491,7 +467,7 @@ CREATE TABLE `rules` (
   PRIMARY KEY (`id`),
   KEY `artefact_ix` (`type`),
   KEY `community_ix` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `systems` */
 
@@ -548,7 +524,7 @@ BEGIN
   DECLARE system_id_val INT(11);
   DECLARE group_id_val INT(11);
   DECLARE artefact_id_val INT(11);
-  DECLARE time_val INT(11);
+  DECLARE time_val DATETIME;
   DECLARE user_id_val INT(11);
   DECLARE module_id_val INT(11);
   -- Declare variables used just for cursor and loop control
@@ -559,8 +535,8 @@ BEGIN
   DECLARE actions_cur CURSOR FOR
     SELECT `time`, `user_id`, `group_id`, `module_id` 
     FROM infinitecake.actions
-    WHERE `time` > UNIX_TIMESTAMP(timestart)
-      AND `time` < UNIX_TIMESTAMP(timeend);
+    WHERE `time` > timestart
+      AND `time` < timeend;
   -- Declare 'handlers' for exceptions
   DECLARE CONTINUE HANDLER FOR NOT FOUND
     SET no_more_rows = TRUE;
@@ -585,11 +561,11 @@ BEGIN
     -- Get dimension ids     
     SELECT id INTO time_id_val
 	  FROM dimension_time
-	  WHERE fulltime = FROM_UNIXTIME(time_val, '%H:%i:%s');
+	  WHERE fulltime = DATE_FORMAT(time_val, '%H:%i:00');
 	
     SELECT id INTO date_id_val
 	  FROM dimension_date
-	  WHERE DATE = FROM_UNIXTIME(time_val, '%Y-%m-%d');
+	  WHERE DATE = DATE_FORMAT(time_val, '%Y-%m-%d');
 	  
     SELECT artefact_id INTO artefact_id_val
           FROM modules
@@ -598,18 +574,107 @@ BEGIN
     SELECT system_id INTO system_id_val
           FROM users
           WHERE id = user_id_val;
+          
     -- Update fact aggregation tables
-    INSERT INTO fact_summed_actions_date (system_id, group_id, user_id, artefact_id, dimension_date_id, total)
-	    VALUES (system_id_val, group_id_val, user_id_val, artefact_id_val, dimension_verb_id_val, date_id_val, 1)
-	    ON DUPLICATE KEY
-	    UPDATE total = total+1;
-	
-    INSERT INTO fact_summed_actions_date (system_id, group_id, user_id, artefact_id, dimension_date_id, dimension_time_id, total)
-	    VALUES (system_id_val, group_id_val, user_id_val, artefact_id_val, dimension_verb_id_val, date_id_val, time_id_val, 1)
+    INSERT INTO fact_summed_actions_datetime (system_id, group_id, user_id, artefact_id, dimension_date_id, dimension_time_id, total)
+	    VALUES (system_id_val, group_id_val, user_id_val, artefact_id_val, date_id_val, time_id_val, 1)
 	    ON DUPLICATE KEY
 	    UPDATE total = total+1;
     -- count the number of times looped
     SET loop_cntr = loop_cntr + 1;
+  END LOOP the_loop;
+  -- 'print' the output so we can see they are the same
+  SELECT num_rows, loop_cntr;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `aggregrate_summed_ip_conditions` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `aggregrate_summed_ip_conditions` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `aggregrate_summed_ip_conditions`(
+  IN timestart DATETIME,
+  IN timeend DATETIME,
+  IN rule_id_val INT(11)
+)
+    MODIFIES SQL DATA
+BEGIN
+  /*
+    All 'DECLARE' statements must come first
+  */
+ 
+  -- Declare '_val' variables to read in each record from the cursor
+  DECLARE time_id_val INT(11);
+  DECLARE date_id_val INT(11);
+  DECLARE time_val DATETIME;
+  DECLARE system_id_val INT(11);
+  DECLARE group_id_val INT(11);
+  DECLARE user_id_val INT(11);
+  DECLARE condition_id_val INT(11);
+  DECLARE action_id_val INT(11);
+  -- Declare variables used just for cursor and loop control
+  DECLARE no_more_rows BOOLEAN;
+  DECLARE inside_null BOOLEAN;
+  DECLARE loop_cntr INT DEFAULT 0;
+  DECLARE num_rows INT DEFAULT 0;
+  -- Declare the cursor
+  DECLARE actions_cur CURSOR FOR
+    SELECT `time`, `system_id`, `user_id`, `group_id`, `id` 
+    FROM infinitecake.actions
+    WHERE `time` > timestart
+      AND `time` < timeend;
+      
+  -- Declare 'handlers' for exceptions
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_rows = TRUE;
+  
+  /*
+    Now the programming logic
+  */ 
+  -- 'open' the cursor and capture the number of rows returned
+  -- (the 'select' gets invoked when the cursor is 'opened')
+  OPEN actions_cur;
+  SELECT FOUND_ROWS() INTO num_rows;
+  the_loop: LOOP   
+    FETCH  actions_cur
+    INTO   time_val, system_id_val, user_id_val, group_id_val, action_id_val;
+    -- break out of the loop if
+      -- 1) there were no records, or
+      -- 2) we've processed them all
+    IF no_more_rows THEN
+        CLOSE actions_cur;
+        LEAVE the_loop;
+    END IF;
+    
+    -- Get dimension ids  
+    SELECT id INTO time_id_val
+	  FROM dimension_time
+	  WHERE fulltime = DATE_FORMAT(time_val, '%H:%i:00');
+	   
+    SELECT id INTO date_id_val
+	  FROM dimension_date
+	  WHERE `date` = DATE_FORMAT(time_val, '%Y-%m-%d');
+    
+    SET condition_id_val = (SELECT IFNULL((SELECT c1.id
+	FROM conditions c1
+	LEFT JOIN rule_conditions rc ON rc.condition_id = c1.id
+	LEFT JOIN conditions c2 ON c2.value LIKE c1.value AND c2.name = 'IP address'
+	LEFT JOIN action_conditions ac ON ac.condition_id = c2.id
+	WHERE ac.action_id = action_id_val
+	AND rc.rule_id = rule_id_val)
+	, 0));
+         
+    IF condition_id_val IS NOT NULL THEN
+        -- Update fact aggregation tables
+        INSERT INTO fact_summed_verb_rule_datetime (system_id, group_id, user_id, rule_id, condition_id, dimension_date_id, dimension_time_id, total)
+	    VALUES (system_id_val, group_id_val, user_id_val, rule_id_val, condition_id_val, date_id_val, time_id_val, 1)
+	    ON DUPLICATE KEY
+	    UPDATE total = total+1;
+    END IF;
+    -- count the number of times looped
+    SET loop_cntr = loop_cntr + 1;
+    
   END LOOP the_loop;
   -- 'print' the output so we can see they are the same
   SELECT num_rows, loop_cntr;
@@ -623,19 +688,20 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `aggregrate_summed_verb_conditions`(
-  IN timestart DATE,
-  IN timeend DATE,
-  IN rule_id INT(11)
+  IN timestart DATETIME,
+  IN timeend DATETIME,
+  IN rule_id_val INT(11)
 )
     MODIFIES SQL DATA
 BEGIN
   /*
     All 'DECLARE' statements must come first
   */
+ 
   -- Declare '_val' variables to read in each record from the cursor
   DECLARE time_id_val INT(11);
   DECLARE date_id_val INT(11);
-  DECLARE time_val INT(11);
+  DECLARE time_val DATETIME;
   DECLARE system_id_val INT(11);
   DECLARE group_id_val INT(11);
   DECLARE user_id_val INT(11);
@@ -648,13 +714,14 @@ BEGIN
   DECLARE num_rows INT DEFAULT 0;
   -- Declare the cursor
   DECLARE actions_cur CURSOR FOR
-    SELECT `time`, `user_id`, `group_id`, `dimension_verb_id` 
+    SELECT `time`, `system_id`, `user_id`, `group_id`, `dimension_verb_id` 
     FROM infinitecake.actions
-    WHERE `time` > UNIX_TIMESTAMP(timestart)
-      AND `time` < UNIX_TIMESTAMP(timeend);
+    WHERE `time` > timestart
+      AND `time` < timeend;
+      
   -- Declare 'handlers' for exceptions
-  DECLARE CONTINUE HANDLER FOR NOT FOUND
-    SET no_more_rows = TRUE;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_rows = TRUE;
+  
   /*
     Now the programming logic
   */ 
@@ -662,9 +729,9 @@ BEGIN
   -- (the 'select' gets invoked when the cursor is 'opened')
   OPEN actions_cur;
   SELECT FOUND_ROWS() INTO num_rows;
-  the_loop: LOOP
+  the_loop: LOOP   
     FETCH  actions_cur
-    INTO   time_val, user_id_val, group_id_val, dimension_verb_id_val;
+    INTO   time_val, system_id_val, user_id_val, group_id_val, dimension_verb_id_val;
     -- break out of the loop if
       -- 1) there were no records, or
       -- 2) we've processed them all
@@ -674,43 +741,101 @@ BEGIN
     END IF;
     
     -- Get dimension ids  
-    BEGIN 
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET inside_null = 1;  
     SELECT id INTO time_id_val
 	  FROM dimension_time
-	  WHERE fulltime = FROM_UNIXTIME(time_val, '%H:%i:%s');
+	  WHERE fulltime = DATE_FORMAT(time_val, '%H:%i:00');
 	   
     SELECT id INTO date_id_val
 	  FROM dimension_date
-	  WHERE DATE = FROM_UNIXTIME(time_val, '%Y-%m-%d');
-	  
-    SELECT system_id INTO system_id_val
-          FROM users
-          WHERE id = user_id_val;
-	     
-    SELECT c.id INTO condition_id_val
-          FROM conditions c, dimension_verb_conditions vc, rule_conditions rc 
-	  WHERE vc.condition_id = c.id
-	  AND rc.condition_id = c.id 
-	  AND vc.dimension_verb_id = dimension_verb_id_val
-	  AND rc.rule_id = rule_id;
-    END;
+	  WHERE `date` = DATE_FORMAT(time_val, '%Y-%m-%d');
+    
+    SET condition_id_val = (SELECT c.id  
+          FROM conditions c
+          LEFT JOIN dimension_verb_conditions vc ON vc.condition_id = c.id
+          LEFT JOIN rule_conditions rc ON rc.condition_id = c.id
+	  WHERE vc.dimension_verb_id = dimension_verb_id_val
+	  AND rc.rule_id = rule_id_val
+	);
       
     IF condition_id_val IS NOT NULL THEN
         -- Update fact aggregation tables
-        INSERT INTO fact_user_verb_rule_date (system_id, group_id, user_id, rule_id, condition_id, dimension_date_id, total)
-	    VALUES (system_id_val, group_id_val, user_id_val, rule_id, condition_id_val, date_id_val, 1)
-	    ON DUPLICATE KEY
-	    UPDATE total = total+1;
-	
-        INSERT INTO fact_user_verb_rule_time (system_id, group_id, user_id, rule_id, condition_id, dimension_date_id, dimension_time_id, total)
-	    VALUES (system_id_val, group_id_val, user_id_val, rule_id, condition_id_val, date_id_val, time_id_val, 1)
+        INSERT INTO fact_summed_verb_rule_datetime (system_id, group_id, user_id, rule_id, condition_id, dimension_date_id, dimension_time_id, total)
+	    VALUES (system_id_val, group_id_val, user_id_val, rule_id_val, condition_id_val, date_id_val, time_id_val, 1)
 	    ON DUPLICATE KEY
 	    UPDATE total = total+1;
     END IF;
     -- count the number of times looped
     SET loop_cntr = loop_cntr + 1;
     
+  END LOOP the_loop;
+  -- 'print' the output so we can see they are the same
+  SELECT num_rows, loop_cntr;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `map_users_to_person` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `map_users_to_person` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `map_users_to_person`(
+  IN customer_id INT(11)
+)
+    MODIFIES SQL DATA
+BEGIN
+  /*
+    All 'DECLARE' statements must come first
+  */
+  -- Declare '_val' variables to read in each record from the cursor
+  DECLARE user_id_val INT(11);  
+  DECLARE user_idnumber_val VARCHAR(255);
+  DECLARE system_id_val INT(11);
+  DECLARE person_id_val INT(11);
+  -- Declare variables used just for cursor and loop control
+  DECLARE no_more_rows BOOLEAN;
+  DECLARE loop_cntr INT DEFAULT 0;
+  DECLARE num_rows INT DEFAULT 0;
+  -- Declare the cursor
+  DECLARE users_cur CURSOR FOR
+    SELECT u.`id`, u.`idnumber`, u.`system_id`, u.`person_id` 
+    FROM infinitecake.users u
+    LEFT JOIN infinitecake.systems s ON s.id = u.system_id
+    WHERE s.customer_id = customer_id;
+  -- Declare 'handlers' for exceptions
+  DECLARE CONTINUE HANDLER FOR NOT FOUND
+    SET no_more_rows = TRUE;
+  /*
+    Now the programming logic
+  */
+  -- 'open' the cursor and capture the number of rows returned
+  -- (the 'select' gets invoked when the cursor is 'opened')
+  OPEN users_cur;
+  SELECT FOUND_ROWS() INTO num_rows;
+  the_loop: LOOP
+    FETCH  users_cur
+    INTO   user_id_val, user_idnumber_val, system_id_val, person_id_val;
+    -- break out of the loop if
+      -- 1) there were no records, or
+      -- 2) we've processed them all
+    IF no_more_rows THEN
+        CLOSE users_cur;
+        LEAVE the_loop;
+    END IF;
+    
+    -- Update fact aggregation tables
+    INSERT INTO persons (idnumber, customer_id, created, modified)
+	VALUES (user_idnumber_val, customer_id, NOW(), NOW())
+	ON DUPLICATE KEY
+	UPDATE id = LAST_INSERT_ID(id);
+    
+    -- Get dimension ids     
+    UPDATE users 
+    SET person_id = LAST_INSERT_ID()
+    WHERE id = user_id_val;
+    
+    -- count the number of times looped
+    SET loop_cntr = loop_cntr + 1;
   END LOOP the_loop;
   -- 'print' the output so we can see they are the same
   SELECT num_rows, loop_cntr;
