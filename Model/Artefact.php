@@ -9,6 +9,8 @@ App::uses('AppModel', 'Model');
  * @property Rule $Rule
  */
 class Artefact extends AppModel {
+	
+	public $actsAs = array('Containable');
 
 //Define Artefact Types
     const ARTEFACT_TYPE_ASSESSMENT = 1;

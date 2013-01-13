@@ -115,7 +115,52 @@ class UserprofileController extends AppController {
     }
     
     public function stream() {
-    
+    	$userid = $this->Session->read('Profile.user');
+    	if(!$userid) {
+    		$this->Session->setFlash(__('No user selected'));
+    		$this->redirect(array('controller' => 'Userprofile', 'action' => ''));
+    	}else{
+    		//Set defaults
+    		$actions = $this->Action->find('all', array(
+    				'contain' => array(
+			            'User' => array(
+			                'fields' => array(
+			                    'User.idnumber'
+			                    )
+			                ),
+			            'Group' => array(
+			                'fields' => array(
+			                    'Group.name',
+			                    'Group.idnumber'
+			                    )
+			                ),
+			            'Module' => array(
+    								'Artefact' => array(
+    										'fields' => array('id', 'name'),
+    										
+    								)
+			            		),
+			            'DimensionVerb' => array(
+			                'fields' => array(
+			                    'DimensionVerb.name'
+			                    )
+			                )
+    					),
+    				'conditions' => array('user_id' => $userid, 
+    						'time >'=>date("Y-m-d", strtotime('-6 months'))
+    						),
+    				'order' => array('time' => 'DESC')
+    				)
+    			);
+    		$this->set('actions', $actions);
+    		$selecteduser = $this->Person->find('first',array(
+    				'conditions' => array('id'=>$userid), //array of conditions
+    				'contain' => false, //int
+    				'fields' => array('idnumber'), //array of field names
+    		)
+    		);
+    		$this->set('userid',  $selecteduser['Person']['idnumber']);
+    	}    
     }
     
     public function help() {

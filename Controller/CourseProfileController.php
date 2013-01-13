@@ -115,7 +115,53 @@ class CourseprofileController extends AppController {
     }
     
     public function stream() {
-    
+    	$groupid = $this->Session->read('Profile.group');
+    	if(!$groupid) {
+    		$this->Session->setFlash(__('No user selected'));
+    		$this->redirect(array('controller' => 'Userprofile', 'action' => ''));
+    	}else{
+    		//Set defaults
+    		$actions = $this->Action->find('all', array(
+    				'contain' => array(
+			            'User' => array(
+			                'fields' => array(
+			                    'User.idnumber'
+			                    )
+			                ),
+			            'Group' => array(
+			                'fields' => array(
+			                    'Group.name',
+			                    'Group.idnumber'
+			                    )
+			                ),
+			            'Module' => array(
+    								'Artefact' => array(
+    										'fields' => array('id', 'name'),
+    										
+    								)
+			            		),
+			            'DimensionVerb' => array(
+			                'fields' => array(
+			                    'DimensionVerb.name'
+			                    )
+			                )
+    					),
+    				'conditions' => array('Action.group_id' => $groupid, 
+    						'time >'=>date("Y-m-d", strtotime('-3 months'))
+    						),
+    				'order' => array('time' => 'DESC'),
+    				'limit' => 1000
+    				)
+    			);
+    		$this->set('actions', $actions);
+    		$selecteduser = $this->Group->find('first',array(
+    				'conditions' => array('id'=>$groupid), //array of conditions
+    				'contain' => false, //int
+    				'fields' => array('idnumber'), //array of field names
+    		)
+    		);
+    		$this->set('groupid',  $selecteduser['Group']['idnumber']);
+    	}    
     }
     
 

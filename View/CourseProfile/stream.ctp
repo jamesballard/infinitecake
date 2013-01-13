@@ -6,7 +6,7 @@ echo $this->element('helpSidebar');
 $this->end();
 
 ?>
-<h2>Activity Stream for <?php echo $userid; ?></h2>
+<h2>Activity Stream for <?php echo $groupid; ?></h2>
 <ul id="activity_stream_example" class="activity-stream">
 <?php foreach($actions as $action) { ?> 
   <li class="activity scroll" data-activity-id="50f22dbf7421a" style="">
@@ -17,7 +17,7 @@ $this->end();
       <div class="content">
         <div class="activity-row">
           <span class="user-name">
-            <a class="screen-name" title="&lt;em&gt;Anon&lt;/em&gt;"><em><?php echo $action['Group']['name']; ?></em></a>
+            <a class="screen-name" title="&lt;em&gt;Anon&lt;/em&gt;"><em><?php echo $action['User']['idnumber']; ?></em></a>
           </span>
         </div>
         <div class="activity-row">

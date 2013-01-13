@@ -38,6 +38,7 @@ $url = $this->request->here;
         echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('jquery-ui');
         echo $this->Html->css('infiniterooms');
+        echo $this->Html->css('activity-stream');
       
 
         echo $this->Html->script('modernizr');

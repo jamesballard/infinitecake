@@ -76,7 +76,37 @@ class StatsController extends AppController {
     }
 
     public function stream() {
-    
+    		//Set defaults
+    		$actions = $this->Action->find('all', array(
+    			'contain' => array(
+    				'User' => array(
+    					'fields' => array(
+    						'User.idnumber'
+    					)
+    				),
+    				'Group' => array(
+    					'fields' => array(
+    						'Group.name',
+    						'Group.idnumber'
+    					)
+    				),
+    				'Module' => array(
+    					'Artefact' => array(
+    						'fields' => array('id', 'name'),
+	    				)
+    				),
+    				'DimensionVerb' => array(
+    					'fields' => array(
+    						'DimensionVerb.name'
+    					)
+    				)
+    			),
+    			'conditions' => array('time >'=>date("Y-m-d", strtotime('-5 month'))),
+    			'order' => array('time' => 'DESC'),
+    			'limit' => 1000
+    		)
+    	); 
+		$this->set('actions', $actions);
     }
     
 

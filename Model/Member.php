@@ -13,6 +13,7 @@ class Member extends AppModel {
  * @var string
  */
     public $displayField = 'firstname';
+   
 
 /**
  * Validation rules

@@ -19,7 +19,7 @@ class FactSummedActionsDatetime extends AppModel {
  */
 	public $useTable = 'fact_summed_actions_datetime';
 
-    public $actsAs = array('Academicperiod', 'Gchart');
+    public $actsAs = array('Containable', 'Academicperiod', 'Gchart');
 
 /**
  * Primary key field

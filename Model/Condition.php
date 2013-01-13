@@ -8,6 +8,8 @@ App::uses('AppModel', 'Model');
  * @property User $User
  */
 class Condition extends AppModel {
+	
+	public $actsAs = array('Containable');
 
 //Define Artefact Types
     const CONDITION_TYPE_USER = 1; //This has been created by a user through GUI.

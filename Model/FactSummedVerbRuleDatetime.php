@@ -20,7 +20,7 @@ class FactSummedVerbRuleDatetime extends AppModel {
  */
 	public $useTable = 'fact_summed_verb_rule_datetime';
 	
-	public $actsAs = array('Academicperiod', 'Gchart');
+	public $actsAs = array('Containable', 'Academicperiod', 'Gchart');
 
 /**
  * Display field
