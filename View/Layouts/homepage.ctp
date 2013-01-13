@@ -17,6 +17,7 @@
  */
 
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+$url = $this->request->here;
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -34,10 +35,15 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
         echo $this->Html->css('normalize');
         echo $this->Html->css('main');
+        echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('jquery-ui');
-        echo $this->Html->css('cake.generic');
+        echo $this->Html->css('infiniterooms');
 
         echo $this->Html->script('modernizr');
+        echo $this->Html->script('jquery');
+        echo $this->Html->script('jquery-ui');
+        echo $this->Html->script('bootstrap.min');
+        echo $this->Html->script('activity-stream');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -51,19 +57,18 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link('Infinite Rooms', '/'); ?></h1>
-			<p id="tagline">Learner Enhanced Technologies</p>
+			<p id="tagline">Learner Enhanced Technology</p>
 		</div>
 		<div id="menu">
-      <ul>
-        <li class="first"><?php echo $this->Html->link('Overall Statistics', '/stats'); ?></li>
-        <li><?php echo $this->Html->link('Course Profile', '/courseprofile'); ?></li>
-        <li><?php echo $this->Html->link('User Profile', '/userprofile'); ?></li>
+      <ul class="nav nav-pills">
+        <li class="first<?php echo (preg_match("/Stats/", $url))? ' active' : ''?>"><?php echo $this->Html->link('Overall Statistics', '/Stats'); ?></li>
+        <li<?php echo (preg_match("/Courseprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('Course Profile', '/Courseprofile'); ?></li>
+        <li<?php echo (preg_match("/Userprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/Userprofile'); ?></li>
       </ul>
     </div>
-		<div id="content">
+		<div class="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
-            Boo
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

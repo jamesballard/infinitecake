@@ -1,21 +1,32 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * FactUserActionsDate Model
+ * FactSummedActionsDatetime Model
  *
+ * @property System $System
+ * @property Group $Group
  * @property User $User
  * @property Artefact $Artefact
- * @property DimensionVerb $DimensionVerb
  * @property DimensionDate $DimensionDate
+ * @property DimensionTime $DimensionTime
  */
-class FactUserActionsDate extends AppModel {
+class FactSummedActionsDatetime extends AppModel {
 
 /**
  * Use table
  *
  * @var mixed False or table name
  */
-	public $useTable = 'fact_user_actions_date';
+	public $useTable = 'fact_summed_actions_datetime';
+
+    public $actsAs = array('Containable', 'Academicperiod', 'Gchart');
+
+/**
+ * Primary key field
+ *
+ * @var string
+ */
+	public $primaryKey = 'system_id';
 
 /**
  * Display field
@@ -24,9 +35,8 @@ class FactUserActionsDate extends AppModel {
  */
 	public $displayField = 'total';
 
-    public $actsAs = array('Academicperiod', 'Gchart');
 
-//The Associations below have been created with all possible keys, those that are not needed can be removed
+	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -34,6 +44,20 @@ class FactUserActionsDate extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
+		'System' => array(
+			'className' => 'System',
+			'foreignKey' => 'system_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Group' => array(
+			'className' => 'Group',
+			'foreignKey' => 'group_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
@@ -48,16 +72,16 @@ class FactUserActionsDate extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'DimensionVerb' => array(
-			'className' => 'DimensionVerb',
-			'foreignKey' => 'dimension_verb_id',
+		'DimensionDate' => array(
+			'className' => 'DimensionDate',
+			'foreignKey' => 'dimension_date_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'DimensionDate' => array(
-			'className' => 'DimensionDate',
-			'foreignKey' => 'dimension_date_id',
+		'DimensionTime' => array(
+			'className' => 'DimensionTime',
+			'foreignKey' => 'dimension_time_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -92,7 +116,7 @@ class FactUserActionsDate extends AppModel {
                     $value = $this->find('first', array(
                             'conditions' => $conditions, //array of conditions
                             'recursive' => 0, //int
-                            'fields' => "SUM(FactUserActionsDate.total) as total", //array of field names
+                            'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
                         )
                     );
                     //Cache::write($cacheName, $value, 'long');
@@ -138,6 +162,7 @@ class FactUserActionsDate extends AppModel {
         $daterange = $this->getAcademicPeriod($start[0]['start'], $interval);
 
         $data = array();
+        $artefacts = $this->Artefact->getArtefacts();
         foreach ($daterange as $year=>$range) {
             foreach($range as $date) {
                 $conditions = array('DimensionDate.date >='=>$date->format("Y-m-d"));
@@ -146,12 +171,12 @@ class FactUserActionsDate extends AppModel {
                 $conditions = array_merge($conditions,$filter);
                 $date->sub($interval);
                 //Iterate through modules to get count of each per category
-                foreach ($this->Artefact->getArtefacts() as $artefact) {
-                    $conditions = array_merge($conditions, array('FactUserActionsDate.artefact_id' => $artefact['Artefact']['id']));
+                foreach ($artefacts as $artefact) {
+                    $conditions = array_merge($conditions, array('FactSummedActionsDatetime.artefact_id' => $artefact['Artefact']['id']));
                     $value = $this->find('first', array(
                             'conditions' => $conditions, //array of conditions
                             'recursive' => 0, //int
-                            'fields' => "SUM(FactUserActionsDate.total) as total", //array of field names
+                            'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
                         )
                     );
                     if($value[0]['total']) {
@@ -181,4 +206,58 @@ class FactUserActionsDate extends AppModel {
         return $data;
     }
 
+    private $dayHours = array(13,14,15,16,17,18,19,8,9,10,11,12);
+    private $nightHours = array(1,2,3,4,5,6,7,20,21,22,23,0);
+
+    public function getHourStats($period, $report, $filter) {
+
+        switch($period) {
+            case 'day':
+                $hours = $this->dayHours;
+                break;
+            case 'night':
+                $hours = $this->nightHours;
+                break;
+        }
+
+        switch($report) {
+            case 'sum':
+                $fields = "SUM(FactSummedActionsDatetime.total) as total";
+                break;
+            case 'avg':
+                $fields = "AVG(FactSummedActionsDatetime.total) as total";
+                break;
+            case 'min':
+                $fields = "MIN(FactSummedActionsDatetime.total) as total";
+                break;
+            case 'max':
+                $fields = "MAX(FactSummedActionsDatetime.total) as total";
+                break;
+        }
+
+        $data =array();
+        foreach ($hours as $hour) {
+            $conditions = array('DimensionTime.hour'=>$hour);
+            $conditions = array_merge($conditions,$filter);
+            //$cacheName = $reportType.'-'.$this->get_academic_year_name($start).'-'.$date->format($periodFormat);
+            //$value = Cache::read($cacheName, 'long');
+            //if (!$value) {
+            $value = $this->find('first', array(
+                    'conditions' => $conditions, //array of conditions
+                    'recursive' => 0, //int
+                    'fields' => $fields, //array of field names
+                )
+            );
+            //Cache::write($cacheName, $value, 'long');
+            //}
+            if($value[0]['total']) {
+                $count = $value[0]['total'];
+            }else{
+                $count = 0;
+            }
+
+            $data[] = $count;
+        }
+        return $data;
+    }
 }

@@ -6,6 +6,9 @@ App::uses('AppController', 'Controller');
  * @property Person $Person
  */
 class PeopleController extends AppController {
+	
+	var $helpers = array('Ajax', 'Javascript');
+	var $components = array('RequestHandler');
 
 /**
  * index method
@@ -96,6 +99,19 @@ class PeopleController extends AppController {
 		$this->Session->setFlash(__('Person was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	public function jsonfeed() {
+		$users = $this->Person->find('all',array(
+					    'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%'), //array of conditions
+					    'recursive' => -1, //int
+					    'fields' => array('idnumber AS label','id AS value'), //array of field names
+					)
+				);
+		$users = Set::extract('/Person/.', $users);		
+	
+		return new CakeResponse(array('body' => json_encode($users)));
+	}
+	
 
 /**
  * admin_index method

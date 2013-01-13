@@ -23,8 +23,9 @@ class Person extends AppModel {
  * @var string
  */
     public $displayField = 'idnumber';
-
-
+    
+    public $actsAs = array('Containable');
+    
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**

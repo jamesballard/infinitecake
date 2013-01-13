@@ -9,6 +9,8 @@ App::uses('AppModel', 'Model');
  * @property Rule $Rule
  */
 class Artefact extends AppModel {
+	
+	public $actsAs = array('Containable');
 
 //Define Artefact Types
     const ARTEFACT_TYPE_ASSESSMENT = 1;
@@ -17,7 +19,12 @@ class Artefact extends AppModel {
     const ARTEFACT_TYPE_RESOURCE = 4;
     const ARTEFACT_TYPE_OPERATION = 5;
 
-    public $validate = array('name' => 'unique');
+    public $validate = array(
+        'name' => array(
+            'rule'    => 'isUnique',
+            'message' => 'This name has already been taken.'
+        )
+    );
 
 //The Associations below have been created with all possible keys, those that are not needed can be removed
 

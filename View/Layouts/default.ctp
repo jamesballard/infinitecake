@@ -17,6 +17,7 @@
  */
 
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+$url = $this->request->here;
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -26,7 +27,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Infinite Rooms: Learner Enhanced Technologies</title>
+	<title>Infinite Rooms: Learner Enhanced Technology</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 	<?php
@@ -34,12 +35,16 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
         echo $this->Html->css('normalize');
         echo $this->Html->css('main');
+        echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('jquery-ui');
-        echo $this->Html->css('cake.generic');
+        echo $this->Html->css('infiniterooms');
+        echo $this->Html->css('activity-stream');
+      
 
         echo $this->Html->script('modernizr');
         echo $this->Html->script('jquery');
         echo $this->Html->script('jquery-ui');
+        echo $this->Html->script('bootstrap.min');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -56,32 +61,31 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			<p id="tagline">Learner Enhanced Technologies</p>
 		</div>
 		<div id="menu">
-      <ul>
-        <li class="first"><?php echo $this->Html->link('Overall Statistics', '/stats'); ?></li>
-        <li><?php echo $this->Html->link('Course Profile', '/courseprofile'); ?></li>
-        <li><?php echo $this->Html->link('User Profile', '/userprofile'); ?></li>
+      <ul class="nav nav-pills">
+        <li class="first<?php echo (preg_match("/Stats/", $url))? ' active' : ''?>"><?php echo $this->Html->link('Overall Statistics', '/Stats'); ?></li>
+        <li<?php echo (preg_match("/Courseprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('Course Profile', '/Courseprofile'); ?></li>
+        <li<?php echo (preg_match("/Userprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/Userprofile'); ?></li>
       </ul>
     </div>
-        <div id="left-sidebar">
-        <?php
-            echo $this->menuBuilder->build('left-menu');
-            echo $this->Html->scriptBlock(
-                '$(function() {
-                    $( "#left-menu" ).accordion({
-                        collapsible: true,
-                    });
-                });'
-            );
-            //TODO - open accordion at correct point
-            echo $this->Html->scriptBlock(
-                '$( "#left-menu" ).accordion("activate" , "li.active");'
-            );
-        ?>
-        </div>
-		<div id="content">
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->fetch('content'); ?>
-		</div>
+    <div class="container-fluid content">
+		  <div class="row-fluid">
+			    <div class="span2">
+			      <div class="sidebar">
+			        <ul class="nav nav-list">
+			          <!--Sidebar content-->
+			          <?php echo $this->fetch( 'sidebar' ); ?>
+			        </ul>
+			      </div>
+			    </div>
+			    <div class="span10">
+			      <div class="main-content">
+				    <!--Body content-->
+				    <?php echo $this->Session->flash(); ?>
+					<?php echo $this->fetch('content'); ?>
+				  </div>
+			    </div>
+		  </div>
+	</div>
 		<div id="footer">
 			<?php echo $this->Html->link(
 					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),

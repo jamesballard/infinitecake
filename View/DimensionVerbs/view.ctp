@@ -51,7 +51,7 @@
 <div class="related">
 	<h3><?php echo __('Related Actions'); ?></h3>
 	<?php if (!empty($dimensionVerb['Action'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Name'); ?></th>
@@ -92,7 +92,7 @@
 <div class="related">
 	<h3><?php echo __('Related Fact User Actions Dates'); ?></h3>
 	<?php if (!empty($dimensionVerb['FactUserActionsDate'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
+	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('User Id'); ?></th>
 		<th><?php echo __('Artefact Id'); ?></th>

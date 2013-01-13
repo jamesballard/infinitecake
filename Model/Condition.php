@@ -8,6 +8,8 @@ App::uses('AppModel', 'Model');
  * @property User $User
  */
 class Condition extends AppModel {
+	
+	public $actsAs = array('Containable');
 
 //Define Artefact Types
     const CONDITION_TYPE_USER = 1; //This has been created by a user through GUI.
@@ -78,6 +80,7 @@ class Condition extends AppModel {
 
     public function get_rule_conditions($rule_id) {
         return $this->Rule->find('all', array(
+        	'recursive' => 1,
             'conditions' => array(
                 'Rule.id' => $rule_id
             ),

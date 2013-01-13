@@ -21,11 +21,6 @@
 			<?php echo h($artefact['Artefact']['type']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Community Id'); ?></dt>
-		<dd>
-			<?php echo h($artefact['Artefact']['community_id']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Created'); ?></dt>
 		<dd>
 			<?php echo h($artefact['Artefact']['created']); ?>

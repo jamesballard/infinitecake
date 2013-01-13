@@ -1,4 +1,5 @@
 <?php
+App::uses('Member', 'Model');
 /**
  * Application level Controller
  *
@@ -43,14 +44,21 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $helpers = array('Html', 'Form', 'Session', 'MenuBuilder.MenuBuilder');
+    public $helpers = array('Html', 'Form', 'Session', 'MenuBuilder.MenuBuilder', 'Chosen.Chosen');
 
     //TODO - set active?
     function beforeFilter() {
         //Configure AuthComponent
         $this->Auth->loginAction = array('controller' => 'members', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'members', 'action' => 'login');
-        $this->Auth->loginRedirect = array('controller' => 'stats', 'action' => 'index');
+        $this->Auth->loginRedirect = array('controller' => '', 'action' => '');
+        
+        //Make the logged in member available to all views
+		# load current_user
+		$currentMember = new Member();
+		$currentMember->username = AuthComponent::user('username');
+		$current_user = $currentMember->find();
+		$this->set('current_user',$current_user);
 
         // Define your menu
         $menu = array(

@@ -13,7 +13,6 @@
                 Artefact::ARTEFACT_TYPE_RESOURCE => 'Resource',
                 Artefact::ARTEFACT_TYPE_OPERATION => 'Operation')
         ));
-		echo $this->Form->input('community_id', array('type' => 'select', 'options' => $communities));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
