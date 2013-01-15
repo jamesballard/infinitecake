@@ -32,7 +32,7 @@ CREATE TABLE `acos` (
   KEY `alias_ix` (`alias`),
   KEY `left` (`lft`),
   KEY `right` (`rght`)
-) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `action_conditions` */
 
@@ -67,8 +67,6 @@ CREATE TABLE `actions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `system_ix` (`sysid`,`system_id`),
   KEY `time_ix` (`time`),
-  KEY `user_ix` (`user_id`),
-  KEY `group_ix` (`group_id`),
   KEY `module_ix` (`module_id`),
   KEY `user_time_ix` (`user_id`,`time`),
   KEY `group_time_ix` (`group_id`,`time`),
@@ -160,6 +158,8 @@ DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `yearstart` datetime DEFAULT NULL,
+  `timezone` decimal(10,0) DEFAULT NULL,
   `zip` varchar(255) DEFAULT NULL,
   `lat` float DEFAULT NULL,
   `lon` float DEFAULT NULL,
@@ -325,6 +325,7 @@ CREATE TABLE `members` (
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `timezone` decimal(10,0) DEFAULT NULL,
   `membership_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -418,24 +419,6 @@ CREATE TABLE `persons` (
   KEY `customer_ix` (`customer_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=34641 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `roles` */
-
-DROP TABLE IF EXISTS `roles`;
-
-CREATE TABLE `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sysid` varchar(255) DEFAULT NULL,
-  `idnumber` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `user_id` int(11) unsigned DEFAULT NULL,
-  `group_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_ix` (`user_id`),
-  KEY `group_ix` (`group_id`),
-  KEY `role_ix` (`user_id`,`group_id`),
-  KEY `sys_user_group_ix` (`sysid`,`user_id`,`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `rule_conditions` */
 
 DROP TABLE IF EXISTS `rule_conditions`;
@@ -461,6 +444,7 @@ CREATE TABLE `rules` (
   `name` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   `type` int(2) unsigned DEFAULT NULL,
+  `category` int(2) DEFAULT NULL,
   `customer_id` int(11) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
