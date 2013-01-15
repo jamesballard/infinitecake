@@ -60,49 +60,5 @@ class AppController extends Controller {
 		$current_user = $currentMember->find();
 		$this->set('current_user',$current_user);
 
-        // Define your menu
-        $menu = array(
-            'main-menu' => array(
-                array(
-                    'title' => 'Home',
-                    'url' => array('controller' => 'pages', 'action' => 'home'),
-                ),
-                array(
-                    'title' => 'About Us',
-                    'url' => '/pages/about-us',
-                ),
-            ),
-            'left-menu' => array(
-                array(
-                    'title' => 'Involvement',
-                    'children' => array(
-                        array(
-                            'title' => 'Overview',
-                            'url' => array('controller' => $this->name, 'action' => 'overview', 3),
-                        ),
-                        array(
-                            'title' => 'Time of Day',
-                            'url' => array('controller' => $this->name, 'action' => 'hourly', 4),
-                        ),
-                    )
-                ),
-                array(
-                    'title' => 'Interaction',
-                    'children' => array(
-                        array(
-                            'title' => 'Modules',
-                            'url' => array('controller' => $this->name, 'action' => 'modules', 3),
-                        ),
-                        array(
-                            'title' => 'Task Type',
-                            'url' => array('controller' => $this->name, 'action' => 'tasktype', 4),
-                        ),
-                    )
-                ),
-            ),
-        );
-
-        // For default settings name must be menu
-        $this->set(compact('menu'));
     }
 }
