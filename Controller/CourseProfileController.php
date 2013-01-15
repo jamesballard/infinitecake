@@ -134,13 +134,10 @@ class CourseprofileController extends AppController {
 			                    'Group.idnumber'
 			                    )
 			                ),
-			            'Module' => array(
-    								'Artefact' => array(
-    										'fields' => array('id', 'name'),
-    										
-    								)
-			            		),
 			            'DimensionVerb' => array(
+			            	'Artefact' => array(
+			            		'fields' => array('name'),
+			            	),
 			                'fields' => array(
 			                    'DimensionVerb.name'
 			                    )

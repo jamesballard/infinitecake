@@ -41,7 +41,7 @@ ul.activity-stream li.test-event {
 }
 
 ul.activity-stream li div.stream-item-content {
-  padding: 10px 20px;
+  padding: 5px 20px;
   font-size: 15px;
   position: relative;
   zoom: 1;
@@ -49,10 +49,10 @@ ul.activity-stream li div.stream-item-content {
 
 ul.activity-stream li .image {
   float: left;
-  height: 48px;
+  height: 24px;
   overflow: hidden;
-  width: 48px;
-  margin-top: 3px;
+  width: 24px;
+  margin-top: 2px;
 }
 
 ul.activity-stream li .screen-name {
@@ -61,8 +61,9 @@ ul.activity-stream li .screen-name {
 }
 
 ul.activity-stream li .content {
-  margin-left: 58px;
-  min-height: 48px;
+  margin-left: 34px;
+  min-height: 24px;
+  padding: 2px;
 }
 
 ul.activity-stream li .activity-row {
