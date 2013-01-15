@@ -74,7 +74,6 @@ CakePlugin::load('AclExtras');
 CakePlugin::load('Flash');
 CakePlugin::load('DrasticTreeMap');
 CakePlugin::load('GChart');
-CakePlugin::load('MenuBuilder');
 CakePlugin::load('Chosen');
 CakePlugin::load('autoComplete');
 CakePlugin::load('infinity');
