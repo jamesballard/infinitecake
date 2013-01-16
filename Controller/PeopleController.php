@@ -101,9 +101,11 @@ class PeopleController extends AppController {
 	}
 	
 	public function jsonfeed() {
+		$current_user = $this->Session->read('current_user');
 		$users = $this->Person->find('all',array(
-					    'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%'), //array of conditions
-					    'recursive' => -1, //int
+					    'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%',
+					    		'customer_id' => $current_user['Member']['customer_id']), //array of conditions
+					    'contain' => false, //int
 					    'fields' => array('idnumber AS label','id AS value'), //array of field names
 					)
 				);
