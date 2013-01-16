@@ -58,7 +58,7 @@ class AppController extends Controller {
 		$currentMember = new Member();
 		$currentMember->username = AuthComponent::user('username');
 		$current_user = $currentMember->find();
-		$this->set('current_user',$current_user);
-
+		$this->Session->write('current_user', $current_user);
+		$this->set('current_user', $current_user);
     }
 }
