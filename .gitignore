@@ -5,3 +5,4 @@ app/config/database.php
 !empty
 controller/SamplesController.php
 /view/samples/*
+config/Schema/lcmoodle2.sql
