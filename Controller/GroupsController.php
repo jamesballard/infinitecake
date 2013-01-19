@@ -106,9 +106,11 @@ class GroupsController extends AppController {
 	}
 	
 	public function jsonfeed() {
+		$systems = AppController::get_customerSystems();
 		$groups = $this->Group->find('all',array(
-				'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%', 'type' => 1), //array of conditions
-				'recursive' => -1, //int
+				'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%', 'type' => 1,
+					    	'system_id' => array_keys($systems)), //array of conditions
+				'contain' => false, //int
 				'fields' => array('idnumber AS label','id AS value'), //array of field names
 		)
 		);

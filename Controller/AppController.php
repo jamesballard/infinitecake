@@ -1,5 +1,6 @@
 <?php
 App::uses('Member', 'Model');
+App::uses('System', 'Model');
 /**
  * Application level Controller
  *
@@ -45,6 +46,10 @@ class AppController extends Controller {
     );
 
     public $helpers = array('Html', 'Form', 'Session', 'Chosen.Chosen');
+    
+    // $uses is where you specify which models this controller uses
+    var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime');
+    
 
     //TODO - set active?
     function beforeFilter() {
@@ -60,5 +65,18 @@ class AppController extends Controller {
 		$current_user = $currentMember->find();
 		$this->Session->write('current_user', $current_user);
 		$this->set('current_user', $current_user);
+    }
+    
+    public function get_currentUser() {
+    	return $this->Session->read('current_user');
+    }
+    
+    public function get_customerSystems() {
+    	$current_user = $this->get_currentUser();
+    	$system = new System();
+    	$systems = $system->find('list', array(
+    			'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+    		));
+    	return $systems;
     }
 }

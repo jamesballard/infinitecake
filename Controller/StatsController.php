@@ -7,17 +7,19 @@
  */
 class StatsController extends AppController {
     public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
-    public $components = array('Session');
+    public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime');
-       
+    var $uses = array('Action');
+      
 	public function overview() {
+		$systems = AppController::get_customerSystems();
+
     		//Set defaults
 	        $period = 'month';
 	        $chartType = 'area';
 	        $reportType = 'Activity';
-	        $system = 0;
+	        $system = array_keys($systems);
 	        $width = 750;
 	        $height = 500;
 
@@ -37,12 +39,13 @@ class StatsController extends AppController {
 	            'width' => $width,
 	            'height' => $height
 	        );
+	        
+	        //Set query filters
+	        $conditions = $this->DataFilters->returnSystemFilter($system);
         	
-	        $results = $this->getOverviewData($period, $system);
+	        $results = $this->ProcessData->getOverviewData($period, $conditions);
             $data = array_merge($data,$results);
 
-            $systems = array(0=>'All');
-            $systems = array_merge($systems, $this->FactSummedActionsDatetime->System->find('list'));
             $this->set(compact('systems'));
 
             $this->set('data', $data);
@@ -50,32 +53,40 @@ class StatsController extends AppController {
     }
 
 	public function hourly() {
+		$systems = AppController::get_customerSystems();
             $report = 'sum';
+            $system = array_keys($systems);
             $width = 750;
             $height = 500;
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
                 $report = $this->request->data['Action']['report'];
+                $system = $this->request->data['Action']['system'];
                 $width = $this->request->data['Action']['width'];
                 $height = $this->request->data['Action']['height'];
             }
 
             $this->set('width', $width);
             $this->set('height', $height);
-
-            $dayData = $this->FactSummedActionsDatetime->getHourStats('day', $report, array());
-            $dayData = base64_encode(serialize($dayData));
+            
+            //Set query filters
+	        $conditions = $this->DataFilters->returnSystemFilter($system);
+	        
+            $dayData = $this->ProcessData->getHourlyData('day', $report, $conditions);
 
             $this->set('dayData', $dayData);
 
-            $nightData = $this->FactSummedActionsDatetime->getHourStats('night', $report, array());
-            $nightData = base64_encode(serialize($nightData));
-
+            $nightData = $this->ProcessData->getHourlyData('night', $report, $conditions);
+	        
             $this->set('nightData', $nightData);
+            
+            $this->set(compact('systems'));
     }
 
     public function stream() {
+    	$systems = AppController::get_customerSystems();
+    	$system = array_keys($systems);
     		//Set defaults
     		$actions = $this->Action->find('all', array(
     			'contain' => array(
@@ -99,17 +110,20 @@ class StatsController extends AppController {
     					)
     				)
     			),
-    			'conditions' => array('time >'=>date("Y-m-d", strtotime('-5 month'))),
+    			'conditions' => array('Action.system_id' => $system),
     			'order' => array('time' => 'DESC'),
-    			'limit' => 1000
+    			'limit' => 500
     		)
     	); 
 		$this->set('actions', $actions);
+		$this->set(compact('systems'));
     }
     
 
     public function location() {
+    	$systems = AppController::get_customerSystems();
     	//Set defaults
+    	$system = array_keys($systems);
     	$period = 'month';
     	$chartType = 'column';
     	$reportType = 'Activity';
@@ -119,6 +133,7 @@ class StatsController extends AppController {
     	//Overwrite defaults if form submitted.
     	if ($this->request->is('post')) {
     		$period = $this->request->data['Action']['period'];
+            $system = $this->request->data['Action']['system'];
     		$chartType = $this->request->data['Action']['chart'];
     		$reportType = $this->request->data['Action']['report'];
     		$width = $this->request->data['Action']['width'];
@@ -134,10 +149,14 @@ class StatsController extends AppController {
     	if($chartType == ('bar' || 'column')) {
     		$data['isStacked'] = true;
     	}
-    	$results = $this->getIPData($period);
+    	//Set query filters
+    	$conditions = $this->DataFilters->returnSystemFilter($system);
+    	
+    	$results = $this->ProcessData->getIPData($period, $conditions);
     	$data = array_merge($data,$results);
     	
     	$this->set('data', $data);
+    	$this->set(compact('systems'));
 
     }
 
@@ -146,9 +165,10 @@ class StatsController extends AppController {
     }
     
     public function modules() {
+    	$systems = AppController::get_customerSystems();
         //Set defaults
             $reportType = 'Activity';
-            $system = 0;
+            $system = array_keys($systems);
             $width = 750;
             $height = 500;
 
@@ -161,25 +181,30 @@ class StatsController extends AppController {
 
             $this->set('width', $width);
             $this->set('height', $height);
-            $this->set('data', $this->getModuleData($system));
+            
+            //Set query filters
+            $conditions = $this->DataFilters->returnSystemFilter($system);
+            
+            $this->set('data', $this->ProcessData->getModuleData($conditions));
 
-            $systems = array(0=>'All');
-            $systems = array_merge($systems, $this->FactSummedActionsDatetime->System->find('list'));
             $this->set(compact('systems'));
 
     }
 
     public function tasktype() {
+    	$systems = AppController::get_customerSystems();
         //Set defaults
-            $period = 'month';
-            $chartType = 'column';
-            $reportType = 'Activity';
-            $width = 750;
-            $height = 500;
+    	$system = array_keys($systems);
+        $period = 'month';
+        $chartType = 'column';
+        $reportType = 'Activity';
+        $width = 750;
+        $height = 500;
 
-            //Overwrite defaults if form submitted.
+        //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
                 $period = $this->request->data['Action']['period'];
+                $system = $this->request->data['Action']['system'];
                 $chartType = $this->request->data['Action']['chart'];
                 $reportType = $this->request->data['Action']['report'];
                 $width = $this->request->data['Action']['width'];
@@ -195,121 +220,15 @@ class StatsController extends AppController {
             if($chartType == ('bar' || 'column')) {
                 $data['isStacked'] = true;
             }
-            $results = $this->getTaskTypeData($period);
+            
+            //Set query filters
+            $conditions = $this->DataFilters->returnSystemFilter($system);
+            
+            $results = $this->ProcessData->getTaskTypeData($period, $conditions);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);
-    }
-
-        /**
-     * Contructs and returns Overview data.
-     *
-     * @param integer $period De termines how data will be grouped
-     * @param integer $reportType Determines fields to be counted
-     * @return array Data for chart
-     */
-
-    private function getOverviewData($period, $system) {
-        switch($period) {
-            case 'day':
-                $interval = 'P1D';
-                $dateFormat = "d-M";
-            break;
-            case 'week':
-                $interval = 'P1W';
-                $dateFormat = 'W';
-            break;
-            case 'month':
-                $interval = 'P1M';
-                $dateFormat = "M";
-            break;
-        }
-
-        $conditions = array();
-        if($system > 0) {
-            $conditions = array_merge($conditions,array('FactSummedActionsDatetime.system_id' => $system));
-        }
-        $data = $this->FactSummedActionsDatetime->getPeriodCountGchart($conditions, $interval, $dateFormat);
-        return $data;
-    }
-
-    /**
-     * Contructs and returns module treemap data.
-     *
-     * @param integer $period De termines how data will be grouped
-     * @param integer $reportType Determines fields to be counted
-     * @return array Data for chart
-     */
-
-    private function getModuleData($system) {
-        $conditions = array();
-        if($system > 0) {
-            $conditions = array_merge($conditions,array('FactSummedActionsDatetime.system_id' => $system));
-        }
-        $data = $this->FactSummedActionsDatetime->getModuleCountTreemap($conditions);
-        return $data;
-    }
-
-   /**
-     * Contructs and returns Overview data.
-     *
-     * @param integer $period De termines how data will be grouped
-     * @param integer $reportType Determines fields to be counted
-     * @return array Data for chart
-     */
-
-    private function getTaskTypeData($period) {
-        switch($period) {
-            case 'day':
-                $interval = 'P1D';
-                $dateFormat = "d-M-y";
-                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array(), $interval, $dateFormat);
-                return $data;
-                break;
-            case 'week':
-                $interval = 'P1W';
-                $dateFormat = 'W-o';
-                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array(), $interval, $dateFormat);
-                return $data;
-                break;
-            case 'month':
-                $interval = 'P1M';
-                $dateFormat = "M-y";
-                $data = $this->FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,array(), $interval, $dateFormat);
-                return $data;
-                break;
-        }
-    }
-    
-    /**
-     * Contructs and returns Overview data.
-     *
-     * @param integer $period De termines how data will be grouped
-     * @param integer $reportType Determines fields to be counted
-     * @return array Data for chart
-     */
-    
-    private function getIPData($period) {
-    	switch($period) {
-    		case 'day':
-    			$interval = 'P1D';
-    			$dateFormat = "d-M-y";
-    			$data = $this->FactSummedVerbRuleDatetime->getIPRuleCountGchart(2,array(), $interval, $dateFormat);
-    			return $data;
-    			break;
-    		case 'week':
-    			$interval = 'P1W';
-    			$dateFormat = 'W-o';
-    			$data = $this->FactSummedVerbRuleDatetime->getIPRuleCountGchart(2,array(), $interval, $dateFormat);
-    			return $data;
-    			break;
-    		case 'month':
-    			$interval = 'P1M';
-    			$dateFormat = "M-y";
-    			$data = $this->FactSummedVerbRuleDatetime->getIPRuleCountGchart(2,array(), $interval, $dateFormat);
-    			return $data;
-    			break;
-    	}
+            $this->set(compact('systems'));
     }
 }
 

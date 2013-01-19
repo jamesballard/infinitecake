@@ -115,7 +115,13 @@ class FactSummedActionsDatetime extends AppModel {
                     //if (!$value) {
                     $value = $this->find('first', array(
                             'conditions' => $conditions, //array of conditions
-                            'recursive' => 0, //int
+                            'contain' => array(
+			    				'DimensionDate' => array(
+			    					'fields' => array(
+			    						'DimensionDate.date'
+			    					)
+			    				)
+			    			), //int
                             'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
                         )
                     );
@@ -175,7 +181,18 @@ class FactSummedActionsDatetime extends AppModel {
                     $conditions = array_merge($conditions, array('FactSummedActionsDatetime.artefact_id' => $artefact['Artefact']['id']));
                     $value = $this->find('first', array(
                             'conditions' => $conditions, //array of conditions
-                            'recursive' => 0, //int
+                            'contain' => array(
+			    				'DimensionDate' => array(
+			    					'fields' => array(
+			    						'DimensionDate.date'
+			    					)
+			    				),
+                            	'Artefact' => array(
+                            		'fields' => array(
+                            			'Artefact.name'
+                            			)
+                            	)
+			    			), //int
                             'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
                         )
                     );
@@ -244,7 +261,13 @@ class FactSummedActionsDatetime extends AppModel {
             //if (!$value) {
             $value = $this->find('first', array(
                     'conditions' => $conditions, //array of conditions
-                    'recursive' => 0, //int
+                    'contain' => array(
+	    				'DimensionTime' => array(
+	    					'fields' => array(
+	    						'DimensionTime.hour'
+	    					)
+	    				)
+	    			), //int
                     'fields' => $fields, //array of field names
                 )
             );
