@@ -1,0 +1,596 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2013-01-19 13:20+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: View\Errors\error400.ctp:26
+#: View\Errors\error500.ctp:21
+#: cakephp\app\View\Errors\error400.ctp:21
+#: cakephp\app\View\Errors\error500.ctp:21
+#: cakephp\lib\Cake\Console\Templates\skel\View\Errors\error400.ctp:21
+#: cakephp\lib\Cake\Console\Templates\skel\View\Errors\error500.ctp:21
+#: cakephp\lib\Cake\Test\test_app\View\Errors\error400.ctp:21
+#: cakephp\lib\Cake\Test\test_app\View\Errors\error500.ctp:21
+msgid "Error"
+msgstr ""
+
+#: View\Errors\error400.ctp:28
+#: cakephp\app\View\Errors\error400.ctp:23
+#: cakephp\lib\Cake\Console\Templates\skel\View\Errors\error400.ctp:23
+#: cakephp\lib\Cake\Test\test_app\View\Errors\error400.ctp:23
+msgid "The requested address %s was not found on this server."
+msgstr ""
+
+#: View\Errors\error500.ctp:22
+#: cakephp\app\View\Errors\error500.ctp:22
+#: cakephp\lib\Cake\Console\Templates\skel\View\Errors\error500.ctp:22
+#: cakephp\lib\Cake\Error\ExceptionRenderer.php:225
+#: cakephp\lib\Cake\Test\test_app\View\Errors\error500.ctp:22
+msgid "An Internal Error Has Occurred."
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:128
+msgid "Scaffold :: "
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:167;234;305
+msgid "Invalid %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:222
+msgid "updated"
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:225
+msgid "saved"
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:245
+msgid "The %1$s has been %2$s"
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:256
+msgid "Please correct errors below."
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:308
+msgid "The %1$s with id: %2$s has been deleted."
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Scaffold.php:311
+msgid "There was an error deleting the %1$s with id: %2$s"
+msgstr ""
+
+#: cakephp\lib\Cake\Controller\Component\AuthComponent.php:347
+msgid "You are not authorized to access that location."
+msgstr ""
+
+#: cakephp\lib\Cake\Core\Configure.php:309
+msgid "There is no \"%s\" adapter."
+msgstr ""
+
+#: cakephp\lib\Cake\Core\Configure.php:312
+msgid "The \"%s\" adapter, does not have a dump() method."
+msgstr ""
+
+#: cakephp\lib\Cake\Error\ExceptionRenderer.php:203
+msgid "Not Found"
+msgstr ""
+
+#: cakephp\lib\Cake\Model\Validator\CakeValidationSet.php:283
+msgid "This field cannot be left blank"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:23
+msgid "Your tmp directory is "
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:25
+msgid "writable."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:27
+msgid "NOT writable."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:36
+msgid "Your cache is "
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:38
+msgid "set up and initialized properly."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:41
+msgid " is being used to cache, to change this edit config/core.php "
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:54
+msgid "NOT working."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:57
+msgid "Edit: config/core.php to insure you have the newset version of this file and the variable $cakeCache set properly"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:66
+msgid "Your database configuration file is "
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:69
+msgid "present."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:72
+msgid "NOT present."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:74
+msgid "Rename config/database.php.default to config/database.php"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:86
+msgid "Cake"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:88
+msgid " is able to "
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:90
+msgid " is NOT able to "
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:92
+msgid "connect to the database."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:97
+msgid "Release Notes for CakePHP %s."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:98
+msgid "Read the release notes and get the latest version"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:99
+msgid "Editing this Page"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:101
+msgid "To change the content of this page, create: /app/View/Pages/home.ctp."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:102
+msgid "To change its layout, create: /app/View/Layouts/default.ctp."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:103
+msgid "See the views section of the manual for more info."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:104
+msgid "You can also add some CSS styles for your pages at: app/webroot/css/."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:106
+msgid "Getting Started"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:108
+msgid "The 15 min Blog Tutorial"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:109
+msgid "Cook up Web sites fast with CakePHP"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:110
+msgid "Create an interactive production wiki using PHP"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:112
+msgid "More about Cake"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:114
+msgid "CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:117
+msgid "Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:120
+msgid "Cake Software Foundation"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:121
+msgid "Promoting development related to CakePHP"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:122
+msgid "The Bakery"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:123
+msgid "Everything CakePHP"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:124
+msgid "Book Store"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:125
+msgid "Recommended Software Books"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:126
+msgid "CakeSchwag"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:127
+msgid "Get your own CakePHP gear - Doughnate to Cake"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:128
+msgid "CakePHP"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:129
+msgid "The Rapid Development Framework"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:130
+msgid "CakePHP Manual"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:131
+msgid "Your Rapid Development Cookbook"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:132
+msgid "CakePHP API"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:133
+msgid "Docblock Your Best Friend"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:134
+msgid "CakeForge"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:135
+msgid "Open Development for CakePHP"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:136
+msgid "CakePHP Trac"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:137
+msgid "For the Development of CakePHP (Tickets, SVN browser, Roadmap, Changelogs)"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:138
+msgid "CakePHP Google Group"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:139
+msgid "Community mailing list"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Posts\test_nocache_tags.ctp:141
+msgid "Live chat about CakePHP"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeNumber.php:94
+msgid "%d KB"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeNumber.php:96
+msgid "%.2f MB"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeNumber.php:98
+msgid "%.2f GB"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeNumber.php:100
+msgid "%.2f TB"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeNumber.php:92
+msgid "%d Byte"
+msgid_plural "%d Bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:387
+msgid "Sunday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:388
+msgid "Monday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:389
+msgid "Tuesday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:390
+msgid "Wednesday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:391
+msgid "Thursday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:392
+msgid "Friday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:393
+msgid "Saturday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:397
+msgid "Today, %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:399
+msgid "Yesterday, %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:401
+msgid "Tomorrow, %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:405
+msgid "On %s %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:807
+msgid "on %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:836
+msgid "%s ago"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:842
+msgid "just now"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:860;885
+msgid "days"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:148
+msgid "abday"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:154
+msgid "day"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:160
+msgid "d_t_fmt"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:182
+msgid "abmon"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:188
+msgid "mon"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:199
+msgid "am_pm"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:206
+msgid "t_fmt_ampm"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:220
+msgid "d_fmt"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:226
+msgid "t_fmt"
+msgstr ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:827
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:828
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:829
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:830
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:831
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:832
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Utility\CakeTime.php:833
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:681
+msgid "Error in field %s"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:860
+#: cakephp\lib\Cake\View\Scaffolds\form.ctp:44
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:80;87
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:51;58;142
+msgid "New %s"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:866
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:48;85
+msgid "Edit %s"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:1680
+#: cakephp\lib\Cake\View\Scaffolds\form.ctp:23
+msgid "Submit"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2567
+msgid "January"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2568
+msgid "February"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2569
+msgid "March"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2570
+msgid "April"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2571
+msgid "May"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2572
+msgid "June"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2573
+msgid "July"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2574
+msgid "August"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2575
+msgid "September"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2576
+msgid "October"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2577
+msgid "November"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:2578
+msgid "December"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\PaginatorHelper.php:581
+msgid " of "
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\form.ctp:27
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:26;78
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:45
+msgid "Actions"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\form.ctp:31
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:52
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:133
+msgid "Delete"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\form.ctp:34
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\form.ctp:37
+msgid "List"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\form.ctp:43
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:86
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:50;57
+msgid "List %s"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:49
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:131
+msgid "View"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:50
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:132
+msgid "Edit"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:55
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:49;133
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:66
+msgid "Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:71
+msgid "previous"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\index.ctp:73
+msgid "next"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:20
+msgid "View %s"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:49
+msgid "Delete %s"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Scaffolds\view.ctp:70;105
+msgid "Related %s"
+msgstr ""
+

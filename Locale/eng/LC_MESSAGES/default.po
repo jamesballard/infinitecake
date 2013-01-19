@@ -1,0 +1,431 @@
+msgid "view_past"
+msgstr "viewed"
+
+msgid "view forums_past"
+msgstr "viewed"
+
+msgid "view discussion_past"
+msgstr "viewed discussions in"
+
+msgid "view forum_past"
+msgstr "viewed"
+
+msgid "login_past"
+msgstr "logged in as"
+
+msgid "view_past"
+msgstr "viewed"
+
+msgid "logout_past"
+msgstr "logged out as"
+
+msgid "enrol_past"
+msgstr "enrolled to"
+
+msgid "error_past"
+msgstr "received an error in"
+
+msgid "search_past"
+msgstr "searched"
+
+msgid "user report_past"
+msgstr "viewed user report in"
+
+msgid "view all_past"
+msgstr "viewed"
+
+msgid "delete mod_past"
+msgstr "deleted a module in"
+
+msgid "report_past"
+msgstr "viewed a report in"
+
+msgid "assign_past"
+msgstr "assigned a role to"
+
+msgid "update mod_past"
+msgstr "updated a module in"
+
+msgid "update_past"
+msgstr "updated"
+
+msgid "preview_past"
+msgstr "previewed"
+
+msgid "editsection_past"
+msgstr "edited a section in"
+
+msgid "editquestions_past"
+msgstr "edited questions in"
+
+msgid "upload_past"
+msgstr "uploaded a file to"
+
+msgid "add mod_past"
+msgstr "created a module in"
+
+msgid "add_past"
+msgstr "created"
+
+msgid "pre-view_past"
+msgstr "previewed"
+
+msgid "new_past"
+msgstr "created"
+
+msgid "update post_past"
+msgstr "updated"
+
+msgid "write_past"
+msgstr "wrote"
+
+msgid "update entry_past"
+msgstr "updated"
+
+msgid "continue attemp_past"
+msgstr "continued an attempt for"
+
+msgid "close attempt_past"
+msgstr "closed an attempt for"
+
+msgid "review_past"
+msgstr "reviewed"
+
+msgid "attempt_past"
+msgstr "attempted"
+
+msgid "view submission_past"
+msgstr "viewed a submission in"
+
+msgid "add entry_past"
+msgstr "creaed an entry in"
+
+msgid "guest_past"
+msgstr "logged in as guest to"
+
+msgid "unassign_past"
+msgstr "unassigned a role in"
+
+msgid "view entry_past"
+msgstr "viewed"
+
+msgid "delete attempt_past"
+msgstr "deleted an attempt in"
+
+msgid "start_past"
+msgstr "started"
+
+msgid "end_past"
+msgstr "completed"
+
+msgid "delete entry_past"
+msgstr "deleted an entry in"
+
+msgid "edit_past"
+msgstr "edited"
+
+msgid "delete_past"
+msgstr "deleted"
+
+msgid "startcomplete_past"
+msgstr "started"
+
+msgid "submit_past"
+msgstr "submitted"
+
+msgid "recent_past"
+msgstr "viewed recent report in"
+
+msgid "report log_past"
+msgstr "viewed log report in"
+
+msgid "report participation_past"
+msgstr "viewed participation report in"
+
+msgid "_past"
+msgstr ""
+
+msgid "TII API SUBMISSION_past"
+msgstr "submitted"
+
+msgid "update Assignment_past"
+msgstr "updated"
+
+msgid "editimage_past"
+msgstr "edited"
+
+msgid "links_past"
+msgstr "viewed links pae for"
+
+msgid "info_past"
+msgstr "viewed info pae for"
+
+msgid "update grades_past"
+msgstr "updated grades in"
+
+msgid "add discussion_past"
+msgstr "created a discussion in"
+
+msgid "unenrol_past"
+msgstr "unenrolled from"
+
+msgid "add contact_past"
+msgstr "added a contact in"
+
+msgid "delete discussion_past"
+msgstr "deleted a discussion in"
+
+msgid "delete post_past"
+msgstr "deleted a post in"
+
+msgid "history_past"
+msgstr "viewed history page in"
+
+msgid "add post_past"
+msgstr "added a post to"
+
+msgid "add category_past"
+msgstr "added a category to"
+
+msgid "report outline_past"
+msgstr "viewed outline report in"
+
+msgid "edit category_past"
+msgstr "edited a category in"
+
+msgid "report live_past"
+msgstr "viewed live logs report in"
+
+msgid "block contact_past"
+msgstr "blocked a contact in"
+
+msgid "choose_past"
+msgstr "selected an option for"
+
+msgid "remove contact_past"
+msgstr "removed a contact in"
+
+msgid "unblock contact_past"
+msgstr "unblocked a contact in"
+
+msgid "view subscribers_past"
+msgstr "viewed subscribers in"
+
+msgid "delete category_past"
+msgstr "deleted a category in"
+
+msgid "subscribe_past"
+msgstr "subscribed to"
+
+msgid "choose again_past"
+msgstr "re-selected an option for"
+
+msgid "portfolio assessments list_past"
+msgstr "viewed portfolio list in"
+
+msgid "mail blocked_past"
+msgstr "recieved blocked mail in"
+
+msgid "manualgrading_past"
+msgstr "manually graded"
+
+msgid "talk_past"
+msgstr "participated in"
+
+msgid "portfolio create_past"
+msgstr "created a portfolio for"
+
+msgid "portfolio view_past"
+msgstr "viewed a portfolio in"
+
+msgid "evidence edit_past"
+msgstr "edited evidence for"
+
+msgid "submission created_past"
+msgstr "created a submission for"
+
+msgid "submission assessments edit_past"
+msgstr "edited assessment submissions for"
+
+msgid "submission claims create_past"
+msgstr "created a submission claim for"
+
+msgid "verifications list_past"
+msgstr "viewed a verification list for"
+
+msgid "change password_past"
+msgstr "changed password from"
+
+msgid "comment_past"
+msgstr "commented on"
+
+msgid "view future assessment_past"
+msgstr "viewed future assessment for"
+
+msgid "submission delete_past"
+msgstr "deleted a submission for"
+
+msgid "evidence delete_past"
+msgstr "deleted evidence for"
+
+msgid "submission hidden_past"
+msgstr "hid a submission for"
+
+msgid "submission assessed_past"
+msgstr "assessed a submission for"
+
+msgid "assessment criteria assessed_past"
+msgstr "assessed criteria for"
+
+msgid "portfolio assessed_past"
+msgstr "assessed a portfolio for"
+
+msgid "view grade_past"
+msgstr "viewed grades in"
+
+msgid "unsubscribe_past"
+msgstr "unsubscribed from"
+
+msgid "fields add_past"
+msgstr "created new field in"
+
+msgid "templates view_past"
+msgstr "created new template in"
+
+msgid "add comment_past"
+msgstr "posted a new comment on"
+
+msgid "subscribeall_past"
+msgstr "subscribed to"
+
+msgid "report stats_past"
+msgstr "viewed stats report in"
+
+msgid "attachments_past"
+msgstr "attached a file to"
+
+msgid "stop tracking_past"
+msgstr "stopped tracking"
+
+msgid "start tracking_past"
+msgstr "started tracking"
+
+msgid "mark read_past"
+msgstr "marked a post as read in"
+
+msgid "diff_past"
+msgstr "viewed difference page in"
+
+msgid "override_past"
+msgstr "overrode"
+
+msgid "unsubscribeall_past"
+msgstr "unsubscribed from"
+
+msgid "submission visible_past"
+msgstr "made a submission visible for"
+
+msgid "mail error_past"
+msgstr "recieved a mail error from"
+
+msgid "setpageflags_past"
+msgstr "set page flags for"
+
+msgid "print_past"
+msgstr "printed"
+
+msgid "delete comment_past"
+msgstr "deleted a comment from"
+
+msgid "update comment_past"
+msgstr "updated a comment in"
+
+msgid "verification edit_past"
+msgstr "edited a verification report for"
+
+msgid "verify form_past"
+msgstr "accessed the verification form for"
+
+msgid "createpage_past"
+msgstr "created a page in"
+
+msgid "edit override_past"
+msgstr "edited an over-ride in"
+
+msgid "continue attempt_past"
+msgstr "continued an attempt for"
+
+msgid "view summary_past"
+msgstr "viewed a summary of"
+
+msgid "launch_past"
+msgstr "launched"
+
+msgid "manualgrade_past"
+msgstr "manually graded"
+
+msgid "edit allow assign_past"
+msgstr "edited permitted role assignments in"
+
+msgid "edit allow override_past"
+msgstr "edited permitted role over-rides in"
+
+msgid "edit allow switch_past"
+msgstr "edited permitted role switching"
+
+msgid "report capability_past"
+msgstr "viewed capability report in"
+
+msgid "comments_past"
+msgstr "viewed comments for"
+
+msgid "move discussion_past"
+msgstr "moved a discussion in"
+
+msgid "map_past"
+msgstr "viewed a map page in"
+
+msgid "delete attempts_past"
+msgstr "deleted attempt for"
+
+msgid "fetch_past"
+msgstr "fetched"
+
+msgid "prune post_past"
+msgstr "pruned a post in"
+
+msgid "report questioninstances_past"
+msgstr "viewed question instance report in"
+
+msgid "userreport_past"
+msgstr "viewed user report in"
+
+msgid "admin_past"
+msgstr "viewed admin report in"
+
+msgid "create a token for a user automatically_past"
+msgstr "created a user token for"
+
+msgid "user request webservice token_past"
+msgstr "requested a webservice token from"
+
+msgid "moodle_webservice_get_siteinfo_past"
+msgstr "accessed site info service from"
+
+msgid "moodle_enrol_get_users_courses_past"
+msgstr "accessed course list service from"
+
+msgid "core_course_get_contents_past"
+msgstr "accessed course content service from"
+
+msgid "moodle_user_get_users_by_courseid_past"
+msgstr "accessed course users list service from"
+
+msgid "mailer_past"
+msgstr "mailed"
+
+msgid "create_past"
+msgstr "created"
+
+msgid "post_past"
+msgstr "posted to"

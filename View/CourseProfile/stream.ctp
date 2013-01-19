@@ -22,7 +22,27 @@ $this->end();
         </div>
         <div class="activity-row">
           <div class="text">
-            <?php echo $action['Module']['Artefact']['name'].' '.$action['DimensionVerb']['name']; ?>
+            <?php
+             	//Construct the action sentence.
+             	 
+            	//1. User idnumber
+             	echo $action['User']['idnumber'].' ';
+             	 
+            	//2. Verb (past tense) from language strings.
+            	echo __($action['DimensionVerb']['sysname'].'_past').' ';
+            	
+            	//3. Artefact Type 
+            	echo 'a '.$action['DimensionVerb']['Artefact']['name'].' '; 
+            	
+            	//4. Date and time
+            	echo 'on '.$action['Action']['time'].'.';
+            	
+            	?>
+            	<!--<span class="activity-actions">
+            		<span class="tweet-action action-favorite">
+              			<a href="#" class="like-action" data-activity="like" title="Like"><span><i></i><b>Like</b></span></a>
+            		</span>
+          		</span>-->
           </div>
         </div>
         <div class="activity-row">

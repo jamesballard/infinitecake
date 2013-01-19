@@ -146,7 +146,7 @@ class CourseprofileController extends AppController {
 			            		'fields' => array('name'),
 			            	),
 			                'fields' => array(
-			                    'DimensionVerb.name'
+			                    'DimensionVerb.sysname'
 			                    )
 			                )
     					),
