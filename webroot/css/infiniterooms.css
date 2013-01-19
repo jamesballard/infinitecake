@@ -259,7 +259,7 @@ input {
 	width: auto;
 }
 select {
-	width: auto;
+	width: 80%;
 }
 
 input[type=checkbox] {

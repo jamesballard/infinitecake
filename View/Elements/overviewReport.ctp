@@ -18,16 +18,12 @@ echo $this->Form->input('chart', array(
     'default' => 'area'
 ));
 
+echo $this->element('systemMultiSelect');
+
 echo $this->Form->input('period', array(
     'options' => array('day' => 'day', 'week' => 'week', 'month' => 'month'),
     'default' => 'month'
 ));
-
-echo $this->Form->input('system', array(
-    'options' => $systems,
-    'default' => 0
-));
-
 
 echo $this->Form->input('width', array(
         'type' => 'text',

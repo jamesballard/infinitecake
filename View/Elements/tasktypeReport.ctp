@@ -13,6 +13,8 @@ echo $this->Form->input('chart', array(
     'default' => 'column'
 ));
 
+echo $this->element('systemMultiSelect');
+
 echo $this->Form->input('period', array(
     'options' => array('day' => 'day', 'week' => 'week', 'month' => 'month'),
     'default' => 'month'

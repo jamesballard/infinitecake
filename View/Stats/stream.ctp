@@ -27,7 +27,7 @@ $this->end();
         </div>
         <div class="activity-row">
           <div class="text">
-            <?php echo $action['Module']['DimensionVerb']['name'].' '.$action['DimensionVerb']['name']; ?>
+            <?php echo $action['DimensionVerb']['Artefact']['name'].' '.$action['DimensionVerb']['name']; ?>
           </div>
         </div>
         <div class="activity-row">

@@ -118,7 +118,13 @@ class FactSummedVerbRuleDatetime extends AppModel {
 					$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
 					$value = $this->find('first', array(
 							'conditions' => $conditions, //array of conditions
-							'recursive' => 0, //int
+							'contain' => array(
+			    				'DimensionDate' => array(
+			    					'fields' => array(
+			    						'DimensionDate.date'
+			    					)
+			    				)
+			    			), //int
 							'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
 					)
 					);
@@ -178,7 +184,13 @@ class FactSummedVerbRuleDatetime extends AppModel {
 					$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
 					$value = $this->find('first', array(
 							'conditions' => $conditions, //array of conditions
-							'recursive' => 0, //int
+							'contain' => array(
+			    				'DimensionDate' => array(
+			    					'fields' => array(
+			    						'DimensionDate.date'
+			    					)
+			    				)
+			    			), //int
 							'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
 					)
 					);
@@ -192,7 +204,13 @@ class FactSummedVerbRuleDatetime extends AppModel {
 				//Creates the other record for IP address with zero condition
 				$value = $this->find('first', array(
 						'conditions' => $zero_condition, //array of conditions
-						'recursive' => 0, //int
+						'contain' => array(
+			    				'DimensionDate' => array(
+			    					'fields' => array(
+			    						'DimensionDate.date'
+			    					)
+			    				)
+			    			), //int
 						'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total",
 						) //array of field names
 				);

@@ -11,6 +11,8 @@ echo $this->Form->create();
     'default' => 'sum'
 ));*/
 
+echo $this->element('systemMultiSelect');
+
 echo $this->Form->input('width', array(
         'type' => 'text',
         'default' => '750'
