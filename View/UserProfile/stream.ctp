@@ -16,24 +16,29 @@ $this->end();
       </div>
       <div class="content">
         <div class="activity-row">
-          <span class="user-name">
-            <a class="screen-name" title="&lt;em&gt;Anon&lt;/em&gt;"><em><?php echo $action['Group']['name']; ?></em></a>
-          </span>
-        </div>
-        <div class="activity-row">
           <div class="text">
-            <?php echo $action['DimensionVerb']['Artefact']['name'].' '.$action['DimensionVerb']['name']; ?>
+            <?php
+             	//Construct the action sentence.
+             	 
+            	//1. Verb (past tense) from language strings.
+            	echo __($action['DimensionVerb']['sysname'].'_past').' ';
+            	
+            	//2. Artefact Type 
+            	echo 'a '.$action['DimensionVerb']['Artefact']['name'].' ';
+            	
+            	//3. Group ID number
+            	echo 'in '.$action['Group']['name'].' '; 
+            	
+            	//4. Date and time
+            	echo 'on '.$action['Action']['time'].'.';
+            	
+            	?>
+            	<!--<span class="activity-actions">
+            		<span class="tweet-action action-favorite">
+              			<a href="#" class="like-action" data-activity="like" title="Like"><span><i></i><b>Like</b></span></a>
+            		</span>
+          		</span>-->
           </div>
-        </div>
-        <div class="activity-row">
-          <a href="undefined" class="timestamp">
-            <span title="<?php echo $action['Action']['time']; ?>"><?php echo $action['Action']['time']; ?></span>
-          </a>
-          <!--<span class="activity-actions">
-            <span class="tweet-action action-favorite">
-              <a href="#" class="like-action" data-activity="like" title="Like"><span><i></i><b>Like</b></span></a>
-            </span>
-          </span>-->
         </div>
       </div>
     </div>

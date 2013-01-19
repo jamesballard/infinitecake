@@ -155,7 +155,7 @@ class UserprofileController extends AppController {
 			            		
 			            	),
 			                'fields' => array(
-			                    'DimensionVerb.name'
+			                    'DimensionVerb.sysname'
 			                    )
 			                )
     					),

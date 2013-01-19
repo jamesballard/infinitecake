@@ -1,0 +1,1833 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2013-01-19 13:20+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller\ActionsController.php:30;66;98;128;164;196
+msgid "Invalid action"
+msgstr ""
+
+#: Controller\ActionsController.php:44;70;142;168
+msgid "The action has been saved"
+msgstr ""
+
+#: Controller\ActionsController.php:47;73;145;171
+msgid "The action could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\ActionsController.php:101;199
+msgid "Action deleted"
+msgstr ""
+
+#: Controller\ActionsController.php:104;202
+msgid "Action was not deleted"
+msgstr ""
+
+#: Controller\ArtefactsController.php:31;63;91;121;153;181
+msgid "Invalid artefact"
+msgstr ""
+
+#: Controller\ArtefactsController.php:45;67;135;157
+msgid "The artefact has been saved"
+msgstr ""
+
+#: Controller\ArtefactsController.php:48;70;138;160
+msgid "The artefact could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\ArtefactsController.php:94;184
+msgid "Artefact deleted"
+msgstr ""
+
+#: Controller\ArtefactsController.php:97;187
+msgid "Artefact was not deleted"
+msgstr ""
+
+#: Controller\ConditionsController.php:33;71;105;135;171;203
+msgid "Invalid condition"
+msgstr ""
+
+#: Controller\ConditionsController.php:47;75;149;175
+msgid "The condition has been saved"
+msgstr ""
+
+#: Controller\ConditionsController.php:50;78;152;178
+msgid "The condition could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\ConditionsController.php:108;206
+msgid "Condition deleted"
+msgstr ""
+
+#: Controller\ConditionsController.php:111;209
+msgid "Condition was not deleted"
+msgstr ""
+
+#: Controller\CourseProfileController.php:43;87;177;229;263
+msgid "No group selected"
+msgstr ""
+
+#: Controller\CourseProfileController.php:125
+#: Controller\UserProfileController.php:41;87;133;188;226;259
+msgid "No user selected"
+msgstr ""
+
+#: Controller\CustomersController.php:30;62;90;120;152;180
+msgid "Invalid customer"
+msgstr ""
+
+#: Controller\CustomersController.php:44;66;134;156
+msgid "The customer has been saved"
+msgstr ""
+
+#: Controller\CustomersController.php:47;69;137;159
+msgid "The customer could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\CustomersController.php:93;183
+msgid "Customer deleted"
+msgstr ""
+
+#: Controller\CustomersController.php:96;186
+msgid "Customer was not deleted"
+msgstr ""
+
+#: Controller\DimensionVerbsController.php:30;64;95;125;159;189
+msgid "Invalid dimension verb"
+msgstr ""
+
+#: Controller\DimensionVerbsController.php:44;68;139;163
+msgid "The dimension verb has been saved"
+msgstr ""
+
+#: Controller\DimensionVerbsController.php:47;71;142;166
+msgid "The dimension verb could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\DimensionVerbsController.php:98;192
+msgid "Dimension verb deleted"
+msgstr ""
+
+#: Controller\DimensionVerbsController.php:101;195
+msgid "Dimension verb was not deleted"
+msgstr ""
+
+#: Controller\GroupsController.php:30;66;98;142;178;210
+msgid "Invalid group"
+msgstr ""
+
+#: Controller\GroupsController.php:44;70;156;182
+msgid "The group has been saved"
+msgstr ""
+
+#: Controller\GroupsController.php:47;73;159;185
+msgid "The group could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\GroupsController.php:101;213
+msgid "Group deleted"
+msgstr ""
+
+#: Controller\GroupsController.php:104;216
+msgid "Group was not deleted"
+msgstr ""
+
+#: Controller\MembersController.php:77;111;141
+msgid "Invalid member"
+msgstr ""
+
+#: Controller\MembersController.php:91;115
+msgid "The member has been saved"
+msgstr ""
+
+#: Controller\MembersController.php:94;118
+msgid "The member could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\MembersController.php:144
+msgid "Member deleted"
+msgstr ""
+
+#: Controller\MembersController.php:147
+msgid "Member was not deleted"
+msgstr ""
+
+#: Controller\MembershipsController.php:35;67;95
+msgid "Invalid membership"
+msgstr ""
+
+#: Controller\MembershipsController.php:49;71
+msgid "The membership has been saved"
+msgstr ""
+
+#: Controller\MembershipsController.php:52;74
+msgid "The membership could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\MembershipsController.php:98
+msgid "Membership deleted"
+msgstr ""
+
+#: Controller\MembershipsController.php:101
+msgid "Membership was not deleted"
+msgstr ""
+
+#: Controller\ModulesController.php:30;66;98;128;164;196
+msgid "Invalid module"
+msgstr ""
+
+#: Controller\ModulesController.php:44;70;142;168
+msgid "The module has been saved"
+msgstr ""
+
+#: Controller\ModulesController.php:47;73;145;171
+msgid "The module could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\ModulesController.php:101;199
+msgid "Module deleted"
+msgstr ""
+
+#: Controller\ModulesController.php:104;202
+msgid "Module was not deleted"
+msgstr ""
+
+#: Controller\PeopleController.php:33;65;93;138;170;198
+msgid "Invalid person"
+msgstr ""
+
+#: Controller\PeopleController.php:47;69;152;174
+msgid "The person has been saved"
+msgstr ""
+
+#: Controller\PeopleController.php:50;72;155;177
+msgid "The person could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\PeopleController.php:96;201
+msgid "Person deleted"
+msgstr ""
+
+#: Controller\PeopleController.php:99;204
+msgid "Person was not deleted"
+msgstr ""
+
+#: Controller\RolesController.php:30;62;90;120;152;180
+msgid "Invalid role"
+msgstr ""
+
+#: Controller\RolesController.php:44;66;134;156
+msgid "The role has been saved"
+msgstr ""
+
+#: Controller\RolesController.php:47;69;137;159
+msgid "The role could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\RolesController.php:93;183
+msgid "Role deleted"
+msgstr ""
+
+#: Controller\RolesController.php:96;186
+msgid "Role was not deleted"
+msgstr ""
+
+#: Controller\RulesController.php:30;70;105;135;171;203
+msgid "Invalid rule"
+msgstr ""
+
+#: Controller\RulesController.php:44;74;149;175
+msgid "The rule has been saved"
+msgstr ""
+
+#: Controller\RulesController.php:47;77;152;178
+msgid "The rule could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\RulesController.php:108;206
+msgid "Rule deleted"
+msgstr ""
+
+#: Controller\RulesController.php:111;209
+msgid "Rule was not deleted"
+msgstr ""
+
+#: Controller\SystemsController.php:37;69;97;127;159;187
+msgid "Invalid system"
+msgstr ""
+
+#: Controller\SystemsController.php:51;73;141;163
+msgid "The system has been saved"
+msgstr ""
+
+#: Controller\SystemsController.php:54;76;144;166
+msgid "The system could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\SystemsController.php:100;190
+msgid "System deleted"
+msgstr ""
+
+#: Controller\SystemsController.php:103;193
+msgid "System was not deleted"
+msgstr ""
+
+#: Controller\UsersController.php:30;62;90;120;152;180
+msgid "Invalid user"
+msgstr ""
+
+#: Controller\UsersController.php:44;66;134;156
+msgid "The user has been saved"
+msgstr ""
+
+#: Controller\UsersController.php:47;69;137;159
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: Controller\UsersController.php:93;183
+msgid "User deleted"
+msgstr ""
+
+#: Controller\UsersController.php:96;186
+msgid "User was not deleted"
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:84
+msgid "Plugin to process"
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:87
+msgid "Better manage, and easily synchronize you application's ACO tree"
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:92
+msgid "Add new ACOs for new controllers and actions. Does not remove nodes from the ACO table."
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:97
+msgid "Perform a full sync on the ACO table.Will create new ACOs or missing controllers and actions.Will also remove orphaned entries that no longer have a matching controller/action"
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:101
+msgid "Verify the tree structure of either your Aco or Aro Trees"
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:106
+msgid "The type of tree to verify"
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:112
+msgid "Recover a corrupted Tree"
+msgstr ""
+
+#: Plugin\AclExtras\Console\Command\AclExtrasShell.php:117
+msgid "The type of tree to recover"
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:129
+msgid "<error>Plugin %s not found or not activated</error>"
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:142
+msgid "<success>Aco Update Complete</success>"
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:187
+msgid "Deleted %s and all children"
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:228
+msgid "Created Aco node: <success>%s</success>"
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:263
+msgid "Deleted Aco node: <warning>%s</warning>"
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:282
+msgid "<success>Tree is valid and strong</success>"
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:300
+msgid "Tree has been recovered, or tree did not need recovery."
+msgstr ""
+
+#: Plugin\AclExtras\Lib\AclExtras.php:302
+msgid "<error>Tree recovery failed.</error>"
+msgstr ""
+
+#: View\Actions\add.ctp:4
+msgid "Add Action"
+msgstr ""
+
+#: View\Actions\add.ctp:14
+#: View\Actions\edit.ctp:15
+#: View\Artefacts\add.ctp:17
+#: View\Artefacts\edit.ctp:18
+#: View\Conditions\add.ctp:17
+#: View\Conditions\edit.ctp:14
+#: View\Customers\add.ctp:12
+#: View\Customers\edit.ctp:13
+#: View\DimensionVerbs\add.ctp:19
+#: View\DimensionVerbs\edit.ctp:20
+#: View\Groups\add.ctp:14
+#: View\Groups\edit.ctp:15
+#: View\Members\add.ctp:11
+#: View\Members\edit.ctp:12
+#: View\Memberships\add.ctp:9
+#: View\Memberships\edit.ctp:10
+#: View\Modules\add.ctp:14
+#: View\Modules\edit.ctp:15
+#: View\People\add.ctp:17
+#: View\People\edit.ctp:18
+#: View\Roles\add.ctp:13
+#: View\Roles\edit.ctp:14
+#: View\Rules\add.ctp:19
+#: View\Rules\edit.ctp:20
+#: View\Systems\add.ctp:15
+#: View\Systems\edit.ctp:16
+#: View\Users\add.ctp:13
+#: View\Users\edit.ctp:14
+msgid "Submit"
+msgstr ""
+
+#: View\Actions\add.ctp:17
+#: View\Actions\edit.ctp:18
+#: View\Actions\index.ctp:2;12;48
+#: View\Actions\view.ctp:42
+#: View\Artefacts\add.ctp:20
+#: View\Artefacts\edit.ctp:21
+#: View\Artefacts\index.ctp:11;46
+#: View\Artefacts\view.ctp:37
+#: View\Conditions\add.ctp:20
+#: View\Conditions\edit.ctp:17
+#: View\Conditions\index.ctp:8;40
+#: View\Conditions\view.ctp:22;48;104;141
+#: View\Customers\add.ctp:15
+#: View\Customers\edit.ctp:16
+#: View\Customers\index.ctp:12;48
+#: View\Customers\view.ctp:42
+#: View\DimensionVerbs\add.ctp:22
+#: View\DimensionVerbs\edit.ctp:23
+#: View\DimensionVerbs\index.ctp:11;48
+#: View\DimensionVerbs\view.ctp:37;63;107
+#: View\Groups\add.ctp:17
+#: View\Groups\edit.ctp:18
+#: View\Groups\index.ctp:12;48
+#: View\Groups\view.ctp:42
+#: View\Members\add.ctp:14
+#: View\Members\edit.ctp:15
+#: View\Members\index.ctp:11;48
+#: View\Members\view.ctp:37
+#: View\Memberships\add.ctp:12
+#: View\Memberships\edit.ctp:13
+#: View\Memberships\index.ctp:9;42
+#: View\Memberships\view.ctp:27
+#: View\Modules\add.ctp:17
+#: View\Modules\edit.ctp:18
+#: View\Modules\index.ctp:12;54
+#: View\Modules\view.ctp:42;74;115;154
+#: View\People\add.ctp:20
+#: View\People\edit.ctp:21
+#: View\People\index.ctp:16;58
+#: View\People\view.ctp:62;92;134;174;213
+#: View\Roles\add.ctp:16
+#: View\Roles\edit.ctp:17
+#: View\Roles\index.ctp:11;50
+#: View\Roles\view.ctp:37
+#: View\Rules\add.ctp:22
+#: View\Rules\edit.ctp:23
+#: View\Rules\index.ctp:12;50
+#: View\Rules\view.ctp:57;75
+#: View\Systems\add.ctp:18
+#: View\Systems\edit.ctp:19
+#: View\Systems\index.ctp:11;48
+#: View\Systems\view.ctp:37;65;106;145
+#: View\Users\add.ctp:16
+#: View\Users\edit.ctp:17
+#: View\Users\index.ctp:10;48
+#: View\Users\view.ctp:32;62;103;144
+msgid "Actions"
+msgstr ""
+
+#: View\Actions\add.ctp:20
+#: View\Actions\edit.ctp:22
+#: View\Actions\view.ctp:46
+#: View\Conditions\add.ctp:26
+#: View\Conditions\edit.ctp:24
+#: View\Conditions\index.ctp:45
+#: View\Conditions\view.ctp:30
+#: View\DimensionVerbs\add.ctp:28
+#: View\DimensionVerbs\edit.ctp:30
+#: View\DimensionVerbs\index.ctp:53
+#: View\DimensionVerbs\view.ctp:45
+#: View\Modules\add.ctp:27
+#: View\Modules\edit.ctp:29
+#: View\Modules\index.ctp:63
+#: View\Modules\view.ctp:54
+#: View\Users\add.ctp:24
+#: View\Users\edit.ctp:26
+#: View\Users\index.ctp:55
+#: View\Users\view.ctp:42
+msgid "List Actions"
+msgstr ""
+
+#: View\Actions\edit.ctp:4
+#: View\Actions\view.ctp:44
+msgid "Edit Action"
+msgstr ""
+
+#: View\Actions\edit.ctp:21
+#: View\Actions\index.ctp:27
+#: View\Artefacts\edit.ctp:24
+#: View\Artefacts\index.ctp:25
+#: View\Conditions\edit.ctp:20
+#: View\Conditions\index.ctp:19
+#: View\Conditions\view.ctp:79;120;153
+#: View\Customers\edit.ctp:19
+#: View\Customers\index.ctp:27
+#: View\DimensionVerbs\edit.ctp:26
+#: View\DimensionVerbs\index.ctp:27
+#: View\DimensionVerbs\view.ctp:79;126
+#: View\Groups\edit.ctp:21
+#: View\Groups\index.ctp:27
+#: View\Members\edit.ctp:18
+#: View\Members\index.ctp:27
+#: View\Memberships\edit.ctp:16
+#: View\Memberships\index.ctp:21
+#: View\Modules\edit.ctp:21
+#: View\Modules\index.ctp:33
+#: View\Modules\view.ctp:90;131;168
+#: View\People\edit.ctp:24
+#: View\People\index.ctp:37
+#: View\People\view.ctp:108;151;188;229
+#: View\Roles\edit.ctp:20
+#: View\Roles\index.ctp:29
+#: View\Rules\edit.ctp:26
+#: View\Rules\index.ctp:29
+#: View\Rules\view.ctp:87
+#: View\Systems\edit.ctp:22
+#: View\Systems\index.ctp:27
+#: View\Systems\view.ctp:81;122;159
+#: View\Users\edit.ctp:20
+#: View\Users\index.ctp:27
+#: View\Users\view.ctp:78;119;160
+msgid "Delete"
+msgstr ""
+
+#: View\Actions\edit.ctp:21
+#: View\Actions\index.ctp:27
+#: View\Actions\view.ctp:45
+#: View\Artefacts\edit.ctp:24
+#: View\Artefacts\index.ctp:25
+#: View\Artefacts\view.ctp:40
+#: View\Conditions\edit.ctp:20
+#: View\Conditions\index.ctp:19
+#: View\Conditions\view.ctp:25;79;120;153
+#: View\Customers\edit.ctp:19
+#: View\Customers\index.ctp:27
+#: View\Customers\view.ctp:45
+#: View\DimensionVerbs\edit.ctp:26
+#: View\DimensionVerbs\index.ctp:27
+#: View\DimensionVerbs\view.ctp:40;79;126
+#: View\Groups\edit.ctp:21
+#: View\Groups\index.ctp:27
+#: View\Groups\view.ctp:45
+#: View\Members\edit.ctp:18
+#: View\Members\index.ctp:27
+#: View\Members\view.ctp:40
+#: View\Memberships\edit.ctp:16
+#: View\Memberships\index.ctp:21
+#: View\Memberships\view.ctp:30
+#: View\Modules\edit.ctp:21
+#: View\Modules\index.ctp:33
+#: View\Modules\view.ctp:45;90;131;168
+#: View\People\edit.ctp:24
+#: View\People\index.ctp:37
+#: View\People\view.ctp:65;108;151;188;229
+#: View\Roles\edit.ctp:20
+#: View\Roles\index.ctp:29
+#: View\Roles\view.ctp:40
+#: View\Rules\edit.ctp:26
+#: View\Rules\index.ctp:29
+#: View\Rules\view.ctp:60;87
+#: View\Systems\edit.ctp:22
+#: View\Systems\index.ctp:27
+#: View\Systems\view.ctp:40;81;122;159
+#: View\Users\edit.ctp:20
+#: View\Users\index.ctp:27
+#: View\Users\view.ctp:35;78;119;160
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: View\Actions\index.ctp:25
+#: View\Artefacts\index.ctp:23
+#: View\Conditions\index.ctp:17
+#: View\Conditions\view.ctp:77;118;151
+#: View\Customers\index.ctp:25
+#: View\DimensionVerbs\index.ctp:25
+#: View\DimensionVerbs\view.ctp:77;124
+#: View\Groups\index.ctp:25
+#: View\Members\index.ctp:25
+#: View\Memberships\index.ctp:19
+#: View\Modules\index.ctp:31
+#: View\Modules\view.ctp:88;129;166
+#: View\People\index.ctp:35
+#: View\People\view.ctp:106;149;186;227
+#: View\Roles\index.ctp:27
+#: View\Rules\index.ctp:27
+#: View\Rules\view.ctp:85
+#: View\Systems\index.ctp:25
+#: View\Systems\view.ctp:79;120;157
+#: View\Users\index.ctp:25
+#: View\Users\view.ctp:76;117;158
+msgid "View"
+msgstr ""
+
+#: View\Actions\index.ctp:26
+#: View\Artefacts\index.ctp:24
+#: View\Conditions\index.ctp:18
+#: View\Conditions\view.ctp:78;119;152
+#: View\Customers\index.ctp:26
+#: View\DimensionVerbs\index.ctp:26
+#: View\DimensionVerbs\view.ctp:78;125
+#: View\Groups\index.ctp:26
+#: View\Members\index.ctp:26
+#: View\Memberships\index.ctp:20
+#: View\Modules\index.ctp:32
+#: View\Modules\view.ctp:89;130;167
+#: View\People\index.ctp:36
+#: View\People\view.ctp:107;150;187;228
+#: View\Roles\index.ctp:28
+#: View\Rules\index.ctp:28
+#: View\Rules\view.ctp:86
+#: View\Systems\index.ctp:26
+#: View\Systems\view.ctp:80;121;158
+#: View\Users\index.ctp:26
+#: View\Users\view.ctp:77;118;159
+msgid "Edit"
+msgstr ""
+
+#: View\Actions\index.ctp:35
+#: View\Artefacts\index.ctp:33
+#: View\Conditions\index.ctp:27
+#: View\Customers\index.ctp:35
+#: View\DimensionVerbs\index.ctp:35
+#: View\Groups\index.ctp:35
+#: View\Members\index.ctp:35
+#: View\Memberships\index.ctp:29
+#: View\Modules\index.ctp:41
+#: View\People\index.ctp:45
+#: View\Roles\index.ctp:37
+#: View\Rules\index.ctp:37
+#: View\Systems\index.ctp:35
+#: View\Users\index.ctp:35
+msgid "Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}"
+msgstr ""
+
+#: View\Actions\index.ctp:41
+#: View\Artefacts\index.ctp:39
+#: View\Conditions\index.ctp:33
+#: View\Customers\index.ctp:41
+#: View\DimensionVerbs\index.ctp:41
+#: View\Groups\index.ctp:41
+#: View\Members\index.ctp:41
+#: View\Memberships\index.ctp:35
+#: View\Modules\index.ctp:47
+#: View\People\index.ctp:51
+#: View\Roles\index.ctp:43
+#: View\Rules\index.ctp:43
+#: View\Systems\index.ctp:41
+#: View\Users\index.ctp:41
+msgid "previous"
+msgstr ""
+
+#: View\Actions\index.ctp:43
+#: View\Artefacts\index.ctp:41
+#: View\Conditions\index.ctp:35
+#: View\Customers\index.ctp:43
+#: View\DimensionVerbs\index.ctp:43
+#: View\Groups\index.ctp:43
+#: View\Members\index.ctp:43
+#: View\Memberships\index.ctp:37
+#: View\Modules\index.ctp:49
+#: View\People\index.ctp:53
+#: View\Roles\index.ctp:45
+#: View\Rules\index.ctp:45
+#: View\Systems\index.ctp:43
+#: View\Users\index.ctp:43
+msgid "next"
+msgstr ""
+
+#: View\Actions\index.ctp:50
+#: View\Actions\view.ctp:47
+#: View\Conditions\add.ctp:27
+#: View\Conditions\edit.ctp:25
+#: View\Conditions\index.ctp:46
+#: View\Conditions\view.ctp:31;129
+#: View\DimensionVerbs\add.ctp:29
+#: View\DimensionVerbs\edit.ctp:31
+#: View\DimensionVerbs\index.ctp:54
+#: View\DimensionVerbs\view.ctp:46;88
+#: View\Modules\add.ctp:28
+#: View\Modules\edit.ctp:30
+#: View\Modules\index.ctp:64
+#: View\Modules\view.ctp:55;99
+#: View\Users\add.ctp:25
+#: View\Users\edit.ctp:27
+#: View\Users\index.ctp:56
+#: View\Users\view.ctp:43;87
+msgid "New Action"
+msgstr ""
+
+#: View\Actions\view.ctp:2
+msgid "Action"
+msgstr ""
+
+#: View\Actions\view.ctp:4
+#: View\Artefacts\view.ctp:4
+#: View\Conditions\view.ctp:4;41;97;138
+#: View\Customers\view.ctp:4
+#: View\DimensionVerbs\view.ctp:4;56
+#: View\Groups\view.ctp:4
+#: View\Members\view.ctp:4
+#: View\Memberships\view.ctp:4
+#: View\Modules\view.ctp:4;67;108;149
+#: View\People\view.ctp:4;85;126;169;206
+#: View\Roles\view.ctp:4
+#: View\Rules\view.ctp:4;72
+#: View\Systems\view.ctp:4;58;99;140
+#: View\Users\view.ctp:4;55;96;137
+msgid "Id"
+msgstr ""
+
+#: View\Actions\view.ctp:9
+#: View\Artefacts\view.ctp:14
+#: View\Conditions\view.ctp:9;42;98;140
+#: View\Customers\view.ctp:9
+#: View\DimensionVerbs\view.ctp:14;57
+#: View\Groups\view.ctp:19
+#: View\Memberships\view.ctp:9
+#: View\Modules\view.ctp:19;68;110;152
+#: View\People\view.ctp:87;127;208
+#: View\Roles\view.ctp:19
+#: View\Rules\view.ctp:9;73
+#: View\Systems\view.ctp:14;61;102
+#: View\Users\view.ctp:56;98;140
+msgid "Name"
+msgstr ""
+
+#: View\Actions\view.ctp:14
+#: View\Artefacts\view.ctp:19
+#: View\Conditions\view.ctp:44
+#: View\DimensionVerbs\view.ctp:19
+#: View\Groups\view.ctp:24
+#: View\Modules\view.ctp:69
+#: View\People\view.ctp:209
+#: View\Rules\view.ctp:19
+#: View\Systems\view.ctp:9;62
+#: View\Users\view.ctp:57;141
+msgid "Type"
+msgstr ""
+
+#: View\Actions\view.ctp:19
+#: View\Conditions\view.ctp:99
+#: View\DimensionVerbs\view.ctp:58
+#: View\Modules\view.ctp:70
+#: View\Users\view.ctp:58
+msgid "Time"
+msgstr ""
+
+#: View\Actions\view.ctp:24
+#: View\Conditions\view.ctp:100
+#: View\DimensionVerbs\view.ctp:59;97
+#: View\Modules\view.ctp:71;114
+#: View\Users\view.ctp:59;102
+msgid "User Id"
+msgstr ""
+
+#: View\Actions\view.ctp:29
+#: View\Conditions\view.ctp:101
+#: View\DimensionVerbs\view.ctp:60
+#: View\Modules\view.ctp:72;113
+#: View\Systems\view.ctp:104
+#: View\Users\view.ctp:60;101
+msgid "Group Id"
+msgstr ""
+
+#: View\Actions\view.ctp:34
+#: View\Conditions\view.ctp:102
+#: View\DimensionVerbs\view.ctp:61
+#: View\Modules\view.ctp:73;112;153
+#: View\Users\view.ctp:61;100
+msgid "Module Id"
+msgstr ""
+
+#: View\Actions\view.ctp:45
+msgid "Delete Action"
+msgstr ""
+
+#: View\Artefacts\add.ctp:4
+msgid "Add Artefact"
+msgstr ""
+
+#: View\Artefacts\add.ctp:23
+#: View\Artefacts\edit.ctp:25
+#: View\Artefacts\view.ctp:41
+#: View\DimensionVerbs\add.ctp:26
+#: View\DimensionVerbs\edit.ctp:28
+#: View\DimensionVerbs\index.ctp:51
+#: View\DimensionVerbs\view.ctp:43
+#: View\Modules\add.ctp:21
+#: View\Modules\edit.ctp:23
+#: View\Modules\index.ctp:57
+#: View\Modules\view.ctp:48
+#: View\Rules\add.ctp:26
+#: View\Rules\edit.ctp:28
+msgid "List Artefacts"
+msgstr ""
+
+#: View\Artefacts\edit.ctp:4
+#: View\Artefacts\view.ctp:39
+msgid "Edit Artefact"
+msgstr ""
+
+#: View\Artefacts\index.ctp:2
+msgid "Artefacts"
+msgstr ""
+
+#: View\Artefacts\index.ctp:48
+#: View\Artefacts\view.ctp:42
+#: View\DimensionVerbs\add.ctp:27
+#: View\DimensionVerbs\edit.ctp:29
+#: View\DimensionVerbs\index.ctp:52
+#: View\DimensionVerbs\view.ctp:44
+#: View\Modules\add.ctp:22
+#: View\Modules\edit.ctp:24
+#: View\Modules\index.ctp:58
+#: View\Modules\view.ctp:49
+#: View\Rules\add.ctp:27
+#: View\Rules\edit.ctp:29
+msgid "New Artefact"
+msgstr ""
+
+#: View\Artefacts\view.ctp:2
+#: View\DimensionVerbs\view.ctp:29
+#: View\Modules\view.ctp:24
+msgid "Artefact"
+msgstr ""
+
+#: View\Artefacts\view.ctp:9
+#: View\Groups\view.ctp:14
+#: View\Modules\view.ctp:14;151
+#: View\People\view.ctp:86;171;207
+#: View\Roles\view.ctp:14
+#: View\Systems\view.ctp:60;101;142
+#: View\Users\view.ctp:14;139
+msgid "Idnumber"
+msgstr ""
+
+#: View\Artefacts\view.ctp:24
+#: View\Conditions\view.ctp:46
+#: View\Customers\view.ctp:29
+#: View\Members\view.ctp:24
+#: View\Memberships\view.ctp:14
+#: View\People\view.ctp:49;90;132;211
+#: View\Rules\view.ctp:44
+#: View\Systems\view.ctp:24
+msgid "Created"
+msgstr ""
+
+#: View\Artefacts\view.ctp:29
+#: View\Conditions\view.ctp:47
+#: View\Customers\view.ctp:34
+#: View\Members\view.ctp:29
+#: View\Memberships\view.ctp:19
+#: View\People\view.ctp:54;91;133;212
+#: View\Rules\view.ctp:49
+#: View\Systems\view.ctp:29
+msgid "Modified"
+msgstr ""
+
+#: View\Artefacts\view.ctp:40
+msgid "Delete Artefact"
+msgstr ""
+
+#: View\Conditions\add.ctp:4
+msgid "Add Condition"
+msgstr ""
+
+#: View\Conditions\add.ctp:23
+#: View\Conditions\edit.ctp:21
+#: View\Conditions\view.ctp:26
+#: View\Modules\add.ctp:29
+#: View\Modules\edit.ctp:31
+#: View\Modules\index.ctp:65
+#: View\Modules\view.ctp:56
+#: View\Rules\add.ctp:30
+#: View\Rules\edit.ctp:32
+#: View\Rules\index.ctp:55
+#: View\Rules\view.ctp:63
+#: View\Users\add.ctp:26
+#: View\Users\edit.ctp:28
+#: View\Users\index.ctp:57
+#: View\Users\view.ctp:44
+msgid "List Conditions"
+msgstr ""
+
+#: View\Conditions\add.ctp:24
+#: View\Conditions\edit.ctp:22
+#: View\Conditions\index.ctp:43
+#: View\Conditions\view.ctp:28
+#: View\People\add.ctp:28
+#: View\People\edit.ctp:30
+#: View\People\index.ctp:65
+#: View\People\view.ctp:72
+#: View\Rules\add.ctp:25
+#: View\Rules\edit.ctp:27
+#: View\Rules\view.ctp:61
+msgid "List Rules"
+msgstr ""
+
+#: View\Conditions\add.ctp:25
+#: View\Conditions\edit.ctp:23
+#: View\Conditions\index.ctp:44
+#: View\Conditions\view.ctp:29;88
+#: View\People\add.ctp:29
+#: View\People\edit.ctp:31
+#: View\People\index.ctp:66
+#: View\People\view.ctp:73;160
+#: View\Rules\index.ctp:52
+#: View\Rules\view.ctp:62
+msgid "New Rule"
+msgstr ""
+
+#: View\Conditions\add.ctp:28
+#: View\Conditions\edit.ctp:26
+#: View\Conditions\index.ctp:47
+msgid "List Dimension Verb Conditions"
+msgstr ""
+
+#: View\Conditions\add.ctp:29
+#: View\Conditions\edit.ctp:27
+#: View\Conditions\index.ctp:48
+#: View\Conditions\view.ctp:162
+msgid "New Dimension Verb Condition"
+msgstr ""
+
+#: View\Conditions\edit.ctp:4
+#: View\Conditions\view.ctp:24
+msgid "Edit Condition"
+msgstr ""
+
+#: View\Conditions\index.ctp:2
+msgid "Conditions"
+msgstr ""
+
+#: View\Conditions\index.ctp:42
+#: View\Conditions\view.ctp:27
+#: View\Modules\add.ctp:30
+#: View\Modules\edit.ctp:32
+#: View\Modules\index.ctp:66
+#: View\Modules\view.ctp:57;140
+#: View\Rules\add.ctp:31
+#: View\Rules\edit.ctp:33
+#: View\Rules\index.ctp:56
+#: View\Rules\view.ctp:64;96
+#: View\Users\add.ctp:27
+#: View\Users\edit.ctp:29
+#: View\Users\index.ctp:58
+#: View\Users\view.ctp:45;128
+msgid "New Condition"
+msgstr ""
+
+#: View\Conditions\view.ctp:2
+msgid "Condition"
+msgstr ""
+
+#: View\Conditions\view.ctp:14;43
+#: View\Modules\view.ctp:111
+#: View\People\view.ctp:128
+#: View\Rules\view.ctp:14;74
+#: View\Users\view.ctp:99
+msgid "Value"
+msgstr ""
+
+#: View\Conditions\view.ctp:25
+msgid "Delete Condition"
+msgstr ""
+
+#: View\Conditions\view.ctp:32
+msgid "List Verbs"
+msgstr ""
+
+#: View\Conditions\view.ctp:33
+msgid "New Verbs"
+msgstr ""
+
+#: View\Conditions\view.ctp:37
+#: View\People\view.ctp:122
+msgid "Related Rules"
+msgstr ""
+
+#: View\Conditions\view.ctp:45
+#: View\Customers\view.ctp:2
+#: View\People\view.ctp:44
+#: View\Rules\view.ctp:39
+#: View\Systems\view.ctp:19
+msgid "Customer"
+msgstr ""
+
+#: View\Conditions\view.ctp:93
+#: View\DimensionVerbs\view.ctp:52
+#: View\Modules\view.ctp:63
+#: View\Users\view.ctp:51
+msgid "Related Actions"
+msgstr ""
+
+#: View\Conditions\view.ctp:103
+#: View\DimensionVerbs\view.ctp:62;99
+msgid "Dimension Verb Id"
+msgstr ""
+
+#: View\Conditions\view.ctp:134
+msgid "Related Verbs"
+msgstr ""
+
+#: View\Conditions\view.ctp:139
+msgid "System Name"
+msgstr ""
+
+#: View\Customers\add.ctp:4
+msgid "Add Customer"
+msgstr ""
+
+#: View\Customers\add.ctp:18
+#: View\Customers\edit.ctp:20
+#: View\Customers\view.ctp:46
+#: View\People\add.ctp:24
+#: View\People\edit.ctp:26
+#: View\People\index.ctp:61
+#: View\People\view.ctp:68
+#: View\Rules\index.ctp:53
+#: View\Systems\add.ctp:22
+#: View\Systems\edit.ctp:24
+#: View\Systems\index.ctp:51
+#: View\Systems\view.ctp:43
+msgid "List Customers"
+msgstr ""
+
+#: View\Customers\edit.ctp:4
+#: View\Customers\view.ctp:44
+msgid "Edit Customer"
+msgstr ""
+
+#: View\Customers\index.ctp:2
+msgid "Customers"
+msgstr ""
+
+#: View\Customers\index.ctp:50
+#: View\Customers\view.ctp:47
+#: View\People\add.ctp:25
+#: View\People\edit.ctp:27
+#: View\People\index.ctp:62
+#: View\People\view.ctp:69
+#: View\Rules\index.ctp:54
+#: View\Systems\add.ctp:23
+#: View\Systems\edit.ctp:25
+#: View\Systems\index.ctp:52
+#: View\Systems\view.ctp:44
+msgid "New Customer"
+msgstr ""
+
+#: View\Customers\view.ctp:14
+msgid "Zip"
+msgstr ""
+
+#: View\Customers\view.ctp:19
+msgid "Lat"
+msgstr ""
+
+#: View\Customers\view.ctp:24
+msgid "Lon"
+msgstr ""
+
+#: View\Customers\view.ctp:45
+msgid "Delete Customer"
+msgstr ""
+
+#: View\DimensionVerbs\add.ctp:4
+msgid "Add Dimension Verb"
+msgstr ""
+
+#: View\DimensionVerbs\add.ctp:25
+#: View\DimensionVerbs\edit.ctp:27
+#: View\DimensionVerbs\view.ctp:41
+msgid "List Dimension Verbs"
+msgstr ""
+
+#: View\DimensionVerbs\add.ctp:30
+#: View\DimensionVerbs\edit.ctp:32
+#: View\DimensionVerbs\index.ctp:55
+#: View\DimensionVerbs\view.ctp:47
+msgid "List Fact User Actions Dates"
+msgstr ""
+
+#: View\DimensionVerbs\add.ctp:31
+#: View\DimensionVerbs\edit.ctp:33
+#: View\DimensionVerbs\index.ctp:56
+#: View\DimensionVerbs\view.ctp:48;135
+msgid "New Fact User Actions Date"
+msgstr ""
+
+#: View\DimensionVerbs\edit.ctp:4
+#: View\DimensionVerbs\view.ctp:39
+msgid "Edit Dimension Verb"
+msgstr ""
+
+#: View\DimensionVerbs\index.ctp:2
+msgid "Dimension Verbs"
+msgstr ""
+
+#: View\DimensionVerbs\index.ctp:50
+#: View\DimensionVerbs\view.ctp:42
+msgid "New Dimension Verb"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:2
+msgid "Dimension Verb"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:9
+msgid "Sysname"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:24
+msgid "Uri"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:40
+msgid "Delete Dimension Verb"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:93
+msgid "Related Fact User Actions Dates"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:98
+#: View\People\view.ctp:129
+#: View\Systems\view.ctp:103
+msgid "Artefact Id"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:100
+msgid "Dimension Date Id"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:101
+msgid "Total"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:102
+msgid "Production"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:103
+msgid "Consumption"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:104
+msgid "Exchange"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:105
+msgid "Distribution"
+msgstr ""
+
+#: View\DimensionVerbs\view.ctp:106
+msgid "Operation"
+msgstr ""
+
+#: View\Groups\add.ctp:4
+msgid "Add Group"
+msgstr ""
+
+#: View\Groups\add.ctp:20
+#: View\Groups\edit.ctp:22
+#: View\Groups\view.ctp:46
+#: View\Modules\add.ctp:23
+#: View\Modules\edit.ctp:25
+#: View\Modules\index.ctp:59
+#: View\Modules\view.ctp:50
+#: View\Roles\add.ctp:22
+#: View\Roles\edit.ctp:24
+#: View\Roles\index.ctp:55
+#: View\Roles\view.ctp:45
+#: View\Systems\add.ctp:24
+#: View\Systems\edit.ctp:26
+#: View\Systems\index.ctp:53
+#: View\Systems\view.ctp:45
+#: View\Users\add.ctp:28
+#: View\Users\edit.ctp:30
+#: View\Users\index.ctp:59
+#: View\Users\view.ctp:46
+msgid "List Groups"
+msgstr ""
+
+#: View\Groups\edit.ctp:4
+#: View\Groups\view.ctp:44
+msgid "Edit Group"
+msgstr ""
+
+#: View\Groups\index.ctp:2
+msgid "Groups"
+msgstr ""
+
+#: View\Groups\index.ctp:50
+#: View\Groups\view.ctp:47
+#: View\Modules\add.ctp:24
+#: View\Modules\edit.ctp:26
+#: View\Modules\index.ctp:60
+#: View\Modules\view.ctp:51
+#: View\Roles\add.ctp:23
+#: View\Roles\edit.ctp:25
+#: View\Roles\index.ctp:56
+#: View\Roles\view.ctp:46
+#: View\Systems\add.ctp:25
+#: View\Systems\edit.ctp:27
+#: View\Systems\index.ctp:54
+#: View\Systems\view.ctp:46;90
+#: View\Users\add.ctp:29
+#: View\Users\edit.ctp:31
+#: View\Users\index.ctp:60
+#: View\Users\view.ctp:47;169
+msgid "New Group"
+msgstr ""
+
+#: View\Groups\view.ctp:2
+#: View\Modules\view.ctp:29
+#: View\Roles\view.ctp:29
+msgid "Group"
+msgstr ""
+
+#: View\Groups\view.ctp:9
+#: View\Modules\view.ctp:9;109;150
+#: View\People\view.ctp:170
+#: View\Roles\view.ctp:9
+#: View\Systems\view.ctp:59;100;141
+#: View\Users\view.ctp:9;97;138
+msgid "Sysid"
+msgstr ""
+
+#: View\Groups\view.ctp:29
+#: View\People\view.ctp:173
+#: View\Systems\view.ctp:63;105;144
+#: View\Users\view.ctp:142
+msgid "System Id"
+msgstr ""
+
+#: View\Groups\view.ctp:34
+#: View\People\view.ctp:89;130
+#: View\Systems\view.ctp:64
+#: View\Users\view.ctp:143
+msgid "Community Id"
+msgstr ""
+
+#: View\Groups\view.ctp:45
+msgid "Delete Group"
+msgstr ""
+
+#: View\Layouts\error.ctp:58;68
+#: cakephp\lib\Cake\Console\Templates\skel\View\Layouts\default.ctp:40;50
+#: cakephp\lib\Cake\Console\Templates\skel\View\Layouts\error.ctp:40;50
+msgid "CakePHP: the rapid development php framework"
+msgstr ""
+
+#: View\Members\add.ctp:4
+msgid "Add Member"
+msgstr ""
+
+#: View\Members\add.ctp:17
+#: View\Members\edit.ctp:19
+#: View\Members\view.ctp:41
+msgid "List Members"
+msgstr ""
+
+#: View\Members\add.ctp:18
+#: View\Members\edit.ctp:20
+#: View\Members\index.ctp:51
+#: View\Members\view.ctp:43
+#: View\Memberships\add.ctp:15
+#: View\Memberships\edit.ctp:17
+#: View\Memberships\view.ctp:31
+msgid "List Memberships"
+msgstr ""
+
+#: View\Members\add.ctp:19
+#: View\Members\edit.ctp:21
+#: View\Members\index.ctp:52
+#: View\Members\view.ctp:44
+#: View\Memberships\index.ctp:44
+#: View\Memberships\view.ctp:32
+msgid "New Membership"
+msgstr ""
+
+#: View\Members\edit.ctp:4
+#: View\Members\view.ctp:39
+msgid "Edit Member"
+msgstr ""
+
+#: View\Members\index.ctp:2
+msgid "Members"
+msgstr ""
+
+#: View\Members\index.ctp:50
+#: View\Members\view.ctp:42
+msgid "New Member"
+msgstr ""
+
+#: View\Members\view.ctp:2
+msgid "Member"
+msgstr ""
+
+#: View\Members\view.ctp:9
+msgid "Username"
+msgstr ""
+
+#: View\Members\view.ctp:14
+msgid "Password"
+msgstr ""
+
+#: View\Members\view.ctp:19
+#: View\Memberships\view.ctp:2
+msgid "Membership"
+msgstr ""
+
+#: View\Members\view.ctp:40
+msgid "Delete Member"
+msgstr ""
+
+#: View\Memberships\add.ctp:4
+msgid "Add Membership"
+msgstr ""
+
+#: View\Memberships\edit.ctp:4
+#: View\Memberships\view.ctp:29
+msgid "Edit Membership"
+msgstr ""
+
+#: View\Memberships\index.ctp:2
+msgid "Memberships"
+msgstr ""
+
+#: View\Memberships\view.ctp:30
+msgid "Delete Membership"
+msgstr ""
+
+#: View\Modules\add.ctp:4
+msgid "Add Module"
+msgstr ""
+
+#: View\Modules\add.ctp:20
+#: View\Modules\edit.ctp:22
+#: View\Modules\view.ctp:46
+#: View\Systems\add.ctp:26
+#: View\Systems\edit.ctp:28
+#: View\Systems\index.ctp:55
+#: View\Systems\view.ctp:47
+msgid "List Modules"
+msgstr ""
+
+#: View\Modules\add.ctp:25
+#: View\Modules\edit.ctp:27
+#: View\Modules\index.ctp:61
+#: View\Modules\view.ctp:52
+#: View\Systems\add.ctp:21
+#: View\Systems\edit.ctp:23
+#: View\Systems\view.ctp:41
+#: View\Users\add.ctp:22
+#: View\Users\edit.ctp:24
+#: View\Users\index.ctp:53
+#: View\Users\view.ctp:40
+msgid "List Systems"
+msgstr ""
+
+#: View\Modules\add.ctp:26
+#: View\Modules\edit.ctp:28
+#: View\Modules\index.ctp:62
+#: View\Modules\view.ctp:53
+#: View\Systems\index.ctp:50
+#: View\Systems\view.ctp:42
+#: View\Users\add.ctp:23
+#: View\Users\edit.ctp:25
+#: View\Users\index.ctp:54
+#: View\Users\view.ctp:41
+msgid "New System"
+msgstr ""
+
+#: View\Modules\add.ctp:31
+#: View\Modules\edit.ctp:33
+#: View\Modules\index.ctp:67
+#: View\Modules\view.ctp:58
+msgid "List Materials"
+msgstr ""
+
+#: View\Modules\add.ctp:32
+#: View\Modules\edit.ctp:34
+#: View\Modules\index.ctp:68
+#: View\Modules\view.ctp:59;177
+msgid "New Material"
+msgstr ""
+
+#: View\Modules\edit.ctp:4
+#: View\Modules\view.ctp:44
+msgid "Edit Module"
+msgstr ""
+
+#: View\Modules\index.ctp:2
+msgid "Modules"
+msgstr ""
+
+#: View\Modules\index.ctp:56
+#: View\Modules\view.ctp:47
+#: View\Systems\add.ctp:27
+#: View\Systems\edit.ctp:29
+#: View\Systems\index.ctp:56
+#: View\Systems\view.ctp:48;131
+msgid "New Module"
+msgstr ""
+
+#: View\Modules\view.ctp:2
+msgid "Module"
+msgstr ""
+
+#: View\Modules\view.ctp:34
+#: View\Systems\view.ctp:2
+#: View\Users\view.ctp:24
+msgid "System"
+msgstr ""
+
+#: View\Modules\view.ctp:45
+msgid "Delete Module"
+msgstr ""
+
+#: View\Modules\view.ctp:104
+#: View\Rules\view.ctp:68
+#: View\Users\view.ctp:92
+msgid "Related Conditions"
+msgstr ""
+
+#: View\Modules\view.ctp:145
+msgid "Related Materials"
+msgstr ""
+
+#: View\People\add.ctp:4
+msgid "Add Person"
+msgstr ""
+
+#: View\People\add.ctp:23
+#: View\People\edit.ctp:25
+#: View\People\view.ctp:66
+#: View\Users\add.ctp:20
+#: View\Users\edit.ctp:22
+#: View\Users\index.ctp:51
+#: View\Users\view.ctp:38
+msgid "List People"
+msgstr ""
+
+#: View\People\add.ctp:26
+#: View\People\edit.ctp:28
+#: View\People\index.ctp:63
+#: View\People\view.ctp:70
+msgid "List Positions"
+msgstr ""
+
+#: View\People\add.ctp:27
+#: View\People\edit.ctp:29
+#: View\People\index.ctp:64
+#: View\People\view.ctp:71;117
+msgid "New Position"
+msgstr ""
+
+#: View\People\add.ctp:30
+#: View\People\edit.ctp:32
+#: View\People\index.ctp:67
+#: View\People\view.ctp:74
+#: View\Roles\add.ctp:20
+#: View\Roles\edit.ctp:22
+#: View\Roles\index.ctp:53
+#: View\Roles\view.ctp:43
+#: View\Systems\add.ctp:28
+#: View\Systems\edit.ctp:30
+#: View\Systems\index.ctp:57
+#: View\Systems\view.ctp:49
+#: View\Users\add.ctp:19
+#: View\Users\edit.ctp:21
+#: View\Users\view.ctp:36
+msgid "List Users"
+msgstr ""
+
+#: View\People\add.ctp:31
+#: View\People\edit.ctp:33
+#: View\People\index.ctp:68
+#: View\People\view.ctp:75;197
+#: View\Roles\add.ctp:21
+#: View\Roles\edit.ctp:23
+#: View\Roles\index.ctp:54
+#: View\Roles\view.ctp:44
+#: View\Systems\add.ctp:29
+#: View\Systems\edit.ctp:31
+#: View\Systems\index.ctp:58
+#: View\Systems\view.ctp:50;168
+#: View\Users\index.ctp:50
+#: View\Users\view.ctp:37
+msgid "New User"
+msgstr ""
+
+#: View\People\add.ctp:32
+#: View\People\edit.ctp:34
+#: View\People\index.ctp:69
+#: View\People\view.ctp:76
+#: View\Rules\add.ctp:28
+#: View\Rules\edit.ctp:30
+msgid "List Communities"
+msgstr ""
+
+#: View\People\add.ctp:33
+#: View\People\edit.ctp:35
+#: View\People\index.ctp:70
+#: View\People\view.ctp:77;238
+#: View\Rules\add.ctp:29
+#: View\Rules\edit.ctp:31
+msgid "New Community"
+msgstr ""
+
+#: View\People\edit.ctp:4
+#: View\People\view.ctp:64
+msgid "Edit Person"
+msgstr ""
+
+#: View\People\index.ctp:2
+msgid "People"
+msgstr ""
+
+#: View\People\index.ctp:60
+#: View\People\view.ctp:67
+#: View\Users\add.ctp:21
+#: View\Users\edit.ctp:23
+#: View\Users\index.ctp:52
+#: View\Users\view.ctp:39
+msgid "New Person"
+msgstr ""
+
+#: View\People\view.ctp:2
+#: View\Users\view.ctp:19
+msgid "Person"
+msgstr ""
+
+#: View\People\view.ctp:9
+msgid "Firstname"
+msgstr ""
+
+#: View\People\view.ctp:14
+msgid "Lastname"
+msgstr ""
+
+#: View\People\view.ctp:19
+msgid "Gender"
+msgstr ""
+
+#: View\People\view.ctp:24
+msgid "Dob"
+msgstr ""
+
+#: View\People\view.ctp:29
+msgid "Nationality"
+msgstr ""
+
+#: View\People\view.ctp:34
+msgid "Ethnicity"
+msgstr ""
+
+#: View\People\view.ctp:39
+msgid "Disability"
+msgstr ""
+
+#: View\People\view.ctp:65
+msgid "Delete Person"
+msgstr ""
+
+#: View\People\view.ctp:81
+msgid "Related Positions"
+msgstr ""
+
+#: View\People\view.ctp:88;131;172
+#: View\Systems\view.ctp:143
+msgid "Person Id"
+msgstr ""
+
+#: View\People\view.ctp:165
+#: View\Systems\view.ctp:136
+msgid "Related Users"
+msgstr ""
+
+#: View\People\view.ctp:202
+msgid "Related Communities"
+msgstr ""
+
+#: View\People\view.ctp:210
+msgid "Customer Id"
+msgstr ""
+
+#: View\Roles\add.ctp:4
+msgid "Add Role"
+msgstr ""
+
+#: View\Roles\add.ctp:19
+#: View\Roles\edit.ctp:21
+#: View\Roles\view.ctp:41
+msgid "List Roles"
+msgstr ""
+
+#: View\Roles\edit.ctp:4
+#: View\Roles\view.ctp:39
+msgid "Edit Role"
+msgstr ""
+
+#: View\Roles\index.ctp:2
+msgid "Roles"
+msgstr ""
+
+#: View\Roles\index.ctp:52
+#: View\Roles\view.ctp:42
+msgid "New Role"
+msgstr ""
+
+#: View\Roles\view.ctp:2
+msgid "Role"
+msgstr ""
+
+#: View\Roles\view.ctp:24
+#: View\Users\view.ctp:2
+msgid "User"
+msgstr ""
+
+#: View\Roles\view.ctp:40
+msgid "Delete Role"
+msgstr ""
+
+#: View\Rules\add.ctp:4
+msgid "Add Rule"
+msgstr ""
+
+#: View\Rules\edit.ctp:4
+#: View\Rules\view.ctp:59
+msgid "Edit Rule"
+msgstr ""
+
+#: View\Rules\index.ctp:2
+msgid "Rules"
+msgstr ""
+
+#: View\Rules\view.ctp:2
+msgid "Rule"
+msgstr ""
+
+#: View\Rules\view.ctp:60
+msgid "Delete Rule"
+msgstr ""
+
+#: View\Systems\add.ctp:4
+msgid "Add System"
+msgstr ""
+
+#: View\Systems\edit.ctp:4
+#: View\Systems\view.ctp:39
+msgid "Edit System"
+msgstr ""
+
+#: View\Systems\index.ctp:2
+msgid "Systems"
+msgstr ""
+
+#: View\Systems\view.ctp:40
+msgid "Delete System"
+msgstr ""
+
+#: View\Systems\view.ctp:54
+#: View\Users\view.ctp:133
+msgid "Related Groups"
+msgstr ""
+
+#: View\Systems\view.ctp:95
+msgid "Related Modules"
+msgstr ""
+
+#: View\Users\add.ctp:4
+#: cakephp\lib\Cake\Test\test_app\View\Posts\cache_form.ctp:5
+msgid "Add User"
+msgstr ""
+
+#: View\Users\edit.ctp:4
+#: View\Users\view.ctp:34
+msgid "Edit User"
+msgstr ""
+
+#: View\Users\index.ctp:2
+msgid "Users"
+msgstr ""
+
+#: View\Users\view.ctp:35
+msgid "Delete User"
+msgstr ""
+
+#: cakephp\lib\Cake\Console\Templates\skel\View\Layouts\default.ctp:24
+#: cakephp\lib\Cake\Console\Templates\skel\View\Layouts\error.ctp:24
+msgid "CakePHP: the rapid development php framework:"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:365;439;509;538
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1917;1907
+msgid "Plural Rule 1"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:369;513;542
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1940
+msgid "Plural Rule 1 (from core)"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:373;517
+msgid "Some string with %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:377;381;521;525
+msgid "Some string with %s %s"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:385;389
+msgid "Testing %2$s %1$s"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:393
+msgid "Testing %.2f number"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:406;410;472;484;575
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1742;1746;1750;1929
+msgid "%d = 1"
+msgid_plural "%d = 0 or > 1"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:414;579
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1952
+msgid "%d = 1 (from core)"
+msgid_plural "%d = 0 or > 1 (from core)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:418
+msgid "%d item."
+msgid_plural "%d items."
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Test\Case\BasicsTest.php:422;426
+msgid "%d item for id %s"
+msgid_plural "%d items for id %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1719
+msgid "No Translation needed"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1731
+msgid "this is a \"quoted string\""
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1803;1823
+msgid "d_fmt"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1807;1829
+msgid "am_pm"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\I18n\I18nTest.php:1811;1833
+msgid "abmon"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\Case\View\Helper\FormHelperTest.php:3646
+#: cakephp\lib\Cake\View\Helper\FormHelper.php:1339
+msgid "empty"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\Plugin\TestPlugin\View\Elements\translate.ctp:1
+msgid "This is a translatable string"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\extract.ctp:14
+msgid "Editing this Page"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\extract.ctp:15;6
+msgid "You have %d new message."
+msgid_plural "You have %d new messages."
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\extract.ctp:18
+msgid "double \"quoted\""
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\extract.ctp:19
+msgid "single 'quoted'"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\extract.ctp:22
+msgid "Hot features!\n - No Configuration: Set-up the database and let the magic begin\n - Extremely Simple: Just look at the name...It's Cake\n - Active, Friendly Community: Join us #cakephp on IRC. We'd love to help you get started"
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\extract.ctp:7
+msgid "You deleted %d message."
+msgid_plural "You deleted %d messages."
+msgstr[0] ""
+msgstr[1] ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\home.ctp:93
+msgid "PCRE has not been compiled with Unicode support."
+msgstr ""
+
+#: cakephp\lib\Cake\Test\test_app\View\Pages\home.ctp:95
+msgid "Recompile PCRE with Unicode support by adding <code>--enable-unicode-properties</code> when configuring"
+msgstr ""
+
+#: cakephp\lib\Cake\View\Helper\HtmlHelper.php:731
+msgid "Home"
+msgstr ""
+
+#: Model\Artefact.php:validation for field name
+msgid "This name has already been taken."
+msgstr ""
+
+#: Model\Member.php:validation for field username;validation for field password
+#: Model\Membership.php:validation for field name
+msgid "notempty"
+msgstr ""
+
+#: Model\Member.php:validation for field membership_id
+msgid "numeric"
+msgstr ""
+
