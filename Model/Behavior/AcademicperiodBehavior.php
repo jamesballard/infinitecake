@@ -10,30 +10,6 @@ App::uses('Action', 'Model');
  */
 class AcademicperiodBehavior extends ModelBehavior {
 
-    /**
-     * Returns the date when logs were first recorded
-     *
-     * @return  string  timestamp of first log
-     */
-    public function getStart(Model $Model, $filter=false) {
-        $action = new Action();
-        //$result = Cache::read('logstart', 'long');
-        //if (!$result) {
-        $conditions = array();
-        if($filter) {
-            $conditions = $filter;
-            unset($conditions['FactSummedActionsDatetime.system_id']);
-        }
-        $result = $action->find('first', array(
-            'fields' => "UNIX_TIMESTAMP(MIN(time)) AS start", //array of field names
-            'recursive' => -1,
-            'conditions' => $conditions
-        ));
-        //Cache::write('logstart', $result, 'long');
-        //}
-        return $result;
-    }
-
 /**
  * Returns the academic year in format YYYY/yy based on start year
  *

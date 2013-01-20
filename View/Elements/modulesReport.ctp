@@ -8,20 +8,9 @@ echo '<div id="chart_div"  style="width:'.$width.'px; height:'.$height.'px;"></d
 echo '<div style="width:400px">';
 
 echo $this->Form->create();
-
+echo $this->element('dateWindowSelect');
 echo $this->element('systemMultiSelect');
-
-echo $this->Form->input('width', array(
-        'type' => 'text',
-        'default' => '750'
-    )
-); // has a label element
-
-echo $this->Form->input('height', array(
-        'type' => 'text',
-        'default' => '500'
-    )
-); // has a label element
+echo $this->element('sizeInput');
 
 echo $this->Form->end('Change');
 
