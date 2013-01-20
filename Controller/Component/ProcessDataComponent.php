@@ -13,7 +13,7 @@ class ProcessDataComponent extends Component {
      * @return array Data for chart
      */
     
-    public function getOverviewData($period, $conditions) {
+    public function getOverviewData($dateWindow, $period, $conditions) {
     	switch($period) {
     		case 'day':
     			$interval = 'P1D';
@@ -29,7 +29,7 @@ class ProcessDataComponent extends Component {
     			break;
     	}
     	$FactSummedActionsDatetime = new FactSummedActionsDatetime();
-    	$data = $FactSummedActionsDatetime->getPeriodCountGchart($conditions, $interval, $dateFormat);
+    	$data = $FactSummedActionsDatetime->getPeriodCountGchart($dateWindow, $conditions, $interval, $dateFormat);
     	return $data;
     }
     
@@ -41,9 +41,9 @@ class ProcessDataComponent extends Component {
      * @return array Data for chart
      */
     
-    public function getModuleData($conditions) {
+    public function getModuleData($dateWindow, $conditions) {
     	$FactSummedActionsDatetime = new FactSummedActionsDatetime();
-    	$data = $FactSummedActionsDatetime->getModuleCountTreemap($conditions);
+    	$data = $FactSummedActionsDatetime->getModuleCountTreemap($dateWindow, $conditions);
     	return $data;
     }
     
@@ -55,9 +55,9 @@ class ProcessDataComponent extends Component {
      * @return array Data for chart
      */
     
-    public function getHourlyData($period,$report,$conditions) {
+    public function getHourlyData($dateWindow, $period,$report,$conditions) {
     	$FactSummedActionsDatetime = new FactSummedActionsDatetime();
-    	$data = $FactSummedActionsDatetime->getHourStats($period, $report, $conditions);
+    	$data = $FactSummedActionsDatetime->getHourStats($dateWindow, $period, $report, $conditions);
     	
     	return base64_encode(serialize($data));
     
@@ -70,25 +70,25 @@ class ProcessDataComponent extends Component {
      * @return array Data for chart
      */
     
-    public function getTaskTypeData($period, $conditions) {
+    public function getTaskTypeData($dateWindow, $period, $conditions) {
     	$FactSummedVerbRuleDatetime = new FactSummedVerbRuleDatetime();
     	switch($period) {
     		case 'day':
     			$interval = 'P1D';
     			$dateFormat = "d-M-y";
-    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,$conditions, $interval, $dateFormat);
+    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
     			return $data;
     			break;
     		case 'week':
     			$interval = 'P1W';
     			$dateFormat = 'W-o';
-    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,$conditions, $interval, $dateFormat);
+    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
     			return $data;
     			break;
     		case 'month':
     			$interval = 'P1M';
     			$dateFormat = "M-y";
-    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart(1,$conditions, $interval, $dateFormat);
+    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
     			return $data;
     			break;
     	}
@@ -102,25 +102,25 @@ class ProcessDataComponent extends Component {
      * @return array Data for chart
      */
     
-    public function getIPData($period, $conditions) {
+    public function getIPData($dateWindow, $period, $conditions) {
     	$FactSummedVerbRuleDatetime = new FactSummedVerbRuleDatetime();
     	switch($period) {
     		case 'day':
     			$interval = 'P1D';
     			$dateFormat = "d-M-y";
-    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart(2, $conditions, $interval, $dateFormat);
+    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart($dateWindow, 2, $conditions, $interval, $dateFormat);
     			return $data;
     			break;
     		case 'week':
     			$interval = 'P1W';
     			$dateFormat = 'W-o';
-    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart(2, $conditions, $interval, $dateFormat);
+    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart($dateWindow, 2, $conditions, $interval, $dateFormat);
     			return $data;
     			break;
     		case 'month':
     			$interval = 'P1M';
     			$dateFormat = "M-y";
-    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart(2, $conditions, $interval, $dateFormat);
+    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart($dateWindow, 2, $conditions, $interval, $dateFormat);
     			return $data;
     			break;
     	}

@@ -7,6 +7,13 @@ $this->end();
 
 ?>
 <h2>Activity Stream for <?php echo $groupid; ?></h2>
+<?php 
+	echo '<div style="width:400px">';
+	echo $this->Form->create();
+	echo $this->element('streamDateWindowSelect'); 
+	echo $this->Form->end('Change');
+	echo '</div>';
+?>
 <ul id="activity_stream_example" class="activity-stream">
 <?php foreach($actions as $action) { ?> 
   <li class="activity scroll" data-activity-id="50f22dbf7421a" style="">

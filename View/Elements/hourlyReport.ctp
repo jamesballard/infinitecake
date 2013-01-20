@@ -11,19 +11,9 @@ echo $this->Form->create();
     'default' => 'sum'
 ));*/
 
+echo $this->element('dateWindowSelect');
 echo $this->element('systemMultiSelect');
-
-echo $this->Form->input('width', array(
-        'type' => 'text',
-        'default' => '750'
-    )
-); // has a label element
-
-echo $this->Form->input('height', array(
-        'type' => 'text',
-        'default' => '500'
-    )
-); // has a label element
+echo $this->element('sizeInput');
 
 echo $this->Form->end('Change');
 

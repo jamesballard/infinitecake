@@ -17,6 +17,7 @@ class StatsController extends AppController {
 
     		//Set defaults
 	        $period = 'month';
+	        $dateWindow = '-2 years';
 	        $chartType = 'area';
 	        $reportType = 'Activity';
 	        $system = array_keys($systems);
@@ -26,6 +27,7 @@ class StatsController extends AppController {
     		//Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
                 $period = $this->request->data['Action']['period'];
+                $dateWindow = $this->request->data['Action']['daterange'];
                 $chartType = $this->request->data['Action']['chart'];
                 $reportType = $this->request->data['Action']['report'];
                 $system = $this->request->data['Action']['system'];
@@ -43,7 +45,7 @@ class StatsController extends AppController {
 	        //Set query filters
 	        $conditions = $this->DataFilters->returnSystemFilter($system);
         	
-	        $results = $this->ProcessData->getOverviewData($period, $conditions);
+	        $results = $this->ProcessData->getOverviewData($dateWindow, $period, $conditions);
             $data = array_merge($data,$results);
 
             $this->set(compact('systems'));
@@ -55,13 +57,15 @@ class StatsController extends AppController {
 	public function hourly() {
 		$systems = AppController::get_customerSystems();
             $report = 'sum';
+            $dateWindow = '-2 years';
             $system = array_keys($systems);
             $width = 750;
             $height = 500;
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $report = $this->request->data['Action']['report'];
+                //$report = $this->request->data['Action']['report'];
+                $dateWindow = $this->request->data['Action']['daterange'];
                 $system = $this->request->data['Action']['system'];
                 $width = $this->request->data['Action']['width'];
                 $height = $this->request->data['Action']['height'];
@@ -73,11 +77,11 @@ class StatsController extends AppController {
             //Set query filters
 	        $conditions = $this->DataFilters->returnSystemFilter($system);
 	        
-            $dayData = $this->ProcessData->getHourlyData('day', $report, $conditions);
+            $dayData = $this->ProcessData->getHourlyData($dateWindow, 'day', $report, $conditions);
 
             $this->set('dayData', $dayData);
 
-            $nightData = $this->ProcessData->getHourlyData('night', $report, $conditions);
+            $nightData = $this->ProcessData->getHourlyData($dateWindow, 'night', $report, $conditions);
 	        
             $this->set('nightData', $nightData);
             
@@ -86,9 +90,19 @@ class StatsController extends AppController {
 
     public function stream() {
     	$systems = AppController::get_customerSystems();
+    	
+    	//Set defaults.
     	$system = array_keys($systems);
-    		//Set defaults
-    		$actions = $this->Action->find('all', array(
+    	$dateWindow = '-3 days';
+    		
+    	//Update with posted form options if sent.
+    	if ($this->request->is('post')) {
+    		$dateWindow = $this->request->data['Action']['daterange'];
+    		$system = $this->request->data['Action']['system'];
+    	}
+    	
+    	//Get action list.
+    	$actions = $this->Action->find('all', array(
     			'contain' => array(
     				'User' => array(
     					'fields' => array(
@@ -110,9 +124,9 @@ class StatsController extends AppController {
     					)
     				)
     			),
-    			'conditions' => array('Action.system_id' => $system),
-    			'order' => array('time' => 'DESC'),
-    			'limit' => 500
+    			'conditions' => array('Action.system_id' => $system, 
+    						'time >'=>date("Y-m-d", strtotime($dateWindow))),
+    			'order' => array('time' => 'DESC')
     		)
     	); 
 		$this->set('actions', $actions);
@@ -124,6 +138,7 @@ class StatsController extends AppController {
     	$systems = AppController::get_customerSystems();
     	//Set defaults
     	$system = array_keys($systems);
+    	$dateWindow = '-2 years';
     	$period = 'month';
     	$chartType = 'column';
     	$reportType = 'Activity';
@@ -133,9 +148,10 @@ class StatsController extends AppController {
     	//Overwrite defaults if form submitted.
     	if ($this->request->is('post')) {
     		$period = $this->request->data['Action']['period'];
+    		$dateWindow = $this->request->data['Action']['daterange'];
             $system = $this->request->data['Action']['system'];
     		$chartType = $this->request->data['Action']['chart'];
-    		$reportType = $this->request->data['Action']['report'];
+    		//$reportType = $this->request->data['Action']['report'];
     		$width = $this->request->data['Action']['width'];
     		$height = $this->request->data['Action']['height'];
     	}
@@ -152,7 +168,7 @@ class StatsController extends AppController {
     	//Set query filters
     	$conditions = $this->DataFilters->returnSystemFilter($system);
     	
-    	$results = $this->ProcessData->getIPData($period, $conditions);
+    	$results = $this->ProcessData->getIPData($dateWindow, $period, $conditions);
     	$data = array_merge($data,$results);
     	
     	$this->set('data', $data);
@@ -168,6 +184,7 @@ class StatsController extends AppController {
     	$systems = AppController::get_customerSystems();
         //Set defaults
             $reportType = 'Activity';
+            $dateWindow = '-2 years';
             $system = array_keys($systems);
             $width = 750;
             $height = 500;
@@ -175,6 +192,7 @@ class StatsController extends AppController {
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
                 $system = $this->request->data['Action']['system'];
+                $dateWindow = $this->request->data['Action']['daterange'];
                 $width = $this->request->data['Action']['width'];
                 $height = $this->request->data['Action']['height'];
             }
@@ -185,7 +203,7 @@ class StatsController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnSystemFilter($system);
             
-            $this->set('data', $this->ProcessData->getModuleData($conditions));
+            $this->set('data', $this->ProcessData->getModuleData($dateWindow, $conditions));
 
             $this->set(compact('systems'));
 
@@ -195,6 +213,7 @@ class StatsController extends AppController {
     	$systems = AppController::get_customerSystems();
         //Set defaults
     	$system = array_keys($systems);
+    	$dateWindow = '-2 years';
         $period = 'month';
         $chartType = 'column';
         $reportType = 'Activity';
@@ -204,9 +223,10 @@ class StatsController extends AppController {
         //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
                 $period = $this->request->data['Action']['period'];
+                $dateWindow = $this->request->data['Action']['daterange'];
                 $system = $this->request->data['Action']['system'];
                 $chartType = $this->request->data['Action']['chart'];
-                $reportType = $this->request->data['Action']['report'];
+                //$reportType = $this->request->data['Action']['report'];
                 $width = $this->request->data['Action']['width'];
                 $height = $this->request->data['Action']['height'];
             }
@@ -224,7 +244,7 @@ class StatsController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnSystemFilter($system);
             
-            $results = $this->ProcessData->getTaskTypeData($period, $conditions);
+            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);

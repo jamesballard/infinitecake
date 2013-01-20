@@ -96,9 +96,9 @@ class FactSummedActionsDatetime extends AppModel {
      * @param string $format date format (e.g. 'M')
      * @return array Academic Year => Period => Count
      */
-    function getPeriodCount($filter, $interval, $dateFormat) {
+    function getPeriodCount($dateWindow, $filter, $interval, $dateFormat) {
         $interval = new DateInterval($interval);
-        $start = $this->getStart($filter);
+        $start = strtotime($dateWindow);
         $daterange = $this->getAcademicPeriod($start[0]['start'], $interval);
 
         $data = array();
@@ -148,8 +148,8 @@ class FactSummedActionsDatetime extends AppModel {
      * @param string $format date format (e.g. 'M')
      * @return array Academic Year => Period => Count
      */
-    function getPeriodCountGchart($filter, $interval, $dateFormat) {
-        $results = $this->getPeriodCount($filter, $interval, $dateFormat);
+    function getPeriodCountGchart($dateWindow, $filter, $interval, $dateFormat) {
+        $results = $this->getPeriodCount($dateWindow, $filter, $interval, $dateFormat);
         $data = $this->transformGchartArray($results);
         return $data;
     }
@@ -162,8 +162,8 @@ class FactSummedActionsDatetime extends AppModel {
      * @param string $format date format (e.g. 'M')
      * @return array Academic Year => Period => Count
      */
-    function getModuleCount($filter) {
-        $start = $this->getStart($filter);
+    function getModuleCount($dateWindow, $filter) {
+        $start = strtotime($dateWindow);
         $interval = new DateInterval('P1Y');
         $daterange = $this->getAcademicPeriod($start[0]['start'], $interval);
 
@@ -217,7 +217,7 @@ class FactSummedActionsDatetime extends AppModel {
      * @return array Academic Year => Period => Count
      */
 
-    function getModuleCountTreemap($filter) {
+    function getModuleCountTreemap($dateWindow, $filter) {
         $results = $this->getModuleCount($filter);
         $data = $this->transformModuleTreemap($results);
         return $data;
@@ -226,7 +226,8 @@ class FactSummedActionsDatetime extends AppModel {
     private $dayHours = array(13,14,15,16,17,18,19,8,9,10,11,12);
     private $nightHours = array(1,2,3,4,5,6,7,20,21,22,23,0);
 
-    public function getHourStats($period, $report, $filter) {
+    public function getHourStats($dateWindow, $period, $report, $filter) {
+    	$start = strtotime($dateWindow);
 
         switch($period) {
             case 'day':
@@ -253,8 +254,9 @@ class FactSummedActionsDatetime extends AppModel {
         }
 
         $data =array();
+        $conditions = array('DimensionDate.date >='=>date("Y-m-d", $start));
         foreach ($hours as $hour) {
-            $conditions = array('DimensionTime.hour'=>$hour);
+            $conditions = array_merge($conditions,array('DimensionTime.hour'=>$hour));
             $conditions = array_merge($conditions,$filter);
             //$cacheName = $reportType.'-'.$this->get_academic_year_name($start).'-'.$date->format($periodFormat);
             //$value = Cache::read($cacheName, 'long');
@@ -266,7 +268,12 @@ class FactSummedActionsDatetime extends AppModel {
 	    					'fields' => array(
 	    						'DimensionTime.hour'
 	    					)
-	    				)
+	    				),
+                    	'DimensionDate' => array(
+                    		'fields' => array(
+                    			'DimensionDate.date'
+                    		)
+                    	)
 	    			), //int
                     'fields' => $fields, //array of field names
                 )

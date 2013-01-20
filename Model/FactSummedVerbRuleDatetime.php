@@ -97,9 +97,9 @@ class FactSummedVerbRuleDatetime extends AppModel {
 	 * @param string $format date format (e.g. 'M')
 	 * @return array Academic Year => Period => Count
 	 */
-	function getVerbRuleCount($rule, $filter, $interval, $dateFormat) {
+	function getVerbRuleCount($dateWindow, $rule, $filter, $interval, $dateFormat) {
 		$interval = new DateInterval($interval);
-		$begin = new DateTime(date('Y-08-01', strtotime("-3 years")));
+		$begin = new DateTime(date('Y-08-01', strtotime($dateWindow)));
 		$end = new DateTime( date('Y-m-d',time()));
 		$daterange = new DatePeriod($begin, $interval, $end);
 	
@@ -148,8 +148,8 @@ class FactSummedVerbRuleDatetime extends AppModel {
 	 * @param string $format date format (e.g. 'M')
 	 * @return array Academic Year => Period => Count
 	 */
-	function getVerbRuleCountGchart($rule, $filter, $interval, $dateFormat) {
-		$results = $this->getVerbRuleCount($rule, $filter, $interval, $dateFormat);
+	function getVerbRuleCountGchart($dateWindow, $rule, $filter, $interval, $dateFormat) {
+		$results = $this->getVerbRuleCount($dateWindow, $rule, $filter, $interval, $dateFormat);
 		$data = $this->transformGchartArray($results);
 		return $data;
 	}
@@ -162,9 +162,9 @@ class FactSummedVerbRuleDatetime extends AppModel {
 	 * @param string $format date format (e.g. 'M')
 	 * @return array Academic Year => Period => Count
 	 */
-	function getIPRuleCount($rule, $filter, $interval, $dateFormat) {
+	function getIPRuleCount($dateWindow, $rule, $filter, $interval, $dateFormat) {
 		$interval = new DateInterval($interval);
-		$begin = new DateTime(date('Y-08-01', strtotime("-2 years")));
+		$begin = new DateTime(date('Y-08-01', strtotime($dateWindow)));
 		$end = new DateTime( date('Y-m-d',time()));
 		$daterange = new DatePeriod($begin, $interval, $end);
 	
@@ -233,8 +233,8 @@ class FactSummedVerbRuleDatetime extends AppModel {
 	 * @param string $format date format (e.g. 'M')
 	 * @return array Academic Year => Period => Count
 	 */
-	function getIPRuleCountGchart($rule, $filter, $interval, $dateFormat) {
-		$results = $this->getIPRuleCount($rule, $filter, $interval, $dateFormat);
+	function getIPRuleCountGchart($dateWindow, $rule, $filter, $interval, $dateFormat) {
+		$results = $this->getIPRuleCount($dateWindow, $rule, $filter, $interval, $dateFormat);
 		$data = $this->transformGchartArray($results);
 		return $data;
 	}
