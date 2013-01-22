@@ -31,6 +31,8 @@ class ArtefactsController extends AppController {
 			throw new NotFoundException(__('Invalid artefact'));
 		}
 		$this->set('artefact', $this->Artefact->read(null, $id));
+		
+		$this->set('types', $this->Artefact->artefact_types);
 	}
 
 /**
@@ -48,6 +50,7 @@ class ArtefactsController extends AppController {
 				$this->Session->setFlash(__('The artefact could not be saved. Please, try again.'));
 			}
 		}
+		$this->set('types', $this->Artefact->artefact_types);
 	}
 
 /**
@@ -72,6 +75,7 @@ class ArtefactsController extends AppController {
 		} else {
 			$this->request->data = $this->Artefact->read(null, $id);
 		}
+		$this->set('types', $this->Artefact->artefact_types);
 	}
 
 /**

@@ -33,6 +33,8 @@ class ConditionsController extends AppController {
 			throw new NotFoundException(__('Invalid condition'));
 		}
 		$this->set('condition', $this->Condition->read(null, $id));
+		
+		$this->set('types', $this->Condition->condition_types);
 	}
 
 /**
@@ -56,6 +58,8 @@ class ConditionsController extends AppController {
 		$dimensionVerbsRecords = $this->Condition->DimensionVerb->find('all', array('fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')));
         $dimensionVerbs = Set::combine($dimensionVerbsRecords, '{n}.DimensionVerb.id', '{n}.0.name');
 		$this->set(compact('rules', 'dimensionVerbs'));
+		
+		$this->set('types', $this->Condition->condition_types);
 	}
 
 /**
@@ -86,6 +90,8 @@ class ConditionsController extends AppController {
         $dimensionVerbsRecords = $this->Condition->DimensionVerb->find('all', array('fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')));
         $dimensionVerbs = Set::combine($dimensionVerbsRecords, '{n}.DimensionVerb.id', '{n}.0.name');
         $this->set(compact('rules', 'dimensionVerbs'));
+        
+        $this->set('types', $this->Condition->condition_types);
 	}
 
 /**

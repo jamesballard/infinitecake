@@ -42,7 +42,6 @@
 		<th><?php echo __('Name'); ?></th>
 		<th><?php echo __('Value'); ?></th>
 		<th><?php echo __('Type'); ?></th>
-		<th><?php echo __('Customer'); ?></th>
 		<th><?php echo __('Created'); ?></th>
 		<th><?php echo __('Modified'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
@@ -57,20 +56,19 @@
 			<td><?php
                 switch ($rule['type']) {
                     case Rule::RULE_TYPE_ACTION:
-                        echo 'Action';
+                        echo $types[Rule::RULE_TYPE_ACTION];
                         break;
                     case Rule::RULE_TYPE_ARTEFACT:
-                        echo 'Artefact';
+                        echo $types[Rule::RULE_TYPE_ARTEFACT];
                         break;
                     case Rule::RULE_TYPE_DIMENSION_VERB:
-                        echo 'Verb';
+                        echo $types[Rule::RULE_TYPE_DIMENSION_VERB];
                         break;
                     case Rule::RULE_TYPE_MODULE:
-                        echo 'Module';
+                        echo $types[Rule::RULE_TYPE_MODULE];
                         break;
                 }
                 ?></td>
-			<td><?php echo $rule['Customer']['name']; ?></td>
 			<td><?php echo $rule['created']; ?></td>
 			<td><?php echo $rule['modified']; ?></td>
 			<td class="actions">

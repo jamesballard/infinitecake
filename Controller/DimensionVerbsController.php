@@ -30,6 +30,8 @@ class DimensionVerbsController extends AppController {
 			throw new NotFoundException(__('Invalid dimension verb'));
 		}
 		$this->set('dimensionVerb', $this->DimensionVerb->read(null, $id));
+		
+		$this->set('types', $this->DimensionVerb->verb_types);
 	}
 
 /**
@@ -49,6 +51,8 @@ class DimensionVerbsController extends AppController {
 		}
 		$artefacts = $this->DimensionVerb->Artefact->find('list');
 		$this->set(compact('artefacts'));
+		
+		$this->set('types', $this->DimensionVerb->verb_types);
 	}
 
 /**
@@ -76,6 +80,8 @@ class DimensionVerbsController extends AppController {
 		}
 		$artefacts = $this->DimensionVerb->Artefact->find('list');
 		$this->set(compact('artefacts'));
+		
+		$this->set('types', $this->DimensionVerb->verb_types);
 	}
 
 /**
