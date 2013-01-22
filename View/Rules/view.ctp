@@ -21,16 +21,16 @@
             <?php
                 switch (h($rule['Rule']['type'])) {
                     case Rule::RULE_TYPE_ACTION:
-                        echo 'Action';
+                        echo $types[Rule::RULE_TYPE_ACTION];
                         break;
                     case Rule::RULE_TYPE_ARTEFACT:
-                        echo 'Artefact';
+                        echo $types[Rule::RULE_TYPE_ARTEFACT];
                         break;
                     case Rule::RULE_TYPE_DIMENSION_VERB:
-                        echo 'Verb';
+                        echo $types[Rule::RULE_TYPE_DIMENSION_VERB];
                         break;
                     case Rule::RULE_TYPE_MODULE:
-                        echo 'Module';
+                        echo $types[Rule::RULE_TYPE_MODULE];
                         break;
                 }
             ?>

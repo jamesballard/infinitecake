@@ -18,6 +18,14 @@ class Artefact extends AppModel {
     const ARTEFACT_TYPE_COLLABORATION = 3;
     const ARTEFACT_TYPE_RESOURCE = 4;
     const ARTEFACT_TYPE_OPERATION = 5;
+    
+    public $artefact_types = array(
+    		Artefact::ARTEFACT_TYPE_ASSESSMENT=>'Assessment',
+    		Artefact::ARTEFACT_TYPE_COMMUNICATION=>'Communication',
+    		Artefact::ARTEFACT_TYPE_COLLABORATION=>'Collaboration',
+    		Artefact::ARTEFACT_TYPE_RESOURCE=>'Resource',
+    		Artefact::ARTEFACT_TYPE_OPERATION=>'Operation'
+    	);
 
     public $validate = array(
         'name' => array(

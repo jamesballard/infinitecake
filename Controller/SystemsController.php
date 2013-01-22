@@ -20,7 +20,7 @@ class SystemsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->System->recursive = 0;
+		$this->System->recursive = -1;
 		$this->set('systems', $this->paginate());
 	}
 
@@ -33,10 +33,13 @@ class SystemsController extends AppController {
  */
 	public function view($id = null) {
 		$this->System->id = $id;
+		$this->System->recursive = -1;
 		if (!$this->System->exists()) {
 			throw new NotFoundException(__('Invalid system'));
 		}
 		$this->set('system', $this->System->read(null, $id));
+		
+		$this->set('types', $this->System->system_types);
 	}
 
 /**
@@ -54,6 +57,7 @@ class SystemsController extends AppController {
 				$this->Session->setFlash(__('The system could not be saved. Please, try again.'));
 			}
 		}
+		$this->set('types', $this->System->system_types);
 	}
 
 /**
@@ -65,6 +69,7 @@ class SystemsController extends AppController {
  */
 	public function edit($id = null) {
 		$this->System->id = $id;
+		$this->System->recursive = -1;
 		if (!$this->System->exists()) {
 			throw new NotFoundException(__('Invalid system'));
 		}
@@ -78,6 +83,7 @@ class SystemsController extends AppController {
 		} else {
 			$this->request->data = $this->System->read(null, $id);
 		}
+		$this->set('types', $this->System->system_types);
 	}
 
 /**

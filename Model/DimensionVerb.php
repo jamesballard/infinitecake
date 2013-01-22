@@ -15,6 +15,14 @@ class DimensionVerb extends AppModel {
     const VERB_TYPE_EXCHANGE = 3;
     const VERB_TYPE_DISTRIBUTE = 4;
     const VERB_TYPE_OPERATE = 5;
+    
+    public $verb_types = array(
+    		DimensionVerb::VERB_TYPE_PRODUCE=>'Production',
+    		DimensionVerb::VERB_TYPE_CONSUME=>'Consumption',
+    		DimensionVerb::VERB_TYPE_EXCHANGE=>'Exchange',
+    		DimensionVerb::VERB_TYPE_DISTRIBUTE=>'Distibution',
+    		DimensionVerb::VERB_TYPE_OPERATE=>'Operation'
+    	);
 
 /**
  * Use table

@@ -13,7 +13,7 @@ class RulesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Rule->recursive = 0;
+		$this->Rule->contain = false;
 		$this->set('rules', $this->paginate());
 	}
 
@@ -30,6 +30,8 @@ class RulesController extends AppController {
 			throw new NotFoundException(__('Invalid rule'));
 		}
 		$this->set('rule', $this->Rule->read(null, $id));
+		
+		$this->set('types', $this->Rule->rule_types);
 	}
 
 /**
@@ -55,6 +57,8 @@ class RulesController extends AppController {
         );
         $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
         $this->set(compact('customers', 'conditions'));
+
+        $this->set('types', $this->Rule->rule_types);
 	}
 
 /**
@@ -86,6 +90,8 @@ class RulesController extends AppController {
         		));
         $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
 		$this->set(compact('customers', 'conditions'));
+		
+		$this->set('types', $this->Rule->rule_types);
 	}
 
 /**

@@ -14,6 +14,12 @@ class System extends AppModel {
     const SYSTEM_TYPE_MOODLE = 1;
     const SYSTEM_TYPE_ULCCILP = 2;
     const SYSTEM_TYPE_MAHARA = 3;
+    
+    public $system_types = array(
+    		System::SYSTEM_TYPE_MOODLE=>'Moodle',
+    		System::SYSTEM_TYPE_ULCCILP=>'ULCC ILP',
+    		System::SYSTEM_TYPE_MAHARA=>'Mahara',
+    	);
 
 /**
  * Display field

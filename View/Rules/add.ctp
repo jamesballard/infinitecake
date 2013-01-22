@@ -5,13 +5,7 @@
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('value');
-		echo $this->Form->input('type', array('type' => 'select', 'options' => array(
-                                                    Rule::RULE_TYPE_ACTION => 'Action',
-                                                    Rule::RULE_TYPE_DIMENSION_VERB => 'Verb',
-                                                    Rule::RULE_TYPE_MODULE => 'Module',
-                                                    Rule::RULE_TYPE_ARTEFACT => 'Artefact',
-                                                    Rule::RULE_TYPE_ARTEFACT => 'Group'
-                                                )));
+		echo $this->Form->input('type', array('type' => 'select', 'options' => $types));
 		echo $this->Form->input('customer_id');
 		echo $this->Form->input('Condition');
 	?>

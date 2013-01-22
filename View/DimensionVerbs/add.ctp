@@ -5,13 +5,7 @@
 	<?php
 		echo $this->Form->input('sysname');
 		echo $this->Form->input('name');
-		echo $this->Form->input('type', array('type' => 'select',
-            'options' => array(DimensionVerb::VERB_TYPE_PRODUCE => 'Produce',
-                DimensionVerb::VERB_TYPE_CONSUME => 'Consume',
-                DimensionVerb::VERB_TYPE_EXCHANGE => 'Exchange',
-                DimensionVerb::VERB_TYPE_DISTRIBUTE => 'Distribute',
-                DimensionVerb::VERB_TYPE_OPERATE => 'Operate')
-        ));
+		echo $this->Form->input('type', array('type' => 'select', 'options' => $types));
 		echo $this->Form->input('uri');
 		echo $this->Form->input('artefact_id', array('type' => 'select', 'options' => $artefacts));
 	?>

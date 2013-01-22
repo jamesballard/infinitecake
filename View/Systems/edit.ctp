@@ -4,11 +4,7 @@
 		<legend><?php echo __('Edit System'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('type', array(
-        'options' => array(System::SYSTEM_TYPE_MOODLE => 'Moodle',
-                System::SYSTEM_TYPE_ULCCILP => 'ULCC ILP',
-                System::SYSTEM_TYPE_MAHARA => 'Mahara')
-        ));
+		echo $this->Form->input('type', array('options' => $types));
 		echo $this->Form->input('name');
         echo $this->Form->input('customer_id', array('type' => 'select', 'options' => $customers));
 	?>
