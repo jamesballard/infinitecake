@@ -79,6 +79,51 @@ class Condition extends AppModel {
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => ''
+        ),
+        'Artefact' => array(
+            'className' => 'Artefact',
+            'joinTable' => 'artefact_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'artefact_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        ),
+        'Group' => array(
+            'className' => 'Group',
+            'joinTable' => 'group_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'group_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        ),
+        'Module' => array(
+            'className' => 'Module',
+            'joinTable' => 'module_conditions',
+            'foreignKey' => 'condition_id',
+            'associationForeignKey' => 'module_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
         )
     );
 

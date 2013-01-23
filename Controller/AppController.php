@@ -50,8 +50,6 @@ class AppController extends Controller {
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime');
     
-
-    //TODO - set active?
     function beforeFilter() {
         //Configure AuthComponent
         $this->Auth->loginAction = array('controller' => 'members', 'action' => 'login');

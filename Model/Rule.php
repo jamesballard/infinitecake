@@ -11,14 +11,14 @@ class Rule extends AppModel {
 
 //Define Rule Types
     const RULE_TYPE_ACTION = 1;
-    const RULE_TYPE_DIMENSION_VERB = 2;
+    const RULE_TYPE_VERB = 2;
     const RULE_TYPE_MODULE = 3;
     const RULE_TYPE_ARTEFACT = 4;
     const RULE_TYPE_GROUP = 5;
     
     public $rule_types = array(
     		Rule::RULE_TYPE_ACTION=>'Action',
-    		Rule::RULE_TYPE_DIMENSION_VERB=>'Verb',
+    		Rule::RULE_TYPE_VERB=>'Verb',
     		Rule::RULE_TYPE_MODULE=>'Module',
     		Rule::RULE_TYPE_ARTEFACT=>'Artefact',
     		Rule::RULE_TYPE_GROUP=>'Group'

@@ -218,7 +218,7 @@ class FactSummedActionsDatetime extends AppModel {
      */
 
     function getModuleCountTreemap($dateWindow, $filter) {
-        $results = $this->getModuleCount($filter);
+        $results = $this->getModuleCount($dateWindow, $filter);
         $data = $this->transformModuleTreemap($results);
         return $data;
     }

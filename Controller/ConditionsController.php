@@ -6,6 +6,9 @@ App::uses('AppController', 'Controller');
  * @property Condition $Condition
  */
 class ConditionsController extends AppController {
+	
+	// $uses is where you specify which models this controller uses
+	var $uses = array('Condition', 'Rule', 'User');
 
 /**
  * index method
@@ -13,8 +16,8 @@ class ConditionsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Condition->recursive = 0;
 		$this->paginate = array(
+			'contain' => false,
 			'conditions' => array('Condition.type !=' => 2),
 		);
 		$this->set('conditions', $this->paginate());
@@ -42,7 +45,7 @@ class ConditionsController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function add($type='verb') {
 		if ($this->request->is('post')) {
 			$this->Condition->create();
 			if ($this->Condition->save($this->request->data)) {
@@ -52,13 +55,75 @@ class ConditionsController extends AppController {
 				$this->Session->setFlash(__('The condition could not be saved. Please, try again.'));
 			}
 		}
-        $rulesRecords = $this->Condition->Rule->find('all', array('fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name')));
-        $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
-        $this->Condition->DimensionVerb->recursive = 0;
-		$dimensionVerbsRecords = $this->Condition->DimensionVerb->find('all', array('fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')));
-        $dimensionVerbs = Set::combine($dimensionVerbsRecords, '{n}.DimensionVerb.id', '{n}.0.name');
-		$this->set(compact('rules', 'dimensionVerbs'));
 		
+		//JB - this needs to be called to use constants 
+		//TODO see if it can be removed.
+		$this->Rule;
+		
+		switch($type) {
+			case 'action':
+				$rule_type = Rule::RULE_TYPE_ACTION;
+				/*$conditionRecords = $this->Condition->Action->find('all', array(
+						'contain' => false,
+						'fields' => array('Action.id as id', 'Action.name as name')
+				));
+				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');*/
+				$this->set('formid', 'Action');
+				break;
+			case 'artefact':
+				$rule_type = Rule::RULE_TYPE_ARTEFACT;
+				$conditionRecords = $this->Condition->Artefact->find('all', array(
+					'contain' => false,
+					'fields' => array('Artefact.id as id', 'Artefact.name as name')
+					));
+				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');
+				$this->set('formid', 'Artefact');
+				break;
+        	case 'group':
+        		$rule_type = Rule::RULE_TYPE_GROUP;
+       			$conditionRecords = $this->Condition->Group->find('all', array(
+       				'contain' => false,
+       				'fields' => array('Group.id as id', 'CONCAT(Group.name, " (",Group.idnumber,")") as name')
+       				));
+       			$conditionItems = Set::combine($conditionRecords, '{n}.Group.id', '{n}.Group.name');
+       			$this->set('formid', 'Group');
+       			break;
+       		case 'module':
+       			$rule_type = Rule::RULE_TYPE_MODULE;
+       			$conditionRecords = $this->Condition->Module->find('all', array(
+  					'contain' => false,
+       	    		'fields' => array('Module.id as id', 'Module.sysid as name')
+       				));
+       			$conditionItems = Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
+       			$this->set('formid', 'Module');
+       			break;
+       		case 'verb':
+       			$rule_type = Rule::RULE_TYPE_VERB;
+       			$conditionRecords = $this->Condition->DimensionVerb->find('all', array(
+					'contain' => array(
+						'Artefact' => array(
+							'fields' => array(
+								'Artefact.name'
+							)
+						),
+					),
+					'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')
+       				));
+       			$conditionItems = Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
+       			$this->set('formid', 'DimensionVerb');
+       			break;
+		}
+		
+        $rulesRecords = $this->Condition->Rule->find('all', array(
+        		'conditions' => array('Rule.type' => $rule_type),
+        		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
+        		'contain' => false,
+        		));
+        $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
+
+		$this->set(compact('rules', 'conditionItems'));
+		$this->set('label', $this->Rule->rule_types[$rule_type]);
+				
 		$this->set('types', $this->Condition->condition_types);
 	}
 
@@ -84,13 +149,87 @@ class ConditionsController extends AppController {
 		} else {
 			$this->request->data = $this->Condition->read(null, $id);
 		}
-        $rulesRecords = $this->Condition->Rule->find('all', array('fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name')));
+		
+		//JB - this needs to be called to use constants
+		//TODO see if it can be removed.
+		$this->Rule;
+		
+		$ruleType = $this->Rule->Condition->find('first', array(
+				'contain' => array(
+							'Rule' => array(
+										'fields' => array('Rule.id', 'Rule.type')
+									)
+						),
+				//'fields' => array('Condition.rule_id'),
+				'conditions' => array('Condition.id' => $this->Condition->id),
+			));
+		
+		$rule_type = $ruleType['Rule'][0]['type'];
+		
+		$condition = $this->Condition->read(null, $id);
+		$this->set('condition', $condition);
+		
+		switch($rule_type) {
+			case Rule::RULE_TYPE_ACTION:
+				$rule_type = Rule::RULE_TYPE_ACTION;
+				/*$conditionRecords = $this->Condition->Action->find('all', array(
+				 'contain' => false,
+						'fields' => array('Action.id as id', 'Action.name as name')
+				));
+				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');*/
+				$this->set('formid', 'Action');
+				break;
+			case Rule::RULE_TYPE_ARTEFACT:
+				$conditionRecords = $this->Condition->Artefact->find('all', array(
+						'contain' => false,
+						'fields' => array('Artefact.id as id', 'Artefact.name as name')
+				));
+				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');
+				$this->set('formid', 'Artefact');
+				break;
+			case Rule::RULE_TYPE_GROUP:
+				$conditionRecords = $this->Condition->Group->find('all', array(
+						'contain' => false,
+						'fields' => array('Group.id as id', 'CONCAT(Group.name, " (",Group.idnumber,")") as name')
+				));
+				$conditionItems = Set::combine($conditionRecords, '{n}.Group.id', '{n}.Group.name');
+				$this->set('formid', 'Group');
+				break;
+			case Rule::RULE_TYPE_MODULE:
+				$conditionRecords = $this->Condition->Module->find('all', array(
+						'contain' => false,
+						'fields' => array('Module.id as id', 'Module.sysid as name')
+				));
+				$conditionItems = Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
+				$this->set('formid', 'Module');
+				break;
+			case Rule::RULE_TYPE_VERB:
+				$conditionRecords = $this->Condition->DimensionVerb->find('all', array(
+						'contain' => array(
+								'Artefact' => array(
+										'fields' => array(
+												'Artefact.name'
+										)
+								),
+						),
+						'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')
+				));
+				$conditionItems = Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
+				$this->set('formid', 'DimensionVerb');
+				break;
+		}
+		
+        $rulesRecords = $this->Condition->Rule->find('all', array(
+        		'conditions' => array('Rule.type' => $rule_type),
+        		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
+        		'contain' => false,
+        		));
         $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
-        $this->Condition->DimensionVerb->recursive = 0;
-        $dimensionVerbsRecords = $this->Condition->DimensionVerb->find('all', array('fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')));
-        $dimensionVerbs = Set::combine($dimensionVerbsRecords, '{n}.DimensionVerb.id', '{n}.0.name');
-        $this->set(compact('rules', 'dimensionVerbs'));
+		
         
+        
+		$this->set(compact('rules', 'conditionItems', 'selected'));
+		$this->set('label', $this->Rule->rule_types[$rule_type]);
         $this->set('types', $this->Condition->condition_types);
 	}
 
