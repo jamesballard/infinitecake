@@ -79,7 +79,7 @@ class Artefact extends AppModel {
         // Define the artefacts for reports
         return $this->find('all', array(
                                 'fields' => array('id', 'name', 'type'),
-                                'recursive' => -1,
+                                'contain' => false,
                                 'conditions' => array('type' => array(
                                     Artefact::ARTEFACT_TYPE_ASSESSMENT,
                                     Artefact::ARTEFACT_TYPE_COMMUNICATION,

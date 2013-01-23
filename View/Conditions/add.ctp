@@ -1,17 +1,15 @@
 <div class="conditions form">
 <?php echo $this->Form->create('Condition'); ?>
 	<fieldset>
-		<legend><?php echo __('Add Condition'); ?></legend>
+		<legend><?php echo __("Add $label Condition"); ?></legend>
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('value');
-		echo $this->Form->input('type', array( 'value' => CONDITION_TYPE_USER , 'type' => 'hidden') );
+		echo $this->Form->input('type', array( 'value' => Condition::CONDITION_TYPE_USER , 'type' => 'hidden') );
 		echo $this->Form->input('Rule');
-        echo $this->Chosen->select(
-            'DimensionVerb',
-            $dimensionVerbs,
-            array('data-placeholder' => 'Select verbs...', 'multiple' => true, 'deselect' => true)
-        );
+		if($formid != 'Action') {
+        	echo $this->element('conditionItemsMultiSelect');
+        }
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

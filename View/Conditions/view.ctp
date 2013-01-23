@@ -61,8 +61,8 @@
                     case Rule::RULE_TYPE_ARTEFACT:
                         echo $types[Rule::RULE_TYPE_ARTEFACT];
                         break;
-                    case Rule::RULE_TYPE_DIMENSION_VERB:
-                        echo $types[Rule::RULE_TYPE_DIMENSION_VERB];
+                    case Rule::RULE_TYPE_VERB:
+                        echo $types[Rule::RULE_TYPE_VERB];
                         break;
                     case Rule::RULE_TYPE_MODULE:
                         echo $types[Rule::RULE_TYPE_MODULE];
