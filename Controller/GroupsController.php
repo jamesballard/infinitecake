@@ -26,6 +26,7 @@ class GroupsController extends AppController {
  */
 	public function view($id = null) {
 		$this->Group->id = $id;
+		$this->Group->recursive = 0;
 		if (!$this->Group->exists()) {
 			throw new NotFoundException(__('Invalid group'));
 		}
@@ -48,7 +49,6 @@ class GroupsController extends AppController {
 			}
 		}
 		$systems = $this->Group->System->find('list');
-		$communities = $this->Group->Community->find('list');
 		$users = $this->Group->User->find('list');
 		$this->set(compact('systems', 'communities', 'users'));
 	}
@@ -62,6 +62,7 @@ class GroupsController extends AppController {
  */
 	public function edit($id = null) {
 		$this->Group->id = $id;
+		$this->Group->recursive = 0;
 		if (!$this->Group->exists()) {
 			throw new NotFoundException(__('Invalid group'));
 		}
@@ -76,7 +77,6 @@ class GroupsController extends AppController {
 			$this->request->data = $this->Group->read(null, $id);
 		}
 		$systems = $this->Group->System->find('list');
-		$communities = $this->Group->Community->find('list');
 		$users = $this->Group->User->find('list');
 		$this->set(compact('systems', 'communities', 'users'));
 	}
