@@ -7,9 +7,6 @@ App::uses('AppController', 'Controller');
  */
 class PeopleController extends AppController {
 	
-	var $helpers = array('Ajax', 'Javascript');
-	var $components = array('RequestHandler');
-
 /**
  * index method
  *

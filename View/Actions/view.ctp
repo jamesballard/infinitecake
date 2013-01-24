@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="actions view">
 <h2><?php  echo __('Action'); ?></h2>
 	<dl>

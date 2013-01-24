@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="groups form">
 <?php echo $this->Form->create('Group'); ?>
 	<fieldset>

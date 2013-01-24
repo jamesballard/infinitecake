@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="conditions view">
 <h2><?php  echo __('Condition'); ?></h2>
 	<dl>

@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="rules form">
 <?php echo $this->Form->create('Rule'); ?>
 	<fieldset>
