@@ -32,11 +32,6 @@
 			<?php echo h($group['Group']['system_id']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Community Id'); ?></dt>
-		<dd>
-			<?php echo h($group['Group']['community_id']); ?>
-			&nbsp;
-		</dd>
 	</dl>
 </div>
 <div class="actions">

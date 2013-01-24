@@ -26,6 +26,7 @@ class ModulesController extends AppController {
  */
 	public function view($id = null) {
 		$this->Module->id = $id;
+		$this->Module->recursive = 0;
 		if (!$this->Module->exists()) {
 			throw new NotFoundException(__('Invalid module'));
 		}
@@ -62,6 +63,7 @@ class ModulesController extends AppController {
  */
 	public function edit($id = null) {
 		$this->Module->id = $id;
+		$this->Module->recursive = 0;
 		if (!$this->Module->exists()) {
 			throw new NotFoundException(__('Invalid module'));
 		}

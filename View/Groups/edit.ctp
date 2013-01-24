@@ -10,7 +10,6 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('type');
 		echo $this->Form->input('system_id');
-		echo $this->Form->input('community_id');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

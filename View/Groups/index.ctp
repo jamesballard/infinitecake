@@ -9,7 +9,6 @@
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
 			<th><?php echo $this->Paginator->sort('system_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('community_id'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -21,7 +20,6 @@
 		<td><?php echo h($group['Group']['name']); ?>&nbsp;</td>
 		<td><?php echo h($group['Group']['type']); ?>&nbsp;</td>
 		<td><?php echo h($group['Group']['system_id']); ?>&nbsp;</td>
-		<td><?php echo h($group['Group']['community_id']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $group['Group']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $group['Group']['id'])); ?>

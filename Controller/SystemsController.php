@@ -20,7 +20,7 @@ class SystemsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->System->recursive = -1;
+		$this->System->recursive = 0;
 		$this->set('systems', $this->paginate());
 	}
 
@@ -33,7 +33,7 @@ class SystemsController extends AppController {
  */
 	public function view($id = null) {
 		$this->System->id = $id;
-		$this->System->recursive = -1;
+		$this->System->recursive = 0;
 		if (!$this->System->exists()) {
 			throw new NotFoundException(__('Invalid system'));
 		}
@@ -69,7 +69,7 @@ class SystemsController extends AppController {
  */
 	public function edit($id = null) {
 		$this->System->id = $id;
-		$this->System->recursive = -1;
+		$this->System->recursive = 0;
 		if (!$this->System->exists()) {
 			throw new NotFoundException(__('Invalid system'));
 		}
