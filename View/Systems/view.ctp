@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="systems view">
 <h2><?php  echo __('System'); ?></h2>
 	<dl>

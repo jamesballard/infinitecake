@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="rules view">
 <h2><?php  echo __('Rule'); ?></h2>
 	<dl>

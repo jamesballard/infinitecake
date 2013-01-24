@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="modules view">
 <h2><?php  echo __('Module'); ?></h2>
 	<dl>

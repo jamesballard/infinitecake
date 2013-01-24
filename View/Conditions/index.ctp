@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="conditions index">
 	<h2><?php echo __('Conditions'); ?></h2>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">

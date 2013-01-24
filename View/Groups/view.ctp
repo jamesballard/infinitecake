@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="groups view">
 <h2><?php  echo __('Group'); ?></h2>
 	<dl>

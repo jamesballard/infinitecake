@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="actions form">
 <?php echo $this->Form->create('Action'); ?>
 	<fieldset>

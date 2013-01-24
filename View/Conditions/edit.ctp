@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="conditions form">
 <?php echo $this->Form->create('Condition'); ?>
 	<fieldset>

@@ -1,3 +1,4 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="people view">
 <h2><?php  echo __('Person'); ?></h2>
 	<dl>
