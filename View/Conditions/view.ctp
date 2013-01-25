@@ -1,6 +1,16 @@
 <?php $this->layout = 'configManage'; ?>
-<div class="conditions view">
 <h2><?php  echo __('Condition'); ?></h2>
+<?php
+	if($condition['Condition']['customer_id'] == $current_user['Member']['customer_id']):
+?>					
+<div class="actions">
+	<ul>
+		<li><?php echo $this->Html->link(__('Edit Condition'), array('action' => 'edit', $condition['Condition']['id'])); ?> </li>
+		<li><?php echo $this->Form->postLink(__('Delete Condition'), array('action' => 'delete', $condition['Condition']['id']), null, __('Are you sure you want to delete # %s?', $condition['Condition']['id'])); ?> </li>
+	</ul>
+</div>
+<?php endif; ?>
+<div class="conditions view">
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -17,134 +27,103 @@
 			<?php echo h($condition['Condition']['value']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Rule'); ?></dt>
+		<dd>
+			<?php 
+				$rule_type = '&nbsp;';
+				if (!empty($condition['Rule'])): 
+					$i = 0;
+					foreach ($condition['Rule'] as $rule):
+						echo $rule['name'].': '.$rule['value']; 
+						switch ($rule['type']) {
+		                    case Rule::RULE_TYPE_ACTION:
+		                        $rule_type = $rule_types[Rule::RULE_TYPE_ACTION];
+		                        break;
+		                    case Rule::RULE_TYPE_ARTEFACT:
+		                        $rule_type = $rule_types[Rule::RULE_TYPE_ARTEFACT];
+		                        break;
+		                    case Rule::RULE_TYPE_GROUP:
+		                        $rule_type = $rule_types[Rule::RULE_TYPE_GROUP];
+		                        break;
+		                    case Rule::RULE_TYPE_VERB:
+		                        $rule_type = $rule_types[Rule::RULE_TYPE_VERB];
+		                        break;
+		                    case Rule::RULE_TYPE_MODULE:
+		                        $rule_type = $rule_types[Rule::RULE_TYPE_MODULE];
+		                        break;
+		                }
+		        	endforeach;
+				endif;	
+			?>	
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Type'); ?></dt>
+		<dd><?php echo $rule_type; ?></dd>
+	
+		<?php if (!empty($condition['Action'])): ?>
+		<dt><?php echo __('Associated Actions'); ?></dt>
+		<dd>
+			<ul>
+			<?php
+				$i = 0;
+				foreach ($condition['Action'] as $action): ?>
+					<li><?php echo $action['name']; ?></li>
+			<?php endforeach; ?>
+			</ul>
+		</dd>
+		<?php endif; ?>
+		
+		<?php if (!empty($condition['Artefact'])): ?>
+		<dt><?php echo __('Associated Artefacts'); ?></dt>
+		<dd>
+			<ul>
+			<?php
+				$i = 0;
+				foreach ($condition['Artefact'] as $artefact): ?>
+					<li><?php echo $artefact['name']; ?></li>
+			<?php endforeach; ?>
+			</ul>
+		</dd>
+		<?php endif; ?>
+		
+		<?php if (!empty($condition['Group'])): ?>
+		<dt><?php echo __('Associated Groups'); ?></dt>
+		<dd>
+			<ul>
+			<?php
+				$i = 0;
+				foreach ($condition['Group'] as $group): ?>
+					<li><?php echo $group['name'].': '.$group['idnumber']; ?></li>
+			<?php endforeach; ?>
+			</ul>
+		</dd>
+		<?php endif; ?>
+		
+		<?php if (!empty($condition['Module'])): ?>
+		<dt><?php echo __('Associated Modules'); ?></dt>
+		<dd>
+			<ul>
+			<?php
+				$i = 0;
+				foreach ($condition['Module'] as $module): ?>
+					<li><?php echo $module['sysid']; ?></li>
+			<?php endforeach; ?>
+			</ul>
+		</dd>
+		<?php endif; ?>
+		
+		<?php if (!empty($condition['DimensionVerb'])): ?>
+		<dt><?php echo __('Associated Verbs'); ?></dt>
+		<dd>
+			<ul>
+			<?php
+				$i = 0;
+				foreach ($condition['DimensionVerb'] as $dimensionVerb): ?>
+					<li><?php echo $dimensionVerb['Artefact']['name'].': '.$dimensionVerb['name']; ?></li>
+			<?php endforeach; ?>
+			</ul>
+		</dd>
+		<?php endif; ?>
+
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Condition'), array('action' => 'edit', $condition['Condition']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Condition'), array('action' => 'delete', $condition['Condition']['id']), null, __('Are you sure you want to delete # %s?', $condition['Condition']['id'])); ?> </li>
-	</ul>
-</div>
-<div class="related">
-	<h3><?php echo __('Related Rules'); ?></h3>
-	<?php if (!empty($condition['Rule'])): ?>
-	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Name'); ?></th>
-		<th><?php echo __('Value'); ?></th>
-		<th><?php echo __('Type'); ?></th>
-		<th><?php echo __('Created'); ?></th>
-		<th><?php echo __('Modified'); ?></th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($condition['Rule'] as $rule): ?>
-		<tr>
-			<td><?php echo $rule['id']; ?></td>
-			<td><?php echo $rule['name']; ?></td>
-			<td><?php echo $rule['value']; ?></td>
-			<td><?php
-                switch ($rule['type']) {
-                    case Rule::RULE_TYPE_ACTION:
-                        echo $types[Rule::RULE_TYPE_ACTION];
-                        break;
-                    case Rule::RULE_TYPE_ARTEFACT:
-                        echo $types[Rule::RULE_TYPE_ARTEFACT];
-                        break;
-                    case Rule::RULE_TYPE_VERB:
-                        echo $types[Rule::RULE_TYPE_VERB];
-                        break;
-                    case Rule::RULE_TYPE_MODULE:
-                        echo $types[Rule::RULE_TYPE_MODULE];
-                        break;
-                }
-                ?></td>
-			<td><?php echo $rule['created']; ?></td>
-			<td><?php echo $rule['modified']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'rules', 'action' => 'view', $rule['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'rules', 'action' => 'edit', $rule['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'rules', 'action' => 'delete', $rule['id']), null, __('Are you sure you want to delete # %s?', $rule['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
-</div>
-<div class="related">
-	<h3><?php echo __('Related Actions'); ?></h3>
-	<?php if (!empty($condition['Action'])): ?>
-	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Name'); ?></th>
-		<th><?php echo __('Time'); ?></th>
-		<th><?php echo __('User Id'); ?></th>
-		<th><?php echo __('Group Id'); ?></th>
-		<th><?php echo __('Module Id'); ?></th>
-		<th><?php echo __('Dimension Verb Id'); ?></th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($condition['Action'] as $action): ?>
-		<tr>
-			<td><?php echo $action['id']; ?></td>
-			<td><?php echo $action['name']; ?></td>
-			<td><?php echo $action['time']; ?></td>
-			<td><?php echo $action['user_id']; ?></td>
-			<td><?php echo $action['group_id']; ?></td>
-			<td><?php echo $action['module_id']; ?></td>
-			<td><?php echo $action['dimension_verb_id']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'actions', 'action' => 'view', $action['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'actions', 'action' => 'edit', $action['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'actions', 'action' => 'delete', $action['id']), null, __('Are you sure you want to delete # %s?', $action['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
-
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Action'), array('controller' => 'actions', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
-</div>
-<div class="related">
-	<h3><?php echo __('Related Verbs'); ?></h3>
-	<?php if (!empty($condition['DimensionVerb'])): ?>
-	<table class="table table-striped" cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('System Name'); ?></th>
-		<th><?php echo __('Name'); ?></th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($condition['DimensionVerb'] as $dimensionVerb): ?>
-		<tr>
-			<td><?php echo $dimensionVerb['id']; ?></td>
-			<td><?php echo $dimensionVerb['sysname']; ?></td>
-			<td><?php echo $dimensionVerb['name']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'dimension_verb', 'action' => 'view', $dimensionVerb['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'dimension_verb', 'action' => 'edit', $dimensionVerb['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'dimension_verb', 'action' => 'delete', $dimensionVerb['id']), null, __('Are you sure you want to delete # %s?', $dimensionVerb['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
-
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Dimension Verb Condition'), array('controller' => 'dimension_verb_conditions', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
 </div>

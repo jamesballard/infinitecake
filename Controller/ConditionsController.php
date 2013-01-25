@@ -16,9 +16,16 @@ class ConditionsController extends AppController {
  * @return void
  */
 	public function index() {
+		$currentUser = $this->get_currentUser();
 		$this->paginate = array(
 			'contain' => false,
-			'conditions' => array('Condition.type !=' => 2),
+			'conditions' => array(
+					'Condition.type !=' => 2,
+					'Condition.customer_id' => array(
+							$this->get_allCustomersID(),
+							$currentUser['Member']['customer_id']
+						)
+				),
 		);
 		$this->set('conditions', $this->paginate());
 	}
@@ -30,14 +37,57 @@ class ConditionsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function view($id = null) {		
 		$this->Condition->id = $id;
 		if (!$this->Condition->exists()) {
 			throw new NotFoundException(__('Invalid condition'));
 		}
-		$this->set('condition', $this->Condition->read(null, $id));
+		$condition = $this->Condition->find('first',array(
+				'contain' => array(
+						'Action' => array(
+							'fields' => array(
+								'Action.name'
+							)
+						),
+						'Artefact' => array(
+							'fields' => array(
+								'Artefact.name'
+							)
+						),
+						'Module' => array(
+							'fields' => array(
+								'Module.sysid'
+							)
+						),
+						'Group' => array(
+							'fields' => array(
+								'Group.idnumber',
+								'Group.name'
+							)
+						),
+						'DimensionVerb' => array(
+							'Artefact' => array(
+								'fields' => array(
+									'Artefact.name'
+								)
+							),
+							'fields' => array(
+								'DimensionVerb.name'
+							)
+						),
+						'Rule' => array(
+							'fields' => array(
+								'Rule.type',
+								'Rule.name',
+								'Rule.value'
+							)
+						)
+				),
+				'conditions' => array('id' => $id)
+		));
+		$this->set('condition', $condition);
 		
-		$this->set('types', $this->Condition->condition_types);
+		$this->set('rule_types', $this->Rule->rule_types);
 	}
 
 /**
@@ -46,6 +96,8 @@ class ConditionsController extends AppController {
  * @return void
  */
 	public function add($type='verb') {
+		$currentUser = $this->get_currentUser();
+		
 		if ($this->request->is('post')) {
 			$this->Condition->create();
 			if ($this->Condition->save($this->request->data)) {
@@ -115,7 +167,10 @@ class ConditionsController extends AppController {
 		}
 		
         $rulesRecords = $this->Condition->Rule->find('all', array(
-        		'conditions' => array('Rule.type' => $rule_type),
+        		'conditions' => array(
+        				'Rule.customer_id' => $currentUser['Member']['customer_id'],
+        				'Rule.type' => $rule_type
+        			),
         		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
         		'contain' => false,
         		));
@@ -135,6 +190,7 @@ class ConditionsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$currentUser = $this->get_currentUser();
 		$this->Condition->id = $id;
 		if (!$this->Condition->exists()) {
 			throw new NotFoundException(__('Invalid condition'));
@@ -162,8 +218,30 @@ class ConditionsController extends AppController {
 		
 		$rule_type = $ruleType['Rule'][0]['type'];
 		
-		$condition = $this->Condition->read(null, $id);
-		$this->set('condition', $condition);
+		$condition = $this->Condition->find('first',array(
+					'contain' => array(
+							'Artefact' => array(
+									'fields' => 'Artefact.name'
+								),
+							'Module' => array(
+									'fields' => 'Module.sysid'
+								),
+							'Group' => array(
+									'fields' => array('Group.idnumber', 
+												'Group.name')
+								),
+							'DimensionVerb' => array(
+									'fields' => array('DimensionVerb.name')
+								)	
+						),
+					'conditions' => array('id' => $id)
+				));
+		
+		if($condition['Condition']['customer_id'] != $currentUser['Member']['customer_id']) {
+			throw new LogicException(__('You do not have permission to edit this.'));
+		} 
+		
+		$this->set('condition', $this->request->data);
 		
 		switch($rule_type) {
 			case Rule::RULE_TYPE_ACTION:
@@ -216,13 +294,14 @@ class ConditionsController extends AppController {
 		}
 		
         $rulesRecords = $this->Condition->Rule->find('all', array(
-        		'conditions' => array('Rule.type' => $rule_type),
+        		'conditions' => array(
+        				'Rule.customer_id' => $currentUser['Member']['customer_id'],
+        				'Rule.type' => $rule_type
+        			),
         		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
         		'contain' => false,
         		));
         $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
-		
-        
         
 		$this->set(compact('rules', 'conditionItems', 'selected'));
 		$this->set('label', $this->Rule->rule_types[$rule_type]);
