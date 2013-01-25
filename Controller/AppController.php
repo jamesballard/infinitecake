@@ -69,6 +69,11 @@ class AppController extends Controller {
     	return $this->Session->read('current_user');
     }
     
+    public function get_allCustomersID() {
+    	//This returns the database value for 'All Customers' (should be 1)
+    	return 1;
+    }
+    
     public function get_customerSystems() {
     	$current_user = $this->get_currentUser();
     	$system = new System();

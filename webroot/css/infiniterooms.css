@@ -163,7 +163,7 @@ table tr:nth-child(even) {
 	background: #f9f9f9;
 }
 td.actions {
-	text-align: center;
+	text-align: left;
 	white-space: nowrap;
 }
 table td.actions a {
@@ -234,7 +234,7 @@ dt {
 }
 dd {
 	margin-left: 10em;
-	margin-top: -2em;
+	margin-top: -20px;
 	vertical-align: top;
 }
 

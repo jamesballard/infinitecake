@@ -12,6 +12,7 @@
         if($formid != 'Action') {
         	echo $this->element('conditionItemsMultiSelect');
         }
+        echo $this->Form->input('customer_id', array( 'value' => $current_user['Member']['customer_id'], 'type' => 'hidden'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
