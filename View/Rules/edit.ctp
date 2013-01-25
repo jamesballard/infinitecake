@@ -8,8 +8,8 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('value');
         echo $this->Form->input('type', array('type' => 'select', 'options' => $types));
-        echo $this->Form->input('customer_id');
-		echo $this->Form->input('Condition');
+        echo $this->Form->input('customer_id', array( 'value' => $current_user['Member']['customer_id'], 'type' => 'hidden'));
+		echo $this->element('conditionMultiSelect');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

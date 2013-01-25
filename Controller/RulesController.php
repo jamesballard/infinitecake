@@ -13,7 +13,15 @@ class RulesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Rule->contain = false;
+		$currentUser = $this->get_currentUser();
+		$this->paginate = array(
+				'conditions' => array(
+					'Rule.customer_id' => array(
+						$this->get_allCustomersID(),
+						$currentUser['Member']['customer_id']
+					)
+				)	
+		);
 		$this->set('rules', $this->paginate());
 	}
 
@@ -29,7 +37,18 @@ class RulesController extends AppController {
 		if (!$this->Rule->exists()) {
 			throw new NotFoundException(__('Invalid rule'));
 		}
-		$this->set('rule', $this->Rule->read(null, $id));
+		$rule = $this->Rule->find('first',array(
+				'contain' => array(
+					'Condition' => array(
+						'fields' => array(
+							'Condition.id',
+							'Condition.name'
+						)
+					)
+				),
+				'conditions' => array('id' => $id)
+		));
+		$this->set('rule', $rule);
 		
 		$this->set('types', $this->Rule->rule_types);
 	}
@@ -40,6 +59,7 @@ class RulesController extends AppController {
  * @return void
  */
 	public function add() {
+		$currentUser = $this->get_currentUser();
 		if ($this->request->is('post')) {
 			$this->Rule->create();
 			if ($this->Rule->save($this->request->data)) {
@@ -49,14 +69,19 @@ class RulesController extends AppController {
 				$this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
 			}
 		}
-        $customers = $this->Rule->Customer->find('list');
         $conditionsRecords = $this->Rule->Condition->find('all', array(
                 'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
-                'conditions' => array('type' => 1)
+                'conditions' => array(
+					'Condition.type !=' => 2,
+					'Condition.customer_id' => array(
+							$this->get_allCustomersID(),
+							$currentUser['Member']['customer_id']
+						)
+				),
             )
         );
         $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
-        $this->set(compact('customers', 'conditions'));
+        $this->set(compact('conditions'));
 
         $this->set('types', $this->Rule->rule_types);
 	}
@@ -69,6 +94,7 @@ class RulesController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$currentUser = $this->get_currentUser();
 		$this->Rule->id = $id;
 		if (!$this->Rule->exists()) {
 			throw new NotFoundException(__('Invalid rule'));
@@ -83,13 +109,36 @@ class RulesController extends AppController {
 		} else {
 			$this->request->data = $this->Rule->read(null, $id);
 		}
-		$customers = $this->Rule->Customer->find('list');
+		
+		$rule = $this->Rule->find('first',array(
+				'contain' => array(
+						'Condition' => array(
+								'fields' => array(
+										'Condition.id',
+										'Condition.name'
+								)
+						)
+				),
+				'conditions' => array('id' => $id)
+		));
+		$this->set('rule', $rule);
+		
+		if($rule['Rule']['customer_id'] != $currentUser['Member']['customer_id']) {
+			throw new LogicException(__('You do not have permission to edit this.'));
+		}
+		
         $conditionsRecords = $this->Rule->Condition->find('all', array(
         		'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
-        		'conditions' => array('Condition.type !=' => 2)
+        		'conditions' => array(
+					'Condition.type !=' => 2,
+					'Condition.customer_id' => array(
+							$this->get_allCustomersID(),
+							$currentUser['Member']['customer_id']
+						)
+					),
         		));
         $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
-		$this->set(compact('customers', 'conditions'));
+		$this->set(compact('conditions'));
 		
 		$this->set('types', $this->Rule->rule_types);
 	}

@@ -1,5 +1,5 @@
 <?php
-	echo $this->Form->label('Item', $label.'(s)');
+	echo $this->Form->label($formid, $label.'(s)');
 	echo $this->Chosen->select(
     	$formid,
     	$conditionItems,

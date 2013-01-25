@@ -1,16 +1,18 @@
 <?php $this->layout = 'configManage'; ?>
-<h2><?php  echo __('Condition'); ?></h2>
-<?php
-	if($condition['Condition']['customer_id'] == $current_user['Member']['customer_id']):
-?>					
-<div class="actions">
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Condition'), array('action' => 'edit', $condition['Condition']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Condition'), array('action' => 'delete', $condition['Condition']['id']), null, __('Are you sure you want to delete # %s?', $condition['Condition']['id'])); ?> </li>
-	</ul>
-</div>
-<?php endif; ?>
 <div class="conditions view">
+	<h2><?php  echo __('Condition'); ?></h2>
+	
+	<?php
+		if($condition['Condition']['customer_id'] == $current_user['Member']['customer_id']):
+	?>					
+	<div class="actions">
+		<ul>
+			<li><?php echo $this->Html->link(__('Edit Condition'), array('action' => 'edit', $condition['Condition']['id'])); ?> </li>
+			<li><?php echo $this->Form->postLink(__('Delete Condition'), array('action' => 'delete', $condition['Condition']['id']), null, __('Are you sure you want to delete # %s?', $condition['Condition']['id'])); ?> </li>
+		</ul>
+	</div>
+	<?php endif; ?>
+
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -34,7 +36,7 @@
 				if (!empty($condition['Rule'])): 
 					$i = 0;
 					foreach ($condition['Rule'] as $rule):
-						echo $rule['name'].': '.$rule['value']; 
+						echo $this->Html->link($rule['name'].': '.$rule['value'], array('controller' => 'rules', 'action' => 'view', $rule['id'])); 
 						switch ($rule['type']) {
 		                    case Rule::RULE_TYPE_ACTION:
 		                        $rule_type = $rule_types[Rule::RULE_TYPE_ACTION];
