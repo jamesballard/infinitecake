@@ -60,6 +60,13 @@ class Action extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
+        ),
+        'System' => array(
+            'className' => 'System',
+            'foreignKey' => 'system_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
         )
 	);
 
