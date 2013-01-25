@@ -77,6 +77,7 @@ class ConditionsController extends AppController {
 						),
 						'Rule' => array(
 							'fields' => array(
+								'Rule.id',
 								'Rule.type',
 								'Rule.name',
 								'Rule.value'

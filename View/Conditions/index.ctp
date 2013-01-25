@@ -17,10 +17,10 @@
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $condition['Condition']['id'])); ?>
 			<?php 
-				if(h($condition['Condition']['customer_id']) == $current_user['Member']['customer_id']) { 
+				if(h($condition['Condition']['customer_id']) == $current_user['Member']['customer_id']): 
 					echo $this->Html->link(__('Edit'), array('action' => 'edit', $condition['Condition']['id'])); 
 					echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $condition['Condition']['id']), null, __('Are you sure you want to delete # %s?', $condition['Condition']['id'])); 
-				}
+				endif;
 			?>
 		</td>
 	</tr>
