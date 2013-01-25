@@ -149,11 +149,7 @@ class ConditionsController extends AppController {
 		} else {
 			$this->request->data = $this->Condition->read(null, $id);
 		}
-		
-		//JB - this needs to be called to use constants
-		//TODO see if it can be removed.
-		$this->Rule;
-		
+			
 		$ruleType = $this->Rule->Condition->find('first', array(
 				'contain' => array(
 							'Rule' => array(

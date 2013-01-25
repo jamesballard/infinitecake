@@ -38,7 +38,5 @@
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit Artefact'), array('action' => 'edit', $artefact['Artefact']['id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete Artefact'), array('action' => 'delete', $artefact['Artefact']['id']), null, __('Are you sure you want to delete # %s?', $artefact['Artefact']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Artefacts'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Artefact'), array('action' => 'add')); ?> </li>
 	</ul>
 </div>
