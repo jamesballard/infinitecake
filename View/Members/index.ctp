@@ -1,11 +1,18 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="members index">
 	<h2><?php echo __('Members'); ?></h2>
+	<div class="actions">
+		<ul>
+			<li><?php echo $this->Html->link(__('New Member'), array('action' => 'add')); ?></li>
+		</ul>
+	</div>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('username'); ?></th>
-			<th><?php echo $this->Paginator->sort('password'); ?></th>
+			<th><?php echo $this->Paginator->sort('firstname'); ?></th>
+			<th><?php echo $this->Paginator->sort('lastname'); ?></th>
+			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('membership_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
@@ -16,10 +23,10 @@
 	<tr>
 		<td><?php echo h($member['Member']['id']); ?>&nbsp;</td>
 		<td><?php echo h($member['Member']['username']); ?>&nbsp;</td>
-		<td><?php echo h($member['Member']['password']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($member['Membership']['name'], array('controller' => 'memberships', 'action' => 'view', $member['Membership']['id'])); ?>
-		</td>
+		<td><?php echo h($member['Member']['firstname']); ?>&nbsp;</td>
+		<td><?php echo h($member['Member']['lastname']); ?>&nbsp;</td>
+		<td><?php echo h($member['Member']['email']); ?>&nbsp;</td>
+		<td><?php echo h($member['Membership']['name']); ?></td>
 		<td><?php echo h($member['Member']['created']); ?>&nbsp;</td>
 		<td><?php echo h($member['Member']['modified']); ?>&nbsp;</td>
 		<td class="actions">
@@ -44,10 +51,4 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Member'), array('action' => 'add')); ?></li>
-	</ul>
 </div>

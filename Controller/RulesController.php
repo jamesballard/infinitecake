@@ -110,20 +110,7 @@ class RulesController extends AppController {
 			$this->request->data = $this->Rule->read(null, $id);
 		}
 		
-		$rule = $this->Rule->find('first',array(
-				'contain' => array(
-						'Condition' => array(
-								'fields' => array(
-										'Condition.id',
-										'Condition.name'
-								)
-						)
-				),
-				'conditions' => array('id' => $id)
-		));
-		$this->set('rule', $rule);
-		
-		if($rule['Rule']['customer_id'] != $currentUser['Member']['customer_id']) {
+		if($this->request->data['Rule']['customer_id'] != $currentUser['Member']['customer_id']) {
 			throw new LogicException(__('You do not have permission to edit this.'));
 		}
 		
