@@ -19,25 +19,17 @@ class MembersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Member->recursive = 0;
+		$currentUser = $this->get_currentUser();
+		$this->paginate = array(
+				'contain' => false,
+				'conditions' => array(
+						'Member.customer_id' => array(
+								$currentUser['Member']['customer_id']
+						)
+				),
+		);
 		$this->set('members', $this->paginate());
 	}
-
-    function register(){
-        if(!empty($this->data)){
-            // Here you should validate the username (min length, max length, to not include special chars, not existing already, etc)
-            // As well as the password
-            if($this->Member->validates()){
-                $this->Member->save($this->data);
-                // Let's read the data we just inserted
-                $data = $this->Member->read();
-                // Use it to authenticate the user
-                $this->Auth->login($data);
-                // Then redirect
-                $this->redirect('/');
-            }
-        }
-    }
 
     public function login() {
         if ($this->Session->read('Auth.Member')) {
@@ -71,11 +63,20 @@ class MembersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$currentUser = $this->get_currentUser();
+		
 		$this->Member->id = $id;
 		if (!$this->Member->exists()) {
 			throw new NotFoundException(__('Invalid member'));
 		}
-		$this->set('member', $this->Member->read(null, $id));
+		
+		$member = $this->Member->read(null, $id);
+		
+		if($member['Member']['customer_id'] != $currentUser['Member']['customer_id']) {
+			throw new LogicException(__('You do not have permission to edit this.'));
+		}
+		
+		$this->set('member', $member);
 	}
 
 /**
@@ -84,6 +85,7 @@ class MembersController extends AppController {
  * @return void
  */
 	public function add() {
+		$currentUser = $this->get_currentUser();
 		if ($this->request->is('post')) {
 			$this->Member->create();
 			if ($this->Member->save($this->request->data)) {
@@ -93,7 +95,10 @@ class MembersController extends AppController {
 				$this->Session->setFlash(__('The member could not be saved. Please, try again.'));
 			}
 		}
-		$memberships = $this->Member->Membership->find('list');
+		$memberships = $this->Member->Membership->find('list', array(
+					'contain' => false,
+					'conditions' => array('id >=' => $currentUser['Membership']['id'])
+				));
 		$this->set(compact('memberships'));
 	}
 
@@ -105,6 +110,7 @@ class MembersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$currentUser = $this->get_currentUser();
 		$this->Member->id = $id;
 		if (!$this->Member->exists()) {
 			throw new NotFoundException(__('Invalid member'));
@@ -119,7 +125,15 @@ class MembersController extends AppController {
 		} else {
 			$this->request->data = $this->Member->read(null, $id);
 		}
-		$memberships = $this->Member->Membership->find('list');
+		
+		if($this->request->data['Member']['customer_id'] != $currentUser['Member']['customer_id']) {
+			throw new LogicException(__('You do not have permission to edit this.'));
+		}
+		
+		$memberships = $this->Member->Membership->find('list', array(
+					'contain' => false,
+					'conditions' => array('id >=' => $currentUser['Membership']['id'])
+				));
 		$this->set(compact('memberships'));
 	}
 

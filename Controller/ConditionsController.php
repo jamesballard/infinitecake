@@ -213,32 +213,12 @@ class ConditionsController extends AppController {
 										'fields' => array('Rule.id', 'Rule.type')
 									)
 						),
-				//'fields' => array('Condition.rule_id'),
 				'conditions' => array('Condition.id' => $this->Condition->id),
 			));
 		
 		$rule_type = $ruleType['Rule'][0]['type'];
 		
-		$condition = $this->Condition->find('first',array(
-					'contain' => array(
-							'Artefact' => array(
-									'fields' => 'Artefact.name'
-								),
-							'Module' => array(
-									'fields' => 'Module.sysid'
-								),
-							'Group' => array(
-									'fields' => array('Group.idnumber', 
-												'Group.name')
-								),
-							'DimensionVerb' => array(
-									'fields' => array('DimensionVerb.name')
-								)	
-						),
-					'conditions' => array('id' => $id)
-				));
-		
-		if($condition['Condition']['customer_id'] != $currentUser['Member']['customer_id']) {
+		if($this->request->data['Condition']['customer_id'] != $currentUser['Member']['customer_id']) {
 			throw new LogicException(__('You do not have permission to edit this.'));
 		} 
 		
