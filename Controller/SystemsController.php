@@ -8,6 +8,8 @@ App::uses('AppController', 'Controller');
 class SystemsController extends AppController {
 
     function beforeFilter() {
+    	parent::beforeFilter();
+    	$this->set('system_types', $this->System->system_types);
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('index', 'add', 'edit'))) {
             $this->set('customers', $this->System->Customer->find('list'));
@@ -20,7 +22,15 @@ class SystemsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->System->recursive = 0;
+		$currentUser = $this->get_currentUser();
+		$this->paginate = array(
+				'contain' => false,
+				'conditions' => array(
+						'System.customer_id' => array(
+								$currentUser['Member']['customer_id']
+						)
+				),
+		);
 		$this->set('systems', $this->paginate());
 	}
 
@@ -37,9 +47,9 @@ class SystemsController extends AppController {
 		if (!$this->System->exists()) {
 			throw new NotFoundException(__('Invalid system'));
 		}
-		$this->set('system', $this->System->read(null, $id));
-		
-		$this->set('types', $this->System->system_types);
+		$system = $this->System->read(null, $id);
+		$this->check_customerID($system['System']['customer_id']);
+		$this->set('system', $system);
 	}
 
 /**
@@ -57,7 +67,7 @@ class SystemsController extends AppController {
 				$this->Session->setFlash(__('The system could not be saved. Please, try again.'));
 			}
 		}
-		$this->set('types', $this->System->system_types);
+		$this->is_admin();
 	}
 
 /**
@@ -69,7 +79,7 @@ class SystemsController extends AppController {
  */
 	public function edit($id = null) {
 		$this->System->id = $id;
-		$this->System->recursive = 0;
+		$this->System->recursive = -1;
 		if (!$this->System->exists()) {
 			throw new NotFoundException(__('Invalid system'));
 		}
@@ -83,7 +93,7 @@ class SystemsController extends AppController {
 		} else {
 			$this->request->data = $this->System->read(null, $id);
 		}
-		$this->set('types', $this->System->system_types);
+		$this->check_customerID($this->request->data['System']['customer_id']);
 	}
 
 /**

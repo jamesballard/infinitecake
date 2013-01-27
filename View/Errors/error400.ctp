@@ -16,12 +16,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-
-<?php
-echo $this->Html->css('error');
-?>
-<div class="container">
-    <div class="alert alert-error">
+<div class="alert alert-error">
 	<h4>Not found <span>:(</span></h4>
         <strong><?php echo __d('cake', 'Error'); ?>: </strong>
         <?php printf(

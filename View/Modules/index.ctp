@@ -1,6 +1,13 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="modules index">
-	<h2><?php echo __('Modules'); ?></h2>
+	<h2 class="pull-left"><?php echo __('Modules'); ?></h2>
+	<?php 
+		echo $this->element('addButton',array(
+					'current_user' => $current_user,
+					'add' => false
+				)
+			); 
+	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -20,18 +27,23 @@
 		<td><?php echo h($module['Module']['idnumber']); ?>&nbsp;</td>
 		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($module['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $module['Artefact']['id'])); ?>
+			<?php echo h($module['Artefact']['name']); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($module['Group']['name'], array('controller' => 'groups', 'action' => 'view', $module['Group']['id'])); ?>
+			<?php echo $this->Html->link($module['Group']['idnumber'], array('controller' => 'groups', 'action' => 'view', $module['Group']['id'])); ?>
 		</td>
 		<td>
 			<?php echo $this->Html->link($module['System']['name'], array('controller' => 'systems', 'action' => 'view', $module['System']['id'])); ?>
 		</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $module['Module']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $module['Module']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $module['Module']['id']), null, __('Are you sure you want to delete # %s?', $module['Module']['id'])); ?>
+		<td>
+			<?php echo $this->element('actionButton', array(
+								'id' => $module['Module']['id'],
+								'customer_id' => h($module['System']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => false
+							)); 
+			?>
 		</td>
 	</tr>
 <?php endforeach; ?>

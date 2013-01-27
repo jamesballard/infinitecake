@@ -45,7 +45,7 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $helpers = array('Html', 'Form', 'Session', 'Chosen.Chosen');
+    public $helpers = array('Html', 'Form', 'Session', 'Permissions', 'Chosen.Chosen');
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime');
@@ -65,14 +65,34 @@ class AppController extends Controller {
 		$this->set('current_user', $current_user);
     }
     
+/**
+  * Returns details of the currently logged in user
+  *
+  * @return array
+  */
+    
     public function get_currentUser() {
     	return $this->Session->read('current_user');
     }
+    
+/**
+  * Returns the ID of the special 'all customers' account.  
+  * Typically used to filter results in WHERE conditions that require results
+  * available to all customers.
+  *
+  * @return integer
+  */
     
     public function get_allCustomersID() {
     	//This returns the database value for 'All Customers' (should be 1)
     	return 1;
     }
+ 
+/**
+  * Returns a list formatted array of a customer's system for multi-select lists
+  *
+  * @return array
+  */
     
     public function get_customerSystems() {
     	$current_user = $this->get_currentUser();
@@ -81,5 +101,51 @@ class AppController extends Controller {
     			'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
     		));
     	return $systems;
+    }
+
+/**
+ * Checks that the record belongs to the customer.
+ * Used to check the user is not accessing a record for another customer
+ *
+ * @param string $customer_id 
+ * @throws MethodNotAllowedException
+ */
+    
+    public function check_customerID($customer_id) {
+    	$currentUser = $this->get_currentUser();
+    	if($customer_id != $currentUser['Member']['customer_id'] && !$this->is_admin()) {
+    		throw new LogicException(__('You do not have permission to view this.'));
+    	}
+    }
+    
+/**
+  * Checks that the record belongs to the customer or is available to all customers.
+  * Used to check the user is not accessing a record for another customer
+  *
+  * @param string $customer_id
+  * @throws MethodNotAllowedException
+  */
+    
+    public function check_allcustomerID($customer_id) {
+    	$currentUser = $this->get_currentUser();
+    	//Combine customer ID with all customers ID
+    	$validCustomers = array($currentUser['Member']['customer_id'], $this->get_allCustomersID());
+    	if(!in_array($customer_id, $validCustomers) && !$this->is_admin()) {
+    		throw new LogicException(__('You do not have permission to view this.'));
+    	}
+    }
+    
+/**
+ * Checks that the current user has Administrator privileges.
+ *
+ * @param array $current_user
+ * @return boolean
+ */
+    
+    public function is_admin() {
+    	$currentUser = $this->get_currentUser();
+    	if($currentUser['Membership']['id'] != 1) {
+    		throw new LogicException(__('You do not have permission to view this.'));	
+    	}
     }
 }

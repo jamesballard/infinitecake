@@ -1,6 +1,14 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="groups view">
-<h2><?php  echo __('Group'); ?></h2>
+<h2 class="pull-left"><?php  echo __('Group'); ?></h2>
+	<?php echo $this->element('actionButton', array(
+								'id' => $group['Group']['id'],
+								'customer_id' => h($group['System']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => true
+							)); 
+	?>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -24,20 +32,13 @@
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
 		<dd>
-			<?php echo h($group['Group']['type']); ?>
+			<?php echo $group_types[h($group['Group']['type'])]; ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('System Id'); ?></dt>
+		<dt><?php echo __('System'); ?></dt>
 		<dd>
-			<?php echo h($group['Group']['system_id']); ?>
+			<?php echo $this->Html->link($group['System']['name'], array('controller' => 'systems', 'action' => 'view', $group['System']['id'])); ?>
 			&nbsp;
 		</dd>
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Group'), array('action' => 'edit', $group['Group']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Group'), array('action' => 'delete', $group['Group']['id']), null, __('Are you sure you want to delete # %s?', $group['Group']['id'])); ?> </li>
-	</ul>
 </div>

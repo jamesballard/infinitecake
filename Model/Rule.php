@@ -15,7 +15,7 @@ class Rule extends AppModel {
     const RULE_TYPE_MODULE = 3;
     const RULE_TYPE_ARTEFACT = 4;
     const RULE_TYPE_GROUP = 5;
-    
+       
     public $rule_types = array(
     		Rule::RULE_TYPE_ACTION=>'Action',
     		Rule::RULE_TYPE_VERB=>'Verb',
@@ -23,6 +23,21 @@ class Rule extends AppModel {
     		Rule::RULE_TYPE_ARTEFACT=>'Artefact',
     		Rule::RULE_TYPE_GROUP=>'Group'
     	);
+    
+/**
+ * static enum: Model::function()
+ * @access static
+ */
+    public static function rule_types($value = null) {
+    	$options = array(
+    			self::RULE_TYPE_ACTION => __('Action',true),
+    			self::RULE_TYPE_VERB => __('Verb',true),
+    			self::RULE_TYPE_MODULE => __('Module',true),
+    			self::RULE_TYPE_ARTEFACT => __('Artefact',true),
+    			self::RULE_TYPE_GROUP => __('Group',true),
+    	);
+    	return parent::enum($value, $options);
+    }
 
 /**
  * Display field

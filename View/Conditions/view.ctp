@@ -1,17 +1,15 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="conditions view">
-	<h2><?php  echo __('Condition'); ?></h2>
+	<h2 class="pull-left"><?php  echo __('Condition'); ?></h2>
 	
-	<?php
-		if($condition['Condition']['customer_id'] == $current_user['Member']['customer_id']):
-	?>					
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('Edit Condition'), array('action' => 'edit', $condition['Condition']['id'])); ?> </li>
-			<li><?php echo $this->Form->postLink(__('Delete Condition'), array('action' => 'delete', $condition['Condition']['id']), null, __('Are you sure you want to delete # %s?', $condition['Condition']['id'])); ?> </li>
-		</ul>
-	</div>
-	<?php endif; ?>
+	<?php echo $this->element('actionButton', array(
+								'id' => $condition['Condition']['id'],
+								'customer_id' => h($condition['Condition']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => true,
+								'offset' => true
+							)); 
+	?>
 
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>

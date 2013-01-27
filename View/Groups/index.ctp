@@ -1,6 +1,13 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="groups index">
-	<h2><?php echo __('Groups'); ?></h2>
+	<h2 class="pull-left"><?php echo __('Groups'); ?></h2>
+	<?php 
+		echo $this->element('addButton',array(
+					'current_user' => $current_user,
+					'add' => false
+				)
+			); 
+	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -8,7 +15,7 @@
 			<th><?php echo $this->Paginator->sort('idnumber'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
-			<th><?php echo $this->Paginator->sort('system_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('system'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -18,12 +25,17 @@
 		<td><?php echo h($group['Group']['sysid']); ?>&nbsp;</td>
 		<td><?php echo h($group['Group']['idnumber']); ?>&nbsp;</td>
 		<td><?php echo h($group['Group']['name']); ?>&nbsp;</td>
-		<td><?php echo h($group['Group']['type']); ?>&nbsp;</td>
-		<td><?php echo h($group['Group']['system_id']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $group['Group']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $group['Group']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $group['Group']['id']), null, __('Are you sure you want to delete # %s?', $group['Group']['id'])); ?>
+		<td><?php echo $group_types[h($group['Group']['type'])]; ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($group['System']['name'], array('controller' => 'systems', 'action' => 'view', $group['System']['id'])); ?>&nbsp;</td>
+		<td>
+			<?php echo $this->element('actionButton', array(
+								'id' => $group['Group']['id'],
+								'customer_id' => h($group['System']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => false
+							)); 
+			?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -42,10 +54,4 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Group'), array('action' => 'add')); ?></li>
-	</ul>
 </div>

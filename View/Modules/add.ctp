@@ -1,8 +1,8 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="modules form">
+<h2><?php echo __('Add Module'); ?></h2>
 <?php echo $this->Form->create('Module'); ?>
 	<fieldset>
-		<legend><?php echo __('Add Module'); ?></legend>
 	<?php
 		echo $this->Form->input('sysid');
 		echo $this->Form->input('idnumber');

@@ -6,6 +6,16 @@ App::uses('AppController', 'Controller');
  * @property Rule $Rule
  */
 class RulesController extends AppController {
+	
+	function beforeFilter() {
+		parent::beforeFilter();
+		$this->set('rule_types', $this->Rule->rule_types);
+		// conditional ensures only actions that need the vars will receive them
+		if (in_array($this->action, array('add', 'edit'))) {
+			$conditions = $this->getConditionsList();
+        	$this->set(compact('conditions'));
+		}
+	}
 
 /**
  * index method
@@ -22,7 +32,7 @@ class RulesController extends AppController {
 					)
 				)	
 		);
-		$this->set('rules', $this->paginate());
+		$this->set('rules', $this->paginate());	
 	}
 
 /**
@@ -47,10 +57,9 @@ class RulesController extends AppController {
 					)
 				),
 				'conditions' => array('id' => $id)
-		));
-		$this->set('rule', $rule);
-		
-		$this->set('types', $this->Rule->rule_types);
+		));		
+		$this->check_allcustomerID($rule['Rule']['customer_id']);		
+		$this->set('rule', $rule);		
 	}
 
 /**
@@ -59,7 +68,6 @@ class RulesController extends AppController {
  * @return void
  */
 	public function add() {
-		$currentUser = $this->get_currentUser();
 		if ($this->request->is('post')) {
 			$this->Rule->create();
 			if ($this->Rule->save($this->request->data)) {
@@ -69,21 +77,6 @@ class RulesController extends AppController {
 				$this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
 			}
 		}
-        $conditionsRecords = $this->Rule->Condition->find('all', array(
-                'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
-                'conditions' => array(
-					'Condition.type !=' => 2,
-					'Condition.customer_id' => array(
-							$this->get_allCustomersID(),
-							$currentUser['Member']['customer_id']
-						)
-				),
-            )
-        );
-        $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
-        $this->set(compact('conditions'));
-
-        $this->set('types', $this->Rule->rule_types);
 	}
 
 /**
@@ -94,7 +87,6 @@ class RulesController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$currentUser = $this->get_currentUser();
 		$this->Rule->id = $id;
 		if (!$this->Rule->exists()) {
 			throw new NotFoundException(__('Invalid rule'));
@@ -109,25 +101,7 @@ class RulesController extends AppController {
 		} else {
 			$this->request->data = $this->Rule->read(null, $id);
 		}
-		
-		if($this->request->data['Rule']['customer_id'] != $currentUser['Member']['customer_id']) {
-			throw new LogicException(__('You do not have permission to edit this.'));
-		}
-		
-        $conditionsRecords = $this->Rule->Condition->find('all', array(
-        		'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
-        		'conditions' => array(
-					'Condition.type !=' => 2,
-					'Condition.customer_id' => array(
-							$this->get_allCustomersID(),
-							$currentUser['Member']['customer_id']
-						)
-					),
-        		));
-        $conditions = Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
-		$this->set(compact('conditions'));
-		
-		$this->set('types', $this->Rule->rule_types);
+		$this->check_customerID($this->request->data['Rule']['customer_id']); 		
 	}
 
 /**
@@ -153,6 +127,30 @@ class RulesController extends AppController {
 		$this->Session->setFlash(__('Rule was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+/**
+ * Returns a list formatted array of conditions for multi-select form
+ *
+ * @param $rule_type integer
+ * @return array
+ */
+	
+	private function getConditionsList() {
+		$currentUser = $this->get_currentUser();
+		$conditionsRecords = $this->Rule->Condition->find('all', array(
+        		'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
+        		'contain' => false,
+				'conditions' => array(
+					'Condition.type !=' => 2,
+					'Condition.customer_id' => array(
+							$this->get_allCustomersID(),
+							$currentUser['Member']['customer_id']
+						)
+					),
+        		));
+        return Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
+	}
+	
 
 /**
  * admin_index method

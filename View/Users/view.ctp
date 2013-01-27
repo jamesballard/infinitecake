@@ -1,5 +1,14 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="users view">
-<h2><?php  echo __('User'); ?></h2>
+<h2 class="pull-left"><?php  echo __('User'); ?></h2>
+	<?php echo $this->element('actionButton', array(
+								'id' => $user['User']['id'],
+								'customer_id' => h($user['System']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => true
+							)); 
+	?>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -27,11 +36,4 @@
 			&nbsp;
 		</dd>
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit User'), array('action' => 'edit', $user['User']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete User'), array('action' => 'delete', $user['User']['id']), null, __('Are you sure you want to delete # %s?', $user['User']['id'])); ?> </li>
-	</ul>
 </div>

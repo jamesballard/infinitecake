@@ -13,7 +13,29 @@ class UsersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->User->recursive = 0;
+		$currentUser = $this->get_currentUser();
+		$this->paginate = array(
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.id',
+										'System.name',
+										'System.customer_id'
+									)
+							),
+						'Person' => array(
+								'fields' => array(
+										'Person.id',
+										'Person.idnumber'
+									)
+							)
+					),
+				'conditions' => array(
+						'System.customer_id' => array(
+								$currentUser['Member']['customer_id']
+						)
+				),
+		);
 		$this->set('users', $this->paginate());
 	}
 
@@ -29,7 +51,28 @@ class UsersController extends AppController {
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
 		}
-		$this->set('user', $this->User->read(null, $id));
+		$user = $this->User->find('first',array(
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.id',
+										'System.name',
+										'System.customer_id'
+									)
+							),
+						'Person' => array(
+								'fields' => array(
+										'Person.id',
+										'Person.idnumber'
+									)
+							)
+					),
+				'conditions' => array(
+						'User.id' => $id
+				),
+		));
+		$this->is_admin();
+		$this->set('user', $user);
 	}
 
 /**
@@ -47,6 +90,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
+		$this->is_admin();
 	}
 
 /**
@@ -71,6 +115,7 @@ class UsersController extends AppController {
 		} else {
 			$this->request->data = $this->User->read(null, $id);
 		}
+		$this->is_admin();
 	}
 
 /**

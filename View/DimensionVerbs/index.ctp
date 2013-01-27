@@ -1,5 +1,12 @@
 <div class="dimensionVerbs index">
-	<h2><?php echo __('Dimension Verbs'); ?></h2>
+	<h2 class="pull-left"><?php echo __('Dimension Verbs'); ?></h2>
+	<?php 
+		echo $this->element('addButton',array(
+					'current_user' => $current_user,
+					'add' => false
+				)
+			); 
+	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -43,10 +50,4 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Dimension Verb'), array('action' => 'add')); ?></li>
-	</ul>
 </div>

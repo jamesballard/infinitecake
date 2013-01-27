@@ -1,8 +1,8 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="conditions form">
+<h2><?php echo __("Add $label Condition"); ?></h2>
 <?php echo $this->Form->create('Condition'); ?>
 	<fieldset>
-		<legend><?php echo __("Add $label Condition"); ?></legend>
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('value');

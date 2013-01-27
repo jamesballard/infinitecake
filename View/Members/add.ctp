@@ -1,8 +1,8 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="members form">
+<h2><?php echo __('Add Member'); ?></h2>
 <?php echo $this->Form->create('Member'); ?>
 	<fieldset>
-		<legend><?php echo __('Add Member'); ?></legend>
 	<?php
 		echo $this->Form->input('username');
 		echo $this->Form->input('password');

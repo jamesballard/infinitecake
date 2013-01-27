@@ -1,17 +1,19 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="people index">
-	<h2><?php echo __('People'); ?></h2>
+	<h2 class="pull-left"><?php echo __('People'); ?></h2>
+	<?php 
+		echo $this->element('addButton',array(
+					'current_user' => $current_user,
+					'add' => true
+				)
+			); 
+	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
+			<th><?php echo $this->Paginator->sort('idnumber'); ?></th>
 			<th><?php echo $this->Paginator->sort('firstname'); ?></th>
 			<th><?php echo $this->Paginator->sort('lastname'); ?></th>
-			<th><?php echo $this->Paginator->sort('gender'); ?></th>
-			<th><?php echo $this->Paginator->sort('dob'); ?></th>
-			<th><?php echo $this->Paginator->sort('nationality'); ?></th>
-			<th><?php echo $this->Paginator->sort('ethnicity'); ?></th>
-			<th><?php echo $this->Paginator->sort('disability'); ?></th>
-			<th><?php echo $this->Paginator->sort('customer_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -20,22 +22,20 @@
 	foreach ($people as $person): ?>
 	<tr>
 		<td><?php echo h($person['Person']['id']); ?>&nbsp;</td>
+		<td><?php echo h($person['Person']['idnumber']); ?>&nbsp;</td>
 		<td><?php echo h($person['Person']['firstname']); ?>&nbsp;</td>
 		<td><?php echo h($person['Person']['lastname']); ?>&nbsp;</td>
-		<td><?php echo h($person['Person']['gender']); ?>&nbsp;</td>
-		<td><?php echo h($person['Person']['dob']); ?>&nbsp;</td>
-		<td><?php echo h($person['Person']['nationality']); ?>&nbsp;</td>
-		<td><?php echo h($person['Person']['ethnicity']); ?>&nbsp;</td>
-		<td><?php echo h($person['Person']['disability']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($person['Customer']['name'], array('controller' => 'customers', 'action' => 'view', $person['Customer']['id'])); ?>
-		</td>
 		<td><?php echo h($person['Person']['created']); ?>&nbsp;</td>
 		<td><?php echo h($person['Person']['modified']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $person['Person']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $person['Person']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $person['Person']['id']), null, __('Are you sure you want to delete # %s?', $person['Person']['id'])); ?>
+		<td>
+			<?php echo $this->element('actionButton', array(
+								'id' => $person['Person']['id'],
+								'customer_id' => h($person['Person']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => false
+							)); 
+			?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -54,10 +54,4 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Person'), array('action' => 'add')); ?></li>
-	</ul>
 </div>

@@ -1,5 +1,6 @@
 <div class="artefacts index">
-	<h2><?php echo __('Artefacts'); ?></h2>
+	<h2 class="pull-left"><?php echo __('Artefacts'); ?></h2>
+	<?php echo $this->element('addButton'); ?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>

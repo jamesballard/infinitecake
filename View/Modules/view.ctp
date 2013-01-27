@@ -1,6 +1,14 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="modules view">
-<h2><?php  echo __('Module'); ?></h2>
+<h2 class="pull-left"><?php  echo __('Module'); ?></h2>
+	<?php echo $this->element('actionButton', array(
+								'id' => $module['Module']['id'],
+								'customer_id' => h($module['System']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => true
+							)); 
+	?>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -24,12 +32,12 @@
 		</dd>
 		<dt><?php echo __('Artefact'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($module['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $module['Artefact']['id'])); ?>
+			<?php echo h($module['Artefact']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Group'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($module['Group']['name'], array('controller' => 'groups', 'action' => 'view', $module['Group']['id'])); ?>
+			<?php echo $this->Html->link($module['Group']['idnumber'], array('controller' => 'groups', 'action' => 'view', $module['Group']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('System'); ?></dt>
@@ -38,11 +46,4 @@
 			&nbsp;
 		</dd>
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Module'), array('action' => 'edit', $module['Module']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Module'), array('action' => 'delete', $module['Module']['id']), null, __('Are you sure you want to delete # %s?', $module['Module']['id'])); ?> </li>
-	</ul>
 </div>
