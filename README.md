@@ -105,6 +105,14 @@ Use the cakePHP command line interface from docroot home
 
    ```cli
       cake acl grant Membership::Administrators controllers
+      cake acl grant Membership::Managers Conditions
+      cake acl grant Membership::Managers Groups
+      cake acl grant Membership::Managers Members
+      cake acl grant Membership::Managers Modules
+      cake acl grant Membership::Managers People
+      cake acl grant Membership::Managers Rules
+      cake acl grant Membership::Managers Systems
+      cake acl grant Membership::Managers Users
       cake acl grant Membership::Users UserProfile
       cake acl grant Membership::Users CourseProfile
       cake acl grant Membership::Users Stats
