@@ -1,8 +1,8 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="people form">
+<h2><?php echo __('Edit Person'); ?></h2>
 <?php echo $this->Form->create('Person'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Person'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('firstname');
@@ -12,8 +12,7 @@
 		echo $this->Form->input('nationality');
 		echo $this->Form->input('ethnicity');
 		echo $this->Form->input('disability');
-		echo $this->Form->input('customer_id');
-		echo $this->Form->input('Community');
+		echo $this->element('userMultiSelect');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

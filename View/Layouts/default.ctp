@@ -58,7 +58,7 @@ $url = $this->request->here;
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link('Infinite Rooms', '/'); ?></h1>
-			<p id="tagline">Learner Enhanced Technologies</p>
+			<p id="tagline">Learner Enhanced Technology</p>
 		</div>
 		<div id="menu">
       <ul class="nav nav-pills">

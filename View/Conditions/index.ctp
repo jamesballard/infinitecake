@@ -1,6 +1,17 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="conditions index">
-	<h2><?php echo __('Conditions'); ?></h2>
+	<h2 class="pull-left"><?php echo __('Conditions'); ?></h2>
+	<div class="btn-group btn-offset">
+	  <a class="btn" href="#"><i class="icon-plus-sign"></i> Add new</a>
+	  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	  	<li><?php echo $this->Html->link(__('Action'), array('action' => 'add', 1), array('escape' => FALSE)); ?></li>
+	  	<li><?php echo $this->Html->link(__('Artefact'), array('action' => 'add', 4), array('escape' => FALSE)); ?></li>
+	  	<li><?php echo $this->Html->link(__('Group'), array('action' => 'add', 5), array('escape' => FALSE)); ?></li>
+	  	<li><?php echo $this->Html->link(__('Module'), array('action' => 'add', 3), array('escape' => FALSE)); ?></li>
+	    <li><?php echo $this->Html->link(__('Verb'), array('action' => 'add', 2), array('escape' => FALSE)); ?></li>
+	  </ul>
+	</div>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -14,13 +25,14 @@
 		<td><?php echo h($condition['Condition']['id']); ?>&nbsp;</td>
 		<td><?php echo h($condition['Condition']['name']); ?>&nbsp;</td>
 		<td><?php echo h($condition['Condition']['value']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $condition['Condition']['id'])); ?>
-			<?php 
-				if(h($condition['Condition']['customer_id']) == $current_user['Member']['customer_id']): 
-					echo $this->Html->link(__('Edit'), array('action' => 'edit', $condition['Condition']['id'])); 
-					echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $condition['Condition']['id']), null, __('Are you sure you want to delete # %s?', $condition['Condition']['id'])); 
-				endif;
+		<td>
+			<?php echo $this->element('actionButton', array(
+								'id' => $condition['Condition']['id'],
+								'customer_id' => h($condition['Condition']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => true,
+								'offset' => false
+							)); 
 			?>
 		</td>
 	</tr>

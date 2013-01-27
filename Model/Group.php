@@ -15,7 +15,12 @@ class Group extends AppModel {
     const GROUP_TYPE_COURSE = 1; //A course group focuses around a shared curriculum and has fixed membership - the Course is the group.
     const GROUP_TYPE_PERSONAL = 2; //This focuses on an individual user (e.g. tutor or private) - the student is the group.
     const GROUP_TYPE_SOCIAL = 3; //A social group is self-forming and has open membership - the Group is the group.
-
+    
+    public $group_types = array(
+    		Group::GROUP_TYPE_COURSE=>'Course',
+    		Group::GROUP_TYPE_PERSONAL=>'Personal',
+    		Group::GROUP_TYPE_SOCIAL=>'Social',
+    );
 /**
  * Display field
  *

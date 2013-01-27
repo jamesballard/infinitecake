@@ -7,8 +7,13 @@ App::uses('AppController', 'Controller');
  */
 class ConditionsController extends AppController {
 	
-	// $uses is where you specify which models this controller uses
-	var $uses = array('Condition', 'Rule', 'User');
+// $uses is where you specify which models this controller uses
+var $uses = array('Condition', 'Rule', 'User');
+
+function beforeFilter() {
+	parent::beforeFilter();
+	$this->set('rule_types', $this->Rule->rule_types);
+}
 
 /**
  * index method
@@ -86,9 +91,8 @@ class ConditionsController extends AppController {
 				),
 				'conditions' => array('id' => $id)
 		));
+		$this->check_allcustomerID($condition['Condition']['customer_id']);
 		$this->set('condition', $condition);
-		
-		$this->set('rule_types', $this->Rule->rule_types);
 	}
 
 /**
@@ -96,9 +100,7 @@ class ConditionsController extends AppController {
  *
  * @return void
  */
-	public function add($type='verb') {
-		$currentUser = $this->get_currentUser();
-		
+	public function add($rule_type=Rule::RULE_TYPE_VERB) {
 		if ($this->request->is('post')) {
 			$this->Condition->create();
 			if ($this->Condition->save($this->request->data)) {
@@ -108,79 +110,11 @@ class ConditionsController extends AppController {
 				$this->Session->setFlash(__('The condition could not be saved. Please, try again.'));
 			}
 		}
-		
-		//JB - this needs to be called to use constants 
-		//TODO see if it can be removed.
-		$this->Rule;
-		
-		switch($type) {
-			case 'action':
-				$rule_type = Rule::RULE_TYPE_ACTION;
-				/*$conditionRecords = $this->Condition->Action->find('all', array(
-						'contain' => false,
-						'fields' => array('Action.id as id', 'Action.name as name')
-				));
-				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');*/
-				$this->set('formid', 'Action');
-				break;
-			case 'artefact':
-				$rule_type = Rule::RULE_TYPE_ARTEFACT;
-				$conditionRecords = $this->Condition->Artefact->find('all', array(
-					'contain' => false,
-					'fields' => array('Artefact.id as id', 'Artefact.name as name')
-					));
-				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');
-				$this->set('formid', 'Artefact');
-				break;
-        	case 'group':
-        		$rule_type = Rule::RULE_TYPE_GROUP;
-       			$conditionRecords = $this->Condition->Group->find('all', array(
-       				'contain' => false,
-       				'fields' => array('Group.id as id', 'CONCAT(Group.name, " (",Group.idnumber,")") as name')
-       				));
-       			$conditionItems = Set::combine($conditionRecords, '{n}.Group.id', '{n}.Group.name');
-       			$this->set('formid', 'Group');
-       			break;
-       		case 'module':
-       			$rule_type = Rule::RULE_TYPE_MODULE;
-       			$conditionRecords = $this->Condition->Module->find('all', array(
-  					'contain' => false,
-       	    		'fields' => array('Module.id as id', 'Module.sysid as name')
-       				));
-       			$conditionItems = Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
-       			$this->set('formid', 'Module');
-       			break;
-       		case 'verb':
-       			$rule_type = Rule::RULE_TYPE_VERB;
-       			$conditionRecords = $this->Condition->DimensionVerb->find('all', array(
-					'contain' => array(
-						'Artefact' => array(
-							'fields' => array(
-								'Artefact.name'
-							)
-						),
-					),
-					'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')
-       				));
-       			$conditionItems = Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
-       			$this->set('formid', 'DimensionVerb');
-       			break;
-		}
-		
-        $rulesRecords = $this->Condition->Rule->find('all', array(
-        		'conditions' => array(
-        				'Rule.customer_id' => $currentUser['Member']['customer_id'],
-        				'Rule.type' => $rule_type
-        			),
-        		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
-        		'contain' => false,
-        		));
-        $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
+		$conditionItems = $this->getConditionsList($rule_type);
+        $rules = $this->getRulesList($rule_type);
 
 		$this->set(compact('rules', 'conditionItems'));
 		$this->set('label', $this->Rule->rule_types[$rule_type]);
-				
-		$this->set('types', $this->Condition->condition_types);
 	}
 
 /**
@@ -191,7 +125,6 @@ class ConditionsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$currentUser = $this->get_currentUser();
 		$this->Condition->id = $id;
 		if (!$this->Condition->exists()) {
 			throw new NotFoundException(__('Invalid condition'));
@@ -218,75 +151,14 @@ class ConditionsController extends AppController {
 		
 		$rule_type = $ruleType['Rule'][0]['type'];
 		
-		if($this->request->data['Condition']['customer_id'] != $currentUser['Member']['customer_id']) {
-			throw new LogicException(__('You do not have permission to edit this.'));
-		} 
-		
-		$this->set('condition', $this->request->data);
-		
-		switch($rule_type) {
-			case Rule::RULE_TYPE_ACTION:
-				$rule_type = Rule::RULE_TYPE_ACTION;
-				/*$conditionRecords = $this->Condition->Action->find('all', array(
-				 'contain' => false,
-						'fields' => array('Action.id as id', 'Action.name as name')
-				));
-				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');*/
-				$this->set('formid', 'Action');
-				break;
-			case Rule::RULE_TYPE_ARTEFACT:
-				$conditionRecords = $this->Condition->Artefact->find('all', array(
-						'contain' => false,
-						'fields' => array('Artefact.id as id', 'Artefact.name as name')
-				));
-				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');
-				$this->set('formid', 'Artefact');
-				break;
-			case Rule::RULE_TYPE_GROUP:
-				$conditionRecords = $this->Condition->Group->find('all', array(
-						'contain' => false,
-						'fields' => array('Group.id as id', 'CONCAT(Group.name, " (",Group.idnumber,")") as name')
-				));
-				$conditionItems = Set::combine($conditionRecords, '{n}.Group.id', '{n}.Group.name');
-				$this->set('formid', 'Group');
-				break;
-			case Rule::RULE_TYPE_MODULE:
-				$conditionRecords = $this->Condition->Module->find('all', array(
-						'contain' => false,
-						'fields' => array('Module.id as id', 'Module.sysid as name')
-				));
-				$conditionItems = Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
-				$this->set('formid', 'Module');
-				break;
-			case Rule::RULE_TYPE_VERB:
-				$conditionRecords = $this->Condition->DimensionVerb->find('all', array(
-						'contain' => array(
-								'Artefact' => array(
-										'fields' => array(
-												'Artefact.name'
-										)
-								),
-						),
-						'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')
-				));
-				$conditionItems = Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
-				$this->set('formid', 'DimensionVerb');
-				break;
-		}
-		
-        $rulesRecords = $this->Condition->Rule->find('all', array(
-        		'conditions' => array(
-        				'Rule.customer_id' => $currentUser['Member']['customer_id'],
-        				'Rule.type' => $rule_type
-        			),
-        		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
-        		'contain' => false,
-        		));
-        $rules = Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
+		$this->check_customerID($this->request->data['Condition']['customer_id']); 		
+		 
+		$conditionItems = $this->getConditionsList($rule_type);	
+        $rules = $this->getRulesList($rule_type);
         
-		$this->set(compact('rules', 'conditionItems', 'selected'));
+        $this->set('condition', $this->request->data);        
+		$this->set(compact('rules', 'conditionItems'));
 		$this->set('label', $this->Rule->rule_types[$rule_type]);
-        $this->set('types', $this->Condition->condition_types);
 	}
 
 /**
@@ -311,6 +183,120 @@ class ConditionsController extends AppController {
 		}
 		$this->Session->setFlash(__('Condition was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+/**
+ * Given a rule type, will return a list formatted array of associated 
+ * conditions for multi-select form.
+ * 
+ * Uses switch case fall through to allow integer or string to be passed.
+ *
+ * @param $type integer
+ * @return array
+ */
+	
+	private function getConditionsList($rule_type) {
+		$currentUser = $this->get_currentUser();
+		
+		//JB - this needs to be called to use constants
+		//TODO see if it can be removed.
+		$this->Rule;
+		
+		switch($rule_type) {
+			case Rule::RULE_TYPE_ACTION:
+				/*$conditionRecords = $this->Condition->Action->find('all', array(
+				 'contain' => false,
+						'fields' => array('Action.id as id', 'Action.name as name')
+				));
+				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');*/
+				$this->set('formid', 'Action');
+				return false;
+				break;
+			case Rule::RULE_TYPE_ARTEFACT:
+				$conditionRecords = $this->Condition->Artefact->find('all', array(
+						'contain' => false,
+						'fields' => array('Artefact.id as id', 'Artefact.name as name')
+				));
+				$this->set('formid', 'Artefact');
+				return Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');
+				break;
+			case Rule::RULE_TYPE_GROUP:
+				$conditionRecords = $this->Condition->Group->find('all', array(
+						'contain' => array(
+								'System' => array(
+										'fields' => array(
+												'System.id',
+												'System.name',
+												'System.customer_id'
+											)
+									)
+							),
+						'conditions' => array(
+								'System.customer_id' => array(
+										$currentUser['Member']['customer_id']
+								)
+						),
+						'fields' => array('Group.id as id', 'CONCAT(Group.name, " (",Group.idnumber,")") as name')
+				));
+				$this->set('formid', 'Group');
+				return Set::combine($conditionRecords, '{n}.Group.id', '{n}.Group.name');				
+				break;
+			case Rule::RULE_TYPE_MODULE:
+				$conditionRecords = $this->Condition->Module->find('all', array(
+						'contain' => array(
+								'System' => array(
+										'fields' => array(
+												'System.id',
+												'System.name',
+												'System.customer_id'
+											)
+									),
+							),
+						'conditions' => array(
+								'System.customer_id' => array(
+										$currentUser['Member']['customer_id']
+								)
+						),
+						'fields' => array('Module.id as id', 'Module.sysid as name')
+				));
+				$this->set('formid', 'Module');
+				return Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
+				break;
+			case Rule::RULE_TYPE_VERB:
+				$conditionRecords = $this->Condition->DimensionVerb->find('all', array(
+						'contain' => array(
+								'Artefact' => array(
+										'fields' => array(
+												'Artefact.name'
+										)
+								),
+						),
+						'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')
+				));
+				$this->set('formid', 'DimensionVerb');
+				return $conditionItems = Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
+				break;
+		}
+	}	
+	
+/**
+ * Returns a list formatted array of rules for multi-select form
+ *
+ * @param $rule_type integer 
+ * @return array
+ */
+	
+	private function getRulesList($rule_type) {
+		$currentUser = $this->get_currentUser();
+		$rulesRecords = $this->Condition->Rule->find('all', array(
+        		'conditions' => array(
+        				'Rule.customer_id' => $currentUser['Member']['customer_id'],
+        				'Rule.type' => $rule_type
+        			),
+        		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
+        		'contain' => false,
+        		));
+        return Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
 	}
 
 /**

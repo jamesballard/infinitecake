@@ -1,17 +1,15 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="rules view">
-	<h2><?php  echo __('Rule'); ?></h2>
+	<h2 class="pull-left"><?php  echo __('Rule'); ?></h2>
 	
-	<?php
-		if($rule['Rule']['customer_id'] == $current_user['Member']['customer_id']):
-	?>					
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('Edit Rule'), array('action' => 'edit', $rule['Rule']['id'])); ?> </li>
-			<li><?php echo $this->Form->postLink(__('Delete Rule'), array('action' => 'delete', $rule['Rule']['id']), null, __('Are you sure you want to delete # %s?', $rule['Rule']['id'])); ?> </li>
-		</ul>
-	</div>
-	<?php endif; ?>
+	<?php echo $this->element('actionButton', array(
+								'id' => $rule['Rule']['id'],
+								'customer_id' => h($rule['Rule']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => true,
+								'offset' => true
+							)); 
+	?>
 
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
@@ -34,16 +32,16 @@
             <?php
                 switch (h($rule['Rule']['type'])) {
                     case Rule::RULE_TYPE_ACTION:
-                        echo $types[Rule::RULE_TYPE_ACTION];
+                        echo $rule_types[Rule::RULE_TYPE_ACTION];
                         break;
                     case Rule::RULE_TYPE_ARTEFACT:
-                        echo $types[Rule::RULE_TYPE_ARTEFACT];
+                        echo $rule_types[Rule::RULE_TYPE_ARTEFACT];
                         break;
                     case Rule::RULE_TYPE_VERB:
-                        echo $types[Rule::RULE_TYPE_VERB];
+                        echo $rule_types[Rule::RULE_TYPE_VERB];
                         break;
                     case Rule::RULE_TYPE_MODULE:
-                        echo $types[Rule::RULE_TYPE_MODULE];
+                        echo $rule_types[Rule::RULE_TYPE_MODULE];
                         break;
                 }
             ?>

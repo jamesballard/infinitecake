@@ -19,10 +19,8 @@ class User extends AppModel {
 	public $displayField = 'idnumber';
 	
 	public $actsAs = array('Containable');
-	
 
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -84,5 +82,5 @@ class User extends AppModel {
             'insertQuery' => ''
         )
     );
-
+    
 }

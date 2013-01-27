@@ -6,6 +6,11 @@ App::uses('AppController', 'Controller');
  * @property Group $Group
  */
 class GroupsController extends AppController {
+	
+	function beforeFilter() {
+		parent::beforeFilter();
+		$this->set('group_types', $this->Group->group_types);
+	}
 
 /**
  * index method
@@ -13,7 +18,23 @@ class GroupsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Group->recursive = 0;
+		$currentUser = $this->get_currentUser();
+		$this->paginate = array(
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.id',
+										'System.name',
+										'System.customer_id'
+									)
+							)
+					),
+				'conditions' => array(
+						'System.customer_id' => array(
+								$currentUser['Member']['customer_id']
+						)
+				),
+		);
 		$this->set('groups', $this->paginate());
 	}
 
@@ -26,11 +47,25 @@ class GroupsController extends AppController {
  */
 	public function view($id = null) {
 		$this->Group->id = $id;
-		$this->Group->recursive = 0;
 		if (!$this->Group->exists()) {
 			throw new NotFoundException(__('Invalid group'));
 		}
-		$this->set('group', $this->Group->read(null, $id));
+		$group = $this->Group->find('first', array(
+					'contain' => array(
+							'System' => array(
+									'fields' => array(
+											'System.id',
+											'System.name',
+											'System.customer_id'
+									)
+							)
+					),
+					'conditions' => array(
+							'Group.id' => $id
+					),
+				));
+		$this->check_customerID($group['System']['customer_id']);
+		$this->set('group', $group);
 	}
 
 /**
@@ -48,9 +83,7 @@ class GroupsController extends AppController {
 				$this->Session->setFlash(__('The group could not be saved. Please, try again.'));
 			}
 		}
-		$systems = $this->Group->System->find('list');
-		$users = $this->Group->User->find('list');
-		$this->set(compact('systems', 'communities', 'users'));
+		$this->is_admin();
 	}
 
 /**
@@ -62,7 +95,6 @@ class GroupsController extends AppController {
  */
 	public function edit($id = null) {
 		$this->Group->id = $id;
-		$this->Group->recursive = 0;
 		if (!$this->Group->exists()) {
 			throw new NotFoundException(__('Invalid group'));
 		}
@@ -74,11 +106,22 @@ class GroupsController extends AppController {
 				$this->Session->setFlash(__('The group could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Group->read(null, $id);
+			$this->request->data = $this->Group->find('first', array(
+					'contain' => array(
+							'System' => array(
+									'fields' => array(
+											'System.id',
+											'System.name',
+											'System.customer_id'
+									)
+							)
+					),
+					'conditions' => array(
+							'Group.id' => $id
+					),
+				));
 		}
-		$systems = $this->Group->System->find('list');
-		$users = $this->Group->User->find('list');
-		$this->set(compact('systems', 'communities', 'users'));
+		$this->check_customerID($this->request->data['System']['customer_id']);
 	}
 
 /**
@@ -104,14 +147,28 @@ class GroupsController extends AppController {
 		$this->Session->setFlash(__('Group was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+/**
+ * Provides a JSON feed of groups for auto-complete entry
+ *
+ * @return json
+ */
 	
 	public function jsonfeed() {
-		$systems = AppController::get_customerSystems();
+		$currentUser = $this->get_currentUser();
 		$groups = $this->Group->find('all',array(
-				'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%', 'type' => 1,
-					    	'system_id' => array_keys($systems)), //array of conditions
-				'contain' => false, //int
-				'fields' => array('idnumber AS label','id AS value'), //array of field names
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.customer_id'
+									)
+							)
+					),
+				'conditions' => array('Group.idnumber LIKE'=>'%'.$_GET['term'].'%',
+							'Group.type' => 1,
+					    	'System.customer_id' => $currentUser['Member']['customer_id']
+						),				
+				'fields' => array('Group.idnumber AS label','Group.id AS value'), //array of field names
 		)
 		);
 		$groups = Set::extract('/Group/.', $groups);

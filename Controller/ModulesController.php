@@ -6,6 +6,17 @@ App::uses('AppController', 'Controller');
  * @property Module $Module
  */
 class ModulesController extends AppController {
+	
+	function beforeFilter() {
+		parent::beforeFilter();
+		// conditional ensures only actions that need the vars will receive them
+		if (in_array($this->action, array('add'))) {
+			$artefacts = $this->Module->Artefact->find('list');
+			$groups = $this->Module->Group->find('list');
+			$systems = $this->Module->System->find('list');
+			$this->set(compact('artefacts', 'groups', 'systems'));
+		}
+	}
 
 /**
  * index method
@@ -13,7 +24,34 @@ class ModulesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Module->recursive = 0;
+		$currentUser = $this->get_currentUser();
+		$this->paginate = array(
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.id',
+										'System.name',
+										'System.customer_id'
+									)
+							),
+						'Artefact' => array(
+								'fields' => array(
+										'Artefact.name'
+									)	
+							),
+						'Group' => array(
+								'fields' => array(
+										'Group.id',
+										'Group.idnumber'
+									)
+							)
+					),
+				'conditions' => array(
+						'System.customer_id' => array(
+								$currentUser['Member']['customer_id']
+						)
+				),
+		);
 		$this->set('modules', $this->paginate());
 	}
 
@@ -26,11 +64,35 @@ class ModulesController extends AppController {
  */
 	public function view($id = null) {
 		$this->Module->id = $id;
-		$this->Module->recursive = 0;
 		if (!$this->Module->exists()) {
 			throw new NotFoundException(__('Invalid module'));
 		}
-		$this->set('module', $this->Module->read(null, $id));
+		$module = $this->Module->find('first',array(
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.id',
+										'System.name',
+										'System.customer_id'
+									)
+							),
+						'Artefact' => array(
+								'fields' => array(
+										'Artefact.name'
+									)	
+							),
+						'Group' => array(
+								'fields' => array(
+										'Group.id',
+										'Group.idnumber'
+									)
+							)
+					),
+				'conditions' => array('Module.id' => $id)
+				)
+		);
+		$this->check_customerID($module['System']['customer_id']);
+		$this->set('module', $module);
 	}
 
 /**
@@ -48,10 +110,7 @@ class ModulesController extends AppController {
 				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
 			}
 		}
-		$artefacts = $this->Module->Artefact->find('list');
-		$groups = $this->Module->Group->find('list');
-		$systems = $this->Module->System->find('list');
-		$this->set(compact('artefacts', 'groups', 'systems'));
+		$this->is_admin();
 	}
 
 /**
@@ -63,7 +122,6 @@ class ModulesController extends AppController {
  */
 	public function edit($id = null) {
 		$this->Module->id = $id;
-		$this->Module->recursive = 0;
 		if (!$this->Module->exists()) {
 			throw new NotFoundException(__('Invalid module'));
 		}
@@ -75,12 +133,21 @@ class ModulesController extends AppController {
 				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Module->read(null, $id);
+			$this->request->data = $this->Module->find('first',array(
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.id',
+										'System.name',
+										'System.customer_id'
+									)
+							)
+					),
+				'conditions' => array('Module.id' => $id)
+				)
+		);
 		}
-		$artefacts = $this->Module->Artefact->find('list');
-		$groups = $this->Module->Group->find('list');
-		$systems = $this->Module->System->find('list');
-		$this->set(compact('artefacts', 'groups', 'systems'));
+		$this->check_customerID($this->request->data['System']['customer_id']);
 	}
 
 /**

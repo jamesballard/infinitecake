@@ -10,6 +10,11 @@ class MembersController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(array('login', 'logout'));
+        // conditional ensures only actions that need the vars will receive them
+        if (in_array($this->action, array('add', 'edit'))) {
+        	$memberships = $this->getMembershipsList();
+			$this->set(compact('memberships'));
+        }
     }
 
     public $helpers = array('Html', 'Form');
@@ -63,19 +68,12 @@ class MembersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		$currentUser = $this->get_currentUser();
-		
 		$this->Member->id = $id;
 		if (!$this->Member->exists()) {
 			throw new NotFoundException(__('Invalid member'));
 		}
-		
 		$member = $this->Member->read(null, $id);
-		
-		if($member['Member']['customer_id'] != $currentUser['Member']['customer_id']) {
-			throw new LogicException(__('You do not have permission to edit this.'));
-		}
-		
+		$this->check_customerID($member['Member']['customer_id']);
 		$this->set('member', $member);
 	}
 
@@ -85,7 +83,6 @@ class MembersController extends AppController {
  * @return void
  */
 	public function add() {
-		$currentUser = $this->get_currentUser();
 		if ($this->request->is('post')) {
 			$this->Member->create();
 			if ($this->Member->save($this->request->data)) {
@@ -95,11 +92,6 @@ class MembersController extends AppController {
 				$this->Session->setFlash(__('The member could not be saved. Please, try again.'));
 			}
 		}
-		$memberships = $this->Member->Membership->find('list', array(
-					'contain' => false,
-					'conditions' => array('id >=' => $currentUser['Membership']['id'])
-				));
-		$this->set(compact('memberships'));
 	}
 
 /**
@@ -110,7 +102,6 @@ class MembersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$currentUser = $this->get_currentUser();
 		$this->Member->id = $id;
 		if (!$this->Member->exists()) {
 			throw new NotFoundException(__('Invalid member'));
@@ -125,16 +116,7 @@ class MembersController extends AppController {
 		} else {
 			$this->request->data = $this->Member->read(null, $id);
 		}
-		
-		if($this->request->data['Member']['customer_id'] != $currentUser['Member']['customer_id']) {
-			throw new LogicException(__('You do not have permission to edit this.'));
-		}
-		
-		$memberships = $this->Member->Membership->find('list', array(
-					'contain' => false,
-					'conditions' => array('id >=' => $currentUser['Membership']['id'])
-				));
-		$this->set(compact('memberships'));
+		$this->check_customerID($this->request->data['Member']['customer_id']);
 	}
 
 /**
@@ -159,5 +141,20 @@ class MembersController extends AppController {
 		}
 		$this->Session->setFlash(__('Member was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+/**
+ * Returns a list formatted array of memberships for multi-select form
+ *
+ * @return array
+ */
+	
+	private function getMembershipsList() {
+		$currentUser = $this->get_currentUser();
+		$memberships = $this->Member->Membership->find('list', array(
+					'contain' => false,
+					'conditions' => array('id >=' => $currentUser['Membership']['id'])
+				));
+		return $memberships;
 	}
 }

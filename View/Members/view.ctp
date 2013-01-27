@@ -1,12 +1,14 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="members view">
-<h2><?php  echo __('Member'); ?></h2>
-<div class="actions">
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Member'), array('action' => 'edit', $member['Member']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Member'), array('action' => 'delete', $member['Member']['id']), null, __('Are you sure you want to delete # %s?', $member['Member']['id'])); ?> </li>
-	</ul>
-</div>
+<h2 class="pull-left"><?php  echo __('Member'); ?></h2>
+	<?php echo $this->element('actionButton', array(
+								'id' => $member['Member']['id'],
+								'customer_id' => h($member['Member']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => true,
+								'offset' => true
+							)); 
+	?>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>

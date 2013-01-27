@@ -7,13 +7,30 @@ App::uses('AppController', 'Controller');
  */
 class PeopleController extends AppController {
 	
+	function beforeFilter() {
+		parent::beforeFilter();
+		// conditional ensures only actions that need the vars will receive them
+		if (in_array($this->action, array('add', 'edit'))) {
+			$users = $this->getUsersList();
+			$this->set(compact('users'));
+		}
+	}
+	
 /**
  * index method
  *
  * @return void
  */
 	public function index() {
-		$this->Person->recursive = 0;
+		$currentUser = $this->get_currentUser();
+		$this->paginate = array(
+				'contain' => false,
+				'conditions' => array(
+						'Person.customer_id' => array(
+								$currentUser['Member']['customer_id']
+						)
+				),
+		);
 		$this->set('people', $this->paginate());
 	}
 
@@ -25,11 +42,31 @@ class PeopleController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$currentUser = $this->get_currentUser();
+		
 		$this->Person->id = $id;
 		if (!$this->Person->exists()) {
 			throw new NotFoundException(__('Invalid person'));
 		}
-		$this->set('person', $this->Person->read(null, $id));
+		$person = $this->Person->find('first',array(
+				'contain' => array(
+						'User' => array(
+								'System' => array(
+										'fields' => array(
+												'System.name'
+											)
+									),
+								'fields' => array(
+										'User.id',
+										'User.idnumber',
+										'User.sysid'
+								)
+						)
+				),
+				'conditions' => array('id' => $id)
+		));
+		$this->check_customerID($person['Person']['customer_id']);
+		$this->set('person', $person);
 	}
 
 /**
@@ -57,6 +94,8 @@ class PeopleController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$currentUser = $this->get_currentUser();
+		
 		$this->Person->id = $id;
 		if (!$this->Person->exists()) {
 			throw new NotFoundException(__('Invalid person'));
@@ -71,6 +110,7 @@ class PeopleController extends AppController {
 		} else {
 			$this->request->data = $this->Person->read(null, $id);
 		}
+		$this->check_customerID($this->request->data['Person']['customer_id']);
 	}
 
 /**
@@ -97,13 +137,19 @@ class PeopleController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 	
+/**
+ * Provides a JSON feed of users for auto-complete entry
+ *
+ * @return json
+ */
+	
 	public function jsonfeed() {
 		$current_user = $this->Session->read('current_user');
 		$users = $this->Person->find('all',array(
-					    'conditions' => array('idnumber LIKE'=>'%'.$_GET['term'].'%',
+					    'conditions' => array('Person.idnumber LIKE'=>'%'.$_GET['term'].'%',
 					    		'customer_id' => $current_user['Member']['customer_id']), //array of conditions
 					    'contain' => false, //int
-					    'fields' => array('idnumber AS label','id AS value'), //array of field names
+					    'fields' => array('Person.idnumber AS label','Person.id AS value'), //array of field names
 					)
 				);
 		$users = Set::extract('/Person/.', $users);		
@@ -111,6 +157,33 @@ class PeopleController extends AppController {
 		return new CakeResponse(array('body' => json_encode($users)));
 	}
 	
+/**
+ * Returns a list formatted array of users for multi-select form
+ *
+ * @return array 
+ */
+	
+	private function getUsersList() {
+		$currentUser = $this->get_currentUser();
+		$userRecords = $this->Person->User->find('all', array(
+				'contain' => array(
+						'System' => array(
+								'fields' => array(
+										'System.id',
+										'System.name',
+										'System.customer_id'
+									)
+							)
+					),
+				'fields' => array('id', 'CONCAT(User.idnumber, " (",System.name,": ",User.sysid,")") as name'),
+				'conditions' => array(
+						'System.customer_id' => array(
+								$currentUser['Member']['customer_id']
+						)
+				),
+		));
+		return Set::combine($userRecords, '{n}.User.id', '{n}.0.name');
+	}
 
 /**
  * admin_index method

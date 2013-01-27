@@ -1,11 +1,13 @@
 <?php $this->layout = 'configManage'; ?>
 <div class="rules index">
-	<h2><?php echo __('Rules'); ?></h2>
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Rule'), array('action' => 'add')); ?></li>
-		</ul>
-	</div>
+	<h2 class="pull-left"><?php echo __('Rules'); ?></h2>
+	<?php 
+		echo $this->element('addButton',array(
+					'current_user' => $current_user,
+					'add' => true
+				)
+			); 
+	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -22,16 +24,17 @@
 		<td><?php echo h($rule['Rule']['id']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['name']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['value']); ?>&nbsp;</td>
-        <td><?php echo h($rule['Rule']['type']); ?>&nbsp;</td>
+        <td><?php echo $rule_types[h($rule['Rule']['type'])]; ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['created']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['modified']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $rule['Rule']['id'])); ?>
-			<?php 
-				if(h($rule['Rule']['customer_id']) == $current_user['Member']['customer_id']):
-					echo $this->Html->link(__('Edit'), array('action' => 'edit', $rule['Rule']['id'])); 
-					echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $rule['Rule']['id']), null, __('Are you sure you want to delete # %s?', $rule['Rule']['id'])); 
-				endif;
+		<td>
+			<?php echo $this->element('actionButton', array(
+								'id' => $rule['Rule']['id'],
+								'customer_id' => h($rule['Rule']['customer_id']),
+								'current_user' => $current_user,
+								'delete' => true,
+								'offset' => false
+							)); 
 			?>
 		</td>
 	</tr>

@@ -1,7 +1,7 @@
 <div class="artefacts form">
+<h2><?php echo __('Edit Artefact'); ?></h2>
 <?php echo $this->Form->create('Artefact'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Artefact'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('idnumber');
