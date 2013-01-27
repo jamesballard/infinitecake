@@ -123,8 +123,13 @@ class FactSummedVerbRuleDatetime extends AppModel {
 			    					'fields' => array(
 			    						'DimensionDate.date'
 			    					)
-			    				)
-			    			), //int
+			    				),
+                            	'System' => array(
+                            		'fields' => array(
+                            			'System.id'
+                            		)
+                            	)
+			    			),
 							'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
 					)
 					);
@@ -189,8 +194,13 @@ class FactSummedVerbRuleDatetime extends AppModel {
 			    					'fields' => array(
 			    						'DimensionDate.date'
 			    					)
-			    				)
-			    			), //int
+			    				),
+                            	'System' => array(
+                            		'fields' => array(
+                            			'System.id'
+                            		)
+                            	)
+			    			),
 							'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
 					)
 					);
@@ -209,8 +219,13 @@ class FactSummedVerbRuleDatetime extends AppModel {
 			    					'fields' => array(
 			    						'DimensionDate.date'
 			    					)
-			    				)
-			    			), //int
+			    				),
+                            	'System' => array(
+                            		'fields' => array(
+                            			'System.id'
+                            		)
+                            	)
+			    			),
 						'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total",
 						) //array of field names
 				);

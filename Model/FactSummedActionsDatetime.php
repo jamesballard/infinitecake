@@ -120,8 +120,13 @@ class FactSummedActionsDatetime extends AppModel {
 			    					'fields' => array(
 			    						'DimensionDate.date'
 			    					)
-			    				)
-			    			), //int
+			    				),
+                            	'System' => array(
+                            		'fields' => array(
+                            			'System.id'
+                            		)
+                            	)
+			    			),
                             'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
                         )
                     );
@@ -191,8 +196,13 @@ class FactSummedActionsDatetime extends AppModel {
                             		'fields' => array(
                             			'Artefact.name'
                             			)
+                            	),
+                            	'System' => array(
+                            		'fields' => array(
+                            			'System.id'
+                            		)
                             	)
-			    			), //int
+			    			),
                             'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
                         )
                     );
@@ -273,8 +283,13 @@ class FactSummedActionsDatetime extends AppModel {
                     		'fields' => array(
                     			'DimensionDate.date'
                     		)
-                    	)
-	    			), //int
+                    	),
+                        'System' => array(
+                        	'fields' => array(
+                            	'System.id'
+                            )
+                        )
+	    			),
                     'fields' => $fields, //array of field names
                 )
             );

@@ -15,7 +15,7 @@ class DataFiltersComponent extends Component {
     	//This should work as long as contain is used to avoid 
     	//ambiguous use of sysem_id in Models. Otherwise model
     	//must also be provided.
-    	$conditions = array('system_id' => $system); 
+    	$conditions = array('System.id' => $system); 
     	
     	return $conditions;
     }
