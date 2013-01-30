@@ -51,7 +51,18 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 
 ##Data Configuration
 
-1. Insert date dimension days
+1. Set up numbers
+   
+   ```mysql
+      INSERT INTO numbers_small VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
+      
+      INSERT INTO numbers
+      SELECT thousands.number * 1000 + hundreds.number * 100 + tens.number * 10 + ones.number
+      FROM numbers_small thousands, numbers_small hundreds, numbers_small tens, numbers_small ones
+      LIMIT 1000000;
+   ```
+
+2. Insert date dimension days
    
    ```mysql
       INSERT INTO dimension_date (id, date)
@@ -61,7 +72,7 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
       ORDER BY number;
    ```
 
-2. Update date dimension fields
+3. Update date dimension fields
 
    ```mysql
       UPDATE dimension_date SET
