@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="users form">
 <h2><?php echo __('Add User'); ?></h2>
 <?php echo $this->Form->create('User'); ?>

@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="conditions index">
 	<h2 class="pull-left"><?php echo __('Conditions'); ?></h2>
 	<div class="btn-group btn-offset">

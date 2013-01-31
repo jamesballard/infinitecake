@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="memberships form">
 <?php echo $this->Form->create('Membership'); ?>
 	<fieldset>

@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="people index">
 	<h2 class="pull-left"><?php echo __('People'); ?></h2>
 	<?php 

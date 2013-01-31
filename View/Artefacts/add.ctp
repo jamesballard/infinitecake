@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="artefacts form">
 <h2><?php echo __('Add Artefact'); ?></h2>
 <?php echo $this->Form->create('Artefact'); ?>

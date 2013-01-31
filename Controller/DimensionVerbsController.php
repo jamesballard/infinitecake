@@ -9,6 +9,7 @@ class DimensionVerbsController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->layout = 'adminManage';
 		$this->set('verb_types', $this->DimensionVerb->verb_types);
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {

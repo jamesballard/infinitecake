@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="conditions form">
 <h2><?php echo __('Edit Condition'); ?></h2>
 <?php echo $this->Form->create('Condition'); ?>

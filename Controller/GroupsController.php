@@ -9,6 +9,7 @@ class GroupsController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->layout = 'configManage';
 		$this->set('group_types', $this->Group->group_types);
 	}
 

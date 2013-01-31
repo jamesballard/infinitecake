@@ -9,6 +9,7 @@ class MembersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->layout = 'configManage';
         $this->Auth->allow(array('login', 'logout'));
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {

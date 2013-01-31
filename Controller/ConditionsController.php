@@ -12,6 +12,7 @@ var $uses = array('Condition', 'Rule', 'User');
 
 function beforeFilter() {
 	parent::beforeFilter();
+	$this->layout = 'configManage';
 	$this->set('rule_types', $this->Rule->rule_types);
 	// conditional ensures only actions that need the vars will receive them
 	if (in_array($this->action, array('add', 'edit'))) {
@@ -35,6 +36,9 @@ function beforeFilter() {
 							'Customer.name'
 						)
 					)
+				),
+				'conditions' => array(
+					'Condition.type !=' => 2
 				)
 			);
 		else:

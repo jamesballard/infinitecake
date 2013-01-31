@@ -9,6 +9,7 @@ class MembershipsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->layout = 'adminManage';
         //$this->Auth->allow('*');
     }
 

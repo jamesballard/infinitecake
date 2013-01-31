@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="dimensionVerbs index">
 	<h2 class="pull-left"><?php echo __('Dimension Verbs'); ?></h2>
 	<?php 

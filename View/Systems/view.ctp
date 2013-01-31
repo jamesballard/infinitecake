@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="systems view">
 <h2 class="pull-left"><?php  echo __('System'); ?></h2>
 	<?php echo $this->element('actionButton', array(
