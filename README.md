@@ -52,7 +52,7 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 ##Data Configuration
 
 1. Set up numbers
-   
+
    ```mysql
       INSERT INTO numbers_small VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
       
@@ -90,7 +90,7 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
       month_day =   DATE_FORMAT( date, "%d" );
    ```
    
-3. Insert time dimension fields
+4. Insert time dimension fields
 
    ```mysql
       CALL `infinitecake`.`timedimbuild`();
@@ -141,38 +141,28 @@ Use the cakePHP command line interface from docroot home
 ## Use - new customer
 
 1. Set up customer via GUI
-
    * http://{url}/customers
    * http://{url}/members
    * http://{url}/systems
-
 2. Import data via mooncake (temp) or with plug-in installation
-
 3. Combine users into persons 
-
+   
    ```mysql
       CALL `infinitecake`.`map_users_to_person`({customer_id});
    ```
-   
-4. Aggregate standard data facts
 
+4. Aggregate standard data facts
    ```mysql
       CALL `infinitecake`.`aggregate_summed_actions`({customer_id},{startdate},{enddate});
    ```
-
 5. Create rules/conditions via GUI
-
    * http://{url}/rules
    * http://{url}/conditions
- 
 6. Aggregate rule/condition facts
-
    ```mysql
       CALL `infinitecake`.`aggregrate_summed_rule_conditions`({customer_id},{startdate},{enddate},{rule_id});
    ```
-
 7. Aggregate IP facts (currently processed as exception case)
-
    ```mysql
       CALL `infinitecake`.`aggregrate_summed_ip_conditions`({customer_id},{startdate},{enddate},{rule_id});
    ```
