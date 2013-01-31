@@ -6,6 +6,16 @@ App::uses('AppController', 'Controller');
  * @property DimensionVerb $DimensionVerb
  */
 class DimensionVerbsController extends AppController {
+	
+	function beforeFilter() {
+		parent::beforeFilter();
+		$this->set('verb_types', $this->DimensionVerb->verb_types);
+		// conditional ensures only actions that need the vars will receive them
+		if (in_array($this->action, array('add', 'edit'))) {
+			$artefacts = $this->DimensionVerb->Artefact->find('list');
+			$this->set(compact('artefacts'));
+		}
+	}
 
 /**
  * index method
@@ -13,7 +23,16 @@ class DimensionVerbsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->DimensionVerb->recursive = 0;
+		$this->paginate = array(
+				'contain' => array(
+					'Artefact' => array(
+						'fields' => array(
+							'Artefact.id',
+							'Artefact.name'
+						)
+					)
+				)
+			);
 		$this->set('dimensionVerbs', $this->paginate());
 	}
 
@@ -29,9 +48,18 @@ class DimensionVerbsController extends AppController {
 		if (!$this->DimensionVerb->exists()) {
 			throw new NotFoundException(__('Invalid dimension verb'));
 		}
-		$this->set('dimensionVerb', $this->DimensionVerb->read(null, $id));
-		
-		$this->set('types', $this->DimensionVerb->verb_types);
+		$dimensionVerbs = $this->DimensionVerb->find('first',array(
+				'contain' => array(
+						'Artefact' => array(
+								'fields' => array(
+										'Artefact.id',
+										'Artefact.name'
+								)
+						)
+				),
+				'conditions' => array('DimensionVerb.id' => $id)
+		));
+		$this->set('dimensionVerb', $dimensionVerbs);
 	}
 
 /**
@@ -49,10 +77,6 @@ class DimensionVerbsController extends AppController {
 				$this->Session->setFlash(__('The dimension verb could not be saved. Please, try again.'));
 			}
 		}
-		$artefacts = $this->DimensionVerb->Artefact->find('list');
-		$this->set(compact('artefacts'));
-		
-		$this->set('types', $this->DimensionVerb->verb_types);
 	}
 
 /**
@@ -78,10 +102,6 @@ class DimensionVerbsController extends AppController {
             $this->DimensionVerb->recursive = -1;
 			$this->request->data = $this->DimensionVerb->read(null, $id);
 		}
-		$artefacts = $this->DimensionVerb->Artefact->find('list');
-		$this->set(compact('artefacts'));
-		
-		$this->set('types', $this->DimensionVerb->verb_types);
 	}
 
 /**

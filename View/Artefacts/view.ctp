@@ -1,5 +1,14 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="artefacts view">
-<h2><?php  echo __('Artefact'); ?></h2>
+<h2 class="pull-left"><?php  echo __('Artefact'); ?></h2>
+	<?php echo $this->element('actionButton', array(
+								'id' => $artefact['Artefact']['id'],
+								'customer_id' => 1,
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => true
+							)); 
+	?>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -18,7 +27,7 @@
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
 		<dd>
-			<?php echo h($artefact['Artefact']['type']); ?>
+			<?php echo $artefact_types[h($artefact['Artefact']['type'])]; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
@@ -32,11 +41,4 @@
 			&nbsp;
 		</dd>
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Artefact'), array('action' => 'edit', $artefact['Artefact']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Artefact'), array('action' => 'delete', $artefact['Artefact']['id']), null, __('Are you sure you want to delete # %s?', $artefact['Artefact']['id'])); ?> </li>
-	</ul>
 </div>

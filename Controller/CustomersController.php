@@ -13,7 +13,9 @@ class CustomersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Customer->recursive = 0;
+		$this->paginate = array(
+				'contain' => false
+			);
 		$this->set('customers', $this->paginate());
 	}
 
@@ -29,7 +31,11 @@ class CustomersController extends AppController {
 		if (!$this->Customer->exists()) {
 			throw new NotFoundException(__('Invalid customer'));
 		}
-		$this->set('customer', $this->Customer->read(null, $id));
+		$customer = $this->Customer->find('first',array(
+				'contain' => false,
+				'conditions' => array('Customer.id' => $id)
+		));
+		$this->set('customer', $customer);
 	}
 
 /**
