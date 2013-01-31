@@ -11,6 +11,7 @@
 		echo $this->Form->input('nationality');
 		echo $this->Form->input('ethnicity');
 		echo $this->Form->input('disability');
+		echo $this->element('customerIdHidden');
 		echo $this->element('userMultiSelect');
 	?>
 	</fieldset>

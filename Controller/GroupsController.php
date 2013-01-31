@@ -83,7 +83,7 @@ class GroupsController extends AppController {
 				$this->Session->setFlash(__('The group could not be saved. Please, try again.'));
 			}
 		}
-		$this->is_admin();
+		$this->check_admin();
 	}
 
 /**

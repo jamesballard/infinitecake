@@ -71,7 +71,7 @@ class UsersController extends AppController {
 						'User.id' => $id
 				),
 		));
-		$this->is_admin();
+		$this->check_admin();
 		$this->set('user', $user);
 	}
 
@@ -90,7 +90,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
-		$this->is_admin();
+		$this->check_admin();
 	}
 
 /**
@@ -115,7 +115,7 @@ class UsersController extends AppController {
 		} else {
 			$this->request->data = $this->User->read(null, $id);
 		}
-		$this->is_admin();
+		$this->check_admin();
 	}
 
 /**

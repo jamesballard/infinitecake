@@ -12,7 +12,8 @@ class SystemsController extends AppController {
     	$this->set('system_types', $this->System->system_types);
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('index', 'add', 'edit'))) {
-            $this->set('customers', $this->System->Customer->find('list'));
+            $customers = $this->getCustomersList();
+			$this->set(compact('customers'));
         }
     }
 
@@ -23,14 +24,26 @@ class SystemsController extends AppController {
  */
 	public function index() {
 		$currentUser = $this->get_currentUser();
-		$this->paginate = array(
-				'contain' => false,
-				'conditions' => array(
-						'System.customer_id' => array(
-								$currentUser['Member']['customer_id']
-						)
-				),
-		);
+		if($this->is_admin()):
+			$this->paginate = array(
+					'contain' => array(
+							'Customer' => array(
+									'fields' => array(
+											'Customer.name'
+									)
+							)
+					)
+			);
+		else:
+			$this->paginate = array(
+					'contain' => false,
+					'conditions' => array(
+							'System.customer_id' => array(
+									$currentUser['Member']['customer_id']
+							)
+					),
+			);
+		endif;
 		$this->set('systems', $this->paginate());
 	}
 
@@ -67,7 +80,7 @@ class SystemsController extends AppController {
 				$this->Session->setFlash(__('The system could not be saved. Please, try again.'));
 			}
 		}
-		$this->is_admin();
+		$this->check_admin();
 	}
 
 /**

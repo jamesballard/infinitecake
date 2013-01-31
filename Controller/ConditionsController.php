@@ -13,6 +13,11 @@ var $uses = array('Condition', 'Rule', 'User');
 function beforeFilter() {
 	parent::beforeFilter();
 	$this->set('rule_types', $this->Rule->rule_types);
+	// conditional ensures only actions that need the vars will receive them
+	if (in_array($this->action, array('add', 'edit'))) {
+		$customers = $this->getCustomersList();
+		$this->set(compact('customers'));
+	}
 }
 
 /**
@@ -22,16 +27,28 @@ function beforeFilter() {
  */
 	public function index() {
 		$currentUser = $this->get_currentUser();
-		$this->paginate = array(
-			'contain' => false,
-			'conditions' => array(
-					'Condition.type !=' => 2,
-					'Condition.customer_id' => array(
-							$this->get_allCustomersID(),
-							$currentUser['Member']['customer_id']
+		if($this->is_admin()):
+			$this->paginate = array(
+				'contain' => array(
+					'Customer' => array(
+						'fields' => array(
+							'Customer.name'
 						)
-				),
-		);
+					)
+				)
+			);
+		else:
+			$this->paginate = array(
+				'contain' => false,
+				'conditions' => array(
+						'Condition.type !=' => 2,
+						'Condition.customer_id' => array(
+								$this->get_allCustomersID(),
+								$currentUser['Member']['customer_id']
+							)
+					),
+			);
+		endif;
 		$this->set('conditions', $this->paginate());
 	}
 
