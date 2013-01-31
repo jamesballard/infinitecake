@@ -120,23 +120,67 @@ Use the cakePHP command line interface from docroot home
       cake acl grant Membership::Managers Groups
       cake acl grant Membership::Managers Members
       cake acl grant Membership::Managers Modules
+      cake acl grant Membership::Managers Pages
       cake acl grant Membership::Managers People
       cake acl grant Membership::Managers Rules
       cake acl grant Membership::Managers Systems
       cake acl grant Membership::Managers Users
+      cake acl grant Membership::Managers UserProfile
+      cake acl grant Membership::Managers CourseProfile
+      cake acl grant Membership::Managers Stats
+      cake acl grant Membership::Managers jsonfeed
+      cake acl grant Membership::Users Pages
       cake acl grant Membership::Users UserProfile
       cake acl grant Membership::Users CourseProfile
       cake acl grant Membership::Users Stats
+      cake acl grant Membership::Users jsonfeed
    ```
    
    Where controllers is a parent of all individual controllers, while users are given access to specific page sets
 
-## Use
+## Use - new customer
 
-Refer to Google Docs for further details.
+1. Set up customer via GUI
 
-1. Import data
-2. Aggregate standard data facts
-3. Create rules/conditions
-4. Aggregate rule/condition facts
+   * http://{url}/customers
+   * http://{url}/members
+   * http://{url}/systems
 
+2. Import data via mooncake (temp) or with plug-in installation
+
+3. Combine users into persons 
+
+   ```mysql
+      CALL `infinitecake`.`map_users_to_person`({customer_id});
+   ```
+   
+4. Aggregate standard data facts
+
+   ```mysql
+      CALL `infinitecake`.`aggregate_summed_actions`({customer_id},{startdate},{enddate});
+   ```
+
+5. Create rules/conditions via GUI
+
+   * http://{url}/rules
+   * http://{url}/conditions
+ 
+6. Aggregate rule/condition facts
+
+   ```mysql
+      CALL `infinitecake`.`aggregrate_summed_rule_conditions`({customer_id},{startdate},{enddate},{rule_id});
+   ```
+
+7. Aggregate IP facts (currently processed as exception case)
+
+   ```mysql
+      CALL `infinitecake`.`aggregrate_summed_ip_conditions`({customer_id},{startdate},{enddate},{rule_id});
+   ```
+
+## Admin Maintenance
+
+1. Keep verbs list up to date via language file.
+
+2. Keep artefact types up to date via GUI: http://{url}/artefacts
+
+3. Update aggregations as new data is add (e.g. new action imnport or new rule creation) via CLI
