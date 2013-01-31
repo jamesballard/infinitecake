@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="customers view">
 	<h2 class="pull-left"><?php  echo __('Customer'); ?></h2>
 	<?php echo $this->element('actionButton', array(

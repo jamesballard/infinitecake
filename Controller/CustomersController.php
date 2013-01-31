@@ -7,6 +7,11 @@ App::uses('AppController', 'Controller');
  */
 class CustomersController extends AppController {
 
+	function beforeFilter() {
+		parent::beforeFilter();
+		$this->layout = 'adminManage';
+	}
+	
 /**
  * index method
  *

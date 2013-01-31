@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="rules form">
 <h2><?php echo __('Add Rule'); ?></h2>
 <?php echo $this->Form->create('Rule'); ?>

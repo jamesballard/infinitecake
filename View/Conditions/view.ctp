@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="conditions view">
 	<h2 class="pull-left"><?php  echo __('Condition'); ?></h2>
 	

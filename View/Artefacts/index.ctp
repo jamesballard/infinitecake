@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="artefacts index">
 	<h2 class="pull-left"><?php echo __('Artefacts'); ?></h2>
 	<?php 

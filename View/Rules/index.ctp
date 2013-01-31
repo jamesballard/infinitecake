@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="rules index">
 	<h2 class="pull-left"><?php echo __('Rules'); ?></h2>
 	<?php 

@@ -7,6 +7,11 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
+	function beforeFilter() {
+		parent::beforeFilter();
+		$this->layout = 'configManage';
+	}
+	
 /**
  * index method
  *

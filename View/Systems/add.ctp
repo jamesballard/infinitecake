@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="systems form">
 <h2><?php echo __('Add System'); ?></h2>
 <?php echo $this->Form->create('System'); ?>

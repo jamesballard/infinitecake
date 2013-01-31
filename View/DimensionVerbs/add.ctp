@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="dimensionVerbs form">
 <?php echo $this->Form->create('DimensionVerb'); ?>
 	<fieldset>

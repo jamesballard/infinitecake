@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="systems index">
 	<h2 class="pull-left"><?php echo __('Systems'); ?></h2>
 	<?php 

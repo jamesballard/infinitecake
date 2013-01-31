@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="groups form">
 <h2><?php echo __('Add Group'); ?></h2>
 <?php echo $this->Form->create('Group'); ?>

@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="modules index">
 	<h2 class="pull-left"><?php echo __('Modules'); ?></h2>
 	<?php 

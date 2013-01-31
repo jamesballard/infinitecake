@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="modules form">
 <h2><?php echo __('Edit Module'); ?></h2>
 <?php echo $this->Form->create('Module'); ?>

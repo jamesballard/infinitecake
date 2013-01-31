@@ -9,6 +9,7 @@ class PeopleController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->layout = 'configManage';
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
 			$users = $this->getUsersList();

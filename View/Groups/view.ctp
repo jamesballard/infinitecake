@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="groups view">
 <h2 class="pull-left"><?php  echo __('Group'); ?></h2>
 	<?php echo $this->element('actionButton', array(
