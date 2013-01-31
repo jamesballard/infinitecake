@@ -110,7 +110,7 @@ class ModulesController extends AppController {
 				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
 			}
 		}
-		$this->is_admin();
+		$this->check_admin();
 	}
 
 /**

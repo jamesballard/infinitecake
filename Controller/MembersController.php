@@ -13,7 +13,8 @@ class MembersController extends AppController {
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
         	$memberships = $this->getMembershipsList();
-			$this->set(compact('memberships'));
+        	$customers = $this->getCustomersList();
+			$this->set(compact('memberships', 'customers'));
         }
     }
 
@@ -25,14 +26,28 @@ class MembersController extends AppController {
  */
 	public function index() {
 		$currentUser = $this->get_currentUser();
-		$this->paginate = array(
+		
+		if($this->is_admin()):
+			$this->paginate = array(
+				'contain' => array(
+					'Customer' => array(
+						'fields' => array(
+							'Customer.name'
+						)
+					)
+				)
+			);
+		else:
+			$this->paginate = array(
 				'contain' => false,
 				'conditions' => array(
-						'Member.customer_id' => array(
-								$currentUser['Member']['customer_id']
-						)
-				),
-		);
+					'Member.customer_id' => array(
+						$currentUser['Member']['customer_id']
+					)
+				)
+			);
+		endif;
+		
 		$this->set('members', $this->paginate());
 	}
 
@@ -157,4 +172,5 @@ class MembersController extends AppController {
 				));
 		return $memberships;
 	}
+
 }

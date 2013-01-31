@@ -14,6 +14,7 @@
 			<th><?php echo $this->Paginator->sort('idnumber'); ?></th>
 			<th><?php echo $this->Paginator->sort('firstname'); ?></th>
 			<th><?php echo $this->Paginator->sort('lastname'); ?></th>
+			<?php echo $this->element('customerAdminTH'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -25,6 +26,11 @@
 		<td><?php echo h($person['Person']['idnumber']); ?>&nbsp;</td>
 		<td><?php echo h($person['Person']['firstname']); ?>&nbsp;</td>
 		<td><?php echo h($person['Person']['lastname']); ?>&nbsp;</td>
+		<?php
+			if($this->Permissions->is_admin($current_user)):
+				echo '<td>'.h($person['Customer']['name']).'</td>';
+			endif;
+		?>
 		<td><?php echo h($person['Person']['created']); ?>&nbsp;</td>
 		<td><?php echo h($person['Person']['modified']); ?>&nbsp;</td>
 		<td>
