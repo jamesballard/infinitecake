@@ -1,5 +1,14 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="dimensionVerbs view">
-<h2><?php  echo __('Dimension Verb'); ?></h2>
+<h2 class="pull-left"><?php  echo __('Dimension Verb'); ?></h2>
+	<?php echo $this->element('actionButton', array(
+								'id' => $dimensionVerb['DimensionVerb']['id'],
+								'customer_id' => 1,
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => true
+							)); 
+			?>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -18,7 +27,7 @@
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
 		<dd>
-			<?php echo h($dimensionVerb['DimensionVerb']['type']); ?>
+			<?php echo $verb_types[h($dimensionVerb['DimensionVerb']['type'])]; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Uri'); ?></dt>
@@ -32,11 +41,4 @@
 			&nbsp;
 		</dd>
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Dimension Verb'), array('action' => 'edit', $dimensionVerb['DimensionVerb']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Dimension Verb'), array('action' => 'delete', $dimensionVerb['DimensionVerb']['id']), null, __('Are you sure you want to delete # %s?', $dimensionVerb['DimensionVerb']['id'])); ?> </li>
-	</ul>
 </div>

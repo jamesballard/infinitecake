@@ -1,35 +1,15 @@
 <?php $url = $this->request->here; ?>
-<li>
-<?php
-if(preg_match("/Userprofile/", $url)) {
-	echo $this->Html->link('Select User', array('controller' => $this->name, 'action' => 'index'));
-}elseif(preg_match("/Courseprofile/", $url)) {
-	echo $this->Html->link('Select Course', array('controller' => $this->name, 'action' => 'index'));
-}
-?>
+<li class="nav-header">Administration</li>
+<li<?php echo (preg_match("/Customers/", $url))? ' class="active"' : ''?>>
+  <?php echo $this->Html->link('Customers', array('controller' => 'Customers', 'action' => 'index')); ?>
 </li>
-<li class="nav-header">Report Configuration</li>
-<li<?php echo (preg_match("/Rules/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Rules', array('controller' => 'Rules', 'action' => 'index')); ?>
+<li<?php echo (preg_match("/Memberships/", $url))? ' class="active"' : ''?>>
+  <?php echo $this->Html->link('Memberships', array('controller' => 'Memberships', 'action' => 'index')); ?>
 </li>
-<li<?php echo (preg_match("/Conditions/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Conditions', array('controller' => 'Conditions', 'action' => 'index')); ?>
+<li<?php echo (preg_match("/Artefacts/", $url))? ' class="active"' : ''?>>
+  <?php echo $this->Html->link('Artefacts', array('controller' => 'Artefacts', 'action' => 'index')); ?>
 </li>
-<li class="nav-header">Accounts</li>
-<li<?php echo (preg_match("/Members/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Members', array('controller' => 'Members', 'action' => 'index')); ?>
-</li>
-<li class="nav-header">System Data</li>
-<li<?php echo (preg_match("/Systems/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Systems', array('controller' => 'Systems', 'action' => 'index')); ?>
-</li>
-<li<?php echo (preg_match("/People/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Users', array('controller' => 'People', 'action' => 'index')); ?>
-</li>
-<li<?php echo (preg_match("/Groups/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Groups', array('controller' => 'Groups', 'action' => 'index')); ?>
-</li>
-<li<?php echo (preg_match("/Modules/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Modules', array('controller' => 'Modules', 'action' => 'index')); ?>
+<li<?php echo (preg_match("/DimensionVerbs/", $url))? ' class="active"' : ''?>>
+  <?php echo $this->Html->link('Verbs', array('controller' => 'DimensionVerbs', 'action' => 'index')); ?>
 </li>
 <li class="divider"></li> 

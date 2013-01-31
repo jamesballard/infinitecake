@@ -1,9 +1,10 @@
+<?php $this->layout = 'configManage'; ?>
 <div class="memberships index">
 	<h2 class="pull-left"><?php echo __('Memberships'); ?></h2>
 	<?php 
 		echo $this->element('addButton',array(
 					'current_user' => $current_user,
-					'add' => false
+					'add' => true
 				)
 			); 
 	?>
@@ -22,10 +23,15 @@
 		<td><?php echo h($membership['Membership']['name']); ?>&nbsp;</td>
 		<td><?php echo h($membership['Membership']['created']); ?>&nbsp;</td>
 		<td><?php echo h($membership['Membership']['modified']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $membership['Membership']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $membership['Membership']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $membership['Membership']['id']), null, __('Are you sure you want to delete # %s?', $membership['Membership']['id'])); ?>
+		<td>
+			<?php echo $this->element('actionButton', array(
+								'id' => $membership['Membership']['id'],
+								'customer_id' => 1,
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => false
+							)); 
+			?>
 		</td>
 	</tr>
 <?php endforeach; ?>
