@@ -104,28 +104,29 @@ class ProcessDataComponent extends Component {
      * @return array Data for chart
      */
     
-    public function getIPData($dateWindow, $period, $conditions) {
+    public function getIPData($dateWindow, $period, $conditions, $chart) {
     	$FactSummedVerbRuleDatetime = new FactSummedVerbRuleDatetime();
     	switch($period) {
     		case 'day':
     			$interval = 'P1D';
     			$dateFormat = "d-M-y";
-    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart($dateWindow, 2, $conditions, $interval, $dateFormat);
-    			return $data;
     			break;
     		case 'week':
     			$interval = 'P1W';
     			$dateFormat = 'W-o';
-    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart($dateWindow, 2, $conditions, $interval, $dateFormat);
-    			return $data;
     			break;
     		case 'month':
     			$interval = 'P1M';
     			$dateFormat = "M-y";
-    			$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart($dateWindow, 2, $conditions, $interval, $dateFormat);
-    			return $data;
     			break;
     	}
+    	if($chart == 'pie'):
+	    	$data = $FactSummedVerbRuleDatetime->getIPRulePiechart($dateWindow, 2, $conditions, $interval, $dateFormat);
+	    	return $data;
+    	else:
+	    	$data = $FactSummedVerbRuleDatetime->getIPRuleCountGchart($dateWindow, 2, $conditions, $interval, $dateFormat);
+	    	return $data;
+    	endif;
     }
 }
 ?>
