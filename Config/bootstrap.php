@@ -77,6 +77,7 @@ CakePlugin::load('GChart');
 CakePlugin::load('Chosen');
 CakePlugin::load('autoComplete');
 CakePlugin::load('infinity');
+CakePlugin::load('Acl', array('bootstrap' => true));
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
