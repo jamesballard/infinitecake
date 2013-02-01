@@ -128,7 +128,7 @@ class Member extends AppModel {
         }
         if ($saveAro == true){
             $aroRecord = $this->Aro->find('first', array('conditions' => array('foreign_key' => $insertId, 'model' => $this->name)));
-            $aroRecord['Aro']['alias'] = $this->name . '::' . $this->data[$this->name][$this->displayField];
+            $aroRecord['Aro']['alias'] = $this->name . '::' . $this->data[$this->name][$this->username];
             $this->Aro->save($aroRecord);
         }
     }
