@@ -10,7 +10,8 @@ $this->end();
 <?php 
 	echo '<div style="width:400px">';
 	echo $this->Form->create();
-	echo $this->element('streamDateWindowSelect'); 
+	echo $this->element('streamDateWindowSelect');
+	echo $this->element('systemMultiSelect'); 
 	echo $this->Form->end('Change');
 	echo '</div>';
 ?>

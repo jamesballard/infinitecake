@@ -20,7 +20,7 @@ class FactSummedVerbRuleDatetime extends AppModel {
  */
 	public $useTable = 'fact_summed_verb_rule_datetime';
 	
-	public $actsAs = array('Containable', 'Academicperiod', 'Gchart');
+	public $actsAs = array('Containable', 'Academicperiod', 'chartData');
 
 /**
  * Display field
@@ -155,6 +155,69 @@ class FactSummedVerbRuleDatetime extends AppModel {
 	 */
 	function getVerbRuleCountGchart($dateWindow, $rule, $filter, $interval, $dateFormat) {
 		$results = $this->getVerbRuleCount($dateWindow, $rule, $filter, $interval, $dateFormat);
+		$data = $this->transformGchartArray($results);
+		return $data;
+	}
+	
+	/**
+	 * Returns a Count for selected interval for the years available
+	 *
+	 * @param string $fields the fields intended to be counted
+	 * @param DateInterval $interval http://php.net/manual/en/class.dateinterval.php
+	 * @param string $format date format (e.g. 'M')
+	 * @return array Academic Year => Period => Count
+	 */
+	function getRulePieCount($dateWindow, $rule, $filter) {
+		$start = strtotime($dateWindow);
+	
+		$data = array();
+		
+		$conditions = array('rule_id' => $rule);
+		$conditions = array_merge($conditions,array('DimensionDate.date >='=>date("Y-m-d", $start)));
+		$conditions = array_merge($conditions,$filter);
+		
+		//Iterate through rule condition to get count of each condition
+		$rule_conditions = $this->Condition->get_rule_conditions($rule);
+
+		foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
+			$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
+			$value = $this->find('first', array(
+						'conditions' => $conditions, //array of conditions
+						'contain' => array(
+							'DimensionDate' => array(
+								'fields' => array(
+									'DimensionDate.date'
+								)
+							),
+							'System' => array(
+								'fields' => array(
+									'System.id'
+								)
+							)
+						),
+						'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
+					)
+				);
+			if($value[0]['total']) {
+				$count = $value[0]['total'];
+			}else{
+				$count = 0;
+			}
+			$data[$rule][] = array($rule_condition['name'] => $count);
+		}
+		return $data;
+	}
+	
+	/**
+	 * Returns a Count for selected interval for the years available in GChart format
+	 *
+	 * @param string $fields the fields intended to be counted
+	 * @param DateInterval $interval http://php.net/manual/en/class.dateinterval.php
+	 * @param string $format date format (e.g. 'M')
+	 * @return array Academic Year => Period => Count
+	 */
+	function getRulePieChart($dateWindow, $rule, $filter) {
+		$results = $this->getRulePieCount($dateWindow, $rule, $filter);
 		$data = $this->transformGchartArray($results);
 		return $data;
 	}

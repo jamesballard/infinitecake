@@ -19,7 +19,7 @@ class FactSummedActionsDatetime extends AppModel {
  */
 	public $useTable = 'fact_summed_actions_datetime';
 
-    public $actsAs = array('Containable', 'Academicperiod', 'Gchart');
+    public $actsAs = array('Containable', 'Academicperiod', 'chartData');
 
 /**
  * Primary key field
@@ -34,7 +34,6 @@ class FactSummedActionsDatetime extends AppModel {
  * @var string
  */
 	public $displayField = 'total';
-
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -99,7 +98,7 @@ class FactSummedActionsDatetime extends AppModel {
     function getPeriodCount($dateWindow, $filter, $interval, $dateFormat) {
         $interval = new DateInterval($interval);
         $start = strtotime($dateWindow);
-        $daterange = $this->getAcademicPeriod($start[0]['start'], $interval);
+        $daterange = $this->getAcademicPeriod($start, $interval);
 
         $data = array();
         foreach ($daterange as $year=>$range) {
@@ -170,7 +169,7 @@ class FactSummedActionsDatetime extends AppModel {
     function getModuleCount($dateWindow, $filter) {
         $start = strtotime($dateWindow);
         $interval = new DateInterval('P1Y');
-        $daterange = $this->getAcademicPeriod($start[0]['start'], $interval);
+        $daterange = $this->getAcademicPeriod($start, $interval);
 
         $data = array();
         $artefacts = $this->Artefact->getArtefacts();

@@ -9,7 +9,7 @@ echo '<div style="width:400px">';
 echo $this->Form->create();
 
 echo $this->Form->input('chart', array(
-    'options' => array('bar' => 'bar', 'column' => 'column', 'line' => 'line', 'table' => 'table'),
+    'options' => array('bar' => 'bar', 'column' => 'column', 'pie' => 'pie', 'line' => 'line', 'table' => 'table'),
     'default' => 'column'
 ));
 

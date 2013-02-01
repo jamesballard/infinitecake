@@ -314,7 +314,7 @@ class CourseprofileController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnGroupFilter($system, $groupid);
              
-            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions);
+            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions, $chartType);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);

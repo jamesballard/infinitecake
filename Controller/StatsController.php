@@ -244,7 +244,7 @@ class StatsController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnSystemFilter($system);
             
-            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions);
+            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions, $chartType);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);

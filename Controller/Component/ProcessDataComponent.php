@@ -65,33 +65,35 @@ class ProcessDataComponent extends Component {
     /**
      * Contructs and returns Overview data.
      *
-     * @param integer $period De termines how data will be grouped
+     * @param integer $period Determines how data will be grouped
      * @param integer $reportType Determines fields to be counted
+     * @param string type of chart to be displayed
      * @return array Data for chart
      */
     
-    public function getTaskTypeData($dateWindow, $period, $conditions) {
+    public function getTaskTypeData($dateWindow, $period, $conditions, $chart) {
     	$FactSummedVerbRuleDatetime = new FactSummedVerbRuleDatetime();
     	switch($period) {
     		case 'day':
     			$interval = 'P1D';
     			$dateFormat = "d-M-y";
-    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
-    			return $data;
     			break;
     		case 'week':
     			$interval = 'P1W';
     			$dateFormat = 'W-o';
-    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
-    			return $data;
     			break;
     		case 'month':
     			$interval = 'P1M';
     			$dateFormat = "M-y";
-    			$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
-    			return $data;
     			break;
     	}
+    	if($chart == 'pie'):
+	    	$data = $FactSummedVerbRuleDatetime->getRulePieChart($dateWindow, 1,$conditions, $interval, $dateFormat);
+	    	return $data;
+    	else:
+	    	$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
+	    	return $data;
+	    endif;
     }
     
     /**
