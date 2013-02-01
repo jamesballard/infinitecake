@@ -8,7 +8,7 @@ App::uses('Artefact', 'Model');
  * @package       Cake.Model.Behavior
  * @link
  */
-class GchartBehavior extends ModelBehavior {
+class chartDataBehavior extends ModelBehavior {
 
 /**
  * Flattens array results to GChart format
@@ -37,6 +37,25 @@ class GchartBehavior extends ModelBehavior {
     }
 
 /**
+ * Flattens array results to GChart pie chart format
+ *
+ * @param array $results Data return
+ * @param boolean $primary Using primary key
+ * @return array $data Transformed array for Google Chart Period => Year 1 Count => Year 2 Count ... Year n count
+ */
+    public function transformPiechartArray(Model $Model, $results, $primary = false) {
+    	$i = 1;
+    	$data = array();
+    	$data['labels'][] = array('string' => 'Condition');
+    	$data['labels'][] = array('number' => $condition);
+        foreach ($results as $condition=>$count) {
+        	$data['data'][$n][0] = $condition;
+            $data['data'][$n][$i] = $count;
+            $i++;
+        }
+    	return $data;
+    }
+/**
  * Flattens array results to Google Treemap format
  *
  * @param array $results Data return
@@ -54,7 +73,6 @@ class GchartBehavior extends ModelBehavior {
             $data['labels'][] = array('number' => $year);
             $n = 0;
             foreach ($period as $pair) {
-
                 foreach($pair as $key=>$value) {
                     $data['data'][$n][0] = $key;
                     $type = $Artefact->find('first', array(

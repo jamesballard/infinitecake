@@ -25,6 +25,6 @@ if(preg_match("/Userprofile/", $url)) {
   <?php echo $this->Html->link('Modules', array('controller' => $this->name, 'action' => 'modules')); ?>
 </li>
 <li<?php echo (preg_match("/tasktype/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Task Type', array('controller' => $this->name, 'action' => 'tasktype')); ?>
+  <?php echo $this->Html->link('Rule type', array('controller' => $this->name, 'action' => 'tasktype')); ?>
 </li>
 <li class="divider"></li> 
