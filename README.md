@@ -32,6 +32,7 @@ Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 3. Create temporary folders (tmp/cache/models tmp/cache/persistent tmp/logs)
 4. Import the database and data from /Config/Schema/infinitecake.sql
 5. Import the following data to create the 'admin' user:
+   * /Config/Schema/aros.sql
    * /Config/Schema/memberships.sql
    * /Config/Schema/members.sql
 6. Create database configuration file (config/database.php)
