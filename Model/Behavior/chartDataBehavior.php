@@ -8,7 +8,7 @@ App::uses('Artefact', 'Model');
  * @package       Cake.Model.Behavior
  * @link
  */
-class GchartBehavior extends ModelBehavior {
+class chartDataBehavior extends ModelBehavior {
 
 /**
  * Flattens array results to GChart format
@@ -54,7 +54,6 @@ class GchartBehavior extends ModelBehavior {
             $data['labels'][] = array('number' => $year);
             $n = 0;
             foreach ($period as $pair) {
-
                 foreach($pair as $key=>$value) {
                     $data['data'][$n][0] = $key;
                     $type = $Artefact->find('first', array(
@@ -84,6 +83,4 @@ class GchartBehavior extends ModelBehavior {
         }
         return $data;
     }
-
-
 }

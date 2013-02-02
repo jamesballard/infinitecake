@@ -10,6 +10,7 @@ App::uses('AppModel', 'Model');
 class DimensionVerb extends AppModel {
 
     //Define verb Types
+	const VERB_TYPE_NONE = 0;
     const VERB_TYPE_PRODUCE = 1;
     const VERB_TYPE_CONSUME = 2;
     const VERB_TYPE_EXCHANGE = 3;
@@ -17,6 +18,7 @@ class DimensionVerb extends AppModel {
     const VERB_TYPE_OPERATE = 5;
     
     public $verb_types = array(
+    		DimensionVerb::VERB_TYPE_NONE=>'None Selected',
     		DimensionVerb::VERB_TYPE_PRODUCE=>'Production',
     		DimensionVerb::VERB_TYPE_CONSUME=>'Consumption',
     		DimensionVerb::VERB_TYPE_EXCHANGE=>'Exchange',
@@ -79,8 +81,8 @@ class DimensionVerb extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'FactUserActionsDate' => array(
-			'className' => 'FactUserActionsDate',
+		'FactSummedActionsDatetime' => array(
+			'className' => 'FactSummedActionsDatetime',
 			'foreignKey' => 'dimension_verb_id',
 			'dependent' => false,
 			'conditions' => '',

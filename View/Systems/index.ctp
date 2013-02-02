@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="systems index">
 	<h2 class="pull-left"><?php echo __('Systems'); ?></h2>
 	<?php 
@@ -13,6 +12,7 @@
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
+			<?php echo $this->element('customerAdminTH'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -23,6 +23,11 @@
 		<td><?php echo h($system['System']['id']); ?>&nbsp;</td>
 		<td><?php echo $system_types[h($system['System']['type'])]; ?>&nbsp;</td>
 		<td><?php echo h($system['System']['name']); ?>&nbsp;</td>
+		<?php
+			if($this->Permissions->is_admin($current_user)):
+				echo '<td>'.h($system['Customer']['name']).'</td>';
+			endif;
+		?>
 		<td><?php echo h($system['System']['created']); ?>&nbsp;</td>
 		<td><?php echo h($system['System']['modified']); ?>&nbsp;</td>
 		<td>

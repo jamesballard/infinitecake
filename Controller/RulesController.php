@@ -9,11 +9,13 @@ class RulesController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->layout = 'configManage';
 		$this->set('rule_types', $this->Rule->rule_types);
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
 			$conditions = $this->getConditionsList();
-        	$this->set(compact('conditions'));
+			$customers = $this->getCustomersList();
+        	$this->set(compact('conditions', 'customers'));
 		}
 	}
 
@@ -24,14 +26,28 @@ class RulesController extends AppController {
  */
 	public function index() {
 		$currentUser = $this->get_currentUser();
-		$this->paginate = array(
+		
+		if($this->is_admin()):
+			$this->paginate = array(
+				'contain' => array(
+					'Customer' => array(
+						'fields' => array(
+							'Customer.name'
+						)
+					)
+				)
+			);
+		else:
+			$this->paginate = array(
 				'conditions' => array(
 					'Rule.customer_id' => array(
 						$this->get_allCustomersID(),
 						$currentUser['Member']['customer_id']
 					)
 				)	
-		);
+			);
+		endif;
+		
 		$this->set('rules', $this->paginate());	
 	}
 

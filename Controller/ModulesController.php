@@ -9,6 +9,7 @@ class ModulesController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->layout = 'configManage';
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add'))) {
 			$artefacts = $this->Module->Artefact->find('list');
@@ -110,7 +111,7 @@ class ModulesController extends AppController {
 				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
 			}
 		}
-		$this->is_admin();
+		$this->check_admin();
 	}
 
 /**

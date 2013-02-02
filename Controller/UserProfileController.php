@@ -123,7 +123,7 @@ class UserprofileController extends AppController {
             $conditions = $this->DataFilters->returnPersonFilter($system, $userid);
             
             //Get and merge data 
-            $results = $this->ProcessData->getIPData($dateWindow, $period, $conditions);
+            $results = $this->ProcessData->getIPData($dateWindow, $period, $conditions, $chartType);
     		$data = array_merge($data,$results);
     	
     		$this->set('data', $data);
@@ -311,7 +311,7 @@ class UserprofileController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnPersonFilter($system, $userid);
             
-            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions);
+            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions, $chartType);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);

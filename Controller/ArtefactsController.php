@@ -7,6 +7,16 @@ App::uses('AppController', 'Controller');
  */
 class ArtefactsController extends AppController {
 
+	function beforeFilter() {
+		parent::beforeFilter();
+		$this->layout = 'adminManage';
+		$this->set('artefact_types', $this->Artefact->artefact_types);
+		// conditional ensures only actions that need the vars will receive them
+		if (in_array($this->action, array('add', 'edit'))) {
+			$artefacts = $this->DimensionVerb->Artefact->find('list');
+			$this->set(compact('artefacts'));
+		}
+	}
 
 /**
  * index method
@@ -14,7 +24,9 @@ class ArtefactsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Artefact->recursive = 0;
+		$this->paginate = array(
+				'contain' => false
+			);
 		$this->set('artefacts', $this->paginate());
 	}
 
@@ -30,9 +42,11 @@ class ArtefactsController extends AppController {
 		if (!$this->Artefact->exists()) {
 			throw new NotFoundException(__('Invalid artefact'));
 		}
-		$this->set('artefact', $this->Artefact->read(null, $id));
-		
-		$this->set('types', $this->Artefact->artefact_types);
+		$artefact = $this->Artefact->find('first',array(
+				'contain' => false,
+				'conditions' => array('Artefact.id' => $id)
+		));
+		$this->set('artefact', $artefact);
 	}
 
 /**
@@ -50,7 +64,6 @@ class ArtefactsController extends AppController {
 				$this->Session->setFlash(__('The artefact could not be saved. Please, try again.'));
 			}
 		}
-		$this->set('types', $this->Artefact->artefact_types);
 	}
 
 /**
@@ -75,7 +88,6 @@ class ArtefactsController extends AppController {
 		} else {
 			$this->request->data = $this->Artefact->read(null, $id);
 		}
-		$this->set('types', $this->Artefact->artefact_types);
 	}
 
 /**

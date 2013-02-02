@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('sysname');
 		echo $this->Form->input('name');
-		echo $this->Form->input('type', array('type' => 'select', 'options' => $types));
+		echo $this->Form->input('type', array('type' => 'select', 'options' => $verb_types));
 		echo $this->Form->input('uri');
 		echo $this->Form->input('artefact_id', array('type' => 'select', 'options' => $artefacts));
 	?>

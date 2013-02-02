@@ -23,15 +23,20 @@
 		<td><?php echo h($dimensionVerb['DimensionVerb']['id']); ?>&nbsp;</td>
 		<td><?php echo h($dimensionVerb['DimensionVerb']['sysname']); ?>&nbsp;</td>
 		<td><?php echo h($dimensionVerb['DimensionVerb']['name']); ?>&nbsp;</td>
-		<td><?php echo h($dimensionVerb['DimensionVerb']['type']); ?>&nbsp;</td>
+		<td><?php echo $verb_types[h($dimensionVerb['DimensionVerb']['type'])]; ?>&nbsp;</td>
 		<td><?php echo h($dimensionVerb['DimensionVerb']['uri']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($dimensionVerb['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $dimensionVerb['Artefact']['id'])); ?>
 		</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $dimensionVerb['DimensionVerb']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $dimensionVerb['DimensionVerb']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $dimensionVerb['DimensionVerb']['id']), null, __('Are you sure you want to delete # %s?', $dimensionVerb['DimensionVerb']['id'])); ?>
+		<td>
+			<?php echo $this->element('actionButton', array(
+								'id' => $dimensionVerb['DimensionVerb']['id'],
+								'customer_id' => 1,
+								'current_user' => $current_user,
+								'delete' => false,
+								'offset' => false
+							)); 
+			?>
 		</td>
 	</tr>
 <?php endforeach; ?>

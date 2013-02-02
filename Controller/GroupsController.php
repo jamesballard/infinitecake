@@ -9,6 +9,7 @@ class GroupsController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->layout = 'configManage';
 		$this->set('group_types', $this->Group->group_types);
 	}
 
@@ -83,7 +84,7 @@ class GroupsController extends AppController {
 				$this->Session->setFlash(__('The group could not be saved. Please, try again.'));
 			}
 		}
-		$this->is_admin();
+		$this->check_admin();
 	}
 
 /**

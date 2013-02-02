@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="conditions index">
 	<h2 class="pull-left"><?php echo __('Conditions'); ?></h2>
 	<div class="btn-group btn-offset">
@@ -17,6 +16,7 @@
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('value'); ?></th>
+			<?php echo $this->element('customerAdminTH'); ?>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -25,6 +25,11 @@
 		<td><?php echo h($condition['Condition']['id']); ?>&nbsp;</td>
 		<td><?php echo h($condition['Condition']['name']); ?>&nbsp;</td>
 		<td><?php echo h($condition['Condition']['value']); ?>&nbsp;</td>
+		<?php
+			if($this->Permissions->is_admin($current_user)):
+				echo '<td>'.h($condition['Customer']['name']).'</td>';
+			endif;
+		?>
 		<td>
 			<?php echo $this->element('actionButton', array(
 								'id' => $condition['Condition']['id'],

@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="people form">
 <h2><?php echo __('Edit Person'); ?></h2>
 <?php echo $this->Form->create('Person'); ?>
@@ -12,6 +11,7 @@
 		echo $this->Form->input('nationality');
 		echo $this->Form->input('ethnicity');
 		echo $this->Form->input('disability');
+		echo $this->element('customerIdHidden');
 		echo $this->element('userMultiSelect');
 	?>
 	</fieldset>

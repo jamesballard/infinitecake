@@ -9,10 +9,12 @@ class PeopleController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
+		$this->layout = 'configManage';
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
 			$users = $this->getUsersList();
-			$this->set(compact('users'));
+			$customers = $this->getCustomersList();
+			$this->set(compact('users', 'customers'));
 		}
 	}
 	
@@ -23,14 +25,26 @@ class PeopleController extends AppController {
  */
 	public function index() {
 		$currentUser = $this->get_currentUser();
-		$this->paginate = array(
-				'contain' => false,
-				'conditions' => array(
-						'Person.customer_id' => array(
-								$currentUser['Member']['customer_id']
-						)
-				),
-		);
+		if($this->is_admin()):
+			$this->paginate = array(
+					'contain' => array(
+							'Customer' => array(
+									'fields' => array(
+											'Customer.name'
+									)
+							)
+					)
+			);
+		else:
+			$this->paginate = array(
+					'contain' => false,
+					'conditions' => array(
+							'Person.customer_id' => array(
+									$currentUser['Member']['customer_id']
+							)
+					),
+			);
+		endif;
 		$this->set('people', $this->paginate());
 	}
 

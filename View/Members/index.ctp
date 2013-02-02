@@ -1,4 +1,3 @@
-<?php $this->layout = 'configManage'; ?>
 <div class="members index">
 	<h2 class="pull-left"><?php echo __('Members'); ?></h2>
 	<?php 
@@ -16,6 +15,7 @@
 			<th><?php echo $this->Paginator->sort('lastname'); ?></th>
 			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('membership_id'); ?></th>
+			<?php echo $this->element('customerAdminTH'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -29,6 +29,11 @@
 		<td><?php echo h($member['Member']['lastname']); ?>&nbsp;</td>
 		<td><?php echo h($member['Member']['email']); ?>&nbsp;</td>
 		<td><?php echo h($member['Membership']['name']); ?></td>
+		<?php
+			if($this->Permissions->is_admin($current_user)):
+				echo '<td>'.h($member['Customer']['name']).'</td>';
+			endif;
+		?>
 		<td><?php echo h($member['Member']['created']); ?>&nbsp;</td>
 		<td><?php echo h($member['Member']['modified']); ?>&nbsp;</td>
 		<td>

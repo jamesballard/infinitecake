@@ -60,7 +60,15 @@ class Member extends AppModel {
  *
  * @var array
  */
-	public $belongsTo = array('Membership');
+	public $belongsTo = array('Membership', 
+				'Customer' => array(
+						'className' => 'Customer',
+						'foreignKey' => 'customer_id',
+						'conditions' => '',
+						'fields' => '',
+						'order' => ''
+				)
+			);
     public $actsAs = array('Acl' => array('type' => 'requester'));
 
     public function parentNode() {
@@ -120,16 +128,16 @@ class Member extends AppModel {
         }
         if ($saveAro == true){
             $aroRecord = $this->Aro->find('first', array('conditions' => array('foreign_key' => $insertId, 'model' => $this->name)));
-            $aroRecord['Aro']['alias'] = $this->name . '::' . $this->data[$this->name][$this->displayField];
+            $aroRecord['Aro']['alias'] = $this->name . '::' . $this->data[$this->name][$this->username];
             $this->Aro->save($aroRecord);
         }
     }
 
     public function getMembership($username) {
         return $this->find('first', array(
-                'conditions' => array('username' => $username), //array of conditions
-                'recursive' => -1, //int
-                'fields' => array('Member.membership_id'), //array of field names
+                'conditions' => array('username' => $username),
+                'contain' => false, 
+                'fields' => array('Member.membership_id'),
             )
         );
     }

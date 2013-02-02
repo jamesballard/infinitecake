@@ -1,6 +1,4 @@
 <?php
-App::uses('Member', 'Model');
-App::uses('System', 'Model');
 /**
  * Application level Controller
  *
@@ -48,7 +46,7 @@ class AppController extends Controller {
     public $helpers = array('Html', 'Form', 'Session', 'Permissions', 'Chosen.Chosen');
     
     // $uses is where you specify which models this controller uses
-    var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime');
+    var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System', 'Customer');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -58,11 +56,17 @@ class AppController extends Controller {
         
         //Make the logged in member available to all views
 		# load current_user
-		$currentMember = new Member();
-		$currentMember->username = AuthComponent::user('username');
-		$current_user = $currentMember->find();
-		$this->Session->write('current_user', $current_user);
-		$this->set('current_user', $current_user);
+        if ($this->Auth->user('Member.username')):
+			$current_user = $this->Member->find('first', array(
+						'contain' => false,
+						'conditions' => array(
+								'username' => $this->Auth->user('Member.username')
+						)
+					)
+				);
+			$this->Session->write('current_user', $current_user);
+			$this->set('current_user', $current_user);
+		endif;
     }
     
 /**
@@ -96,8 +100,7 @@ class AppController extends Controller {
     
     public function get_customerSystems() {
     	$current_user = $this->get_currentUser();
-    	$system = new System();
-    	$systems = $system->find('list', array(
+    	$systems = $this->System->find('list', array(
     			'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
     		));
     	return $systems;
@@ -138,14 +141,41 @@ class AppController extends Controller {
 /**
  * Checks that the current user has Administrator privileges.
  *
- * @param array $current_user
- * @return boolean
+ * @throws MethodNotAllowedException
  */
     
-    public function is_admin() {
+    public function check_admin() {
     	$currentUser = $this->get_currentUser();
     	if($currentUser['Membership']['id'] != 1) {
     		throw new LogicException(__('You do not have permission to view this.'));	
     	}
     }
+    
+/**
+ * Checks that the current user has Administrator privileges.
+ *
+ * @return boolean
+ */
+    
+    public function is_admin() {
+    	$currentUser = $this->get_currentUser();
+    	if($currentUser['Membership']['id'] == 1) {
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
+    
+    /**
+     * Returns a list formatted array of memberships for multi-select form
+     *
+     * @return array
+     */
+    
+    public function getCustomersList() {
+    	return $this->Customer->find('list', array(
+    			'contain' => false
+    	));
+    }
+    
 }
