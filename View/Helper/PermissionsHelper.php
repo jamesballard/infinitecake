@@ -2,7 +2,7 @@
     /**
      * CakePHP helper that acts as a wrapper for Drastic Data Tree Maps.
      */
-class permissionsHelper extends AppHelper {
+class PermissionsHelper extends AppHelper {
 
 /**
  * Checks that the record belongs to the customer.
