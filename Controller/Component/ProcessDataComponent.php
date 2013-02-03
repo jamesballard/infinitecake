@@ -71,7 +71,7 @@ class ProcessDataComponent extends Component {
      * @return array Data for chart
      */
     
-    public function getTaskTypeData($dateWindow, $period, $conditions, $chart) {
+    public function getTaskTypeData($dateWindow, $period, $rule, $conditions, $chart) {
     	$FactSummedVerbRuleDatetime = new FactSummedVerbRuleDatetime();
     	switch($period) {
     		case 'day':
@@ -88,10 +88,10 @@ class ProcessDataComponent extends Component {
     			break;
     	}
     	if($chart == 'pie'):
-	    	$data = $FactSummedVerbRuleDatetime->getRulePieChart($dateWindow, 1,$conditions, $interval, $dateFormat);
+	    	$data = $FactSummedVerbRuleDatetime->getRulePieChart($dateWindow, $rule,$conditions, $interval, $dateFormat);
 	    	return $data;
     	else:
-	    	$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, 1,$conditions, $interval, $dateFormat);
+	    	$data = $FactSummedVerbRuleDatetime->getVerbRuleCountGchart($dateWindow, $rule,$conditions, $interval, $dateFormat);
 	    	return $data;
 	    endif;
     }
