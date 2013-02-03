@@ -210,9 +210,10 @@ class StatsController extends AppController {
     }
 
     public function tasktype() {
-    	$systems = AppController::get_customerSystems();
+    	$systems = $this->get_customerSystems();
         //Set defaults
     	$system = array_keys($systems);
+        $rule = 1;
     	$dateWindow = '-2 years';
         $period = 'month';
         $chartType = 'column';
@@ -225,6 +226,7 @@ class StatsController extends AppController {
                 $period = $this->request->data['Action']['period'];
                 $dateWindow = $this->request->data['Action']['daterange'];
                 $system = $this->request->data['Action']['system'];
+                $rule = $this->request->data['Action']['rule'];
                 $chartType = $this->request->data['Action']['chart'];
                 //$reportType = $this->request->data['Action']['report'];
                 $width = $this->request->data['Action']['width'];
@@ -244,11 +246,13 @@ class StatsController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnSystemFilter($system);
             
-            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions, $chartType);
+            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $rule, $conditions, $chartType);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);
-            $this->set(compact('systems'));
+            
+            $rules = $this->getCustomerRules();
+            $this->set(compact('systems', 'rules'));
     }
 }
 

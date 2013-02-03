@@ -193,6 +193,7 @@ class CourseprofileController extends AppController {
     		$systems = AppController::get_customerSystems();
     		//Set defaults
     		$system = array_keys($systems);
+        	$rule = 1;
     		$dateWindow = '-2 years';
     		$period = 'month';
     		$chartType = 'column';
@@ -205,6 +206,7 @@ class CourseprofileController extends AppController {
     			$period = $this->request->data['Action']['period'];
     			$dateWindow = $this->request->data['Action']['daterange'];
     			$system = $this->request->data['Action']['system'];
+    			$rule = $this->request->data['Action']['rule'];
     			$chartType = $this->request->data['Action']['chart'];
     			//$reportType = $this->request->data['Action']['report'];
     			$width = $this->request->data['Action']['width'];
@@ -224,7 +226,7 @@ class CourseprofileController extends AppController {
     		//Set query filters
     		$conditions = $this->DataFilters->returnGroupFilter($system, $groupid);
     		 
-    		$results = $this->ProcessData->getIPData($dateWindow, $period, $conditions, $chartType);
+    		$results = $this->ProcessData->getIPData($dateWindow, $period, $rule, $conditions, $chartType);
     		$data = array_merge($data,$results);
     	
     		$this->set('data', $data);
@@ -280,7 +282,7 @@ class CourseprofileController extends AppController {
             $this->Session->setFlash(__('No group selected'));
             $this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
         }else{
-        	$systems = AppController::get_customerSystems();
+        	$systems = $this->get_customerSystems();
             //Set defaults
         	$system = array_keys($systems);
         	$dateWindow = '-2 years';
@@ -318,7 +320,9 @@ class CourseprofileController extends AppController {
             $data = array_merge($data,$results);
 
             $this->set('data', $data);
-            $this->set(compact('systems'));
+            
+            $rules = $this->getCustomerRules();
+            $this->set(compact('systems', 'rules'));
         }
     }
 }

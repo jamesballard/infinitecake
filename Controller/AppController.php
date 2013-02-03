@@ -46,7 +46,7 @@ class AppController extends Controller {
     public $helpers = array('Html', 'Form', 'Session', 'Permissions', 'Chosen.Chosen');
     
     // $uses is where you specify which models this controller uses
-    var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System', 'Customer');
+    var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System', 'Customer', 'Rule');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -176,6 +176,27 @@ class AppController extends Controller {
     	return $this->Customer->find('list', array(
     			'contain' => false
     	));
+    }
+
+/**
+ * Returns a list formatted array of rules for multi-select form
+ *
+ * @return array
+ */
+    
+    public function getCustomerRules() {
+    	$currentUser = $this->get_currentUser();
+    	return $this->Rule->find('list', array(
+    			'contain' => false,
+    			'conditions' => array(
+    				'Rule.value !=' => 'IP Address',
+    				'Rule.customer_id' => array(
+    					$this->get_allCustomersID(),
+    					$currentUser['Member']['customer_id']
+    				)
+    			)
+    		)
+    	);
     }
     
 }

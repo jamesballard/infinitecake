@@ -44,7 +44,7 @@ class Rule extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+	public $displayField = 'value';
 
 	public $actsAs = array('Containable');
 

@@ -277,9 +277,10 @@ class UserprofileController extends AppController {
             $this->Session->setFlash(__('No user selected'));
             $this->redirect(array('controller' => 'Userprofile', 'action' => ''));
         }else{
-        	$systems = AppController::get_customerSystems();
+        	$systems = $this->get_customerSystems();
             //Set defaults
         	$system = array_keys($systems);
+        	$rule = 1;
         	$dateWindow = '-2 years';
             $period = 'month';
             $chartType = 'column';
@@ -292,6 +293,7 @@ class UserprofileController extends AppController {
                 $period = $this->request->data['Action']['period'];
                 $dateWindow = $this->request->data['Action']['daterange'];
                 $system = $this->request->data['Action']['system'];
+                $rule = $this->request->data['Action']['rule'];
                 $chartType = $this->request->data['Action']['chart'];
                 //$reportType = $this->request->data['Action']['report'];
                 $width = $this->request->data['Action']['width'];
@@ -311,11 +313,13 @@ class UserprofileController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnPersonFilter($system, $userid);
             
-            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions, $chartType);
+            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $rule, $conditions, $chartType);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);
-            $this->set(compact('systems'));
+            
+            $rules = $this->getCustomerRules();
+            $this->set(compact('systems', 'rules'));
         }
     }
 }

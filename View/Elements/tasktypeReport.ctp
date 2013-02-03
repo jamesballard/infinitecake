@@ -8,6 +8,11 @@ echo '<div style="width:400px">';
 
 echo $this->Form->create();
 
+echo $this->Form->input('rule', array(
+    'options' => $rules,
+    'default' => 1
+));
+
 echo $this->Form->input('chart', array(
     'options' => array('bar' => 'bar', 'column' => 'column', 'pie' => 'pie', 'line' => 'line', 'table' => 'table'),
     'default' => 'column'
