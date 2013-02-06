@@ -7,7 +7,7 @@
  */
 App::uses('File', 'Utility');
 
-class CourseprofileController extends AppController {
+class CourseProfileController extends AppController {
     public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
