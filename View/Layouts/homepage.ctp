@@ -62,8 +62,8 @@ $url = $this->request->here;
 		<div id="menu">
       <ul class="nav nav-pills">
         <li class="first<?php echo (preg_match("/Stats/", $url))? ' active' : ''?>"><?php echo $this->Html->link('Overall Statistics', '/Stats'); ?></li>
-        <li<?php echo (preg_match("/Courseprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('Course Profile', '/Courseprofile'); ?></li>
-        <li<?php echo (preg_match("/Userprofile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/Userprofile'); ?></li>
+        <li<?php echo (preg_match("/CourseProfile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('Course Profile', '/CourseProfile'); ?></li>
+        <li<?php echo (preg_match("/UserProfile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/UserProfile'); ?></li>
       </ul>
     </div>
 		<div class="content">
