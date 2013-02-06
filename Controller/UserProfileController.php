@@ -5,7 +5,7 @@
  * Date: 09/11/12
  * Time: 21:37
  */
-class UserprofileController extends AppController {
+class UserProfileController extends AppController {
     public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
