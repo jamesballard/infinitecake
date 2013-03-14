@@ -52,7 +52,7 @@ class AppController extends Controller {
         //Configure AuthComponent
         $this->Auth->loginAction = array('controller' => 'members', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'members', 'action' => 'login');
-        $this->Auth->loginRedirect = array('controller' => '', 'action' => '');
+        $this->Auth->loginRedirect = array('controller' => 'pages', 'action' => 'display', 'home');
         
         //Make the logged in member available to all views
 		# load current_user

@@ -57,7 +57,7 @@ $url = $this->request->here;
     <![endif]-->
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link('Infinite Rooms', '/'); ?></h1>
+			<h1><?php echo $this->Html->link('Infinite Rooms', array('controller' => 'pages', 'action' => 'display', 'home')); ?></h1>
 			<p id="tagline">Learner Enhanced Technology</p>
 		</div>
 		<div id="menu">
