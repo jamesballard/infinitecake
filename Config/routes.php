@@ -37,6 +37,10 @@
 	Router::connect('/Stats', array('controller' => 'stats', 'action' => 'overview'));
 
 /**
+ * Set up robot.txt to manage search indexing.
+ */
+    Router::connect('/robots.txt',array('controller' => 'Seo', 'action' => 'robots'));
+/**
  * Load all plugin routes.  See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
