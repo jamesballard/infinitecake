@@ -64,23 +64,4 @@ class User extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
-    public $hasAndBelongsToMany = array(
-        'Group' => array(
-            'className' => 'Group',
-            'joinTable' => 'roles',
-            'foreignKey' => 'user_id',
-            'associationForeignKey' => 'group_id',
-            'unique' => 'keepExisting',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-            'deleteQuery' => '',
-            'insertQuery' => ''
-        )
-    );
-    
 }

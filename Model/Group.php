@@ -83,21 +83,6 @@ class Group extends AppModel {
 	);
 
     public $hasAndBelongsToMany = array(
-        'User' => array(
-            'className' => 'User',
-            'joinTable' => 'roles',
-            'foreignKey' => 'group_id',
-            'associationForeignKey' => 'user_id',
-            'unique' => 'keepExisting',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-            'deleteQuery' => '',
-            'insertQuery' => ''
-        ),
         'Condition' => array(
             'className' => 'Condition',
             'joinTable' => 'group_conditions',
