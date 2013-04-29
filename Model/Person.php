@@ -63,4 +63,27 @@ class Person extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+    /**
+     * hasAndBelongsToMany associations
+     *
+     * @var array
+     */
+    public $hasAndBelongsToMany = array(
+        'Course' => array(
+            'className' => 'Course',
+            'joinTable' => 'person_courses',
+            'foreignKey' => 'person_id',
+            'associationForeignKey' => 'course_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 }
