@@ -33,7 +33,7 @@
                     'id' => $course['Course']['id'],
                     'customer_id' => h($course['Department']['customer_id']),
                     'current_user' => $current_user,
-                    'delete' => false,
+                    'delete' => true,
                     'offset' => false
                 ));
             ?>

@@ -69,7 +69,7 @@ class CoursesController extends AppController {
                     )
                 ),
             ),
-            'conditions' => array('id' => $id)
+            'conditions' => array('Course.id' => $id)
         ));
         $this->check_customerID($course['Department']['customer_id']);
         $this->set('course', $course);
