@@ -13,8 +13,8 @@ class CoursesController extends AppController {
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
             $customers = $this->getCustomersList();
-            $departments = $this->Course->Department->find('list');
-            $people = $this->Course->Person->find('list');
+            $departments = $this->getCustomerDepartments();
+            $people = $this->getPeopleList();
             $this->set(compact('departments', 'people', 'customers'));
         }
     }
@@ -140,4 +140,50 @@ class CoursesController extends AppController {
 		$this->Session->setFlash(__('Course was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+/**
+ * Returns a list formatted array of groups for multi-select form
+ *
+ * @return array
+ */
+
+    private function getGroupsList() {
+        $currentUser = $this->get_currentUser();
+        $groupRecords = $this->Course->Group->find('all', array(
+            'contain' => array(
+                'System' => array(
+                    'fields' => array(
+                        'System.id',
+                        'System.name',
+                        'System.customer_id'
+                    )
+                )
+            ),
+            'fields' => array('id', 'CONCAT(Group.idnumber, " (",System.name,": ",Group.sysid,")") as name'),
+            'conditions' => array(
+                'System.customer_id' => array(
+                    $currentUser['Member']['customer_id']
+                )
+            ),
+        ));
+        return Set::combine($groupRecords, '{n}.Group.id', '{n}.0.name');
+    }
+
+ /**
+  * Returns a list formatted array of people for multi-select form
+  *
+  * @return array
+  */
+
+    private function getPeopleList() {
+        $currentUser = $this->get_currentUser();
+        return $this->Course->Person->find('all', array(
+            'contain' => false,
+            'conditions' => array(
+                'Person.customer_id' => array(
+                    $currentUser['Member']['customer_id']
+                )
+            ),
+        ));
+    }
 }

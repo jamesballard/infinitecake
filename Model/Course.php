@@ -33,6 +33,21 @@ class Course extends AppModel {
 		)
 	);
 
+ /**
+  * belongsTo associations
+  *
+  * @var array
+  */
+    public $hasMany = array(
+        'Group' => array(
+            'className' => 'Group',
+            'foreignKey' => 'course_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
+    );
+
 /**
  * hasAndBelongsToMany associations
  *
