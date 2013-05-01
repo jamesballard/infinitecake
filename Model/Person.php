@@ -40,7 +40,14 @@ class Person extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'Depertment' => array(
+            'className' => 'Department',
+            'foreignKey' => 'department_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
 	);
 
 /**

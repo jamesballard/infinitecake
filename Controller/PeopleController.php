@@ -15,7 +15,8 @@ class PeopleController extends AppController {
 			$users = $this->getUsersList();
 			$customers = $this->getCustomersList();
             $courses = $this->getCustomerCourses();
-            $this->set(compact('users', 'customers', 'courses'));
+            $departments = $this->getCustomerDepartments();
+            $this->set(compact('users', 'customers', 'courses', 'departments'));
 		}
 	}
 	
