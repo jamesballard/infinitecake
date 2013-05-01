@@ -59,7 +59,11 @@ class AppController extends Controller {
 		# load current_user
         if ($this->Auth->user('Member.username')):
 			$current_user = $this->Member->find('first', array(
-						'contain' => false,
+						'contain' => array(
+                            'Membership' => array(
+                                
+                            )
+                        ),
 						'conditions' => array(
 								'username' => $this->Auth->user('Member.username')
 						)
