@@ -12,7 +12,7 @@ class CourseProfileController extends AppController {
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'Course', 'Person');
+    var $uses = array('Action', 'Course', 'Person', 'FactSummedActionsDatetime');
 
     public function index($id = NULL) {
 
@@ -30,12 +30,12 @@ class CourseProfileController extends AppController {
             $this->setCoursePeople($course);
         }elseif($courseid){
         	$selectedcourse = $this->Course->find('first',array(
-	        			'conditions' => array('id'=>$courseid), //array of conditions
-	        			'contain' => false, //int
-	        			'fields' => array('idnumber'), //array of field names
+	        			'conditions' => array('id'=>$courseid),
+	        			'contain' => false,
 	        		)
         	);
         	$this->set('courseid', $courseid);
+            $this->set('course', $selectedcourse);
             $this->set('coursedefault', $selectedcourse['Course']['idnumber']);
             $this->setCoursePeople($courseid);
         }else{
@@ -339,7 +339,7 @@ class CourseProfileController extends AppController {
         }
     }
 
-    private function setCoursePeople($courseid) {
+    private function getCoursePeople($courseid) {
         $people = $this->Course->find('all', array(
             'contain' => array(
                 'Person' => array(
@@ -355,8 +355,67 @@ class CourseProfileController extends AppController {
                 ),
             )
         );
-        $people = Set::extract('/Person/.', $people);
-        $this->set('people',$people);
+        return Set::extract('/Person/.', $people);
+    }
+
+    private function setCoursePeople($courseid) {
+        $people = $this->getCoursePeople($courseid);
+
+        $begin = new DateTime( date('Y-m-d', strtotime("-3 weeks", time())));
+        $end = new DateTime( date('Y-m-d', strtotime("+1 weeks", time())) );
+        // Get years as range.
+        $interval = new DateInterval('P1W');
+        $daterange = new DatePeriod($begin, $interval, $end);
+
+        $this->set('daterange', $daterange);
+        $i = 0;
+        foreach ($people as $person) {
+            $users = $this->Person->User->find('all',array(
+                    'contain' => array(
+                        'Person' => array(
+                            'fields' => array(
+                                'Person.id'
+                            )
+                        )
+                    ),
+                    'conditions' => array('Person.id' => $person['id']),
+                    'fields' => array('User.id')
+                )
+            );
+
+            $users = Set::extract('/User/id', $users);
+            foreach ($daterange as $date) {
+                    $value = $this->FactSummedActionsDatetime->find('first', array(
+                            'conditions' => array(
+                                'user_id' => $users,
+                                'DimensionDate.week_starting_monday' => $date->format("W")
+                            ),
+                            'contain' => array(
+                                'DimensionDate' => array(
+                                    'fields' => array(
+                                        'DimensionDate.date'
+                                    )
+                                ),
+                                'System' => array(
+                                    'fields' => array(
+                                        'System.id'
+                                    )
+                                )
+                            ),
+                            'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
+                        )
+                    );
+
+                if($value[0]['total']) {
+                    $people[$i]['week'][$date->format("W")] = $value[0]['total'];
+                }else{
+                    $people[$i]['week'][$date->format("W")] = '0';
+                }
+            }
+            $i++;
+        }
+
+        return $this->set('people', $people);
     }
 }
 

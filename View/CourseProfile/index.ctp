@@ -1,6 +1,3 @@
-<table class="table table-striped" style="width:200px">
-<tr><th>ID</th><td><?php echo $courseid ?></td></tr>
-</table>
 <?php
 
 $this->start('sidebar');
@@ -12,22 +9,45 @@ $this->end();
 
 echo $this->autoCompleteRemote->init('ActionCourse','Courses/jsonfeed');
 
-echo '<div class="ui-widget" style="width:400px">';
+if(!empty($course)) {
+    echo '<h2>'.$course['Course']['name'].' '.__('Dashboard').'</h2>';
+}else{
+    echo '<h2>'.__('Select Course').'</h2>';
+}
+echo '<div class="ui-widget">';
 
-echo $this->Form->create();
+echo $this->Form->create(array( 'div' => false, 'class' => 'inline'));
 
-echo $this->Form->input( 'courseid', array( 'type' => 'hidden' ) );
-echo $this->Form->input('course', array('default' => $coursedefault));
+echo $this->Form->input( 'courseid', array( 'type' => 'hidden', 'div' => false ) );
+echo $this->Form->input('course', array('label' => false, 'default' => $coursedefault, 'div' => array('class' => 'pull-left')));
 
-echo $this->Form->end('Change');
+echo $this->Form->end('Change Course');
 
 echo '</div>';
-
-if(!empty($people)):
-    echo '<ul>';
-    foreach ($people as $person):
-        echo '<li>'.$this->Html->link($person['idnumber'], array('controller' => 'UserProfile', 'action' => 'index', $person['id'])).'</li>';
-    endforeach;
-    echo'</ul>';
-endif;
 ?>
+
+<?php if(!empty($course)) : ?>
+<h3>Student Activity (4 weeks)</h3>
+<?php endif; ?>
+<?php if(!empty($people)): ?>
+    <table class="table table-striped" cellpadding="0" cellspacing="0">
+	<tr>
+    <th><?php echo __('idnumber'); ?></th>
+
+<?php foreach ($daterange as $date) : ?>
+        <th><?php echo date('d-m',$date->format('U')+( 1 - date('w'))*24*3600); ?></th>
+<?php endforeach; ?>
+
+    </tr>
+<?php foreach ($people as $person): ?>
+    <tr>
+    <td><?php echo $this->Html->link($person['idnumber'], array('controller' => 'UserProfile', 'action' => 'index', $person['id'])); ?></td>
+
+<?php foreach ($daterange as $date) : ?>
+        <td><?php echo $person['week'][$date->format('W')]; ?></td>
+<?php endforeach; ?>
+
+    </tr>
+<?php endforeach; ?>
+    </table>
+<?php endif; ?>
