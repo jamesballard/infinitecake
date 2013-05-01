@@ -1,6 +1,8 @@
 <?php
 App::uses('Component', 'Controller');
 App::uses('User', 'Model');
+App::uses('Course', 'Model');
+App::uses('Person', 'Model');
 
 class DataFiltersComponent extends Component {
    
@@ -54,10 +56,28 @@ class DataFiltersComponent extends Component {
      * @return array conditions
      */
     
-    public function returnGroupFilter($system, $groupid) {
-    
+    public function returnGroupFilter($system, $courseid) {
+
+        $Course = new Course();
+        $users = $Course->find('all',array(
+                'contain' => array(
+                    'Person' => array(
+                        'User' => array(
+                            'fields' => array(
+                                'User.id',
+                            )
+                        )
+                    )
+                ),
+                //'fields' => array('User.id', 'Person.id', 'Course.id'),
+                'conditions' => array('Course.id' => $courseid)
+            )
+        );
+
+        $users = Set::extract('/Person/User/id/.', $users);
+
     	//Set the user filter conditions as all users for selected person
-    	$conditions = array('group_id'=>$groupid);
+    	$conditions = array('user_id'=>$users);
     	 
     	//Merge with system conditions
     	$conditions = array_merge($conditions,$this->returnSystemFilter($system));

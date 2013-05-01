@@ -12,35 +12,35 @@ class CourseProfileController extends AppController {
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'Group');
+    var $uses = array('Action', 'Course');
 
     public function index() {
-     //Create selected group as session variable.            
-        $groupid = $this->Session->read('Profile.group');
+     //Create selected course as session variable.
+        $courseid = $this->Session->read('Profile.course');
         if ($this->request->is('post')) {
-            $group = $this->request->data['Action']['groupid'];
-            $this->set('groupid', $group);
-            $this->set('groupdefault', $group);
-            $this->Session->write('Profile.group', $group);
-        }elseif($groupid){
-        	$selectedgroup = $this->Group->find('first',array(
-	        			'conditions' => array('id'=>$groupid), //array of conditions
+            $course = $this->request->data['Action']['courseid'];
+            $this->set('courseid', $course);
+            $this->set('coursedefault', $course);
+            $this->Session->write('Profile.course', $course);
+        }elseif($courseid){
+        	$selectedcourse = $this->Course->find('first',array(
+	        			'conditions' => array('id'=>$courseid), //array of conditions
 	        			'contain' => false, //int
 	        			'fields' => array('idnumber'), //array of field names
 	        		)
         	);
-        	$this->set('groupid', $groupid);
-            $this->set('groupdefault', $selectedgroup['Group']['idnumber']);
+        	$this->set('courseid', $courseid);
+            $this->set('coursedefault', $selectedcourse['Course']['idnumber']);
         }else{
-        	$this->set('groupid','');
-            $this->set('groupdefault','');
+        	$this->set('courseid','');
+            $this->set('coursedefault','');
         }
     }
 
     public function overview() {
-    	$groupid = $this->Session->read('Profile.group');
-    	if(!$groupid) {
-    		$this->Session->setFlash(__('No group selected'));
+    	$courseid = $this->Session->read('Profile.course');
+    	if(!$courseid) {
+    		$this->Session->setFlash(__('No course selected'));
     		$this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
     	}else{
     		$systems = AppController::get_customerSystems();
@@ -72,7 +72,7 @@ class CourseProfileController extends AppController {
 	        );
 	        
 	        //Set query filters
-	        $conditions = $this->DataFilters->returnGroupFilter($system, $groupid);
+	        $conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
         	
 	        $results = $this->ProcessData->getOverviewData($dateWindow, $period, $conditions);
             $data = array_merge($data,$results);
@@ -84,9 +84,9 @@ class CourseProfileController extends AppController {
     }
 
 	public function hourly() {
-        $groupid = $this->Session->read('Profile.group');
-        if(!$groupid) {
-            $this->Session->setFlash(__('No group selected'));
+        $courseid = $this->Session->read('Profile.course');
+        if(!$courseid) {
+            $this->Session->setFlash(__('No course selected'));
             $this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
         }else{
         	$systems = AppController::get_customerSystems();
@@ -110,7 +110,7 @@ class CourseProfileController extends AppController {
             $this->set('height', $height);
             
             //Set query filters
-	        $conditions = $this->DataFilters->returnGroupFilter($system, $groupid);
+	        $conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
         	
 	        //Get the data and pass to view
             $dayData = $this->ProcessData->getHourlyData($dateWindow, 'day', $report, $conditions);
@@ -124,10 +124,10 @@ class CourseProfileController extends AppController {
     }
     
     public function stream() {
-    	$groupid = $this->Session->read('Profile.group');
-    	if(!$groupid) {
-    		$this->Session->setFlash(__('No user selected'));
-    		$this->redirect(array('controller' => 'Userprofile', 'action' => ''));
+    	$courseid = $this->Session->read('Profile.course');
+    	if(!$courseid) {
+    		$this->Session->setFlash(__('No course selected'));
+    		$this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
     	}else{
     		$systems = AppController::get_customerSystems();
     		
@@ -140,6 +140,15 @@ class CourseProfileController extends AppController {
     			$dateWindow = $this->request->data['Action']['daterange'];
     			$system = $this->request->data['Action']['system'];
     		}
+
+            //Set query filters
+            $conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
+            unset($conditions['System.id']);
+            $conditions = array_merge($conditions, array(
+                    'Action.system_id' => $system,
+                    'time >'=>date("Y-m-d", strtotime($dateWindow))
+                )
+            );
     		
     		//Get action list.
     		$actions = $this->Action->find('all', array(
@@ -164,30 +173,27 @@ class CourseProfileController extends AppController {
 			                    )
 			                )
     					),
-    				'conditions' => array('Action.group_id' => $groupid, 
-    						'Action.system_id' => $system,
-    						'time >'=>date("Y-m-d", strtotime($dateWindow))
-    						),
+    				'conditions' => $conditions,
     				'order' => array('time' => 'DESC')
     				)
     			);
     		$this->set('actions', $actions);
-    		$selectedgroup = $this->Group->find('first',array(
-    				'conditions' => array('Group.id'=>$groupid), //array of conditions
+    		$selectedcourse = $this->Course->find('first',array(
+    				'conditions' => array('Course.id'=>$courseid), //array of conditions
     				'contain' => false, //int
     				'fields' => array('idnumber'), //array of field names
     		)
     		);
-    		$this->set('groupid',  $selectedgroup['Group']['idnumber']);
+    		$this->set('courseid',  $selectedcourse['Course']['idnumber']);
     		$this->set(compact('systems'));
     	}    
     }
     
 
     public function location() {
-    	$groupid = $this->Session->read('Profile.group');
-    	if(!$groupid) {
-    		$this->Session->setFlash(__('No group selected'));
+    	$courseid = $this->Session->read('Profile.course');
+    	if(!$courseid) {
+    		$this->Session->setFlash(__('No course selected'));
     		$this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
     	}else{
     		$systems = AppController::get_customerSystems();
@@ -224,7 +230,7 @@ class CourseProfileController extends AppController {
     		}
     		
     		//Set query filters
-    		$conditions = $this->DataFilters->returnGroupFilter($system, $groupid);
+    		$conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
     		 
     		$results = $this->ProcessData->getIPData($dateWindow, $period, $rule, $conditions, $chartType);
     		$data = array_merge($data,$results);
@@ -241,9 +247,9 @@ class CourseProfileController extends AppController {
     
     
 	public function modules() {
-        $groupid = $this->Session->read('Profile.group');
-        if(!$groupid) {
-            $this->Session->setFlash(__('No group selected'));
+        $courseid = $this->Session->read('Profile.course');
+        if(!$courseid) {
+            $this->Session->setFlash(__('No course selected'));
             $this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
         }else{
         	$systems = AppController::get_customerSystems();
@@ -268,7 +274,7 @@ class CourseProfileController extends AppController {
             $this->set('height', $height);
             
             //Set query filters
-            $conditions = $this->DataFilters->returnGroupFilter($system, $groupid);
+            $conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
              
             $this->set('data', $this->ProcessData->getModuleData($dateWindow, $conditions));
 
@@ -277,9 +283,9 @@ class CourseProfileController extends AppController {
     }
 
     public function tasktype() {
-        $groupid = $this->Session->read('Profile.group');
-        if(!$groupid) {
-            $this->Session->setFlash(__('No group selected'));
+        $courseid = $this->Session->read('Profile.course');
+        if(!$courseid) {
+            $this->Session->setFlash(__('No course selected'));
             $this->redirect(array('controller' => 'Courseprofile', 'action' => ''));
         }else{
         	$systems = $this->get_customerSystems();
@@ -314,7 +320,7 @@ class CourseProfileController extends AppController {
             }
             
             //Set query filters
-            $conditions = $this->DataFilters->returnGroupFilter($system, $groupid);
+            $conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
              
             $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions, $chartType);
             $data = array_merge($data,$results);

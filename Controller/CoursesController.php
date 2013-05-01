@@ -142,6 +142,33 @@ class CoursesController extends AppController {
 	}
 
 /**
+ * Provides a JSON feed of groups for auto-complete entry
+ *
+ * @return json
+ */
+
+    public function jsonfeed() {
+        $currentUser = $this->get_currentUser();
+        $courses = $this->Course->find('all',array(
+                'contain' => array(
+                    'Department' => array(
+                        'fields' => array(
+                            'Department.customer_id'
+                        )
+                    )
+                ),
+                'conditions' => array('Course.idnumber LIKE'=>'%'.$_GET['term'].'%',
+                    'Department.customer_id' => $currentUser['Member']['customer_id']
+                ),
+                'fields' => array('Course.idnumber AS label','Course.id AS value'), //array of field names
+            )
+        );
+        $courses = Set::extract('/Course/.', $courses);
+
+        return new CakeResponse(array('body' => json_encode($courses)));
+    }
+
+/**
  * Returns a list formatted array of groups for multi-select form
  *
  * @return array

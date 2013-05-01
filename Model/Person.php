@@ -23,9 +23,7 @@ class Person extends AppModel {
  * @var string
  */
     public $displayField = 'idnumber';
-    
-    public $actsAs = array('Containable');
-    
+
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
@@ -41,7 +39,7 @@ class Person extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-        'Depertment' => array(
+        'Department' => array(
             'className' => 'Department',
             'foreignKey' => 'department_id',
             'conditions' => '',
