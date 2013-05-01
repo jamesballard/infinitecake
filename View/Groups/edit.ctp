@@ -6,7 +6,7 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('idnumber');
 		echo $this->Form->input('name');
-        echo $this->Form->input('course_id');
+        echo $this->element('courseMultiSelect');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

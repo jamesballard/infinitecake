@@ -14,7 +14,8 @@ class PeopleController extends AppController {
 		if (in_array($this->action, array('add', 'edit'))) {
 			$users = $this->getUsersList();
 			$customers = $this->getCustomersList();
-			$this->set(compact('users', 'customers'));
+            $courses = $this->getCustomerCourses();
+            $this->set(compact('users', 'customers', 'courses'));
 		}
 	}
 	

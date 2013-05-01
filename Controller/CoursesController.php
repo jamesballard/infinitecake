@@ -177,7 +177,7 @@ class CoursesController extends AppController {
 
     private function getPeopleList() {
         $currentUser = $this->get_currentUser();
-        return $this->Course->Person->find('all', array(
+        return $this->Course->Person->find('list', array(
             'contain' => false,
             'conditions' => array(
                 'Person.customer_id' => array(

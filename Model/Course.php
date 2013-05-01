@@ -33,21 +33,6 @@ class Course extends AppModel {
 		)
 	);
 
- /**
-  * belongsTo associations
-  *
-  * @var array
-  */
-    public $hasMany = array(
-        'Group' => array(
-            'className' => 'Group',
-            'foreignKey' => 'course_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        )
-    );
-
 /**
  * hasAndBelongsToMany associations
  *
@@ -68,7 +53,22 @@ class Course extends AppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-		)
+		),
+        'Group' => array(
+            'className' => 'Group',
+            'joinTable' => 'group_courses',
+            'foreignKey' => 'course_id',
+            'associationForeignKey' => 'group_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
 	);
 
 }

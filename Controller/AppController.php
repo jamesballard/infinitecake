@@ -47,7 +47,7 @@ class AppController extends Controller {
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',
-        'Customer', 'Rule', 'Department');
+        'Customer', 'Rule', 'Department', 'Course');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -208,8 +208,39 @@ class AppController extends Controller {
 
     public function getCustomerDepartments() {
         $currentUser = $this->get_currentUser();
-        return $this->Department->find('list', array(
+        $departmentRecords = $this->Department->find('all', array(
                 'contain' => false,
+                'fields' => array('Department.id', 'CONCAT(Department.name, " (",Department.idnumber,")") as name'),
+                'conditions' => array(
+                    'Department.customer_id' => array(
+                        $currentUser['Member']['customer_id']
+                    )
+                ),
+                'order' => array('Department.lft')
+            )
+        );
+        return Set::combine($departmentRecords, '{n}.Department.id', '{n}.0.name');
+    }
+
+/**
+ * Returns a list formatted array of rules for multi-select form
+ *
+ * @return array
+ */
+
+    public function getCustomerCourses() {
+        $currentUser = $this->get_currentUser();
+        $courseRecords = $this->Course->find('all', array(
+                'contain' => array(
+                    'Department' => array(
+                        'fields' => array(
+                            'Department.id',
+                            'Department.name',
+                            'Department.customer_id'
+                        )
+                    )
+                ),
+                'fields' => array('Course.id', 'CONCAT(Course.name, " (",Course.idnumber,")") as name'),
                 'conditions' => array(
                     'Department.customer_id' => array(
                         $this->get_allCustomersID(),
@@ -218,6 +249,7 @@ class AppController extends Controller {
                 )
             )
         );
+        return Set::combine($courseRecords, '{n}.Course.id', '{n}.0.name');
     }
     
 }
