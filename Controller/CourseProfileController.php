@@ -12,9 +12,14 @@ class CourseProfileController extends AppController {
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'Course');
+    var $uses = array('Action', 'Course', 'Person');
 
-    public function index() {
+    public function index($id = NULL) {
+
+        if($id){
+            $this->Session->write('Profile.course', $id);
+        }
+
      //Create selected course as session variable.
         $courseid = $this->Session->read('Profile.course');
         if ($this->request->is('post')) {
@@ -22,6 +27,7 @@ class CourseProfileController extends AppController {
             $this->set('courseid', $course);
             $this->set('coursedefault', $course);
             $this->Session->write('Profile.course', $course);
+            $this->setCoursePeople($course);
         }elseif($courseid){
         	$selectedcourse = $this->Course->find('first',array(
 	        			'conditions' => array('id'=>$courseid), //array of conditions
@@ -31,6 +37,7 @@ class CourseProfileController extends AppController {
         	);
         	$this->set('courseid', $courseid);
             $this->set('coursedefault', $selectedcourse['Course']['idnumber']);
+            $this->setCoursePeople($courseid);
         }else{
         	$this->set('courseid','');
             $this->set('coursedefault','');
@@ -330,6 +337,26 @@ class CourseProfileController extends AppController {
             $rules = $this->getCustomerRules();
             $this->set(compact('systems', 'rules'));
         }
+    }
+
+    private function setCoursePeople($courseid) {
+        $people = $this->Course->find('all', array(
+            'contain' => array(
+                'Person' => array(
+                        'fields' => array(
+                            'Person.id',
+                            'Person.idnumber'
+                        ),
+
+                    )
+                ),
+                'conditions' => array(
+                    'Course.id' => $courseid
+                ),
+            )
+        );
+        $people = Set::extract('/Person/.', $people);
+        $this->set('people',$people);
     }
 }
 

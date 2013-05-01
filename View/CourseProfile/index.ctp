@@ -22,4 +22,12 @@ echo $this->Form->input('course', array('default' => $coursedefault));
 echo $this->Form->end('Change');
 
 echo '</div>';
+
+if(!empty($people)):
+    echo '<ul>';
+    foreach ($people as $person):
+        echo '<li>'.$this->Html->link($person['idnumber'], array('controller' => 'UserProfile', 'action' => 'index', $person['id'])).'</li>';
+    endforeach;
+    echo'</ul>';
+endif;
 ?>

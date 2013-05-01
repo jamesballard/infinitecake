@@ -61,7 +61,7 @@ class AppController extends Controller {
 			$current_user = $this->Member->find('first', array(
 						'contain' => array(
                             'Membership' => array(
-                                
+
                             )
                         ),
 						'conditions' => array(
@@ -213,7 +213,14 @@ class AppController extends Controller {
     public function getCustomerDepartments() {
         $currentUser = $this->get_currentUser();
         $departmentRecords = $this->Department->find('all', array(
-                'contain' => false,
+                'contain' => array(
+                    'Customer' => array(
+                        'fields' => array(
+                            'Customer.id',
+                            'Customer.name'
+                        )
+                    )
+                ),
                 'fields' => array('Department.id', 'CONCAT(Department.name, " (",Department.idnumber,")") as name'),
                 'conditions' => array(
                     'Department.customer_id' => array(

@@ -38,7 +38,20 @@ class CoursesController extends AppController {
             );
         else:
             $this->paginate = array(
-                'contain' => false,
+                'contain' => array(
+                    'Department' => array(
+                        'fields' => array(
+                            'Department.id',
+                            'Department.name',
+                            'Department.idnumber'
+                        ),
+                        'Customer' => array(
+                            'fields' => array(
+                                'Customer.id'
+                            )
+                        )
+                    )
+                ),
                 'conditions' => array(
                     'Department.customer_id' => array(
                         $currentUser['Member']['customer_id']
@@ -112,7 +125,27 @@ class CoursesController extends AppController {
 				$this->Session->setFlash(__('The course could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Course->read(null, $id);
+			$this->request->data = $this->Course->find('first', array(
+                    'contain' => array(
+                        'Department' => array(
+                            'fields' => array(
+                                'Department.id',
+                                'Department.name',
+                                'Department.customer_id'
+                            ),
+                            'Customer' => array(
+                                'fields' => array(
+                                    'Customer.id',
+                                    'Customer.name'
+                                )
+                            )
+                        )
+                    ),
+                    'conditions' => array(
+                        'Course.id' => $id
+                    )
+                )
+            );
 		}
         $this->check_customerID($this->request->data['Department']['customer_id']);
 	}

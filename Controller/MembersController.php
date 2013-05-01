@@ -40,7 +40,11 @@ class MembersController extends AppController {
 			);
 		else:
 			$this->paginate = array(
-				'contain' => false,
+				'contain' => array(
+                    'Membership' => array(
+
+                    )
+                ),
 				'conditions' => array(
 					'Member.customer_id' => array(
 						$currentUser['Member']['customer_id']
