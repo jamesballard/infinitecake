@@ -135,29 +135,45 @@ Use the cakePHP command line interface from docroot home
 
 ## Upgrade
 
+If database changes are made as part of an upgrade then the following should be used to create a new schema
+
+   ```cli
+         cake schema generate infiniterooms
+   ```
+
+This will create Config/Schema/infiniterooms.php
+
 1. Get the latest code
 
    ```git
       git pull
    ```
 
-2. Update the database schema
+2. Create new tables
 
    ```cli
-         cake schema update
+         Console/cake schema create
    ```
 
-3. Update any new ACOs
+NB: choose 'n' to drop existing tables and 'y' to create new tables - if tables are dropped then all data is lost!
+
+3. Update the database schema
 
    ```cli
-      cake AclExtras.AclExtras aco_sync
+         Console/cake schema update
    ```
 
-4. Add any new permissions
+4. Update any new ACOs
 
    ```cli
-      cake acl grant Membership::Managers controllers/Courses
-      cake acl grant Membership::Managers controllers/Departments
+      Console/cake AclExtras.AclExtras aco_sync
+   ```
+
+5. Add any new permissions
+
+   ```cli
+      Console/cake acl grant Membership::Managers controllers/Courses
+      Console/cake acl grant Membership::Managers controllers/Departments
    ```
 
    NB: We need to store/record these somewhere so the upgrade script can find them.
