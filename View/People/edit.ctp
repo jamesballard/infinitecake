@@ -12,6 +12,9 @@
 		echo $this->Form->input('ethnicity');
 		echo $this->Form->input('disability');
 		echo $this->element('customerIdHidden');
+        echo $this->Form->label('department_id', 'Department');
+        echo $this->Chosen->select('department_id',$departments,array('data-placeholder' => "Select Department..."));
+        echo $this->element('courseMultiSelect');
 		echo $this->element('userMultiSelect');
 	?>
 	</fieldset>

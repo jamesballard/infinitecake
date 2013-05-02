@@ -23,9 +23,7 @@ class Person extends AppModel {
  * @var string
  */
     public $displayField = 'idnumber';
-    
-    public $actsAs = array('Containable');
-    
+
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
@@ -40,7 +38,14 @@ class Person extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'Department' => array(
+            'className' => 'Department',
+            'foreignKey' => 'department_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
 	);
 
 /**
@@ -63,4 +68,27 @@ class Person extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+    /**
+     * hasAndBelongsToMany associations
+     *
+     * @var array
+     */
+    public $hasAndBelongsToMany = array(
+        'Course' => array(
+            'className' => 'Course',
+            'joinTable' => 'person_courses',
+            'foreignKey' => 'person_id',
+            'associationForeignKey' => 'course_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
 }

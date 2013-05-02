@@ -1,8 +1,6 @@
 infinitecake
 ============
 
-This is the initial Cake PHP version setup for the site
-
 ## CakePHP
 
 http://cakephp.org/
@@ -20,10 +18,6 @@ app/[Cc]onfig/core.php
 app/[Cc]onfig/database.php
 !empty
 ```
-
-## Branching Strategy
-
-Git Flow: http://nvie.com/posts/a-successful-git-branching-model/
 
 ##Installation
 
@@ -139,39 +133,31 @@ Use the cakePHP command line interface from docroot home
    
    Where controllers is a parent of all individual controllers, while users are given access to specific page sets
 
-## Use - new customer
+## Upgrade
 
-1. Set up customer via GUI
-   * http://{url}/customers
-   * http://{url}/members
-   * http://{url}/systems
-2. Import data via mooncake (temp) or with plug-in installation
-3. Combine users into persons 
-   
-   ```mysql
-      CALL `infinitecake`.`map_users_to_person`({customer_id});
+1. Get the latest code
+
+   ```git
+      git pull
    ```
 
-4. Aggregate standard data facts
-   ```mysql
-      CALL `infinitecake`.`aggregate_summed_actions`({customer_id},{startdate},{enddate});
-   ```
-5. Create rules/conditions via GUI
-   * http://{url}/rules
-   * http://{url}/conditions
-6. Aggregate rule/condition facts
-   ```mysql
-      CALL `infinitecake`.`aggregrate_summed_rule_conditions`({customer_id},{startdate},{enddate},{rule_id});
-   ```
-7. Aggregate IP facts (currently processed as exception case)
-   ```mysql
-      CALL `infinitecake`.`aggregrate_summed_ip_conditions`({customer_id},{startdate},{enddate},{rule_id});
+2. Update the database schema
+
+   ```cli
+         cake schema update
    ```
 
-## Admin Maintenance
+3. Update any new ACOs
 
-1. Keep verbs list up to date via language file.
+   ```cli
+      cake AclExtras.AclExtras aco_sync
+   ```
 
-2. Keep artefact types up to date via GUI: http://{url}/artefacts
+4. Add any new permissions
 
-3. Update aggregations as new data is add (e.g. new action imnport or new rule creation) via CLI
+   ```cli
+      cake acl grant Membership::Managers controllers/Courses
+      cake acl grant Membership::Managers controllers/Departments
+   ```
+
+   NB: We need to store/record these somewhere so the upgrade script can find them.

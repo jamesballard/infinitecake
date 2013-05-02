@@ -46,7 +46,8 @@ class AppController extends Controller {
     public $helpers = array('Html', 'Form', 'Session', 'Permissions', 'Chosen.Chosen');
     
     // $uses is where you specify which models this controller uses
-    var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System', 'Customer', 'Rule');
+    var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',
+        'Customer', 'Rule', 'Department', 'Course');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -58,7 +59,11 @@ class AppController extends Controller {
 		# load current_user
         if ($this->Auth->user('Member.username')):
 			$current_user = $this->Member->find('first', array(
-						'contain' => false,
+						'contain' => array(
+                            'Membership' => array(
+
+                            )
+                        ),
 						'conditions' => array(
 								'username' => $this->Auth->user('Member.username')
 						)
@@ -166,11 +171,11 @@ class AppController extends Controller {
     	}
     }
     
-    /**
-     * Returns a list formatted array of memberships for multi-select form
-     *
-     * @return array
-     */
+ /**
+  * Returns a list formatted array of customers for multi-select form
+  *
+  * @return array
+  */
     
     public function getCustomersList() {
     	return $this->Customer->find('list', array(
@@ -197,6 +202,65 @@ class AppController extends Controller {
     			)
     		)
     	);
+    }
+
+/**
+ * Returns a list formatted array of rules for multi-select form
+ *
+ * @return array
+ */
+
+    public function getCustomerDepartments() {
+        $currentUser = $this->get_currentUser();
+        $departmentRecords = $this->Department->find('all', array(
+                'contain' => array(
+                    'Customer' => array(
+                        'fields' => array(
+                            'Customer.id',
+                            'Customer.name'
+                        )
+                    )
+                ),
+                'fields' => array('Department.id', 'CONCAT(Department.name, " (",Department.idnumber,")") as name'),
+                'conditions' => array(
+                    'Department.customer_id' => array(
+                        $currentUser['Member']['customer_id']
+                    )
+                ),
+                'order' => array('Department.lft')
+            )
+        );
+        return Set::combine($departmentRecords, '{n}.Department.id', '{n}.0.name');
+    }
+
+/**
+ * Returns a list formatted array of rules for multi-select form
+ *
+ * @return array
+ */
+
+    public function getCustomerCourses() {
+        $currentUser = $this->get_currentUser();
+        $courseRecords = $this->Course->find('all', array(
+                'contain' => array(
+                    'Department' => array(
+                        'fields' => array(
+                            'Department.id',
+                            'Department.name',
+                            'Department.customer_id'
+                        )
+                    )
+                ),
+                'fields' => array('Course.id', 'CONCAT(Course.name, " (",Course.idnumber,")") as name'),
+                'conditions' => array(
+                    'Department.customer_id' => array(
+                        $this->get_allCustomersID(),
+                        $currentUser['Member']['customer_id']
+                    )
+                )
+            )
+        );
+        return Set::combine($courseRecords, '{n}.Course.id', '{n}.0.name');
     }
     
 }

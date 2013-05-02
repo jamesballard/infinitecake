@@ -59,17 +59,7 @@ $url = $this->request->here;
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link('Infinite Rooms', array('controller' => 'pages', 'action' => 'display', 'home')); ?></h1>
-			<p id="tagline">Learner Enhanced Technology</p>
-		</div>
-		<div id="menu">
-      <ul class="nav nav-pills">
-        <li class="first<?php echo (preg_match("/Stats/", $url))? ' active' : ''?>"><?php echo $this->Html->link('Overall Statistics', '/Stats'); ?></li>
-        <li<?php echo (preg_match("/CourseProfile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('Course Profile', '/CourseProfile'); ?></li>
-        <li<?php echo (preg_match("/UserProfile/", $url))? ' class="active"' : ''?>><?php echo $this->Html->link('User Profile', '/UserProfile'); ?></li>
-      </ul>
-    </div>
+    <?php echo $this->element('navBar'); ?>
     <div class="container-fluid content">
 		  <div class="row-fluid">
 			    <div class="span2">

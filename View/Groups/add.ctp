@@ -8,6 +8,7 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('type', array('type' => 'select', 'options' => $group_types));
 		echo $this->Form->input('system_id');
+        echo $this->element('courseMultiSelect');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

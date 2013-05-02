@@ -6,7 +6,7 @@ echo $this->element('helpSidebar');
 $this->end();
 
 ?>
-<h2>Activity Stream for <?php echo $groupid; ?></h2>
+<h2>Activity Stream for <?php echo $courseid; ?></h2>
 <?php 
 	echo '<div style="width:400px">';
 	echo $this->Form->create();

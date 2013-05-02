@@ -12,7 +12,12 @@ class UserProfileController extends AppController {
     // $uses is where you specify which models this controller uses
     var $uses = array('Action', 'Person', 'User');
 
-    public function index() {
+    public function index($id = NULL) {
+
+        if($id){
+            $this->Session->write('Profile.user', $id);
+        }
+
         //Create selected user as session variable.            
         $userid = $this->Session->read('Profile.user');
         if ($this->request->is('post')) {
@@ -21,17 +26,17 @@ class UserProfileController extends AppController {
             $this->set('userdefault', $user);
             $this->Session->write('Profile.user', $user);
         }elseif($userid){
-        	$selecteduser = $this->Person->find('first',array(
-	        			'conditions' => array('id'=>$userid), //array of conditions
-	        			'contain' => false, //int
-	        			'fields' => array('idnumber'), //array of field names
-	        		)
-        	);
-        	$this->set('userid', $userid);
-            $this->set('userdefault', $selecteduser['Person']['idnumber']);
+                $selecteduser = $this->Person->find('first',array(
+                        'conditions' => array('id'=>$userid), //array of conditions
+                        'contain' => false, //int
+                        'fields' => array('idnumber'), //array of field names
+                    )
+                );
+                $this->set('userid', $userid);
+                $this->set('userdefault', $selecteduser['Person']['idnumber']);
         }else{
-        	$this->set('userid','');
-            $this->set('userdefault','');
+                $this->set('userid','');
+                $this->set('userdefault','');
         }
     }
 
