@@ -155,7 +155,7 @@ This will create Config/Schema/infiniterooms.php
          Console/cake schema create
    ```
 
-NB: choose 'n' to drop existing tables and 'y' to create new tables - if tables are dropped then all data is lost!
+   NB: choose 'n' to drop existing tables and 'y' to create new tables - if tables are dropped then all data is lost!
 
 3. Update the database schema
 
