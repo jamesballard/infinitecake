@@ -30,6 +30,11 @@ class CoursesController extends AppController {
             $this->paginate = array(
                 'contain' => array(
                     'Department' => array(
+                        'fields' => array(
+                            'Department.id',
+                            'Department.name',
+                            'Department.idnumber'
+                        ),
                         'Customer' => array(
                             'fields' => array(
                                 'Customer.name'
@@ -224,6 +229,7 @@ class CoursesController extends AppController {
             'fields' => array('id', 'CONCAT(Group.idnumber, " (",System.name,": ",Group.sysid,")") as name'),
             'conditions' => array(
                 'System.customer_id' => array(
+                    $this->get_allCustomersID(),
                     $currentUser['Member']['customer_id']
                 )
             ),
@@ -243,6 +249,7 @@ class CoursesController extends AppController {
             'contain' => false,
             'conditions' => array(
                 'Person.customer_id' => array(
+                    $this->get_allCustomersID(),
                     $currentUser['Member']['customer_id']
                 )
             ),

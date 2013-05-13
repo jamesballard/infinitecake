@@ -194,7 +194,8 @@ class PeopleController extends AppController {
 				'fields' => array('id', 'CONCAT(User.idnumber, " (",System.name,": ",User.sysid,")") as name'),
 				'conditions' => array(
 						'System.customer_id' => array(
-								$currentUser['Member']['customer_id']
+                            $this->get_allCustomersID(),
+							$currentUser['Member']['customer_id']
 						)
 				),
 		));

@@ -224,6 +224,7 @@ class AppController extends Controller {
                 'fields' => array('Department.id', 'CONCAT(Department.name, " (",Department.idnumber,")") as name'),
                 'conditions' => array(
                     'Department.customer_id' => array(
+                        $this->get_allCustomersID(),
                         $currentUser['Member']['customer_id']
                     )
                 ),
