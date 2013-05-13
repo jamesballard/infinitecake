@@ -47,7 +47,7 @@ class AppController extends Controller {
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',
-        'Customer', 'Rule', 'Department', 'Course');
+        'Customer', 'Rule', 'Department', 'Course', 'Condition');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -262,6 +262,29 @@ class AppController extends Controller {
             )
         );
         return Set::combine($courseRecords, '{n}.Course.id', '{n}.0.name');
+    }
+
+    /**
+     * Returns a list formatted array of conditions for multi-select form
+     *
+     * @param $rule_type integer
+     * @return array
+     */
+
+    public function getCustomerConditions() {
+        $currentUser = $this->get_currentUser();
+        $conditionsRecords = $this->Condition->find('all', array(
+                'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
+                'conditions' => array(
+                    'Condition.type !=' => 2,
+                    'Condition.customer_id' => array(
+                        $this->get_allCustomersID(),
+                        $currentUser['Member']['customer_id']
+                    )
+                )
+            )
+        );
+        return Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
     }
     
 }

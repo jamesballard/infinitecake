@@ -13,7 +13,7 @@ class RulesController extends AppController {
 		$this->set('rule_types', $this->Rule->rule_types);
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
-			$conditions = $this->getConditionsList();
+			$conditions = $this->getCustomerConditions();
 			$customers = $this->getCustomersList();
         	$this->set(compact('conditions', 'customers'));
 		}
@@ -116,7 +116,18 @@ class RulesController extends AppController {
 				$this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Rule->read(null, $id);
+			$this->request->data = $this->Rule->find('first',array(
+                'contain' => array(
+                    'Condition' => array(
+                        'fields' => array(
+                            'Condition.id',
+                            'Condition.name'
+                        )
+                    ),
+                    'RuleCondition'
+                ),
+                'conditions' => array('id' => $id)
+            ));
 		}
 		$this->check_customerID($this->request->data['Rule']['customer_id']); 		
 	}
@@ -144,38 +155,6 @@ class RulesController extends AppController {
 		$this->Session->setFlash(__('Rule was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
-	
-/**
- * Returns a list formatted array of conditions for multi-select form
- *
- * @param $rule_type integer
- * @return array
- */
-	
-	private function getConditionsList() {
-		$currentUser = $this->get_currentUser();
-		$conditionsRecords = $this->Rule->find('all', array(
-                'fields' => array(
-                    'Rule.id',
-                    'Rule.name'
-                ),
-        		'contain' => array(
-                    'Condition' => array(
-                        'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
-                        'conditions' => array(
-                            'Condition.type !=' => 2,
-                            'Condition.customer_id' => array(
-                                $this->get_allCustomersID(),
-                                $currentUser['Member']['customer_id']
-                            )
-                        ),
-                    )
-                )
-            )
-		);
-        return Set::combine($conditionsRecords, '0.Condition.{n}.id', '0.Condition.{n}.0.name');
-	}
-	
 
 /**
  * admin_index method
