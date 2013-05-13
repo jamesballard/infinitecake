@@ -9,7 +9,7 @@
 		echo $this->Form->input('active');
         echo $this->element('customerIdHidden');
         echo $this->Form->label('parent_id', 'Parent');
-        echo $this->Chosen->select('parent_id',$departments,array('data-placeholder' => "Select Parent..."));
+        echo $this->Chosen->select('parent_id',$parents,array('data-placeholder' => "Select Parent..."));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

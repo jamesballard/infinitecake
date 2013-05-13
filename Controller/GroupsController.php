@@ -64,7 +64,14 @@ class GroupsController extends AppController {
 											'System.name',
 											'System.customer_id'
 									)
-							)
+							),
+                            'Course' => array(
+                                'fields' => array(
+                                    'Course.id',
+                                    'Course.name',
+                                    'Course.idnumber'
+                                )
+                            )
 					),
 					'conditions' => array(
 							'Group.id' => $id
@@ -113,19 +120,26 @@ class GroupsController extends AppController {
 			}
 		} else {
 			$this->request->data = $this->Group->find('first', array(
-					'contain' => array(
-							'System' => array(
-									'fields' => array(
-											'System.id',
-											'System.name',
-											'System.customer_id'
-									)
-							)
-					),
-					'conditions' => array(
-							'Group.id' => $id
-					),
-				));
+                'contain' => array(
+                    'System' => array(
+                        'fields' => array(
+                            'System.id',
+                            'System.name',
+                            'System.customer_id'
+                        )
+                    ),
+                    'Course' => array(
+                        'fields' => array(
+                            'Course.id',
+                            'Course.name',
+                            'Course.idnumber'
+                        )
+                    )
+                ),
+                'conditions' => array(
+                    'Group.id' => $id
+                ),
+            ));
 		}
 		$this->check_customerID($this->request->data['System']['customer_id']);
 	}

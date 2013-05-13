@@ -65,22 +65,36 @@ class PeopleController extends AppController {
 			throw new NotFoundException(__('Invalid person'));
 		}
 		$person = $this->Person->find('first',array(
-				'contain' => array(
-						'User' => array(
-								'System' => array(
-										'fields' => array(
-												'System.name'
-											)
-									),
-								'fields' => array(
-										'User.id',
-										'User.idnumber',
-										'User.sysid'
-								)
-						)
-				),
-				'conditions' => array('id' => $id)
-		));
+            'contain' => array(
+                'User' => array(
+                    'System' => array(
+                        'fields' => array(
+                            'System.id',
+                            'System.name'
+                        )
+                    ),
+                    'fields' => array(
+                        'User.id',
+                        'User.idnumber',
+                        'User.sysid'
+                    )
+                ),
+                'Department' => array(
+                    'fields' => array(
+                        'Department.id',
+                        'Department.name'
+                    )
+                ),
+                'Course' => array(
+                    'fields' => array(
+                        'Course.id',
+                        'Course.idnumber',
+                        'Course.name'
+                    )
+                )
+            ),
+            'conditions' => array('Person.id' => $id)
+        ));
 		$this->check_customerID($person['Person']['customer_id']);
 		$this->set('person', $person);
 	}
@@ -124,7 +138,36 @@ class PeopleController extends AppController {
 				$this->Session->setFlash(__('The person could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Person->read(null, $id);
+			$this->request->data = $this->Person->find('first',array(
+                'contain' => array(
+                    'User' => array(
+                        'System' => array(
+                            'fields' => array(
+                                'System.id',
+                                'System.name'
+                            )
+                        ),
+                        'fields' => array(
+                            'User.id',
+                            'User.idnumber',
+                            'User.sysid'
+                        )
+                    ),
+                    'Department' => array(
+                        'fields' => array(
+                            'Department.id',
+                            'Department.name'
+                        )
+                    ),
+                    'Course' => array(
+                        'fields' => array(
+                            'Course.id',
+                            'Course.idnumber'
+                        )
+                    )
+                ),
+                'conditions' => array('Person.id' => $id)
+            ));
 		}
 		$this->check_customerID($this->request->data['Person']['customer_id']);
 	}

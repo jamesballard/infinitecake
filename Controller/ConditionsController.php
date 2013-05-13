@@ -158,7 +158,56 @@ function beforeFilter() {
 				$this->Session->setFlash(__('The condition could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Condition->read(null, $id);
+			$this->request->data = $this->Condition->find('first',array(
+                'contain' => array(
+                    'Action' => array(
+                        'fields' => array(
+                            'Action.id',
+                            'Action.name'
+                        )
+                    ),
+                    'Artefact' => array(
+                        'fields' => array(
+                            'Artefact.id',
+                            'Artefact.name'
+                        )
+                    ),
+                    'Module' => array(
+                        'fields' => array(
+                            'Module.sysid',
+                            'Module.sysid'
+                        )
+                    ),
+                    'Group' => array(
+                        'fields' => array(
+                            'Group.id',
+                            'Group.idnumber',
+                            'Group.name'
+                        )
+                    ),
+                    'DimensionVerb' => array(
+                        'Artefact' => array(
+                            'fields' => array(
+                                'Artefact.id',
+                                'Artefact.name'
+                            )
+                        ),
+                        'fields' => array(
+                            'DimensionVerb.id',
+                            'DimensionVerb.name'
+                        )
+                    ),
+                    'Rule' => array(
+                        'fields' => array(
+                            'Rule.id',
+                            'Rule.type',
+                            'Rule.name',
+                            'Rule.value'
+                        )
+                    )
+                ),
+                'conditions' => array('id' => $id)
+            ));
 		}
 			
 		$ruleType = $this->Rule->Condition->find('first', array(
@@ -171,13 +220,13 @@ function beforeFilter() {
 			));
 		
 		$rule_type = $ruleType['Rule'][0]['type'];
-		
-		$this->check_customerID($this->request->data['Condition']['customer_id']); 		
-		 
-		$conditionItems = $this->getConditionsList($rule_type);	
+
+		$this->check_customerID($this->request->data['Condition']['customer_id']);
+
+		$conditionItems = $this->getConditionsList($rule_type);
         $rules = $this->getRulesList($rule_type);
-        
-        $this->set('condition', $this->request->data);        
+
+        $this->set('condition', $this->request->data);
 		$this->set(compact('rules', 'conditionItems'));
 		$this->set('label', $this->Rule->rule_types[$rule_type]);
 	}

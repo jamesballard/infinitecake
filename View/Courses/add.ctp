@@ -7,7 +7,7 @@
 		echo $this->Form->input('shortname');
 		echo $this->Form->input('idnumber');
 		echo $this->Form->input('active');
-		echo $this->Form->input('department_id');
+        echo $this->Chosen->select('department_id',$departments,array('data-placeholder' => "Select Parent..."));
         echo $this->element('personMultiSelect');
 	?>
 	</fieldset>

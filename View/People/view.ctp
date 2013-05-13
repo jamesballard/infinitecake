@@ -59,7 +59,13 @@
 			<?php echo h($person['Person']['modified']); ?>
 			&nbsp;
 		</dd>
-		
+        <dt><?php echo __('Department'); ?></dt>
+        <dd>
+            <?php if (!empty($person['Department'])): ?>
+            <?php echo $this->Html->link(h($person['Department']['name']), array('controller' => 'departments', 'action' => 'view', h($person['Department']['id']))); ?>
+            <?php endif; ?>
+            &nbsp;
+        </dd>
 		<?php if (!empty($person['User'])): ?>
 		<dt><?php echo __('Users'); ?></dt>
 		<dd>
@@ -72,6 +78,18 @@
 			</ul>
 		</dd>
 		<?php endif; ?>
+        <?php if (!empty($person['Course'])): ?>
+        <dt><?php echo __('Courses'); ?></dt>
+        <dd>
+            <ul>
+                <?php
+                $i = 0;
+                foreach ($person['Course'] as $course): ?>
+                    <li><?php echo $this->Html->link($course['name'].' ('.$course['idnumber'].')', array('controller' => 'courses', 'action' => 'view', $course['id'])); ?></li>
+                    <?php endforeach; ?>
+            </ul>
+        </dd>
+        <?php endif; ?>
 		
 	</dl>
 </div>

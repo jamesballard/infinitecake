@@ -85,9 +85,23 @@ class CoursesController extends AppController {
             'contain' => array(
                 'Person' => array (
                     'fields' => array(
-                       'Person.idnumber'
+                        'Person.id',
+                        'Person.idnumber'
                     )
                 ),
+                'Department' => array(
+                    'Customer' => array(
+                        'fields' => array(
+                            'Customer.id',
+                            'Customer.name'
+                        )
+                    ),
+                    'fields' => array(
+                        'Department.id',
+                        'Department.name',
+                        'Department.customer_id'
+                    )
+                )
             ),
             'conditions' => array('Course.id' => $id)
         ));
@@ -134,6 +148,12 @@ class CoursesController extends AppController {
 		} else {
 			$this->request->data = $this->Course->find('first', array(
                     'contain' => array(
+                        'Person' => array (
+                            'fields' => array(
+                                'Person.id',
+                                'Person.idnumber'
+                            )
+                        ),
                         'Department' => array(
                             'Customer' => array(
                                 'fields' => array(

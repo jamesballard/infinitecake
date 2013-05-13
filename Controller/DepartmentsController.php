@@ -14,8 +14,8 @@ class DepartmentsController extends AppController {
         $this->layout = 'configManage';
         if (in_array($this->action, array('add', 'edit'))) {
             $customers = $this->getCustomersList();
-            $departments = $this->getCustomerDepartments();
-            $this->set(compact('customers','departments'));
+            $parents = $this->getCustomerDepartments();
+            $this->set(compact('customers', 'parents'));
         }
     }
 

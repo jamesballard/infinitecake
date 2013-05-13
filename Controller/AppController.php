@@ -213,14 +213,7 @@ class AppController extends Controller {
     public function getCustomerDepartments() {
         $currentUser = $this->get_currentUser();
         $departmentRecords = $this->Department->find('all', array(
-                'contain' => array(
-                    'Customer' => array(
-                        'fields' => array(
-                            'Customer.id',
-                            'Customer.name'
-                        )
-                    )
-                ),
+                'contain' => false,
                 'fields' => array('Department.id', 'CONCAT(Department.name, " (",Department.idnumber,")") as name'),
                 'conditions' => array(
                     'Department.customer_id' => array(
