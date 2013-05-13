@@ -29,9 +29,11 @@ class CoursesController extends AppController {
         if($this->is_admin()):
             $this->paginate = array(
                 'contain' => array(
-                    'Customer' => array(
-                        'fields' => array(
-                            'Customer.name'
+                    'Department' => array(
+                        'Customer' => array(
+                            'fields' => array(
+                                'Customer.name'
+                            )
                         )
                     )
                 )
@@ -128,16 +130,16 @@ class CoursesController extends AppController {
 			$this->request->data = $this->Course->find('first', array(
                     'contain' => array(
                         'Department' => array(
-                            'fields' => array(
-                                'Department.id',
-                                'Department.name',
-                                'Department.customer_id'
-                            ),
                             'Customer' => array(
                                 'fields' => array(
                                     'Customer.id',
                                     'Customer.name'
                                 )
+                            ),
+                            'fields' => array(
+                                'Department.id',
+                                'Department.name',
+                                'Department.customer_id'
                             )
                         )
                     ),
