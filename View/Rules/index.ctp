@@ -27,7 +27,7 @@
         <td><?php echo $rule_types[h($rule['Rule']['type'])]; ?>&nbsp;</td>
         <?php
 			if($this->Permissions->is_admin($current_user)):
-				echo '<td>'.h($rule['Customer']['name']).'</td>';
+                echo '<td>'.$this->Html->link(h($rule['Customer']['name']), array('controller' => 'Customers', 'action' => 'view', $rule['Customer']['id'])).'</td>';
 			endif;
 		?>
 		<td><?php echo h($rule['Rule']['created']); ?>&nbsp;</td>

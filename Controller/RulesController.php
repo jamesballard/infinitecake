@@ -32,6 +32,7 @@ class RulesController extends AppController {
 				'contain' => array(
 					'Customer' => array(
 						'fields' => array(
+                            'Customer.id',
 							'Customer.name'
 						)
 					)
@@ -153,18 +154,26 @@ class RulesController extends AppController {
 	
 	private function getConditionsList() {
 		$currentUser = $this->get_currentUser();
-		$conditionsRecords = $this->Rule->Condition->find('all', array(
-        		'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
-        		'contain' => false,
-				'conditions' => array(
-					'Condition.type !=' => 2,
-					'Condition.customer_id' => array(
-							$this->get_allCustomersID(),
-							$currentUser['Member']['customer_id']
-						)
-					),
-        		));
-        return Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
+		$conditionsRecords = $this->Rule->find('all', array(
+                'fields' => array(
+                    'Rule.id',
+                    'Rule.name'
+                ),
+        		'contain' => array(
+                    'Condition' => array(
+                        'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
+                        'conditions' => array(
+                            'Condition.type !=' => 2,
+                            'Condition.customer_id' => array(
+                                $this->get_allCustomersID(),
+                                $currentUser['Member']['customer_id']
+                            )
+                        ),
+                    )
+                )
+            )
+		);
+        return Set::combine($conditionsRecords, '0.Condition.{n}.id', '0.Condition.{n}.0.name');
 	}
 	
 
