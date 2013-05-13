@@ -35,14 +35,23 @@ class MembersController extends AppController {
 						'fields' => array(
 							'Customer.name'
 						)
-					)
+					),
+                    'Membership' => array(
+                        'fields' => array(
+                            'Membership.id',
+                            'Membership.name'
+                        )
+                    )
 				)
 			);
 		else:
 			$this->paginate = array(
 				'contain' => array(
                     'Membership' => array(
-
+                        'fields' => array(
+                            'Membership.id',
+                            'Membership.name'
+                        )
                     )
                 ),
 				'conditions' => array(
