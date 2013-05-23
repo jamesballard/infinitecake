@@ -8,34 +8,34 @@
 								'offset' => true
 							)); 
 			?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($dimensionVerb['DimensionVerb']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Sysname'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($dimensionVerb['DimensionVerb']['sysname']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($dimensionVerb['DimensionVerb']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $verb_types[h($dimensionVerb['DimensionVerb']['type'])]; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Uri'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($dimensionVerb['DimensionVerb']['uri']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Artefact'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $this->Html->link($dimensionVerb['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $dimensionVerb['Artefact']['id'])); ?>
 			&nbsp;
 		</dd>

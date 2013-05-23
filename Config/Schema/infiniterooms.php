@@ -1,5 +1,5 @@
 <?php 
-class infiniteroomsSchema extends CakeSchema {
+class InfiniteroomSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;
@@ -24,6 +24,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $action_conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'action_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -38,6 +39,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $actions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysid' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -50,16 +52,18 @@ class infiniteroomsSchema extends CakeSchema {
 		'dimension_verb_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'system_ix' => array('column' => array('sysid', 'system_id'), 'unique' => 1),
+			'duplicate_ix' => array('column' => array('sysid', 'name', 'time', 'system_id', 'user_id', 'module_id', 'group_id', 'dimension_verb_id'), 'unique' => 1),
 			'time_ix' => array('column' => 'time', 'unique' => 0),
 			'module_ix' => array('column' => 'group_id', 'unique' => 0),
 			'user_time_ix' => array('column' => array('user_id', 'time'), 'unique' => 0),
 			'group_time_ix' => array('column' => array('module_id', 'time'), 'unique' => 0),
 			'module_time_ix' => array('column' => array('group_id', 'time'), 'unique' => 0),
-			'verb_ix' => array('column' => 'dimension_verb_id', 'unique' => 0)
+			'verb_ix' => array('column' => 'dimension_verb_id', 'unique' => 0),
+			'system_sysid_ix' => array('column' => array('sysid', 'system_id'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $aros = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -73,6 +77,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $aros_acos = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'aro_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
@@ -87,6 +92,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $artefact_conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'artefact_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -101,11 +107,12 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $artefacts = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
+		'type' => array('type' => 'biginteger', 'null' => true, 'default' => null, 'length' => 2),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -115,6 +122,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -128,6 +136,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $courses = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
@@ -142,6 +151,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $customers = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -157,6 +167,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $departments = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
@@ -175,10 +186,11 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $dimension_date = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'date' => array('type' => 'date', 'null' => true, 'default' => null, 'key' => 'unique'),
-		'timestamp' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 20),
+		'timestamp' => array('type' => 'biginteger', 'null' => true, 'default' => null),
 		'day_of_week' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'day_of_week_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'day_of_month' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -197,8 +209,9 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $dimension_time = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'key' => 'primary'),
+		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'fulltime' => array('type' => 'time', 'null' => false, 'default' => null, 'key' => 'unique'),
 		'hour' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'ampm' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -208,8 +221,9 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $dimension_verb = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 20, 'key' => 'primary'),
+		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysname' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4),
@@ -222,6 +236,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $dimension_verb_conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'dimension_verb_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -236,6 +251,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $fact_summed_actions_datetime = array(
 		'system_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
@@ -255,6 +271,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_general_ci', 'engine' => 'MyISAM')
 	);
+
 	public $fact_summed_verb_rule_datetime = array(
 		'system_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
@@ -276,6 +293,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_general_ci', 'engine' => 'MyISAM')
 	);
+
 	public $group_conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -290,6 +308,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $group_courses = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -304,6 +323,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $groups = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysid' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -318,6 +338,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $members = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'username' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -337,6 +358,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $memberships = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -347,6 +369,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $module_conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'module_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -361,6 +384,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $modules = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysid' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -378,6 +402,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $person_courses = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'course_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -392,6 +417,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $persons = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -414,6 +440,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $rule_conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'rule_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -428,6 +455,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $rules = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -444,9 +472,10 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $systems = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
+		'type' => array('type' => 'biginteger', 'null' => true, 'default' => null, 'length' => 4),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'certificate' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'site_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -460,6 +489,7 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 	public $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysid' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -474,4 +504,5 @@ class infiniteroomsSchema extends CakeSchema {
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+
 }

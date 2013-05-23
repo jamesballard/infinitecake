@@ -10,24 +10,24 @@
 							)); 
 	?>
 
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($condition['Condition']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($condition['Condition']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Value'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($condition['Condition']['value']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Rule'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php 
 				$rule_type = '&nbsp;';
 				if (!empty($condition['Rule'])): 
@@ -57,11 +57,11 @@
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
-		<dd><?php echo $rule_type; ?></dd>
+		<dd class="clearfix"><?php echo $rule_type; ?></dd>
 	
 		<?php if (!empty($condition['Action'])): ?>
 		<dt><?php echo __('Associated Actions'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<ul>
 			<?php
 				$i = 0;
@@ -74,7 +74,7 @@
 		
 		<?php if (!empty($condition['Artefact'])): ?>
 		<dt><?php echo __('Associated Artefacts'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<ul>
 			<?php
 				$i = 0;
@@ -87,7 +87,7 @@
 		
 		<?php if (!empty($condition['Group'])): ?>
 		<dt><?php echo __('Associated Groups'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<ul>
 			<?php
 				$i = 0;
@@ -100,7 +100,7 @@
 		
 		<?php if (!empty($condition['Module'])): ?>
 		<dt><?php echo __('Associated Modules'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<ul>
 			<?php
 				$i = 0;
@@ -113,7 +113,7 @@
 		
 		<?php if (!empty($condition['DimensionVerb'])): ?>
 		<dt><?php echo __('Associated Verbs'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<ul>
 			<?php
 				$i = 0;

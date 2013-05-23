@@ -8,54 +8,54 @@
 								'offset' => true
 							)); 
 	?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Firstname'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['firstname']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Lastname'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['lastname']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Gender'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['gender']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Dob'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['dob']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Nationality'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['nationality']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Ethnicity'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['ethnicity']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Disability'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['disability']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['created']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($person['Person']['modified']); ?>
 			&nbsp;
 		</dd>
@@ -68,7 +68,7 @@
         </dd>
 		<?php if (!empty($person['User'])): ?>
 		<dt><?php echo __('Users'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<ul>
 			<?php
 				$i = 0;
@@ -80,7 +80,7 @@
 		<?php endif; ?>
         <?php if (!empty($person['Course'])): ?>
         <dt><?php echo __('Courses'); ?></dt>
-        <dd>
+        <dd class="clearfix">
             <ul>
                 <?php
                 $i = 0;
@@ -90,6 +90,5 @@
             </ul>
         </dd>
         <?php endif; ?>
-		
 	</dl>
 </div>

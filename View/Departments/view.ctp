@@ -8,29 +8,29 @@
             'offset' => true
         ));
     ?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($department['Department']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($department['Department']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Idnumber'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($department['Department']['idnumber']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Active'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($department['Department']['active']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Parent'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php
              if (!empty($parent)):
                 echo $this->Html->link($parent['Department']['name'], array('controller' => 'departments', 'action' => 'view', $parent['Department']['id']));
@@ -39,7 +39,7 @@
             &nbsp;
 		</dd>
 	    <dt><?php echo __('Courses'); ?></dt>
-        <dd>
+        <dd class="clearfix">
 	        <?php
                 if (!empty($department['Course'])):
                     $i = 0;

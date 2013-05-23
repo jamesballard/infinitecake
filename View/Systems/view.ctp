@@ -8,44 +8,44 @@
 								'offset' => true
 							)); 
 	?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($system['System']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $system_types[h($system['System']['type'])]; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($system['System']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Certificate'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($system['System']['certificate']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Site Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($system['System']['site_name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Contact Email'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($system['System']['contact_email']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($system['System']['created']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($system['System']['modified']); ?>
 			&nbsp;
 		</dd>

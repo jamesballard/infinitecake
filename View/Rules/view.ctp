@@ -10,24 +10,24 @@
 							)); 
 	?>
 
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($rule['Rule']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($rule['Rule']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Value'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($rule['Rule']['value']); ?>
 			&nbsp;
 		</dd>
         <dt><?php echo __('Type'); ?></dt>
-        <dd>
+        <dd class="clearfix">
             <?php
                 switch (h($rule['Rule']['type'])) {
                     case Rule::RULE_TYPE_ACTION:
@@ -47,19 +47,19 @@
             &nbsp;
         </dd>
 		<dt><?php echo __('Created'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($rule['Rule']['created']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($rule['Rule']['modified']); ?>
 			&nbsp;
 		</dd>
 		
 		<?php if (!empty($rule['Condition'])): ?>
 		<dt><?php echo __('Conditions'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<ul>
 			<?php
 				$i = 0;
@@ -69,6 +69,5 @@
 			</ul>
 		</dd>
 		<?php endif; ?>
-
 	</dl>
 </div>

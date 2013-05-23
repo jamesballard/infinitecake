@@ -8,34 +8,34 @@
 								'offset' => true
 							)); 
 	?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($artefact['Artefact']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Idnumber'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($artefact['Artefact']['idnumber']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($artefact['Artefact']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $artefact_types[h($artefact['Artefact']['type'])]; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($artefact['Artefact']['created']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($artefact['Artefact']['modified']); ?>
 			&nbsp;
 		</dd>

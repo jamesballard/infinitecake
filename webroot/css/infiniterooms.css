@@ -157,26 +157,27 @@ table td.actions a {
 }
 
 /** Scaffold View **/
-dl {
-	line-height: 2em;
-	margin: 0em 0em;
-	width: 60%;
-}
 dl dd:nth-child(4n+2),
 dl dt:nth-child(4n+1) {
 	background: #f4f4f4;
 }
 
 dt {
+    text-align: left;
 	font-weight: bold;
-	padding-left: 4px;
+	padding: 3px 10px 3px 3px;
 	vertical-align: top;
-	width: 10em;
 }
+
 dd {
-	margin-left: 10em;
-	margin-top: -20px;
-	vertical-align: top;
+    padding: 3px 3px 0px 3px;
+}
+
+.dl-horizontal dt
+{
+    text-align: left;
+    white-space: normal;
+    width: 180px;
 }
 
 /** Forms **/

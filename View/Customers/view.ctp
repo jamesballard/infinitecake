@@ -8,39 +8,39 @@
 								'offset' => true
 							)); 
 			?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($customer['Customer']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($customer['Customer']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Zip'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($customer['Customer']['zip']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Lat'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($customer['Customer']['lat']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Lon'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($customer['Customer']['lon']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($customer['Customer']['created']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($customer['Customer']['modified']); ?>
 			&nbsp;
 		</dd>

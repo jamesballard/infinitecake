@@ -174,6 +174,8 @@ This will create Config/Schema/infiniterooms.php
    ```cli
       Console/cake acl grant Membership::Managers controllers/Courses
       Console/cake acl grant Membership::Managers controllers/Departments
+      Console/cake acl grant Membership::Managers controllers/Guides
+      Console/cake acl grant Membership::Users controllers/Guides
    ```
 
    NB: We need to store/record these somewhere so the upgrade script can find them.

@@ -8,34 +8,34 @@
 								'offset' => true
 							)); 
 	?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($group['Group']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Sysid'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($group['Group']['sysid']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Idnumber'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($group['Group']['idnumber']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($group['Group']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Type'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $group_types[h($group['Group']['type'])]; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('System'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $this->Html->link($group['System']['name'], array('controller' => 'systems', 'action' => 'view', $group['System']['id'])); ?>
 			&nbsp;
 		</dd>

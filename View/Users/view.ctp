@@ -8,29 +8,29 @@
 								'offset' => true
 							)); 
 	?>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($user['User']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Sysid'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($user['User']['sysid']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Idnumber'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo h($user['User']['idnumber']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Person'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $this->Html->link($user['Person']['idnumber'], array('controller' => 'people', 'action' => 'view', $user['Person']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('System'); ?></dt>
-		<dd>
+		<dd class="clearfix">
 			<?php echo $this->Html->link($user['System']['name'], array('controller' => 'systems', 'action' => 'view', $user['System']['id'])); ?>
 			&nbsp;
 		</dd>
