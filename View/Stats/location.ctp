@@ -5,7 +5,7 @@ echo $this->element('reportSidebar');
 echo $this->element('helpSidebar');
 $this->end();
 
-echo $this->element('tasktypeReport');
+echo $this->element('locationReport');
 
 ?>
 

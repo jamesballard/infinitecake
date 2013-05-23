@@ -239,7 +239,7 @@ class CourseProfileController extends AppController {
     		//Set query filters
     		$conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
     		 
-    		$results = $this->ProcessData->getIPData($dateWindow, $period, $rule, $conditions, $chartType);
+    		$results = $this->ProcessData->getIPData($dateWindow, $period, $conditions, $chartType);
     		$data = array_merge($data,$results);
     	
     		$this->set('data', $data);
@@ -298,6 +298,7 @@ class CourseProfileController extends AppController {
         	$systems = $this->get_customerSystems();
             //Set defaults
         	$system = array_keys($systems);
+            $rule = 1;
         	$dateWindow = '-2 years';
             $period = 'month';
             $chartType = 'column';
@@ -307,11 +308,11 @@ class CourseProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
+                $rule = $this->request->data['Action']['rule'];
                 $period = $this->request->data['Action']['period'];
                 $dateWindow = $this->request->data['Action']['daterange'];
                 $system = $this->request->data['Action']['system'];
                 $chartType = $this->request->data['Action']['chart'];
-                //$reportType = $this->request->data['Action']['report'];
                 $width = $this->request->data['Action']['width'];
                 $height = $this->request->data['Action']['height'];
             }
@@ -329,7 +330,7 @@ class CourseProfileController extends AppController {
             //Set query filters
             $conditions = $this->DataFilters->returnGroupFilter($system, $courseid);
              
-            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $conditions, $chartType);
+            $results = $this->ProcessData->getTaskTypeData($dateWindow, $period, $rule, $conditions, $chartType);
             $data = array_merge($data,$results);
 
             $this->set('data', $data);

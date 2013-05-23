@@ -120,6 +120,7 @@ class ProcessDataComponent extends Component {
     			$dateFormat = "M-y";
     			break;
     	}
+
     	if($chart == 'pie'):
 	    	$data = $FactSummedVerbRuleDatetime->getIPRulePiechart($dateWindow, 2, $conditions, $interval, $dateFormat);
 	    	return $data;

@@ -244,7 +244,7 @@ class FactSummedVerbRuleDatetime extends AppModel {
 				$conditions = array_merge($conditions,array('DimensionDate.date >='=>$date->format("Y-m-d")));
 				$date->add($interval);
 				$conditions = array_merge($conditions,array('DimensionDate.date <'=>$date->format("Y-m-d")));
-				$conditions = array_merge($conditions,$filter);
+				$conditions = array_merge($conditions, $filter);
 				//Iterate through rule condition to get count of each condition
 				$rule_conditions = $this->Condition->get_rule_conditions($rule);
 				$zero_condition = array_merge($conditions, array('condition_id' => 0));
