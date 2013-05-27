@@ -16,9 +16,9 @@ class GroupCondition extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
+		'Course' => array(
+			'className' => 'Course',
+			'foreignKey' => 'course_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

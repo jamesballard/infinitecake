@@ -10,18 +10,7 @@
 
 <h2>Reports</h2>
 <p>The reports are identical for each dashboard but calculate summaries based on your chosen perspective:</p>
-
-<ul>
-    <li>Overview - provides a summary of the total actions;</li>
-    <li>Activity Stream - provides a sequential list of actions;</li>
-    <li>Around the Clock - summarises actions by the time of day they occurred;</li>
-    <li>Location - if you have provided campus IP addresses then this will summarise actions by location;</li>
-    <li>Modules - summarises actions by the artefact types (e.g. forums, quizzes, etc);</li>
-    <li>Rule Types - summarises actions based on user determined rules (see
-        <?php echo $this->Html->link('develop', array('controller' => 'Guides', 'action' => 'develop')); ?>
-        );</li>
-    <li>Help - context sensitive help for the page you are currently viewing.</li>
-</ul>
+<?php echo $this->element('standardReportHelps'); ?>
 
 <h2>Visualisation</h2>
 <p>The visualisation shows the data report in your chosen format, either graphical or in a data table.

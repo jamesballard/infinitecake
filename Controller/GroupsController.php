@@ -168,6 +168,10 @@ class GroupsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+    public function help() {
+
+    }
+
 /**
  * Provides a JSON feed of groups for auto-complete entry
  *

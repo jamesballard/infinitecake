@@ -68,7 +68,7 @@ $url = $this->request->here;
 			          <?php
 						$this->start('sidebar');
 						echo $this->element('guidesSidebar');
-						echo $this->element('helpSidebar');
+						//echo $this->element('helpSidebar');
 						$this->end();
 					  ?> 
 			          <?php echo $this->fetch( 'sidebar' ); ?>

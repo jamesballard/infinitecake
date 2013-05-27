@@ -108,11 +108,11 @@ class Condition extends AppModel {
             'deleteQuery' => '',
             'insertQuery' => ''
         ),
-        'Group' => array(
-            'className' => 'Group',
-            'joinTable' => 'group_conditions',
+        'Course' => array(
+            'className' => 'Course',
+            'joinTable' => 'course_conditions',
             'foreignKey' => 'condition_id',
-            'associationForeignKey' => 'group_id',
+            'associationForeignKey' => 'course_id',
             'unique' => 'keepExisting',
             'conditions' => '',
             'fields' => '',

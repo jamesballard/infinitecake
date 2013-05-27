@@ -1,15 +1,15 @@
 <h1>Activity Theory</h1>
-<p>An understanding of Activity Theory is not essential to use this suite, however it is central to the
+<p>An understanding of Activity Theory is not essential to use this site, however it is central to the
     research on which the design of the underlying data model is based. This overview is intended to
     give you an insight into how Infinite Rooms applies Activity Theory analysis to learner activity data.
-    This is handled auto-magically in the import modules.</p>
+    In practice this is handled auto-magically in the import modules.</p>
 
 <p>Activity theory represents an approach to human activity based on historical and dialectical materialism
     originating in the works of Vygotsky (1978, 1987), Luria (1966) and Leont’ev (1978). Activity
-    Theory determines human activity as the unit of analysis. This can be represented in two ways:
+    Theory determines human activity as the unit of analysis, which can be represented in two ways:
     ‘across time’ (synchronic) via Activity Systems and ‘over time’ (diachronic) through Activity Structure.
-    The methodology requires constructing the activity through the interpretations of the subject or
-    subjects such that the activity becomes a multi-voiced method for understanding underlying process
+    The methodology requires constructing the activity through the lens of the subject or
+    subjects (i.e. learners) such that the activity becomes a multi-voiced method for understanding underlying process
     dynamics as a method for identifying external correlations between variables.</p>
 
 <h2>Activity Systems</h2>

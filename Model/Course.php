@@ -32,12 +32,48 @@ class Course extends AppModel {
 		)
 	);
 
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'Group' => array(
+            'className' => 'Group',
+            'foreignKey' => 'course_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
+
 /**
  * hasAndBelongsToMany associations
  *
  * @var array
  */
-	public $hasAndBelongsToMany = array(
+    public $hasAndBelongsToMany = array(
+        'Condition' => array(
+            'className' => 'Condition',
+            'joinTable' => 'course_conditions',
+            'foreignKey' => 'course_id',
+            'associationForeignKey' => 'condition_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        ),
 		'Person' => array(
 			'className' => 'Person',
 			'joinTable' => 'person_courses',

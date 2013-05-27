@@ -195,6 +195,10 @@ class PeopleController extends AppController {
 		$this->Session->setFlash(__('Person was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+    public function help() {
+
+    }
 	
 /**
  * Provides a JSON feed of users for auto-complete entry

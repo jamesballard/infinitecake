@@ -254,7 +254,22 @@ function beforeFilter() {
 		$this->Session->setFlash(__('Condition was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
-	
+
+/**
+ * help
+ *
+ * @throws MethodNotAllowedException
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+    public function help($rule_type=0) {
+        if($rule_type) {
+            $conditionItems = $this->getConditionsList($rule_type);
+            $this->set(compact('conditionItems'));
+            $this->set('label', $this->Rule->rule_types[$rule_type]);
+        }
+    }
 /**
  * Given a rule type, will return a list formatted array of associated 
  * conditions for multi-select form.
@@ -285,39 +300,39 @@ function beforeFilter() {
 			case Rule::RULE_TYPE_ARTEFACT:
 				$conditionRecords = $this->Condition->Artefact->find('all', array(
 						'contain' => false,
-						'fields' => array('Artefact.id as id', 'Artefact.name as name')
+						'fields' => array('Artefact.id as id', 'Artefact.name as name'),
+                        'order' => array('name' => 'ASC')
 				));
 				$this->set('formid', 'Artefact');
 				return Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');
 				break;
 			case Rule::RULE_TYPE_GROUP:
-				$conditionRecords = $this->Condition->Group->find('all', array(
+				$conditionRecords = $this->Condition->Course->find('all', array(
 						'contain' => array(
-								'System' => array(
+								'Department' => array(
 										'fields' => array(
-												'System.id',
-												'System.name',
-												'System.customer_id'
+												'Department.id',
+												'Department.name',
+												'Department.customer_id'
 											)
 									)
 							),
 						'conditions' => array(
-								'System.customer_id' => array(
+								'Department.customer_id' => array(
 										$currentUser['Member']['customer_id']
 								)
 						),
-						'fields' => array('Group.id as id', 'CONCAT(Group.name, " (",Group.idnumber,")") as name')
+						'fields' => array('Course.id as id', 'CONCAT(Course.name, " (",Course.idnumber,")") as name'),
+                        'order' => array('name' => 'ASC')
 				));
-				$this->set('formid', 'Group');
-				return Set::combine($conditionRecords, '{n}.Group.id', '{n}.Group.name');				
+				$this->set('formid', 'Course');
+				return Set::combine($conditionRecords, '{n}.Course.id', '{n}.0.name');
 				break;
 			case Rule::RULE_TYPE_MODULE:
 				$conditionRecords = $this->Condition->Module->find('all', array(
 						'contain' => array(
 								'System' => array(
 										'fields' => array(
-												'System.id',
-												'System.name',
 												'System.customer_id'
 											)
 									),
@@ -327,7 +342,8 @@ function beforeFilter() {
 										$currentUser['Member']['customer_id']
 								)
 						),
-						'fields' => array('Module.id as id', 'Module.sysid as name')
+						'fields' => array('Module.id as id', 'Module.sysid as name'),
+                        'order' => array('name' => 'ASC')
 				));
 				$this->set('formid', 'Module');
 				return Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
@@ -341,7 +357,8 @@ function beforeFilter() {
 										)
 								),
 						),
-						'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name')
+						'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name'),
+                        'order' => array('name' => 'ASC')
 				));
 				$this->set('formid', 'DimensionVerb');
 				return $conditionItems = Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');

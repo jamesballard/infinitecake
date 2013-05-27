@@ -144,6 +144,10 @@ class DepartmentsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+    public function help() {
+
+    }
+
 /**
  * move up hierarchy method
  *

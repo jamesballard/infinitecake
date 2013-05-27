@@ -42,7 +42,14 @@ class Group extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'Course' => array(
+            'className' => 'Course',
+            'foreignKey' => 'course_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
 	);
 
 /**
@@ -78,37 +85,4 @@ class Group extends AppModel {
 			'counterQuery' => ''
 		),
 	);
-
-    public $hasAndBelongsToMany = array(
-        'Condition' => array(
-            'className' => 'Condition',
-            'joinTable' => 'group_conditions',
-            'foreignKey' => 'group_id',
-            'associationForeignKey' => 'condition_id',
-            'unique' => 'keepExisting',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-            'deleteQuery' => '',
-            'insertQuery' => ''
-        ),
-        'Course' => array(
-            'className' => 'Course',
-            'joinTable' => 'group_courses',
-            'foreignKey' => 'group_id',
-            'associationForeignKey' => 'course_id',
-            'unique' => 'keepExisting',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-            'deleteQuery' => '',
-            'insertQuery' => ''
-        )
-    );
 }

@@ -104,4 +104,8 @@ class MembershipsController extends AppController {
 		$this->Session->setFlash(__('Membership was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+    public function help() {
+
+    }
 }

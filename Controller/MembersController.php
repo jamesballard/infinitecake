@@ -171,6 +171,10 @@ class MembersController extends AppController {
 		$this->Session->setFlash(__('Member was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+    public function help() {
+
+    }
 	
 /**
  * Returns a list formatted array of memberships for multi-select form

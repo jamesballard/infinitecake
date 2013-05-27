@@ -10,8 +10,8 @@
 <li<?php echo (preg_match("/develop/", $url))? ' class="active"' : ''?>>
   <?php echo $this->Html->link('Develop', array('controller' => 'Guides', 'action' => 'develop')); ?>
 </li>
-<li<?php echo (preg_match("/glossary/", $url))? ' class="active"' : ''?>>
-    <?php echo $this->Html->link('Glossary', array('controller' => 'Guides', 'action' => 'glossary')); ?>
+<li<?php echo (preg_match("/questions/", $url))? ' class="active"' : ''?>>
+    <?php echo $this->Html->link('Key Questions', array('controller' => 'Guides', 'action' => 'questions')); ?>
 </li>
 <li class="nav-header">Design Principles</li>
 <li<?php echo (preg_match("/analytics/", $url))? ' class="active"' : ''?>>
@@ -23,7 +23,5 @@
 <li<?php echo (preg_match("/engagement/", $url))? ' class="active"' : ''?>>
     <?php echo $this->Html->link('Engagement', array('controller' => 'Guides', 'action' => 'engagement')); ?>
 </li>
-<li<?php echo (preg_match("/questions/", $url))? ' class="active"' : ''?>>
-    <?php echo $this->Html->link('Key Questions', array('controller' => 'Guides', 'action' => 'questions')); ?>
-</li>
+
 <li class="divider"></li> 

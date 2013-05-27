@@ -6,7 +6,7 @@
 	  <ul class="dropdown-menu">
 	  	<li><?php echo $this->Html->link(__('Action'), array('action' => 'add', 1), array('escape' => FALSE)); ?></li>
 	  	<li><?php echo $this->Html->link(__('Artefact'), array('action' => 'add', 4), array('escape' => FALSE)); ?></li>
-	  	<li><?php echo $this->Html->link(__('Group'), array('action' => 'add', 5), array('escape' => FALSE)); ?></li>
+	  	<li><?php echo $this->Html->link(__('Course'), array('action' => 'add', 5), array('escape' => FALSE)); ?></li>
 	  	<li><?php echo $this->Html->link(__('Module'), array('action' => 'add', 3), array('escape' => FALSE)); ?></li>
 	    <li><?php echo $this->Html->link(__('Verb'), array('action' => 'add', 2), array('escape' => FALSE)); ?></li>
 	  </ul>

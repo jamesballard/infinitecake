@@ -21,7 +21,7 @@ class Rule extends AppModel {
     		Rule::RULE_TYPE_VERB=>'Verb',
     		Rule::RULE_TYPE_MODULE=>'Module',
     		Rule::RULE_TYPE_ARTEFACT=>'Artefact',
-    		Rule::RULE_TYPE_GROUP=>'Group'
+    		Rule::RULE_TYPE_GROUP=>'Course'
     	);
     
 /**
@@ -34,7 +34,7 @@ class Rule extends AppModel {
     			self::RULE_TYPE_VERB => __('Verb',true),
     			self::RULE_TYPE_MODULE => __('Module',true),
     			self::RULE_TYPE_ARTEFACT => __('Artefact',true),
-    			self::RULE_TYPE_GROUP => __('Group',true),
+    			self::RULE_TYPE_GROUP => __('Course',true),
     	);
     	return parent::enum($value, $options);
     }

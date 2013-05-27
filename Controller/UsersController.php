@@ -147,6 +147,10 @@ class UsersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+    public function help() {
+
+    }
+
 /**
  * admin_index method
  *
