@@ -264,7 +264,6 @@ class CourseProfileController extends AppController {
         	$system = array_keys($systems);
         	$dateWindow = '-2 years';
             $reportType = 'Activity';
-            $system = 0;
             $width = 750;
             $height = 500;
 
