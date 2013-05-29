@@ -146,7 +146,7 @@ class UserProfileController extends AppController {
     	
     		//Set defaults.
     		$system = array_keys($systems);
-    		$dateWindow = '-3 days';
+            $dateWindow = '07-05-2013';
     		
     		//Update with posted form options if sent.
     		if ($this->request->is('post')) {
