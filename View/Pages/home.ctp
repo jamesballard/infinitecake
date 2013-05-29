@@ -34,10 +34,10 @@ App::uses('Debugger', 'Utility');
 				      <a href="/Stats" class="btn btn-primary btn-large">
 				        Site
 				      </a>
-                      <a href="/Courseprofile" class="btn btn-primary btn-large">
+                      <a href="/CourseProfile" class="btn btn-primary btn-large">
                           Course
                       </a>
-                      <a href="/Userprofile" class="btn btn-primary btn-large">
+                      <a href="/UserProfile" class="btn btn-primary btn-large">
                           User
                       </a>
 				  </p>
