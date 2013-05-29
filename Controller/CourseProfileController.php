@@ -140,7 +140,7 @@ class CourseProfileController extends AppController {
     		
     		//Set defaults.
     		$system = array_keys($systems);
-    		$dateWindow = '-3 days';
+    		$dateWindow = '07-05-2013';
     		
     		//Update with posted form options if sent.
     		if ($this->request->is('post')) {
@@ -361,8 +361,8 @@ class CourseProfileController extends AppController {
     private function setCoursePeople($courseid) {
         $people = $this->getCoursePeople($courseid);
 
-        $begin = new DateTime( date('Y-m-d', strtotime("-3 weeks", time())));
-        $end = new DateTime( date('Y-m-d', strtotime("+1 weeks", time())) );
+        $begin = new DateTime( date('Y-m-d', strtotime("-3 weeks", strtotime('14-05-2013'))));
+        $end = new DateTime( date('Y-m-d', strtotime("+1 weeks", strtotime('14-05-2013'))) );
         // Get years as range.
         $interval = new DateInterval('P1W');
         $daterange = new DatePeriod($begin, $interval, $end);
