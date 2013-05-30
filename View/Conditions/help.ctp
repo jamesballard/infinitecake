@@ -10,10 +10,10 @@
     <li><?php echo $this->Html->link(__('Verb'), array('action' => 'help', 2), array('escape' => FALSE)); ?></li>
 </ul>
 <?php
-if($label) {
+if(!empty($label)) {
     echo '<h2>'.$label.' list</h2>';
 }
-if($conditionItems) {
+if(!empty($conditionItems)) {
     foreach($conditionItems as $id=>$item) {
         echo $this->Html->link($item, array('action' => 'view', $id));
         echo '<br />';

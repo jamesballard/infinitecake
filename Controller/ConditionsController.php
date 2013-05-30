@@ -85,10 +85,10 @@ function beforeFilter() {
 								'Module.sysid'
 							)
 						),
-						'Group' => array(
+						'Course' => array(
 							'fields' => array(
-								'Group.idnumber',
-								'Group.name'
+								'Course.idnumber',
+								'Course.name'
 							)
 						),
 						'DimensionVerb' => array(
