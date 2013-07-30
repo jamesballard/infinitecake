@@ -112,7 +112,7 @@ class infiniteroomsSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'type' => array('type' => 'biginteger', 'null' => true, 'default' => null, 'length' => 2),
+		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -190,7 +190,7 @@ class infiniteroomsSchema extends CakeSchema {
 	public $dimension_date = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'date' => array('type' => 'date', 'null' => true, 'default' => null, 'key' => 'unique'),
-		'timestamp' => array('type' => 'biginteger', 'null' => true, 'default' => null),
+		'timestamp' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'day_of_week' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'day_of_week_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'day_of_month' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -211,7 +211,7 @@ class infiniteroomsSchema extends CakeSchema {
 	);
 
 	public $dimension_time = array(
-		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'fulltime' => array('type' => 'time', 'null' => false, 'default' => null, 'key' => 'unique'),
 		'hour' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'ampm' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -223,7 +223,7 @@ class infiniteroomsSchema extends CakeSchema {
 	);
 
 	public $dimension_verb = array(
-		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysname' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4),
@@ -475,7 +475,7 @@ class infiniteroomsSchema extends CakeSchema {
 
 	public $systems = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'type' => array('type' => 'biginteger', 'null' => true, 'default' => null, 'length' => 4),
+		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'certificate' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'site_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
