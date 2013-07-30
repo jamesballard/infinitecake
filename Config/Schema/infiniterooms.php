@@ -1,5 +1,5 @@
 <?php 
-class InfiniteroomSchema extends CakeSchema {
+class infiniteroomsSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;
