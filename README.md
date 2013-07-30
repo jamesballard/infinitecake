@@ -152,7 +152,7 @@ This will create Config/Schema/infiniterooms.php
 2. Create new tables
 
    ```cli
-         Console/cake schema create
+         Console/cake schema create infiniterooms
    ```
 
    NB: choose 'n' to drop existing tables and 'y' to create new tables - if tables are dropped then all data is lost!
@@ -160,7 +160,7 @@ This will create Config/Schema/infiniterooms.php
 3. Update the database schema
 
    ```cli
-         Console/cake schema update
+         Console/cake schema update infiniterooms
    ```
 
 4. Update any new ACOs
