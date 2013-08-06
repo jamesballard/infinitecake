@@ -1,7 +1,7 @@
 <div class="members index">
 	<h2 class="pull-left"><?php echo __('Members'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => true
 				)
@@ -15,7 +15,7 @@
 			<th><?php echo $this->Paginator->sort('lastname'); ?></th>
 			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('membership_id'); ?></th>
-			<?php echo $this->element('customerAdminTH'); ?>
+			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -37,7 +37,7 @@
 		<td><?php echo h($member['Member']['created']); ?>&nbsp;</td>
 		<td><?php echo h($member['Member']['modified']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $member['Member']['id'],
 								'customer_id' => h($member['Member']['customer_id']),
 								'current_user' => $current_user,

@@ -1,7 +1,7 @@
 <div class="groups index">
 	<h2 class="pull-left"><?php echo __('Groups'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => false
 				)
@@ -27,7 +27,7 @@
 		<td><?php echo $group_types[h($group['Group']['type'])]; ?>&nbsp;</td>
 		<td><?php echo $this->Html->link($group['System']['name'], array('controller' => 'systems', 'action' => 'view', $group['System']['id'])); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $group['Group']['id'],
 								'customer_id' => h($group['System']['customer_id']),
 								'current_user' => $current_user,

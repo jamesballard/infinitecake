@@ -178,11 +178,11 @@ function beforeFilter() {
                             'Module.sysid'
                         )
                     ),
-                    'Group' => array(
+                    'Course' => array(
                         'fields' => array(
-                            'Group.id',
-                            'Group.idnumber',
-                            'Group.name'
+                            'Course.id',
+                            'Course.idnumber',
+                            'Course.name'
                         )
                     ),
                     'DimensionVerb' => array(

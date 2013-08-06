@@ -1,7 +1,7 @@
 <div class="modules index">
 	<h2 class="pull-left"><?php echo __('Modules'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => false
 				)
@@ -35,7 +35,7 @@
 			<?php echo $this->Html->link($module['System']['name'], array('controller' => 'systems', 'action' => 'view', $module['System']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $module['Module']['id'],
 								'customer_id' => h($module['System']['customer_id']),
 								'current_user' => $current_user,

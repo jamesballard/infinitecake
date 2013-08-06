@@ -1,6 +1,6 @@
 <div class="systems view">
 <h2 class="pull-left"><?php  echo __('System'); ?></h2>
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $system['System']['id'],
 								'customer_id' => h($system['System']['customer_id']),
 								'current_user' => $current_user,

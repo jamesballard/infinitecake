@@ -1,7 +1,7 @@
 <div class="people index">
 	<h2 class="pull-left"><?php echo __('People'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => true
 				)
@@ -13,7 +13,7 @@
 			<th><?php echo $this->Paginator->sort('idnumber'); ?></th>
 			<th><?php echo $this->Paginator->sort('firstname'); ?></th>
 			<th><?php echo $this->Paginator->sort('lastname'); ?></th>
-			<?php echo $this->element('customerAdminTH'); ?>
+			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -33,7 +33,7 @@
 		<td><?php echo h($person['Person']['created']); ?>&nbsp;</td>
 		<td><?php echo h($person['Person']['modified']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $person['Person']['id'],
 								'customer_id' => h($person['Person']['customer_id']),
 								'current_user' => $current_user,

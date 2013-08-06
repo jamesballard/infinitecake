@@ -1,7 +1,7 @@
 <div class="dimensionVerbs index">
 	<h2 class="pull-left"><?php echo __('Dimension Verbs'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => false
 				)
@@ -29,7 +29,7 @@
 			<?php echo $this->Html->link($dimensionVerb['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $dimensionVerb['Artefact']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $dimensionVerb['DimensionVerb']['id'],
 								'customer_id' => 1,
 								'current_user' => $current_user,

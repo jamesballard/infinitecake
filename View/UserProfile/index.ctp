@@ -5,9 +5,9 @@
 
 $this->start('sidebar');
 if($userid) {
-	echo $this->element('reportSidebar');
+	echo $this->element('Sidebars/reports');
 }
-echo $this->element('helpSidebar');
+echo $this->element('Sidebars/help');
 $this->end();
 
 echo $this->autoCompleteRemote->init('ActionUser','People/jsonfeed');

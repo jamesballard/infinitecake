@@ -1,7 +1,7 @@
 <div class="conditions view">
 	<h2 class="pull-left"><?php  echo __('Condition'); ?></h2>
 	
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $condition['Condition']['id'],
 								'customer_id' => h($condition['Condition']['customer_id']),
 								'current_user' => $current_user,
@@ -77,7 +77,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['Artefact'] as $artefact): ?>
 					<li><?php echo $artefact['name']; ?></li>
 			<?php endforeach; ?>
@@ -90,7 +89,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['Group'] as $group): ?>
 					<li><?php echo $group['name'].': '.$group['idnumber']; ?></li>
 			<?php endforeach; ?>
@@ -103,7 +101,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['Module'] as $module): ?>
 					<li><?php echo $module['sysid']; ?></li>
 			<?php endforeach; ?>
@@ -116,7 +113,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['DimensionVerb'] as $dimensionVerb): ?>
 					<li><?php echo $dimensionVerb['Artefact']['name'].': '.$dimensionVerb['name']; ?></li>
 			<?php endforeach; ?>

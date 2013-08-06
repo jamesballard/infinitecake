@@ -1,6 +1,6 @@
 <div class="dimensionVerbs view">
 <h2 class="pull-left"><?php  echo __('Dimension Verb'); ?></h2>
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $dimensionVerb['DimensionVerb']['id'],
 								'customer_id' => 1,
 								'current_user' => $current_user,

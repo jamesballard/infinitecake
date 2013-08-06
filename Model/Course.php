@@ -88,22 +88,7 @@ class Course extends AppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-		),
-        'Group' => array(
-            'className' => 'Group',
-            'joinTable' => 'group_courses',
-            'foreignKey' => 'course_id',
-            'associationForeignKey' => 'group_id',
-            'unique' => 'keepExisting',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-            'deleteQuery' => '',
-            'insertQuery' => ''
-        )
+		)
 	);
 
 }

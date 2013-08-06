@@ -1,7 +1,7 @@
 <div class="users index">
 	<h2 class="pull-left"><?php echo __('Users'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => false
 				)
@@ -29,7 +29,7 @@
 			<?php echo $this->Html->link($user['System']['name'], array('controller' => 'systems', 'action' => 'view', $user['System']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $user['User']['id'],
 								'customer_id' => h($user['System']['customer_id']),
 								'current_user' => $current_user,

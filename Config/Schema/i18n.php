@@ -69,7 +69,7 @@ class i18nSchema extends CakeSchema {
 			'content' => array (
 					'type' => 'text',
 					'null' => true,
-					'default' => null 
+					'default' => null
 			),
 			'indexes' => array (
 					'PRIMARY' => array (

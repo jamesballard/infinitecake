@@ -58,7 +58,7 @@ $url = $this->request->here;
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 	<div id="container">
-    <?php echo $this->element('navBar'); ?>
+    <?php echo $this->element('Navigation/navBar'); ?>
     <div class="container-fluid content">
 		  <div class="row-fluid">
 			    <div class="span2">
@@ -67,8 +67,8 @@ $url = $this->request->here;
 			          <!--Sidebar content-->
 			          <?php
 						$this->start('sidebar');
-						echo $this->element('guidesSidebar');
-						//echo $this->element('helpSidebar');
+						echo $this->element('Sidebars/guides');
+						//echo $this->element('Sidebars/help');
 						$this->end();
 					  ?> 
 			          <?php echo $this->fetch( 'sidebar' ); ?>

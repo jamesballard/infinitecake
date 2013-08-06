@@ -1,7 +1,7 @@
 <div class="memberships index">
 	<h2 class="pull-left"><?php echo __('Memberships'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => true
 				)
@@ -23,7 +23,7 @@
 		<td><?php echo h($membership['Membership']['created']); ?>&nbsp;</td>
 		<td><?php echo h($membership['Membership']['modified']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $membership['Membership']['id'],
 								'customer_id' => 1,
 								'current_user' => $current_user,

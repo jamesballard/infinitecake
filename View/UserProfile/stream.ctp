@@ -1,8 +1,8 @@
 <?php
 
 $this->start('sidebar');
-echo $this->element('reportSidebar');
-echo $this->element('helpSidebar');
+echo $this->element('Sidebars/reports');
+echo $this->element('Sidebars/help');
 $this->end();
 
 ?>
@@ -10,8 +10,8 @@ $this->end();
 <?php 
 	echo '<div style="width:400px">';
 	echo $this->Form->create();
-	echo $this->element('streamDateWindowSelect'); 
-	echo $this->element('systemMultiSelect');
+	echo $this->element('FormItems/selectDateWindowShort');
+	echo $this->element('MultiSelectForms/systems');
 	echo $this->Form->end('Change');
 	echo '</div>';
 ?>
