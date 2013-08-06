@@ -2,7 +2,7 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `aggregate_summed_actions`$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `aggregate_summed_actions`(
+CREATE DEFINER=`admin`@`%` PROCEDURE `aggregate_summed_actions`(
   IN customer_id INT(11),
   IN idstart INT(11),
   IN idend INT(11)
@@ -83,14 +83,16 @@ BEGIN
   -- update the output log so we can see they are the same
   INSERT INTO customer_updates (`type`, `time`, startid, endid, numrows, processedrows, customer_id, rule_id)
 	VALUES (3, NOW(), idstart, idend, num_rows, loop_cntr, customer_id, NULL);
-  
-  -- Update customer record 
-  INSERT INTO customer_status (`type`, `time`, startid, endid, customer_id, rule_id) 
-	VALUES (3, NOW(), idstart, idend, customer_id, NULL)
-	ON DUPLICATE KEY
-	UPDATE `time` = NOW(),
-	startid = idstart,
-	endid = idend;
+
+  -- Update customer record
+  IF EXISTS (SELECT * FROM customer_status WHERE `type` = 3 AND `customer_id` = customer_id) 
+  THEN 
+   UPDATE customer_status SET `time` = NOW(), `startid` = idstart, `endid` = idend WHERE `type` = 3 AND `customer_id` = customer_id;
+  ELSE
+    INSERT INTO customer_status (`type`, `time`, startid, endid, customer_id, rule_id) 
+	VALUES (3, NOW(), idstart, idend, customer_id, NULL);
+  END IF;
+
 END$$
 
 DELIMITER ;

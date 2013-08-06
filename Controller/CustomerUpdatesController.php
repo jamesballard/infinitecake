@@ -1,15 +1,16 @@
 <?php
 App::uses('AppController', 'Controller');
 /**
- * Statuses Controller
+ * CustomerUpdates Controller
  *
- * @property Status $Status
+ * @property CustomerUpdate $CustomerUpdate
  */
-class StatusesController extends AppController {
+class CustomerUpdatesController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
         $this->layout = 'configManage';
+        //$this->set('process_types', $this->CustomerStatus->process_types);
     }
 
     /**
@@ -33,17 +34,23 @@ class StatusesController extends AppController {
             );
         else:
             $this->paginate = array(
+                'contain' => array(
+                    'Rule' => array(
+                        'fields' => array(
+                            'Rule.value'
+                        )
+                    )
+                ),
                 'conditions' => array(
-                    'Status.customer_id' => array(
+                    'CustomerStatus.customer_id' => array(
                         $currentUser['Member']['customer_id']
                     )
                 )
             );
         endif;
 
-        $this->set('rules', $this->paginate());
+        $this->set('statuses', $this->paginate());
 
     }
-
 
 }

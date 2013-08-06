@@ -15,12 +15,12 @@ class CustomerStatus extends AppModel {
     const PROC_SUM_RULE = 4;
     const PROC_SUM_IP = 5;
 
-    public $rule_types = array(
-        Rule::PROC_USER_TO_PEOPLE=>'Users to People',
-        Rule::PROC_GROUP_TO_COURSE=>'Groups to Course',
-        Rule::PROC_SUM_ACTION=>'Sum Actions',
-        Rule::PROC_SUM_RULE=>'Sum Rule',
-        Rule::PROC_SUM_IP=>'Sum IP Address'
+    public $process_types = array(
+        CustomerStatus::PROC_USER_TO_PEOPLE=>'Users to People',
+        CustomerStatus::PROC_GROUP_TO_COURSE=>'Groups to Course',
+        CustomerStatus::PROC_SUM_ACTION=>'Sum Actions',
+        CustomerStatus::PROC_SUM_RULE=>'Sum Rule',
+        CustomerStatus::PROC_SUM_IP=>'Sum IP Address'
     );
 
 /**
@@ -30,15 +30,7 @@ class CustomerStatus extends AppModel {
  */
 	public $useTable = 'customer_status';
 
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'procedure';
-
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations

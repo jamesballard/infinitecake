@@ -2,7 +2,7 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `aggregate_summed_rule_conditions`$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `aggregate_summed_rule_conditions`(
+CREATE DEFINER=`admin`@`%` PROCEDURE `aggregate_summed_rule_conditions`(
   IN customer_id INT(11),
   IN idstart INT(11),
   IN idend INT(11),
@@ -78,11 +78,7 @@ BEGIN
     
     SELECT artefact_id INTO artefact_id_val
           FROM modules
-          WHERE id = module_id_val;  
-          
-    SELECT course_id INTO course_id_val
-          FROM groups
-          WHERE id = group_id_val;    
+          WHERE id = module_id_val;
     
     CASE rule_type_val
     WHEN '1' THEN 
@@ -143,13 +139,15 @@ BEGIN
   INSERT INTO customer_updates (`type`, `time`, startid, endid, numrows, processedrows, customer_id, rule_id)
 	VALUES (4, NOW(), idstart, idend, num_rows, loop_cntr, customer_id, rule_id_val);
   
-  -- Update customer record 
-  INSERT INTO customer_status (`type`, `time`, startid, endid, customer_id, rule_id) 
-	VALUES (4, NOW(), idstart, idend, customer_id, rule_id_val)
-	ON DUPLICATE KEY
-	UPDATE `time` = NOW(),
-	startid = idstart,
-	endid = idend;
+  -- Update customer record
+  IF EXISTS (SELECT * FROM customer_status WHERE `type` = 4 AND `customer_id` = customer_id AND `rule_id` = rule_id) 
+  THEN 
+   UPDATE customer_status SET `time` = NOW(), `startid` = idstart, `endid` = idend WHERE `type` = 4 AND `customer_id` = customer_id AND `rule_id` = rule_id;
+  ELSE
+    INSERT INTO customer_status (`type`, `time`, startid, endid, customer_id, rule_id) 
+	VALUES (4, NOW(), idstart, idend, customer_id, rule_id);
+  END IF;
+  
 END$$
 
 DELIMITER ;

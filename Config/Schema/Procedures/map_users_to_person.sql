@@ -2,7 +2,7 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `map_users_to_person`$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `map_users_to_person`(
+CREATE DEFINER=`admin`@`%` PROCEDURE `map_users_to_person`(
   IN customer_id INT(11)
 )
     MODIFIES SQL DATA
@@ -65,11 +65,14 @@ BEGIN
   INSERT INTO customer_updates (`type`, `time`, startid, endid, numrows, processedrows, customer_id, rule_id)
 	VALUES (1, NOW(), NULL, NULL, num_rows, loop_cntr, customer_id, NULL);
   
-  -- Update customer record 
-  INSERT INTO customer_status (`type`, `time`, startid, endid, customer_id, rule_id) 
-	VALUES (1, NOW(), NULL, NULL, customer_id, NULL)
-	ON DUPLICATE KEY
-	UPDATE `time` = NOW();
+  -- Update customer record
+  IF EXISTS (SELECT * FROM customer_status WHERE `type` = 1 AND `customer_id` = customer_id) 
+  THEN 
+   UPDATE customer_status SET `time` = NOW() WHERE `type` = 1 AND `customer_id` = customer_id;
+  ELSE
+    INSERT INTO customer_status (`type`, `time`, startid, endid, customer_id, rule_id) 
+	VALUES (1, NOW(), NULL, NULL, customer_id, NULL);
+  END IF;
   
 END$$
 
