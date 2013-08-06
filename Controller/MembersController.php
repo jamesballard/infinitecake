@@ -101,7 +101,17 @@ class MembersController extends AppController {
 		if (!$this->Member->exists()) {
 			throw new NotFoundException(__('Invalid member'));
 		}
-		$member = $this->Member->read(null, $id);
+        $member = $this->Member->find('first',array(
+            'contain' => array(
+                'Membership' => array(
+                    'fields' => array(
+                        'Membership.id',
+                        'Membership.name'
+                    )
+                )
+            ),
+            'conditions' => array('Member.id' => $id)
+        ));
 		$this->check_customerID($member['Member']['customer_id']);
 		$this->set('member', $member);
 	}
