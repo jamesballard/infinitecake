@@ -10,7 +10,7 @@
 
 <h2>Reports</h2>
 <p>The reports are identical for each dashboard but calculate summaries based on your chosen perspective:</p>
-<?php echo $this->element('standardReportHelps'); ?>
+<?php echo $this->element('HelpPages/standardReports'); ?>
 
 <h2>Visualisation</h2>
 <p>The visualisation shows the data report in your chosen format, either graphical or in a data table.

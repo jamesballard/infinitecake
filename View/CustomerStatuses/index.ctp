@@ -14,7 +14,7 @@
                 <td><?php echo h($status['CustomerStatus']['time']); ?>&nbsp;</td>
                 <td><?php echo h($status['Rule']['value']); ?>&nbsp;</td>
                 <td>
-                    <?php echo $this->element('procedureButton', array(
+                    <?php echo $this->element('Buttons/process', array(
                         'type' => $status['CustomerStatus']['type'],
                         'rule_id' => $status['CustomerStatus']['rule_id'],
                         'customer_id' => h($status['CustomerStatus']['customer_id']),

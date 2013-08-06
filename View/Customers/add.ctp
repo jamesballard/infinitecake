@@ -1,13 +1,14 @@
 <div class="customers form">
-<?php echo $this->Form->create('Customer'); ?>
+<?php echo $this->BootstrapForm->create('Customer'); ?>
 	<fieldset>
 		<legend><?php echo __('Add Customer'); ?></legend>
 	<?php
+        echo $this->element('FormItems/legendSettings');
 		echo $this->Form->input('name');
 		echo $this->Form->input('zip');
 		echo $this->Form->input('lat');
 		echo $this->Form->input('lon');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->BootstrapForm->end(); ?>
 </div>

@@ -77,6 +77,7 @@ CakePlugin::load('GChart');
 CakePlugin::load('Chosen');
 CakePlugin::load('autoComplete');
 CakePlugin::load('infinity');
+CakePlugin::load('BootstrapForm');
 CakePlugin::load('Acl', array('bootstrap' => true));
 
 /**

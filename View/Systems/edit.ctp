@@ -1,12 +1,13 @@
 <div class="systems form">
 <h2><?php echo __('Edit System'); ?></h2>
-<?php echo $this->Form->create('System'); ?>
+<?php echo $this->BootstrapForm->create('System'); ?>
 	<fieldset>
 	<?php
+        echo $this->element('FormItems/legendChangeSettings');
 		echo $this->Form->input('id');
 		echo $this->Form->input('type', array('options' => $system_types));
 		echo $this->Form->input('name');
     ?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->BootstrapForm->end(); ?>
 </div>

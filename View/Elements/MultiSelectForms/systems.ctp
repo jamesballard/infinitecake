@@ -1,5 +1,7 @@
+<div class="control-group">
 <?php
-echo $this->Form->label('system', 'System(s)');
+echo $this->Form->label('system', 'System(s)', array('class' => 'control-label'));
+echo '<div class="controls">';
 echo $this->Chosen->select(
     'system',
     $systems,
@@ -9,5 +11,6 @@ echo $this->Chosen->select(
     	'multiple' => true
         )
 );
-
 ?>
+    </div>
+</div>

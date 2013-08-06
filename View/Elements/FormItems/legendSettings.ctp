@@ -1,0 +1,1 @@
+<legend><?php echo __('Settings'); ?></legend>

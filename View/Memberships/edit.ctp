@@ -1,11 +1,12 @@
 <div class="memberships form">
-<?php echo $this->Form->create('Membership'); ?>
+    <h2><?php echo __('Edit Membership'); ?></h2>
+<?php echo $this->BootstrapForm->create('Membership'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Membership'); ?></legend>
 	<?php
+        echo $this->element('FormItems/legendChangeSettings');
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->BootstrapForm->end(); ?>
 </div>

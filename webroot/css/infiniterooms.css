@@ -180,36 +180,6 @@ dd {
     width: 180px;
 }
 
-/** Forms **/
-form {
-	clear: both;
-	margin-right: 20px;
-	padding: 0;
-	width: 95%;
-}
-
-form .required {
-	font-weight: bold;
-}
-form .required label:after {
-	color: #e32;
-	content: '*';
-	display:inline;
-}
-
-input {
-	width: auto;
-}
-select {
-	width: 100%;
-}
-
-input[type=checkbox] {
-	clear: left;
-	float: left;
-	margin: 0px 6px 7px 2px;
-}
-
 /* Form errors */
 form .error {
 	background: #FFDACC;

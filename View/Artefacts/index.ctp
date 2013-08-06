@@ -1,11 +1,11 @@
 <div class="artefacts index">
 	<h2 class="pull-left"><?php echo __('Artefacts'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
-					'current_user' => $current_user,
-					'add' => false
-				)
-			); 
+		echo $this->element('Buttons/add',array(
+                'current_user' => $current_user,
+                'add' => false
+            )
+        );
 	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
@@ -27,7 +27,7 @@
 		<td><?php echo h($artefact['Artefact']['created']); ?>&nbsp;</td>
 		<td><?php echo h($artefact['Artefact']['modified']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $artefact['Artefact']['id'],
 								'customer_id' => 1,
 								'current_user' => $current_user,

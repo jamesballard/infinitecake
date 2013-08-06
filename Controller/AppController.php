@@ -43,7 +43,7 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $helpers = array('Html', 'Form', 'Session', 'Permissions', 'Chosen.Chosen');
+    public $helpers = array('Html', 'Form', 'Session', 'Permissions', 'Chosen.Chosen', 'BootstrapForm.BootstrapForm');
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',

@@ -1,7 +1,7 @@
 <div class="systems index">
 	<h2 class="pull-left"><?php echo __('Systems'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => false
 				)
@@ -12,7 +12,7 @@
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<?php echo $this->element('customerAdminTH'); ?>
+			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -31,7 +31,7 @@
 		<td><?php echo h($system['System']['created']); ?>&nbsp;</td>
 		<td><?php echo h($system['System']['modified']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $system['System']['id'],
 								'customer_id' => h($system['System']['customer_id']),
 								'current_user' => $current_user,

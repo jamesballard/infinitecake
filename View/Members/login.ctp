@@ -1,8 +1,15 @@
 <?php $this->layout = 'homepage'; ?>
-<h2>Login</h2>
+<h2>Welcome</h2>
 <?php
-echo $this->Form->create('Member', array('url' => array('controller' => 'members', 'action' => 'login')));
+echo $this->BootstrapForm->create('Member', array('url' => array('controller' => 'members', 'action' => 'login')));
+?>
+<fieldset>
+    <legend><?php echo __('Login'); ?></legend>
+<?php
 echo $this->Form->input('Member.username');
 echo $this->Form->input('Member.password');
-echo $this->Form->end('Login');
+?>
+</fieldset>
+<?php
+echo $this->BootstrapForm->end(__('Login'));
 ?>

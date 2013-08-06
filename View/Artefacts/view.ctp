@@ -1,6 +1,6 @@
 <div class="artefacts view">
 <h2 class="pull-left"><?php  echo __('Artefact'); ?></h2>
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $artefact['Artefact']['id'],
 								'customer_id' => 1,
 								'current_user' => $current_user,

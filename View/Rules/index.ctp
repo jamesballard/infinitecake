@@ -1,7 +1,7 @@
 <div class="rules index">
 	<h2 class="pull-left"><?php echo __('Rules'); ?></h2>
 	<?php 
-		echo $this->element('addButton',array(
+		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,
 					'add' => true
 				)
@@ -13,7 +13,7 @@
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('value'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
-			<?php echo $this->element('customerAdminTH'); ?>
+			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -33,7 +33,7 @@
 		<td><?php echo h($rule['Rule']['created']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['modified']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $rule['Rule']['id'],
 								'customer_id' => h($rule['Rule']['customer_id']),
 								'current_user' => $current_user,

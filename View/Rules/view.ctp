@@ -1,7 +1,7 @@
 <div class="rules view">
 	<h2 class="pull-left"><?php  echo __('Rule'); ?></h2>
 	
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $rule['Rule']['id'],
 								'customer_id' => h($rule['Rule']['customer_id']),
 								'current_user' => $current_user,
@@ -62,7 +62,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($rule['Condition'] as $condition): ?>
 					<li><?php echo $this->Html->link($condition['name'], array('controller' => 'conditions', 'action' => 'view', $condition['id'])); ?></li>
 			<?php endforeach; ?>

@@ -16,7 +16,7 @@
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('value'); ?></th>
-			<?php echo $this->element('customerAdminTH'); ?>
+			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -31,7 +31,7 @@
 			endif;
 		?>
 		<td>
-			<?php echo $this->element('actionButton', array(
+			<?php echo $this->element('Buttons/action', array(
 								'id' => $condition['Condition']['id'],
 								'customer_id' => h($condition['Condition']['customer_id']),
 								'current_user' => $current_user,
