@@ -1,5 +1,5 @@
 <?php 
-class InfiniteroomSchema extends CakeSchema {
+class infiniteroomsSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;
@@ -45,7 +45,7 @@ class InfiniteroomSchema extends CakeSchema {
 		'sysid' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 60, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'time' => array('type' => 'datetime', 'null' => true, 'default' => null, 'key' => 'index'),
-		'system_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'system_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'module_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -59,7 +59,8 @@ class InfiniteroomSchema extends CakeSchema {
 			'group_time_ix' => array('column' => array('module_id', 'time'), 'unique' => 0),
 			'module_time_ix' => array('column' => array('group_id', 'time'), 'unique' => 0),
 			'verb_ix' => array('column' => 'dimension_verb_id', 'unique' => 0),
-			'system_sysid_ix' => array('column' => array('sysid', 'system_id'), 'unique' => 0)
+			'system_sysid_ix' => array('column' => array('sysid', 'system_id'), 'unique' => 0),
+			'system_ix' => array('column' => 'system_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -112,7 +113,8 @@ class InfiniteroomSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'type' => array('type' => 'biginteger', 'null' => true, 'default' => null, 'length' => 2),
+		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
+		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -166,6 +168,22 @@ class InfiniteroomSchema extends CakeSchema {
 			'active_ix' => array('column' => 'active', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+
+	public $customer_status = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4, 'key' => 'index'),
+		'time' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'startid' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'endid' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+		'rule_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'customer_ix' => array('column' => 'customer_id', 'unique' => 0),
+			'customer_proc_ix' => array('column' => array('type', 'customer_id', 'rule_id'), 'unique' => 0)
+		),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
 	);
 
 	public $customer_updates = array(
@@ -224,7 +242,7 @@ class InfiniteroomSchema extends CakeSchema {
 	public $dimension_date = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'date' => array('type' => 'date', 'null' => true, 'default' => null, 'key' => 'unique'),
-		'timestamp' => array('type' => 'biginteger', 'null' => true, 'default' => null),
+		'timestamp' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'day_of_week' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'day_of_week_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'day_of_month' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -245,7 +263,7 @@ class InfiniteroomSchema extends CakeSchema {
 	);
 
 	public $dimension_time = array(
-		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'fulltime' => array('type' => 'time', 'null' => false, 'default' => null, 'key' => 'unique'),
 		'hour' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'ampm' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -257,7 +275,7 @@ class InfiniteroomSchema extends CakeSchema {
 	);
 
 	public $dimension_verb = array(
-		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysname' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4),
@@ -481,7 +499,7 @@ class InfiniteroomSchema extends CakeSchema {
 
 	public $systems = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'type' => array('type' => 'biginteger', 'null' => true, 'default' => null, 'length' => 4),
+		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'certificate' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'site_name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
