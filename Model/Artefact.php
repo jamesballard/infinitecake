@@ -70,23 +70,61 @@ class Artefact extends AppModel {
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => ''
+        ),
+        'Customer' => array(
+            'className' => 'Customer',
+            'joinTable' => 'customer_artefacts',
+            'foreignKey' => 'artefact_id',
+            'associationForeignKey' => 'customer_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
         )
     );
 
     public function getArtefacts() {
         // Define the artefacts for reports
         return $this->find('all', array(
-                                'fields' => array('id', 'name', 'type'),
-                                'contain' => false,
-                                'conditions' => array('type' => array(
-                                    Artefact::ARTEFACT_TYPE_ASSESSMENT,
-                                    Artefact::ARTEFACT_TYPE_COMMUNICATION,
-                                    Artefact::ARTEFACT_TYPE_COLLABORATION,
-                                    Artefact::ARTEFACT_TYPE_RESOURCE
-                                    )
-                                )
-                           )
-            );
+                'fields' => array('id', 'name', 'type'),
+                'contain' => false,
+                'conditions' => array('type' => array(
+                    Artefact::ARTEFACT_TYPE_ASSESSMENT,
+                    Artefact::ARTEFACT_TYPE_COMMUNICATION,
+                    Artefact::ARTEFACT_TYPE_COLLABORATION,
+                    Artefact::ARTEFACT_TYPE_RESOURCE
+                    )
+                )
+           )
+        );
+    }
+
+    /**
+     * Returns an array of artefacts based on a customer id
+     * @param int $customer_id - the id of a customer
+     * @return array of artefacts
+     */
+    public function getArtefactsByCustomerId($customer_id = null) {
+        if(empty($customer_id)) return false;
+        $artefacts = $this->find('all', array(
+            'joins' => array(
+                array('table' => 'customer_artefacts',
+                    'alias' => 'CustomerArtefact',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'CustomerArtefact.customer_id' => $customer_id,
+                        'CustomerArtefact.artefact_id = Artefact.id'
+                    )
+                )
+            ),
+            'group' => 'Artefact.id'
+        ));
+        return $artefacts;
     }
 
 }

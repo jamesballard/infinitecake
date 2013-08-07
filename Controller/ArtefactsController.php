@@ -13,8 +13,6 @@ class ArtefactsController extends AppController {
 		$this->set('artefact_types', $this->Artefact->artefact_types);
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
-			$artefacts = $this->DimensionVerb->Artefact->find('list');
-			$this->set(compact('artefacts'));
 		}
 	}
 

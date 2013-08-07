@@ -12,7 +12,8 @@ class ModulesController extends AppController {
 		$this->layout = 'configManage';
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add'))) {
-			$artefacts = $this->Module->Artefact->find('list');
+            $artefacts = $this->getCustomerArtefacts();
+            $artefacts = Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
 			$groups = $this->Module->Group->find('list');
 			$systems = $this->Module->System->find('list');
 			$this->set(compact('artefacts', 'groups', 'systems'));

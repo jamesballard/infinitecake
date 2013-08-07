@@ -13,7 +13,8 @@ class DimensionVerbsController extends AppController {
 		$this->set('verb_types', $this->DimensionVerb->verb_types);
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
-			$artefacts = $this->DimensionVerb->Artefact->find('list');
+            $artefacts = $this->getCustomerArtefacts();
+            $artefacts = Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
 			$this->set(compact('artefacts'));
 		}
 	}

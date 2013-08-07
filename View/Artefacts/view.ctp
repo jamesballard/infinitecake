@@ -14,9 +14,9 @@
 			<?php echo h($artefact['Artefact']['id']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Idnumber'); ?></dt>
+		<dt><?php echo __('System Name'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($artefact['Artefact']['idnumber']); ?>
+			<?php echo h($artefact['Artefact']['sysname']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>

@@ -65,4 +65,22 @@ class Customer extends AppModel {
         )
 	);
 
+    public $hasAndBelongsToMany = array(
+        'Artefact' => array(
+            'className' => 'Artefact',
+            'joinTable' => 'customer_artefacts',
+            'foreignKey' => 'customer_id',
+            'associationForeignKey' => 'artefact_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
+    );
+
 }

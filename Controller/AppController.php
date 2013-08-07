@@ -47,7 +47,7 @@ class AppController extends Controller {
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',
-        'Customer', 'Rule', 'Department', 'Course', 'Condition');
+        'Customer', 'Rule', 'Department', 'Course', 'Condition', 'Artefact');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -279,5 +279,15 @@ class AppController extends Controller {
         );
         return Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
     }
-    
+
+    /**
+     * Returns a list formatted array of rules for multi-select form
+     *
+     * @return array
+     */
+
+    public function getCustomerArtefacts() {
+        $currentUser = $this->get_currentUser();
+        return $this->Artefact->getArtefactsByCustomerId($currentUser['Member']['customer_id']);
+    }
 }

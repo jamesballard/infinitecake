@@ -298,13 +298,9 @@ function beforeFilter() {
 				return false;
 				break;
 			case Rule::RULE_TYPE_ARTEFACT:
-				$conditionRecords = $this->Condition->Artefact->find('all', array(
-						'contain' => false,
-						'fields' => array('Artefact.id as id', 'Artefact.name as name'),
-                        'order' => array('name' => 'ASC')
-				));
-				$this->set('formid', 'Artefact');
-				return Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');
+                $artefacts = $this->getCustomerArtefacts();
+                $this->set('formid', 'Artefact');
+				return Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
 				break;
 			case Rule::RULE_TYPE_GROUP:
 				$conditionRecords = $this->Condition->Course->find('all', array(
