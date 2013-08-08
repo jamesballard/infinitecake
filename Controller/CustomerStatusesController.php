@@ -203,7 +203,4 @@ class CustomerStatusesController extends AppController {
             $this->set('rule_id', $rule_id);
         }
     }
-
-
-
 }
