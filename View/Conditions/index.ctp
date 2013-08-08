@@ -15,7 +15,6 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('value'); ?></th>
 			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -24,7 +23,6 @@
 	<tr>
 		<td><?php echo h($condition['Condition']['id']); ?>&nbsp;</td>
 		<td><?php echo h($condition['Condition']['name']); ?>&nbsp;</td>
-		<td><?php echo h($condition['Condition']['value']); ?>&nbsp;</td>
 		<?php
 			if($this->Permissions->is_admin($current_user)):
 				echo '<td>'.h($condition['Customer']['name']).'</td>';

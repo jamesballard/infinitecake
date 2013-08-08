@@ -1,5 +1,5 @@
 <?php 
-class InfinitecakeSchema extends CakeSchema {
+class infiniteroomsSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;
@@ -30,8 +30,8 @@ class InfinitecakeSchema extends CakeSchema {
 		'action_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'condition_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => '1', 'length' => 5),
-		'created' => array('type' => 'date', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'date', 'null' => true, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'action_ix' => array('column' => 'action_id', 'unique' => 0),
@@ -99,8 +99,8 @@ class InfinitecakeSchema extends CakeSchema {
 		'artefact_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'condition_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => '1', 'length' => 5),
-		'created' => array('type' => 'date', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'date', 'null' => true, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'condition_ix' => array('column' => 'condition_id', 'unique' => 0),
@@ -111,16 +111,15 @@ class InfinitecakeSchema extends CakeSchema {
 
 	public $artefacts = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'sysname' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
-		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'idnumber' => array('column' => 'idnumber', 'unique' => 1),
-			'name' => array('column' => 'name', 'unique' => 1)
+			'name' => array('column' => 'name', 'unique' => 1),
+			'idnumber' => array('column' => 'sysname', 'unique' => 1)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -128,13 +127,14 @@ class InfinitecakeSchema extends CakeSchema {
 	public $conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'value' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4, 'key' => 'index'),
 		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'name_type_ix' => array('column' => array('name', 'value', 'type'), 'unique' => 1),
-			'type_ix' => array('column' => 'type', 'unique' => 0)
+			'type_ix' => array('column' => 'type', 'unique' => 0),
+			'name_type_ix' => array('column' => array('name', 'type'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -144,8 +144,8 @@ class InfinitecakeSchema extends CakeSchema {
 		'course_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'condition_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => '1', 'length' => 5),
-		'created' => array('type' => 'date', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'date', 'null' => true, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'condition_ix' => array('column' => 'condition_id', 'unique' => 0),
@@ -166,6 +166,20 @@ class InfinitecakeSchema extends CakeSchema {
 			'idnumber_un_ix' => array('column' => array('idnumber', 'department_id'), 'unique' => 1),
 			'department_ix' => array('column' => 'department_id', 'unique' => 0),
 			'active_ix' => array('column' => 'active', 'unique' => 0)
+		),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+
+	public $customer_artefacts = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+		'artefact_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'artefact_ix' => array('column' => 'artefact_id', 'unique' => 0),
+			'customer_ix' => array('column' => 'customer_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -294,8 +308,8 @@ class InfinitecakeSchema extends CakeSchema {
 		'dimension_verb_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'condition_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => '1', 'length' => 5),
-		'created' => array('type' => 'date', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'date', 'null' => true, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'verb_ix' => array('column' => 'dimension_verb_id', 'unique' => 0),
@@ -399,8 +413,8 @@ class InfinitecakeSchema extends CakeSchema {
 		'module_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'condition_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => '1', 'length' => 5),
-		'created' => array('type' => 'date', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'date', 'null' => true, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'condition_ix' => array('column' => 'condition_id', 'unique' => 0),
@@ -412,7 +426,7 @@ class InfinitecakeSchema extends CakeSchema {
 	public $modules = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'sysid' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'sysinfo' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'artefact_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
@@ -470,8 +484,8 @@ class InfinitecakeSchema extends CakeSchema {
 		'rule_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'condition_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => '1', 'length' => 5),
-		'created' => array('type' => 'date', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'date', 'null' => true, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'rule_ix' => array('column' => 'rule_id', 'unique' => 0),
@@ -483,9 +497,9 @@ class InfinitecakeSchema extends CakeSchema {
 	public $rules = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'value' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2, 'key' => 'index'),
 		'category' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
+		'subcategory' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
 		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),

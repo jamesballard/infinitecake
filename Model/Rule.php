@@ -23,6 +23,34 @@ class Rule extends AppModel {
     		Rule::RULE_TYPE_ARTEFACT=>'Artefact',
     		Rule::RULE_TYPE_GROUP=>'Course'
     	);
+
+//Define Rule Categories
+    const RULE_CAT_INTERACTION = 1;
+    const RULE_CAT_INVOLVEMENT = 2;
+    const RULE_CAT_INTIMACY = 3;
+    const RULE_CAT_INFLUENCE = 4;
+
+    public $rule_cats = array(
+        Rule::RULE_CAT_INTERACTION=>'Interaction',
+        Rule::RULE_CAT_INVOLVEMENT=>'Involvement',
+        Rule::RULE_CAT_INTIMACY=>'Intimacy',
+        Rule::RULE_CAT_INFLUENCE=>'Influence'
+    );
+
+//Define Rule Sub-categoriesruel_type
+    const RULE_SUB_DESIGN = 1;
+    const RULE_SUB_QUALITY = 2;
+    const RULE_SUB_MANAGEMENT = 3;
+    const RULE_SUB_VOICE = 4;
+    const RULE_SUB_ACCESS = 5;
+
+    public $rule_subs = array(
+        Rule::RULE_SUB_DESIGN=>'Learning Design',
+        Rule::RULE_SUB_QUALITY=>'Curriculum Quality',
+        Rule::RULE_SUB_MANAGEMENT=>'Learner Management',
+        Rule::RULE_SUB_VOICE=>'Learner Voice',
+        Rule::RULE_SUB_ACCESS=>'Access'
+    );
     
 /**
  * static enum: Model::function()
@@ -44,7 +72,7 @@ class Rule extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'value';
+	public $displayField = 'name';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

@@ -21,29 +21,19 @@
 			<?php echo h($rule['Rule']['name']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Value'); ?></dt>
-		<dd class="clearfix">
-			<?php echo h($rule['Rule']['value']); ?>
-			&nbsp;
-		</dd>
+        <dt><?php echo __('Category'); ?></dt>
+        <dd class="clearfix">
+            <?php echo $rule_cats[$rule['Rule']['category']]; ?>
+            &nbsp;
+        </dd>
+        <dt><?php echo __('Sub Category'); ?></dt>
+        <dd class="clearfix">
+            <?php echo $rule_subs[$rule['Rule']['subcategory']]; ?>
+            &nbsp;
+        </dd>
         <dt><?php echo __('Type'); ?></dt>
         <dd class="clearfix">
-            <?php
-                switch (h($rule['Rule']['type'])) {
-                    case Rule::RULE_TYPE_ACTION:
-                        echo $rule_types[Rule::RULE_TYPE_ACTION];
-                        break;
-                    case Rule::RULE_TYPE_ARTEFACT:
-                        echo $rule_types[Rule::RULE_TYPE_ARTEFACT];
-                        break;
-                    case Rule::RULE_TYPE_VERB:
-                        echo $rule_types[Rule::RULE_TYPE_VERB];
-                        break;
-                    case Rule::RULE_TYPE_MODULE:
-                        echo $rule_types[Rule::RULE_TYPE_MODULE];
-                        break;
-                }
-            ?>
+            <?php echo $rule_types[$rule['Rule']['type']]; ?>
             &nbsp;
         </dd>
 		<dt><?php echo __('Created'); ?></dt>

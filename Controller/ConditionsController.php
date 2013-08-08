@@ -101,14 +101,7 @@ function beforeFilter() {
 								'DimensionVerb.name'
 							)
 						),
-						'Rule' => array(
-							'fields' => array(
-								'Rule.id',
-								'Rule.type',
-								'Rule.name',
-								'Rule.value'
-							)
-						)
+						'Rule' => array()
 				),
 				'conditions' => array('id' => $id)
 		));
@@ -197,14 +190,7 @@ function beforeFilter() {
                             'DimensionVerb.name'
                         )
                     ),
-                    'Rule' => array(
-                        'fields' => array(
-                            'Rule.id',
-                            'Rule.type',
-                            'Rule.name',
-                            'Rule.value'
-                        )
-                    )
+                    'Rule' => array()
                 ),
                 'conditions' => array('id' => $id)
             ));
@@ -376,10 +362,10 @@ function beforeFilter() {
         				'Rule.customer_id' => $currentUser['Member']['customer_id'],
         				'Rule.type' => $rule_type
         			),
-        		'fields' => array('id', 'CONCAT(Rule.name, ": ",Rule.value) as name'),
+        		'fields' => array('id', 'name'),
         		'contain' => false,
         		));
-        return Set::combine($rulesRecords, '{n}.Rule.id', '{n}.0.name');
+        return Set::combine($rulesRecords, '{n}.Rule.id', '{n}.Rule.name');
 	}
 
 /**

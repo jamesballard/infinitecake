@@ -37,7 +37,7 @@ class CustomerUpdatesController extends AppController {
                 'contain' => array(
                     'Rule' => array(
                         'fields' => array(
-                            'Rule.value'
+                            'Rule.name'
                         )
                     )
                 ),

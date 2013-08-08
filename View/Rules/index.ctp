@@ -11,7 +11,8 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('value'); ?></th>
+			<th><?php echo $this->Paginator->sort('category'); ?></th>
+            <th><?php echo $this->Paginator->sort('subcategory'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
 			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
@@ -23,7 +24,8 @@
 	<tr>
 		<td><?php echo h($rule['Rule']['id']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['name']); ?>&nbsp;</td>
-		<td><?php echo h($rule['Rule']['value']); ?>&nbsp;</td>
+        <td><?php echo $rule_cats[h($rule['Rule']['category'])]; ?>&nbsp;</td>
+        <td><?php echo $rule_subs[h($rule['Rule']['subcategory'])]; ?>&nbsp;</td>
         <td><?php echo $rule_types[h($rule['Rule']['type'])]; ?>&nbsp;</td>
         <?php
 			if($this->Permissions->is_admin($current_user)):

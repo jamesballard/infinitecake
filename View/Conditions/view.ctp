@@ -21,11 +21,6 @@
 			<?php echo h($condition['Condition']['name']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Value'); ?></dt>
-		<dd class="clearfix">
-			<?php echo h($condition['Condition']['value']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Rule'); ?></dt>
 		<dd class="clearfix">
 			<?php 
@@ -33,7 +28,7 @@
 				if (!empty($condition['Rule'])): 
 					$i = 0;
 					foreach ($condition['Rule'] as $rule):
-						echo $this->Html->link($rule['name'].': '.$rule['value'], array('controller' => 'rules', 'action' => 'view', $rule['id'])); 
+						echo $this->Html->link($rule['name'], array('controller' => 'rules', 'action' => 'view', $rule['id']));
 						switch ($rule['type']) {
 		                    case Rule::RULE_TYPE_ACTION:
 		                        $rule_type = $rule_types[Rule::RULE_TYPE_ACTION];

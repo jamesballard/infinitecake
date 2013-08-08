@@ -70,7 +70,7 @@ BEGIN
     SET condition_id_val = (SELECT IFNULL((SELECT c1.id
 	FROM conditions c1
 	LEFT JOIN rule_conditions rc ON rc.condition_id = c1.id
-	LEFT JOIN conditions c2 ON c2.value LIKE c1.value AND c2.name = 'IP address'
+	LEFT JOIN conditions c2 ON c2.name LIKE c1.name AND c2.type = 2
 	LEFT JOIN action_conditions ac ON ac.condition_id = c2.id
 	WHERE ac.action_id = action_id_val
 	AND rc.rule_id = rule_id_val)

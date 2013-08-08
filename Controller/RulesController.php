@@ -10,7 +10,9 @@ class RulesController extends AppController {
 	function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'configManage';
-		$this->set('rule_types', $this->Rule->rule_types);
+        $this->set('rule_types', $this->Rule->rule_types);
+        $this->set('rule_cats', $this->Rule->rule_cats);
+        $this->set('rule_subs', $this->Rule->rule_subs);
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
 			$conditions = $this->getCustomerConditions();

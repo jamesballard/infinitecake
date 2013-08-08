@@ -118,8 +118,8 @@ class infiniteroomsSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'idnumber' => array('column' => 'sysname', 'unique' => 1),
-			'name' => array('column' => 'name', 'unique' => 1)
+			'name' => array('column' => 'name', 'unique' => 1),
+			'idnumber' => array('column' => 'sysname', 'unique' => 1)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -127,15 +127,14 @@ class infiniteroomsSchema extends CakeSchema {
 	public $conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'value' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4, 'key' => 'index'),
 		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'name_type_ix' => array('column' => array('name', 'value', 'type'), 'unique' => 1),
-			'type_ix' => array('column' => 'type', 'unique' => 0)
+			'type_ix' => array('column' => 'type', 'unique' => 0),
+			'name_type_ix' => array('column' => array('name', 'type'), 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -498,9 +497,9 @@ class infiniteroomsSchema extends CakeSchema {
 	public $rules = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'value' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2, 'key' => 'index'),
 		'category' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
+		'subcategory' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 2),
 		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),

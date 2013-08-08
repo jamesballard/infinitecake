@@ -194,7 +194,6 @@ class AppController extends Controller {
     	return $this->Rule->find('list', array(
     			'contain' => false,
     			'conditions' => array(
-    				'Rule.value !=' => 'IP Address',
     				'Rule.customer_id' => array(
     					$this->get_allCustomersID(),
     					$currentUser['Member']['customer_id']
@@ -267,7 +266,7 @@ class AppController extends Controller {
     public function getCustomerConditions() {
         $currentUser = $this->get_currentUser();
         $conditionsRecords = $this->Condition->find('all', array(
-                'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
+                'fields' => array('id', 'name'),
                 'conditions' => array(
                     'Condition.type !=' => 2,
                     'Condition.customer_id' => array(
