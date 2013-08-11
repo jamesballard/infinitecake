@@ -75,9 +75,10 @@ CakePlugin::load('Flash');
 CakePlugin::load('DrasticTreeMap');
 CakePlugin::load('GChart');
 CakePlugin::load('Chosen');
-CakePlugin::load('autoComplete');
 CakePlugin::load('infinity');
 CakePlugin::load('BootstrapForm');
+CakePlugin::load('Wizard');
+CakePlugin::load('dynamicForms');
 CakePlugin::load('Acl', array('bootstrap' => true));
 
 /**

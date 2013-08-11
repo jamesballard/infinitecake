@@ -125,8 +125,11 @@ function beforeFilter() {
 			}
 		}
 		$conditionItems = $this->getConditionsList($rule_type);
-        $rules = $this->getRulesList($rule_type);
 
+        $currentUser = $this->get_currentUser();
+        $rules = $this->Rule->getRulesListByCustomerAndType($currentUser['Member']['customer_id'], $rule_type);
+
+        $this->set('formid', $rule_type);
 		$this->set(compact('rules', 'conditionItems'));
 		$this->set('label', $this->Rule->rule_types[$rule_type]);
 	}
@@ -210,8 +213,11 @@ function beforeFilter() {
 		$this->check_customerID($this->request->data['Condition']['customer_id']);
 
 		$conditionItems = $this->getConditionsList($rule_type);
-        $rules = $this->getRulesList($rule_type);
 
+        $currentUser = $this->get_currentUser();
+        $rules = $this->Rule->getRulesListByCustomerAndType($currentUser['Member']['customer_id'], $rule_type);
+
+        $this->set('formid', $rule_type);
         $this->set('condition', $this->request->data);
 		$this->set(compact('rules', 'conditionItems'));
 		$this->set('label', $this->Rule->rule_types[$rule_type]);
@@ -256,23 +262,24 @@ function beforeFilter() {
             $this->set('label', $this->Rule->rule_types[$rule_type]);
         }
     }
+
 /**
- * Given a rule type, will return a list formatted array of associated 
+ * Given a rule type, will return a list formatted array of associated
  * conditions for multi-select form.
- * 
+ *
  * Uses switch case fall through to allow integer or string to be passed.
  *
  * @param $type integer
  * @return array
  */
-	
+
 	private function getConditionsList($rule_type) {
 		$currentUser = $this->get_currentUser();
-		
+
 		//JB - this needs to be called to use constants
 		//TODO see if it can be removed.
 		$this->Rule;
-		
+
 		switch($rule_type) {
 			case Rule::RULE_TYPE_ACTION:
 				/*$conditionRecords = $this->Condition->Action->find('all', array(
@@ -280,91 +287,24 @@ function beforeFilter() {
 						'fields' => array('Action.id as id', 'Action.name as name')
 				));
 				$conditionItems = Set::combine($conditionRecords, '{n}.Artefact.id', '{n}.Artefact.name');*/
-				$this->set('formid', 'Action');
 				return false;
 				break;
 			case Rule::RULE_TYPE_ARTEFACT:
                 $artefacts = $this->getCustomerArtefacts();
-                $this->set('formid', 'Artefact');
 				return Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
 				break;
 			case Rule::RULE_TYPE_GROUP:
-				$conditionRecords = $this->Condition->Course->find('all', array(
-						'contain' => array(
-								'Department' => array(
-										'fields' => array(
-												'Department.id',
-												'Department.name',
-												'Department.customer_id'
-											)
-									)
-							),
-						'conditions' => array(
-								'Department.customer_id' => array(
-										$currentUser['Member']['customer_id']
-								)
-						),
-						'fields' => array('Course.id as id', 'CONCAT(Course.name, " (",Course.idnumber,")") as name'),
-                        'order' => array('name' => 'ASC')
-				));
-				$this->set('formid', 'Course');
+				$conditionRecords = $this->Condition->getCourseConditions($currentUser['Member']['customer_id']);
 				return Set::combine($conditionRecords, '{n}.Course.id', '{n}.0.name');
 				break;
 			case Rule::RULE_TYPE_MODULE:
-				$conditionRecords = $this->Condition->Module->find('all', array(
-						'contain' => array(
-								'System' => array(
-										'fields' => array(
-												'System.customer_id'
-											)
-									),
-							),
-						'conditions' => array(
-								'System.customer_id' => array(
-										$currentUser['Member']['customer_id']
-								)
-						),
-						'fields' => array('Module.id as id', 'Module.sysid as name'),
-                        'order' => array('name' => 'ASC')
-				));
-				$this->set('formid', 'Module');
+				$conditionRecords = $this->Condition->getModuleConditions($currentUser['Member']['customer_id']);
 				return Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
 				break;
 			case Rule::RULE_TYPE_VERB:
-				$conditionRecords = $this->Condition->DimensionVerb->find('all', array(
-						'contain' => array(
-								'Artefact' => array(
-										'fields' => array(
-												'Artefact.name'
-										)
-								),
-						),
-						'fields' => array('id', 'CONCAT(Artefact.name, ": ",DimensionVerb.sysname) as name'),
-                        'order' => array('name' => 'ASC')
-				));
-				$this->set('formid', 'DimensionVerb');
+				$conditionRecords = $this->Condition->getVerbConditions();
 				return $conditionItems = Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
 				break;
 		}
-	}	
-	
-/**
- * Returns a list formatted array of rules for multi-select form
- *
- * @param $rule_type integer 
- * @return array
- */
-	
-	private function getRulesList($rule_type) {
-		$currentUser = $this->get_currentUser();
-		$rulesRecords = $this->Condition->Rule->find('all', array(
-        		'conditions' => array(
-        				'Rule.customer_id' => $currentUser['Member']['customer_id'],
-        				'Rule.type' => $rule_type
-        			),
-        		'fields' => array('id', 'name'),
-        		'contain' => false,
-        		));
-        return Set::combine($rulesRecords, '{n}.Rule.id', '{n}.Rule.name');
 	}
 }

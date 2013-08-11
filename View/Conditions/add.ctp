@@ -8,7 +8,7 @@
 		echo $this->Form->input('type', array( 'value' => Condition::CONDITION_TYPE_USER , 'type' => 'hidden') );
 		echo $this->Form->input('Rule');
 		echo $this->element('FormItems/hiddenCustomer_id');
-		if($formid != 'Action') {
+		if($formid != Rule::RULE_TYPE_ACTION) {
         	echo $this->element('MultiSelectForms/conditionItems');
         }
 	?>

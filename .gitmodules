@@ -13,3 +13,6 @@
 [submodule "Plugin/Chosen"]
 	path = Plugin/Chosen
 	url = git://github.com/paulredmond/chosen-cakephp.git
+[submodule "Plugin/Wizard"]
+	path = Plugin/Wizard
+	url = git@github.com:ProLoser/CakePHP-Wizard.git

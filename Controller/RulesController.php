@@ -6,15 +6,19 @@ App::uses('AppController', 'Controller');
  * @property Rule $Rule
  */
 class RulesController extends AppController {
-	
-	function beforeFilter() {
+
+    public $components = array('Wizard.Wizard');
+    public $helpers = array('dynamicForms.dynamicForms', 'formGeneration');
+
+    function beforeFilter() {
 		parent::beforeFilter();
 		$this->layout = 'configManage';
+        $this->Wizard->steps = array('report', 'existing', 'element');
         $this->set('rule_types', $this->Rule->rule_types);
         $this->set('rule_cats', $this->Rule->rule_cats);
         $this->set('rule_subs', $this->Rule->rule_subs);
 		// conditional ensures only actions that need the vars will receive them
-		if (in_array($this->action, array('add', 'edit'))) {
+		if (in_array($this->action, array('add', 'edit', 'wizard'))) {
 			$conditions = $this->getCustomerConditions();
 			$customers = $this->getCustomersList();
         	$this->set(compact('conditions', 'customers'));
@@ -86,17 +90,17 @@ class RulesController extends AppController {
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Rule->create();
-			if ($this->Rule->save($this->request->data)) {
-				$this->Session->setFlash(__('The rule has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
-			}
-		}
-	}
+    /*public function add() {
+      /*if ($this->request->is('post')) {
+            $this->Rule->create();
+            if ($this->Rule->save($this->request->data)) {
+                $this->Session->setFlash(__('The rule has been saved'));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
+            }
+        }
+    }*/
 
 /**
  * edit method
@@ -161,4 +165,116 @@ class RulesController extends AppController {
     public function help() {
 
     }
+
+/**
+ * wizard method - used for multi-page form process
+ *
+ * @return void
+ */
+
+    function wizard($step = null) {
+        $this->Wizard->process($step);
+    }
+
+/**
+ * [Wizard Process Callbacks]
+ */
+    function _processReport() {
+        $this->Rule->set($this->data);
+
+        if($this->Rule->validates()) {
+            $this->Rule->save($this->data);
+            $this->Session->write('report.Rule.id', $this->Rule->id);
+            return true;
+        }
+        return false;
+    }
+
+    function _prepareExisting() {
+        $this->Rule->id = $this->Session->read('report.Rule.id');
+        $this->request->data = $this->Rule->find('first',array(
+            'contain' => array(
+                'Condition' => array(
+                    'fields' => array(
+                        'Condition.id',
+                        'Condition.name'
+                    )
+                ),
+                'RuleCondition'
+            ),
+            'conditions' => array('id' => $this->Rule->id)
+        ));
+    }
+
+    function _processExisting() {
+        $this->Rule->set($this->data);
+
+        if($this->Rule->validates()) {
+            $this->Rule->save($this->data);
+            return true;
+        }
+        return false;
+    }
+
+    function _prepareElement() {
+        $currentUser = $this->get_currentUser();
+        $customer_id = $currentUser['Member']['customer_id'];
+
+        $this->Rule->id = $this->Session->read('report.Rule.id');
+        $this->set('rule_id', $this->Rule->id);
+
+        $newRule = $this->Rule->read(null, $this->Rule->id);
+        $rule_type = $newRule['Rule']['type'];
+
+        switch($rule_type) {
+            case Rule::RULE_TYPE_ACTION:
+                return false;
+                break;
+            case Rule::RULE_TYPE_ARTEFACT:
+                $artefacts = $this->getCustomerArtefacts();
+                $conditionItems = Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
+                break;
+            case Rule::RULE_TYPE_GROUP:
+                $conditionRecords = $this->Condition->getCourseConditions($customer_id);
+                $conditionItems = Set::combine($conditionRecords, '{n}.Course.id', '{n}.0.name');
+                break;
+            case Rule::RULE_TYPE_MODULE:
+                $conditionRecords = $this->Condition->getModuleConditions();
+                $conditionItems = Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
+                break;
+            case Rule::RULE_TYPE_VERB:
+                $conditionRecords = $this->Condition->getVerbConditions();
+                $conditionItems =  Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
+                break;
+        }
+
+        $rules = $this->Rule->getRulesListByCustomerAndType($customer_id, $rule_type);
+
+        $this->set('ids', array(rand()));
+        $this->set('formid', $rule_type);
+        $this->set('customer_id', $newRule['Rule']['customer_id']);
+        $this->set(compact('rules', 'conditionItems'));
+        $this->set('label', $this->Rule->rule_types[$rule_type]);
+    }
+
+    function _processElement() {
+        $this->Condition->set($this->data);
+        if ($this->Condition->saveAll($this->data['Condition'])){
+            return true;
+        } else {
+            $this->Session->setFlash("Nope, that didn't work out quite well...");
+            return false;
+        }
+    }
+
+    /**
+     * [Wizard Completion Callback]
+     */
+    function _afterComplete() {
+        $this->Rule->id = $this->Session->read('report.Rule.id');
+        $this->Wizard->reset();
+        $this->Session->delete('report');
+        $this->redirect(array('action' => 'view', $this->Rule->id));
+	}
+
 }

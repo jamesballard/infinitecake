@@ -7,7 +7,7 @@ if($courseid) {
 echo $this->element('Sidebars/help');
 $this->end();
 
-echo $this->autoCompleteRemote->init('ActionCourse','Courses/jsonfeed');
+echo $this->dynamicForms->autocomplete('ActionCourse','Courses/jsonfeed');
 
 if(!empty($course)) {
     echo '<h2>'.$course['Course']['name'].' '.__('Dashboard').'</h2>';

@@ -10,7 +10,7 @@ if($userid) {
 echo $this->element('Sidebars/help');
 $this->end();
 
-echo $this->autoCompleteRemote->init('ActionUser','People/jsonfeed');
+echo $this->dynamicForms->autocomplete('ActionUser','People/jsonfeed');
 
 echo '<div class="ui-widget" style="width:400px">';
 

@@ -9,9 +9,8 @@
         echo $this->Form->input('subcategory', array('type' => 'select', 'options' => $rule_subs));
 		echo $this->Form->input('type', array('type' => 'select', 'options' => $rule_types));
 		echo $this->element('FormItems/hiddenCustomer_id');
-		echo $this->element('MultiSelectForms/conditions');
 	?>
     </fieldset>
 
-<?php echo $this->BootstrapForm->end(); ?>
+<?php echo $this->BootstrapForm->end(__('Continue')); ?>
 </div>

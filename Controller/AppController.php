@@ -265,8 +265,7 @@ class AppController extends Controller {
 
     public function getCustomerConditions() {
         $currentUser = $this->get_currentUser();
-        $conditionsRecords = $this->Condition->find('all', array(
-                'fields' => array('id', 'name'),
+        return $this->Condition->find('list', array(
                 'conditions' => array(
                     'Condition.type !=' => 2,
                     'Condition.customer_id' => array(
@@ -276,7 +275,6 @@ class AppController extends Controller {
                 )
             )
         );
-        return Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
     }
 
     /**

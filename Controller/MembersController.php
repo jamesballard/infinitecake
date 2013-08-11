@@ -19,7 +19,6 @@ class MembersController extends AppController {
         }
     }
 
-    public $helpers = array('Html', 'Form');
 /**
  * index method
  *

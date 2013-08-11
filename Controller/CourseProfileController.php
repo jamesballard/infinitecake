@@ -8,7 +8,7 @@
 App::uses('File', 'Utility');
 
 class CourseProfileController extends AppController {
-    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
+    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'dynamicForms.dynamicForms');
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
