@@ -115,9 +115,15 @@ class RulesController extends AppController {
 			throw new NotFoundException(__('Invalid rule'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
+            $newconditions = $this->request->data['Condition'];
+            unset($newconditions['Condition']);
 			if ($this->Rule->save($this->request->data)) {
-				$this->Session->setFlash(__('The rule has been saved'));
-				$this->redirect(array('action' => 'index'));
+                if ($this->Condition->saveAll($newconditions)){
+                    $this->Session->setFlash(__('The rule has been saved'));
+                    $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('New conditions could not be saved. Please, try again.'));
+                }
 			} else {
 				$this->Session->setFlash(__('The rule could not be saved. Please, try again.'));
 			}
@@ -135,7 +141,8 @@ class RulesController extends AppController {
                 'conditions' => array('id' => $id)
             ));
 		}
-		$this->check_customerID($this->request->data['Rule']['customer_id']); 		
+		$this->check_customerID($this->request->data['Rule']['customer_id']);
+        $this->prepareConditionsData($id);
 	}
 
 /**
@@ -217,44 +224,7 @@ class RulesController extends AppController {
     }
 
     function _prepareElement() {
-        $currentUser = $this->get_currentUser();
-        $customer_id = $currentUser['Member']['customer_id'];
-
-        $this->Rule->id = $this->Session->read('report.Rule.id');
-        $this->set('rule_id', $this->Rule->id);
-
-        $newRule = $this->Rule->read(null, $this->Rule->id);
-        $rule_type = $newRule['Rule']['type'];
-
-        switch($rule_type) {
-            case Rule::RULE_TYPE_ACTION:
-                return false;
-                break;
-            case Rule::RULE_TYPE_ARTEFACT:
-                $artefacts = $this->getCustomerArtefacts();
-                $conditionItems = Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
-                break;
-            case Rule::RULE_TYPE_GROUP:
-                $conditionRecords = $this->Condition->getCourseConditions($customer_id);
-                $conditionItems = Set::combine($conditionRecords, '{n}.Course.id', '{n}.0.name');
-                break;
-            case Rule::RULE_TYPE_MODULE:
-                $conditionRecords = $this->Condition->getModuleConditions();
-                $conditionItems = Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
-                break;
-            case Rule::RULE_TYPE_VERB:
-                $conditionRecords = $this->Condition->getVerbConditions();
-                $conditionItems =  Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
-                break;
-        }
-
-        $rules = $this->Rule->getRulesListByCustomerAndType($customer_id, $rule_type);
-
-        $this->set('ids', array(rand()));
-        $this->set('formid', $rule_type);
-        $this->set('customer_id', $newRule['Rule']['customer_id']);
-        $this->set(compact('rules', 'conditionItems'));
-        $this->set('label', $this->Rule->rule_types[$rule_type]);
+        $this->prepareConditionsData($this->Session->read('report.Rule.id'));
     }
 
     function _processElement() {
@@ -277,4 +247,47 @@ class RulesController extends AppController {
         $this->redirect(array('action' => 'view', $this->Rule->id));
 	}
 
+/**
+ * sets up the data for creating add Condition forms within Rules forms
+ *
+ * @param string $ruleID
+ * @return void
+ */
+
+    protected function prepareConditionsData($ruleID) {
+        $currentUser = $this->get_currentUser();
+        $customer_id = $currentUser['Member']['customer_id'];
+
+        $newRule = $this->Rule->read(null, $ruleID);
+        $rule_type = $newRule['Rule']['type'];
+
+        switch($rule_type) {
+            case Rule::RULE_TYPE_ACTION:
+                break;
+            case Rule::RULE_TYPE_ARTEFACT:
+                $artefacts = $this->getCustomerArtefacts();
+                $conditionItems = Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
+                break;
+            case Rule::RULE_TYPE_GROUP:
+                $conditionRecords = $this->Condition->getCourseConditions($customer_id);
+                $conditionItems = Set::combine($conditionRecords, '{n}.Course.id', '{n}.0.name');
+                break;
+            case Rule::RULE_TYPE_MODULE:
+                $conditionRecords = $this->Condition->getModuleConditions();
+                $conditionItems = Set::combine($conditionRecords, '{n}.Module.id', '{n}.Module.name');
+                break;
+            case Rule::RULE_TYPE_VERB:
+                $conditionRecords = $this->Condition->getVerbConditions();
+                $conditionItems =  Set::combine($conditionRecords, '{n}.DimensionVerb.id', '{n}.0.name');
+                break;
+        }
+
+        $rules = $this->Rule->getRulesListByCustomerAndType($customer_id, $rule_type);
+
+        $this->set('rule_id', $ruleID);
+        $this->set('formid', $rule_type);
+        $this->set('customer_id', $newRule['Rule']['customer_id']);
+        $this->set(compact('rules', 'conditionItems'));
+        $this->set('label', $this->Rule->rule_types[$rule_type]);
+    }
 }

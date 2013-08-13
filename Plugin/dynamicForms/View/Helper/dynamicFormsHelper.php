@@ -79,7 +79,7 @@ class dynamicFormsHelper extends AppHelper {
                     var i = 1;
 
                     $("#'.$addlink.'").live("click", function() {
-                        $(\'<fieldset>'.$html.'<div class="controls"><a href="#" id="remScnt">Remove</a></div><hr /></fieldset>\').appendTo(scntDiv);
+                        $(\'<fieldset><hr />'.$html.'<div class="controls"><a href="#" id="remScnt">Remove</a></div></fieldset>\').appendTo(scntDiv);
                         i++;
                         $(".chzn-select").chosen();
                         $(".chzn-select-deselect").chosen({
