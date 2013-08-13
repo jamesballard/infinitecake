@@ -131,9 +131,42 @@ class RulesController extends AppController {
 			$this->request->data = $this->Rule->find('first',array(
                 'contain' => array(
                     'Condition' => array(
-                        'fields' => array(
-                            'Condition.id',
-                            'Condition.name'
+                        'Action' => array(
+                            'fields' => array(
+                                'Action.id',
+                                'Action.name'
+                            )
+                        ),
+                        'Artefact' => array(
+                            'fields' => array(
+                                'Artefact.id',
+                                'Artefact.name'
+                            )
+                        ),
+                        'Module' => array(
+                            'fields' => array(
+                                'Module.sysid',
+                                'Module.sysid'
+                            )
+                        ),
+                        'Course' => array(
+                            'fields' => array(
+                                'Course.id',
+                                'Course.idnumber',
+                                'Course.name'
+                            )
+                        ),
+                        'DimensionVerb' => array(
+                            'Artefact' => array(
+                                'fields' => array(
+                                    'Artefact.id',
+                                    'Artefact.name'
+                                )
+                            ),
+                            'fields' => array(
+                                'DimensionVerb.id',
+                                'DimensionVerb.name'
+                            )
                         )
                     ),
                     'RuleCondition'

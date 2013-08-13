@@ -67,7 +67,7 @@ class dynamicFormsHelper extends AppHelper {
      * @return string script tag output
      */
 
-    public function addremoveHtmlElement($addlink, $container, $html) {
+    public function addremoveHtmlElement($addlink, $container, $html, $count) {
         //Replace capitalised i and quotation marks from cake form auto-generation.
         $html = str_replace('+I+', '+ i +', $html);
         $html = str_replace('&#039;', '\'', $html);
@@ -76,10 +76,10 @@ class dynamicFormsHelper extends AppHelper {
         $o = '<script type="text/javascript">
                 $(function() {
                     var scntDiv = $("#'.$container.'");
-                    var i = 1;
+                    var i = '.($count).';
 
                     $("#'.$addlink.'").live("click", function() {
-                        $(\'<fieldset><hr />'.$html.'<div class="controls"><a href="#" id="remScnt">Remove</a></div></fieldset>\').appendTo(scntDiv);
+                        $(\''.$html.'<div class="controls"><a href="#" id="remScnt">Remove</a></div>\').appendTo(scntDiv);
                         i++;
                         $(".chzn-select").chosen();
                         $(".chzn-select-deselect").chosen({

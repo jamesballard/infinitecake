@@ -20,16 +20,16 @@ class formGenerationHelper extends AppHelper {
      * @return string html formatted form
      */
 
-    public function generateConditionItemsForm($rule_types, $label, $conditionItems) {
+    public function generateConditionItemsForm($rule_types, $rule_type, $label, $conditionItems) {
         $o = '<div class="control-group">';
         $o .= $this->Form->label(
-            "Condition.'+ i +'.".$rule_types[Rule::RULE_TYPE_ACTION],
+            "Condition.'+ i +'.".$rule_types[$rule_type],
             $label.'(s)',
             array('class' => 'control-label')
         );
         $o .= '<div class="controls">';
         $o .= $this->Chosen->select(
-            "Condition.'+ i +'.".$rule_types[Rule::RULE_TYPE_ACTION],
+            "Condition.'+ i +'.".$rule_types[$rule_type],
             array_map("addslashes",$conditionItems),
             array(
                 'data-placeholder' => "Select $label(s)...",
