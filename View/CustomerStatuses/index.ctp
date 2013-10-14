@@ -12,7 +12,7 @@
             <tr>
                 <td><?php echo $process_types[h($status['CustomerStatus']['type'])]; ?>&nbsp;</td>
                 <td><?php echo h($status['CustomerStatus']['time']); ?>&nbsp;</td>
-                <td><?php echo h($status['Rule']['value']); ?>&nbsp;</td>
+                <td><?php echo h($status['Rule']['name']); ?>&nbsp;</td>
                 <td>
                     <?php echo $this->element('Buttons/process', array(
                         'type' => $status['CustomerStatus']['type'],

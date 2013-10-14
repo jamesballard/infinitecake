@@ -4,6 +4,7 @@
     <?php
     $html = '<fieldset>';
     $html .= "<legend>Label '+ (i + 1) +'</legend>";
+    //$html .= $this->html->link('Remove', array('id' => 'addElement', 'type' =>'button'), 'primary');
     $html .= $this->Form->input("Condition.' + i +'.name");
     $html .= $this->Form->input("Condition.' + i +'.type", array( 'value' => 1 , 'type' => 'hidden') );
     $html .= $this->formGeneration->generateConditionRulesForm($rules, $rule_id);
@@ -28,12 +29,17 @@
 
     <?php
         $i = 0;
+        //TODO: DimensionVerb creates an exception case - rename model to Verb?
+        $rulekey = (($formid == Rule::RULE_TYPE_VERB) ? 'DimensionVerb' : $rule_types[$formid]);
         foreach($this->request->data['Condition'] as $condition):
-            $selected = Set::extract($condition[$rule_types[$formid]], '{n}.id');
+            $selected = Set::extract($condition[$rulekey], '{n}.id');
     ?>
     <fieldset>
     <?php
-            echo '<legend>Label '.($i + 1).'</legend>';
+            echo '<legend>Label '.($i + 1);
+            echo '<span class="help-inline"><small>';
+            echo $this->html->link('Remove', '#');
+            echo '</small></span></legend>';
             echo $this->Form->input("Condition.$i.id", array( 'value' => $condition['id']));
             echo $this->Form->input("Condition.$i.name", array( 'value' => $condition['name']));
             echo $this->Form->input("Condition.$i.type", array( 'value' => $condition['type'] , 'type' => 'hidden'));
@@ -53,7 +59,9 @@
         endforeach;
 	?>
     </div>
+    <fieldset>
     <?php echo $this->BootstrapForm->button('Add Element', array('id' => 'addElement', 'type' =>'button'), 'primary'); ?>
     <?php echo $this->BootstrapForm->end('',array(),'success'); ?>
+    </fieldset>
 </div>
 <?php echo $this->dynamicForms->addremoveHtmlElement('addElement', 'elementContainer', $html, $i);

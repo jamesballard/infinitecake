@@ -31,6 +31,11 @@ class CustomerStatusesController extends AppController {
                             'Customer.id',
                             'Customer.name'
                         )
+                    ),
+                    'Rule' => array(
+                        'fields' => array(
+                            'Rule.name'
+                        )
                     )
                 )
             );
