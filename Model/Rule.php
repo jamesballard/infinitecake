@@ -108,7 +108,24 @@ class Rule extends AppModel {
             'insertQuery' => ''
         )
     );
-
+/**
+ * Returns a list formatted array of rules for multi-select form
+ *
+ * @param $customer_id integer
+ * @param $rule_type integer
+ * @return array
+ */
+    public function getCustomerRules($customer_id) {
+        return $this->find('all', array(
+            'contain' => false,
+            'conditions' => array(
+                'customer_id' => array(
+                    1, //TO DO all customer ID cannot be called from Controller to Model
+                    $customer_id
+                )
+            )
+        ));
+    }
 /**
  * Returns a list formatted array of rules for multi-select form
  *

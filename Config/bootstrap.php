@@ -102,6 +102,13 @@ Configure::write('Dispatcher.filters', array(
 	'CacheDispatcher'
 ));
 
+/*
+ * Scheduled tasks for cron.
+ */
+Configure::write('SchedulerShell.jobs', array(
+    'TriggerProcedure' => array('interval'=>'PT1H','task'=>'TriggerProcedure') //every hour
+));
+
 /**
  * Configures default file logging options
  */
