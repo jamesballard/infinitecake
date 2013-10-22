@@ -45,6 +45,7 @@ $url = $this->request->here;
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->script('activity-stream');
         echo $this->Html->script('googleAnalytics');
+        echo $this->Html->script('infiniterooms');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

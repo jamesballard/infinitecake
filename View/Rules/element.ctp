@@ -1,9 +1,9 @@
 <div class="conditions form">
-    <h2><?php echo __("Add Rule"); ?></h2>
+    <h2><?php echo __("Add Report Items"); ?></h2>
     <?php echo $this->BootstrapForm->create('Condition'); ?>
 <?php
 $html = '<fieldset>';
-$html .= "<legend>Label '+ (i + 1) +'</legend>";
+$html .= "<legend>Item '+ (i + 1) +'</legend>";
 $html .=  $this->Form->input("Condition.' + i +'.name");
 $html .= $this->Form->input("Condition.' + i +'.type", array( 'value' => 1 , 'type' => 'hidden') );
 $html .= $this->formGeneration->generateConditionRulesForm($rules, $rule_id);
@@ -17,7 +17,7 @@ $html .= '</fieldset>';
 <div id="elementContainer">
     <fieldset>
         <?php
-            echo '<legend>'.__('Variable').' 1</legend>';
+            echo '<legend>'.__('Item').' 1</legend>';
             echo $this->Form->input("Condition.0.name");
             echo $this->Form->input("Condition.0.type", array( 'value' => 1 , 'type' => 'hidden'));
             echo $this->element('MultiSelectForms/rules', array('count' => 0));
@@ -32,7 +32,7 @@ $html .= '</fieldset>';
         ?>
     </fieldset>
 </div>
-    <?php echo $this->BootstrapForm->button('Add Element', array('id' => 'addElement', 'type' =>'button'), 'primary'); ?>
+    <?php echo $this->BootstrapForm->button('Add item', array('id' => 'addElement', 'type' =>'button'), 'primary'); ?>
     <?php echo $this->BootstrapForm->end('',array(),'success'); ?>
 </div>
-<?php echo $this->dynamicForms->addremoveHtmlElement('addElement', 'elementContainer', $html, 0); ?>
+<?php echo $this->dynamicForms->addremoveHtmlElement('addElement', 'elementContainer', $html, 1); ?>

@@ -73,6 +73,37 @@ class RulesController extends AppController {
 		$rule = $this->Rule->find('first',array(
 				'contain' => array(
 					'Condition' => array(
+                        'Action' => array(
+                            'fields' => array(
+                                'Action.name'
+                            )
+                        ),
+                        'Artefact' => array(
+                            'fields' => array(
+                                'Artefact.name'
+                            )
+                        ),
+                        'Module' => array(
+                            'fields' => array(
+                                'Module.sysid'
+                            )
+                        ),
+                        'Course' => array(
+                            'fields' => array(
+                                'Course.idnumber',
+                                'Course.name'
+                            )
+                        ),
+                        'DimensionVerb' => array(
+                            'Artefact' => array(
+                                'fields' => array(
+                                    'Artefact.name'
+                                )
+                            ),
+                            'fields' => array(
+                                'DimensionVerb.name'
+                            )
+                        ),
 						'fields' => array(
 							'Condition.id',
 							'Condition.name'
@@ -232,6 +263,7 @@ class RulesController extends AppController {
 
     function _prepareExisting() {
         $this->Rule->id = $this->Session->read('report.Rule.id');
+        $this->Rule->read();
         $this->request->data = $this->Rule->find('first',array(
             'contain' => array(
                 'Condition' => array(

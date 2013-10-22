@@ -56,6 +56,14 @@ a.brand {
 	margin-top: 15px;
 }
 
+/* Toggle icon */
+.active i.icon-minus{ display:inline-block; }
+.active i.icon-plus { display:none;}
+
+.inactive i.icon-plus{ display:inline-block; }
+.inactive i.icon-minus { display:none;}
+
+
 /* SQL log */
 .cake-sql-log {
 	background: #fff;

@@ -5,10 +5,7 @@
 </li>
 <li class="nav-header">Report Configuration</li>
 <li<?php echo (preg_match("/Rules/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Rules', array('controller' => 'Rules', 'action' => 'index')); ?>
-</li>
-<li<?php echo (preg_match("/Conditions/", $url))? ' class="active"' : ''?>>
-  <?php echo $this->Html->link('Conditions', array('controller' => 'Conditions', 'action' => 'index')); ?>
+  <?php echo $this->Html->link(__('Reports'), array('controller' => 'Rules', 'action' => 'index')); ?>
 </li>
 <li class="nav-header">Institution Data</li>
 <li<?php echo (preg_match("/Members/", $url))? ' class="active"' : ''?>>

@@ -1,5 +1,5 @@
 <div class="rules form">
-<h2><?php echo __('Add Rule'); ?></h2>
+<h2><?php echo __('Add Report'); ?></h2>
 <?php echo $this->BootstrapForm->create('Rule'); ?>
 	<fieldset>
     <?php

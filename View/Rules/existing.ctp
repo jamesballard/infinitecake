@@ -1,10 +1,10 @@
 <div class="rules form">
-<h2><?php echo __('Add Rule'); ?></h2>
+<h2><?php echo __('Add Report'); ?></h2>
 <?php echo $this->BootstrapForm->create('Rule'); ?>
 	<fieldset>
 	<?php
-        echo '<legend>'.__('Add existing conditions').'</legend>';
-        echo '<p>Use this menu to add existing conditions to this rule.</p>';
+        echo '<legend>'.__('Add existing items').'</legend>';
+        echo '<p>Use this menu to re-use existing items with this rule.</p>';
         echo $this->Form->input('id');
         echo $this->element('MultiSelectForms/conditions');
 	?>
