@@ -23,7 +23,7 @@ class CourseProfileController extends AppController {
      //Create selected course as session variable.
         $courseid = $this->Session->read('Profile.course');
         if ($this->request->is('post')) {
-            $course = $this->request->data['Action']['courseid'];
+            $course = $this->request->data['Overview']['courseid'];
             $this->set('courseid', $course);
             $this->set('coursedefault', $course);
             $this->Session->write('Profile.course', $course);
@@ -62,13 +62,13 @@ class CourseProfileController extends AppController {
 
     		//Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $period = $this->request->data['Action']['period'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $chartType = $this->request->data['Action']['chart'];
-                $reportType = $this->request->data['Action']['report'];
-                $system = $this->request->data['Action']['system'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                $period = $this->request->data['Overview']['period'];
+                $dateWindow = $this->request->data['Overview']['daterange'];
+                $chartType = $this->request->data['Overview']['chart'];
+                $reportType = $this->request->data['Overview']['report'];
+                $system = $this->request->data['Overview']['system'];
+                $width = $this->request->data['Overview']['width'];
+                $height = $this->request->data['Overview']['height'];
             }
 
 	        $data = array(
@@ -106,11 +106,11 @@ class CourseProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-            	$dateWindow = $this->request->data['Action']['daterange'];
-            	$system = $this->request->data['Action']['system'];
-                //$report = $this->request->data['Action']['report'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+            	$dateWindow = $this->request->data['Overview']['daterange'];
+            	$system = $this->request->data['Overview']['system'];
+                //$report = $this->request->data['Overview']['report'];
+                $width = $this->request->data['Overview']['width'];
+                $height = $this->request->data['Overview']['height'];
             }
 
             $this->set('width', $width);
@@ -144,8 +144,8 @@ class CourseProfileController extends AppController {
     		
     		//Update with posted form options if sent.
     		if ($this->request->is('post')) {
-    			$dateWindow = $this->request->data['Action']['daterange'];
-    			$system = $this->request->data['Action']['system'];
+    			$dateWindow = $this->request->data['Overview']['daterange'];
+    			$system = $this->request->data['Overview']['system'];
     		}
 
             //Set query filters
@@ -216,14 +216,14 @@ class CourseProfileController extends AppController {
     	
     		//Overwrite defaults if form submitted.
     		if ($this->request->is('post')) {
-    			$period = $this->request->data['Action']['period'];
-    			$dateWindow = $this->request->data['Action']['daterange'];
-    			$system = $this->request->data['Action']['system'];
-    			$rule = $this->request->data['Action']['rule'];
-    			$chartType = $this->request->data['Action']['chart'];
-    			//$reportType = $this->request->data['Action']['report'];
-    			$width = $this->request->data['Action']['width'];
-    			$height = $this->request->data['Action']['height'];
+    			$period = $this->request->data['Overview']['period'];
+    			$dateWindow = $this->request->data['Overview']['daterange'];
+    			$system = $this->request->data['Overview']['system'];
+    			$rule = $this->request->data['Overview']['rule'];
+    			$chartType = $this->request->data['Overview']['chart'];
+    			//$reportType = $this->request->data['Overview']['report'];
+    			$width = $this->request->data['Overview']['width'];
+    			$height = $this->request->data['Overview']['height'];
     		}
     	
     		$data = array(
@@ -269,11 +269,11 @@ class CourseProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                //$reportType = $this->request->data['Action']['report'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $system = $this->request->data['Action']['system'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                //$reportType = $this->request->data['Overview']['report'];
+                $dateWindow = $this->request->data['Overview']['daterange'];
+                $system = $this->request->data['Overview']['system'];
+                $width = $this->request->data['Overview']['width'];
+                $height = $this->request->data['Overview']['height'];
             }
 
             $this->set('width', $width);
@@ -307,13 +307,13 @@ class CourseProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $rule = $this->request->data['Action']['rule'];
-                $period = $this->request->data['Action']['period'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $system = $this->request->data['Action']['system'];
-                $chartType = $this->request->data['Action']['chart'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                $rule = $this->request->data['Overview']['rule'];
+                $period = $this->request->data['Overview']['period'];
+                $dateWindow = $this->request->data['Overview']['daterange'];
+                $system = $this->request->data['Overview']['system'];
+                $chartType = $this->request->data['Overview']['chart'];
+                $width = $this->request->data['Overview']['width'];
+                $height = $this->request->data['Overview']['height'];
             }
 
             $data = array(
