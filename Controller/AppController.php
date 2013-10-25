@@ -58,18 +58,21 @@ class AppController extends Controller {
         //Make the logged in member available to all views
 		# load current_user
         if ($this->Auth->user('Member.username')):
-			$current_user = $this->Member->find('first', array(
-						'contain' => array(
+            $current_user = $this->Session->read('current_user');
+            if (!$current_user) {
+                $current_user = $this->Member->find('first', array(
+                        'contain' => array(
                             'Membership' => array(
 
                             )
                         ),
-						'conditions' => array(
-								'username' => $this->Auth->user('Member.username')
-						)
-					)
-				);
-			$this->Session->write('current_user', $current_user);
+                        'conditions' => array(
+                            'username' => $this->Auth->user('Member.username')
+                        )
+                    )
+                );
+                $this->Session->write('current_user', $current_user);
+            }
 			$this->set('current_user', $current_user);
 		endif;
     }
@@ -286,5 +289,21 @@ class AppController extends Controller {
     public function getCustomerArtefacts() {
         $currentUser = $this->get_currentUser();
         return $this->Artefact->getArtefactsByCustomerId($currentUser['Member']['customer_id']);
+    }
+
+    /*
+     * Takes a conditions array (2-dimensional), flattens it to 1, and implodes to create unique cache reference.
+     *
+     * @var array $conditions
+     * return string
+     */
+    public function formatCacheConditions($conditions) {
+        return implode('.', array_map(function($value) {
+            if (is_array($value)) {
+                return implode('.', $value);
+            } else {
+                return $value;
+            }
+        }, $conditions));
     }
 }

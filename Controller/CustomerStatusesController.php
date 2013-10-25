@@ -68,27 +68,38 @@ class CustomerStatusesController extends AppController {
     public function trigger($type=0, $rule_id=null) {
         $currentUser = $this->get_currentUser();
         $customerid = $currentUser['Member']['customer_id'];
-
-        $lastid = $this->CustomerStatus->find('first', array(
-                'conditions' => array(
-                    'type' => $type,
-                    'rule_id' => $rule_id,
-                    'customer_id' => $customerid
-                ),
-                'fields' => array('endid')
-            )
+        $conditions = array(
+            'type' => $type,
+            'rule_id' => $rule_id,
+            'customer_id' => $customerid
         );
+        $cacheName = 'lastid.'.$this->formatCacheConditions($conditions);
+        $lastid = Cache::read($cacheName, 'short');
+        if (!$lastid) {
+            $lastid = $this->CustomerStatus->find('first', array(
+                    'conditions' => $conditions,
+                    'fields' => array('endid')
+                )
+            );
+            Cache::write($cacheName, $lastid, 'short');
+        }
 
-        $maxid = $this->Action->find('first', array(
-                'contain' => array(
-                    'System'
-                ),
-                'conditions' => array(
-                    'System.id' => array_keys($this->get_customerSystems()),
-                ),
-                'fields' => array('MAX(Action.id) as maxid'),
-            )
-        );
+        $conditions = array_keys($this->get_customerSystems());
+        $cacheName = 'maxid.'.$this->formatCacheConditions($conditions);
+        $maxid = Cache::read($cacheName, 'short');
+        if (!$maxid) {
+            $maxid = $this->Action->find('first', array(
+                    'contain' => array(
+                        'System'
+                    ),
+                    'conditions' => array(
+                        'System.id' => $conditions,
+                    ),
+                    'fields' => array('MAX(Action.id) as maxid'),
+                )
+            );
+            Cache::write($cacheName, $maxid, 'short');
+        }
 
         //Define the latest action id for the customer
         $maxid = (int)$maxid[0]['maxid'];

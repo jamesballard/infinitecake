@@ -109,28 +109,28 @@ class FactSummedActionsDatetime extends AppModel {
                     $date->add($interval);
                     $conditions = array_merge($conditions,array('DimensionDate.date <'=>$date->format("Y-m-d")));
                     $conditions = array_merge($conditions,$filter);
-                    //$cacheName = $reportType.'-'.$this->get_academic_year_name($start).'-'.$date->format($periodFormat);
-                    //$value = Cache::read($cacheName, 'long');
-                    //if (!$value) {
-                    $value = $this->find('first', array(
-                            'conditions' => $conditions, //array of conditions
-                            'contain' => array(
-			    				'DimensionDate' => array(
-			    					'fields' => array(
-			    						'DimensionDate.date'
-			    					)
-			    				),
-                            	'System' => array(
-                            		'fields' => array(
-                            			'System.id'
-                            		)
-                            	)
-			    			),
-                            'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
-                        )
-                    );
-                    //Cache::write($cacheName, $value, 'long');
-                    //}
+                    $cacheName = 'period_count.'.$this->formatCacheConditions($conditions);
+                    $value = Cache::read($cacheName, 'long');
+                    if (!$value) {
+                        $value = $this->find('first', array(
+                                'conditions' => $conditions, //array of conditions
+                                'contain' => array(
+                                    'DimensionDate' => array(
+                                        'fields' => array(
+                                            'DimensionDate.date'
+                                        )
+                                    ),
+                                    'System' => array(
+                                        'fields' => array(
+                                            'System.id'
+                                        )
+                                    )
+                                ),
+                                'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
+                            )
+                        );
+                        Cache::write($cacheName, $value, 'long');
+                    }
                     if($value[0]['total']) {
                         $count = $value[0]['total'];
                     }else{
@@ -183,28 +183,33 @@ class FactSummedActionsDatetime extends AppModel {
                 //Iterate through modules to get count of each per category
                 foreach ($artefacts as $artefact) {
                     $conditions = array_merge($conditions, array('FactSummedActionsDatetime.artefact_id' => $artefact['Artefact']['id']));
-                    $value = $this->find('first', array(
-                            'conditions' => $conditions, //array of conditions
-                            'contain' => array(
-			    				'DimensionDate' => array(
-			    					'fields' => array(
-			    						'DimensionDate.date'
-			    					)
-			    				),
-                            	'Artefact' => array(
-                            		'fields' => array(
-                            			'Artefact.name'
-                            			)
-                            	),
-                            	'System' => array(
-                            		'fields' => array(
-                            			'System.id'
-                            		)
-                            	)
-			    			),
-                            'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
-                        )
-                    );
+                    $cacheName = 'module_count.'.$this->formatCacheConditions($conditions);
+                    $value = Cache::read($cacheName, 'long');
+                    if (!$value) {
+                        $value = $this->find('first', array(
+                                'conditions' => $conditions, //array of conditions
+                                'contain' => array(
+                                    'DimensionDate' => array(
+                                        'fields' => array(
+                                            'DimensionDate.date'
+                                        )
+                                    ),
+                                    'Artefact' => array(
+                                        'fields' => array(
+                                            'Artefact.name'
+                                        )
+                                    ),
+                                    'System' => array(
+                                        'fields' => array(
+                                            'System.id'
+                                        )
+                                    )
+                                ),
+                                'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
+                            )
+                        );
+                        Cache::write($cacheName, $value, 'long');
+                    }
                     if($value[0]['total']) {
                         $count = $value[0]['total'];
                     }else{
@@ -267,33 +272,33 @@ class FactSummedActionsDatetime extends AppModel {
         foreach ($hours as $hour) {
             $conditions = array_merge($conditions,array('DimensionTime.hour'=>$hour));
             $conditions = array_merge($conditions,$filter);
-            //$cacheName = $reportType.'-'.$this->get_academic_year_name($start).'-'.$date->format($periodFormat);
-            //$value = Cache::read($cacheName, 'long');
-            //if (!$value) {
-            $value = $this->find('first', array(
-                    'conditions' => $conditions, //array of conditions
-                    'contain' => array(
-	    				'DimensionTime' => array(
-	    					'fields' => array(
-	    						'DimensionTime.hour'
-	    					)
-	    				),
-                    	'DimensionDate' => array(
-                    		'fields' => array(
-                    			'DimensionDate.date'
-                    		)
-                    	),
-                        'System' => array(
-                        	'fields' => array(
-                            	'System.id'
+            $cacheName = 'hour_stats.'.$this->formatCacheConditions($conditions);
+            $value = Cache::read($cacheName, 'long');
+            if (!$value) {
+                $value = $this->find('first', array(
+                        'conditions' => $conditions, //array of conditions
+                        'contain' => array(
+                            'DimensionTime' => array(
+                                'fields' => array(
+                                    'DimensionTime.hour'
+                                )
+                            ),
+                            'DimensionDate' => array(
+                                'fields' => array(
+                                    'DimensionDate.date'
+                                )
+                            ),
+                            'System' => array(
+                                'fields' => array(
+                                    'System.id'
+                                )
                             )
-                        )
-	    			),
-                    'fields' => $fields, //array of field names
-                )
-            );
-            //Cache::write($cacheName, $value, 'long');
-            //}
+                        ),
+                        'fields' => $fields, //array of field names
+                    )
+                );
+                Cache::write($cacheName, $value, 'long');
+            }
             if($value[0]['total']) {
                 $count = $value[0]['total'];
             }else{

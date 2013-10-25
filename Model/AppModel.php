@@ -33,4 +33,20 @@ App::uses('Model', 'Model');
 class AppModel extends Model {
     public $actsAs = array('Containable');
     public $recursive = -1;
+
+    /*
+     * Takes a conditions array (2-dimensional), flattens it to 1, and implodes to create unique cache reference.
+     *
+     * @var array $conditions
+     * return string
+     */
+    public function formatCacheConditions($conditions) {
+        return implode('.', array_map(function($value) {
+            if (is_array($value)) {
+                return implode('.', $value);
+            } else {
+                return $value;
+            }
+        }, $conditions));
+    }
 }

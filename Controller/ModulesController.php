@@ -14,8 +14,16 @@ class ModulesController extends AppController {
 		if (in_array($this->action, array('add'))) {
             $artefacts = $this->getCustomerArtefacts();
             $artefacts = Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
-			$groups = $this->Module->Group->find('list');
-			$systems = $this->Module->System->find('list');
+            $groups = Cache::read('group_list', 'short');
+            if (!$groups) {
+                $groups = $this->Module->Group->find('list');
+                Cache::write('group_list', $groups, 'short');
+            }
+            $systems = Cache::read('systems_list', 'short');
+            if (!$systems) {
+                $systems = $this->Module->System->find('list');
+                Cache::write('systems_list', $systems, 'short');
+            }
 			$this->set(compact('artefacts', 'groups', 'systems'));
 		}
 	}

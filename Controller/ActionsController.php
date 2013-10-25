@@ -12,12 +12,38 @@ class ActionsController extends AppController {
         $this->layout = 'adminManage';
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
-            $users = $this->Action->User->find('list');
-            $groups = $this->Action->Group->find('list');
+            $users = Cache::read('user_list', 'short');
+            if (!$users) {
+                $users = $this->Action->User->find('list');
+                Cache::write('user_list', $users, 'short');
+            }
+
+            $groups = Cache::read('group_list', 'short');
+            if (!$groups) {
+                $groups = $this->Action->Group->find('list');
+                Cache::write('group_list', $groups, 'short');
+            }
+
             //$modules = $this->Action->Module->find('list');
-            $dimensionVerbs = $this->Action->DimensionVerb->find('list');
-            $systems = $this->Action->System->find('list');
-            $conditions = $this->Action->Condition->find('list', array('conditions' => array('type !=' => 2)));
+
+            $dimensionVerbs = Cache::read('verb_list', 'short');
+            if (!$dimensionVerbs) {
+                $dimensionVerbs = $this->Action->DimensionVerb->find('list');
+                Cache::write('verb_list', $dimensionVerbs, 'short');
+            }
+
+            $systems = Cache::read('systems_list', 'short');
+            if (!$systems) {
+                $systems = $this->Action->System->find('list');
+                Cache::write('systems_list', $systems, 'short');
+            }
+
+            $conditions = Cache::read('conditions_list', 'short');
+            if (!$conditions) {
+                $conditions = $this->Action->Condition->find('list', array('conditions' => array('type !=' => 2)));
+                Cache::write('conditions_list', $conditions, 'short');
+            }
+
             $this->set(compact('users', 'groups', 'modules', 'dimensionVerbs', 'systems', 'conditions'));
         }
     }

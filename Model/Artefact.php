@@ -90,18 +90,25 @@ class Artefact extends AppModel {
 
     public function getArtefacts() {
         // Define the artefacts for reports
-        return $this->find('all', array(
-                'fields' => array('id', 'name', 'type'),
-                'contain' => false,
-                'conditions' => array('type' => array(
-                    Artefact::ARTEFACT_TYPE_ASSESSMENT,
-                    Artefact::ARTEFACT_TYPE_COMMUNICATION,
-                    Artefact::ARTEFACT_TYPE_COLLABORATION,
-                    Artefact::ARTEFACT_TYPE_RESOURCE
-                    )
-                )
-           )
+        $conditions = array('type' => array(
+            Artefact::ARTEFACT_TYPE_ASSESSMENT,
+            Artefact::ARTEFACT_TYPE_COMMUNICATION,
+            Artefact::ARTEFACT_TYPE_COLLABORATION,
+            Artefact::ARTEFACT_TYPE_RESOURCE
+            )
         );
+        $cacheName = 'artefacts_all.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                    'fields' => array('id', 'name', 'type'),
+                    'contain' => false,
+                    'conditions' => $conditions
+                )
+            );
+            Cache::write($cacheName, $artefacts, 'short');
+        }
+        return $artefacts;
     }
 
     /**
@@ -111,19 +118,25 @@ class Artefact extends AppModel {
      */
     public function getArtefactsByCustomerId($customer_id = null) {
         if(empty($customer_id)) return false;
-        $artefacts = $this->find('all', array(
-            'joins' => array(
-                array('table' => 'customer_artefacts',
-                    'alias' => 'CustomerArtefact',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        'CustomerArtefact.customer_id' => $customer_id,
-                        'CustomerArtefact.artefact_id = Artefact.id'
+        $conditions = array(
+            'CustomerArtefact.customer_id' => $customer_id,
+            'CustomerArtefact.artefact_id = Artefact.id'
+        );
+        $cacheName = 'customer_artefacts.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                'joins' => array(
+                    array('table' => 'customer_artefacts',
+                        'alias' => 'CustomerArtefact',
+                        'type' => 'INNER',
+                        'conditions' => $conditions
                     )
-                )
-            ),
-            'group' => 'Artefact.id'
-        ));
+                ),
+                'group' => 'Artefact.id'
+            ));
+            Cache::write($cacheName, 'short');
+        }
         return $artefacts;
     }
 
