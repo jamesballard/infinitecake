@@ -198,7 +198,7 @@ class StatsController extends AppController {
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
                 $system = $this->request->data['Modules']['system'];
-                $dateWindow = $this->request->data['Modules']['daterange'];
+                //$dateWindow = $this->request->data['Modules']['daterange'];
                 $width = $this->request->data['Modules']['width'];
                 $height = $this->request->data['Modules']['height'];
             }

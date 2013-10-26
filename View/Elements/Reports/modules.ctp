@@ -10,7 +10,7 @@ echo $this->BootstrapForm->create('Modules');
 <fieldset>
 <?php
 echo $this->element('FormItems/legendChangeSettings');
-echo $this->element('FormItems/selectDateWindow');
+//echo $this->element('FormItems/selectDateWindow');
 echo $this->element('MultiSelectForms/systems');
 echo $this->element('FormItems/inputSize');
 ?>

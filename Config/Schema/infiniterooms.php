@@ -127,6 +127,7 @@ class infiniteroomsSchema extends CakeSchema {
 	public $conditions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'value' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4, 'key' => 'index'),
 		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -161,11 +162,15 @@ class infiniteroomsSchema extends CakeSchema {
 		'idnumber' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'active' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4, 'key' => 'index'),
 		'department_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+		'customer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'idnumber_un_ix' => array('column' => array('idnumber', 'department_id'), 'unique' => 1),
 			'department_ix' => array('column' => 'department_id', 'unique' => 0),
-			'active_ix' => array('column' => 'active', 'unique' => 0)
+			'active_ix' => array('column' => 'active', 'unique' => 0),
+			'customer_ix' => array('column' => 'customer_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);

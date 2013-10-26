@@ -45,7 +45,9 @@
             echo $this->Form->input("Condition.$i.type", array( 'value' => $condition['type'] , 'type' => 'hidden'));
             echo $this->element('MultiSelectForms/rules', array('count' => $i));
             echo $this->Form->input("Condition.$i.customer_id", array( 'value' => $customer_id, 'type' => 'hidden'));
-            if($formid != Rule::RULE_TYPE_ACTION) {
+            if($formid == Rule::RULE_TYPE_ACTION) {
+                echo $this->Form->input("Condition.$i.value", array( 'value' => $condition['value']));
+            } else {
                 echo $this->element('MultiSelectForms/conditionItems', array(
                     'count' => $i,
                     'rule_type' => $formid,
