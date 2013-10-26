@@ -19,8 +19,7 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><?php echo $this->Html->link('Rules', array('controller' => 'Rules', 'action' => 'index')); ?></li>
-                    <li><?php echo $this->Html->link('Conditions', array('controller' => 'Conditions', 'action' => 'index')); ?></li>
+                    <li><?php echo $this->Html->link('Reports', array('controller' => 'Rules', 'action' => 'index')); ?></li>
                     <li><?php echo $this->Html->link('Members', array('controller' => 'Members', 'action' => 'index')); ?></li>
                     <li><?php echo $this->Html->link('Departments', array('controller' => 'Departments', 'action' => 'index')); ?></li>
                     <li><?php echo $this->Html->link('Courses', array('controller' => 'Courses', 'action' => 'index')); ?></li>
