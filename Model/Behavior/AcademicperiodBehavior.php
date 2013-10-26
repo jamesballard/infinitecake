@@ -29,14 +29,14 @@ class AcademicperiodBehavior extends ModelBehavior {
  */
     function getYears(Model $Model, $start=0) {
         if($start > 0) {
-            $yearStart = strtotime ( '-7 months' , $start ) ;
+            $yearStart = strtotime ( '-19 months' , $start ) ;
             $begin = new DateTime(date('Y-m-01', $yearStart));
         }else{
-            $begin = new DateTime(date('Y-m-01',strtotime("-1 year", time())));
+            $begin = new DateTime(date('Y-m-01',strtotime("-2 year", time())));
         }
 
         //Add 4 months to push into next academic year (e.g. August +5) = UK Academic Year
-        $end = new DateTime( date('Y-m-01',strtotime("+5 months")));
+        $end = new DateTime('2012-08-01');
         // Get years as range.
         $interval = new DateInterval('P1Y');
         $daterange = new DatePeriod($begin, $interval, $end);
