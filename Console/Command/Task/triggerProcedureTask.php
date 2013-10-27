@@ -131,24 +131,27 @@ class TriggerProcedureTask extends Shell {
                     'name' => 'IP Address'
                 )
             ));
-            $ipruleid = $iprule['Rule']['id'];
-            $lastid = $this->CustomerStatus->find('first', array(
-                    'conditions' => array(
-                        'type' => CustomerStatus::PROC_SUM_IP,
-                        'rule_id' => $ipruleid,
-                        'customer_id' => $customerid
-                    ),
-                    'fields' => array('endid')
-                )
-            );
+            if ($iprule) {
+                $ipruleid = $iprule['Rule']['id'];
+                $lastid = $this->CustomerStatus->find('first', array(
+                        'conditions' => array(
+                            'type' => CustomerStatus::PROC_SUM_IP,
+                            'rule_id' => $ipruleid,
+                            'customer_id' => $customerid
+                        ),
+                        'fields' => array('endid')
+                    )
+                );
 
-            //Define the last id processed for the customer
-            $lastid = (empty($lastid) ? 0 : (int)$lastid['CustomerStatus']['endid']);
+                //Define the last id processed for the customer
+                $lastid = (empty($lastid) ? 0 : (int)$lastid['CustomerStatus']['endid']);
 
-            //Compare values and only process if new actions exist since last procedure update
-            if($maxid > $lastid) {
-                $this->CustomerStatus->query("CALL aggregate_summed_ip_conditions($customerid, $lastid, $maxid, $ipruleid);");
+                //Compare values and only process if new actions exist since last procedure update
+                if($maxid > $lastid) {
+                    $this->CustomerStatus->query("CALL aggregate_summed_ip_conditions($customerid, $lastid, $maxid, $ipruleid);");
+                }
             }
+
         }
     }
 }
