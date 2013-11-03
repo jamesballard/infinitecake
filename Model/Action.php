@@ -65,6 +65,20 @@ class Action extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
+        ),
+        'DimensionDate' => array(
+            'className' => 'DimensionDate',
+            'foreignKey' => 'dimension_date_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'DimensionTime' => array(
+            'className' => 'DimensionTime',
+            'foreignKey' => 'dimension_time_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
         )
 	);
 
