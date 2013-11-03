@@ -50,6 +50,8 @@ class infiniteroomsSchema extends CakeSchema {
 		'module_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'dimension_verb_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+        'dimension_date_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
+        'dimension_time_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'duplicate_ix' => array('column' => array('sysid', 'name', 'time', 'system_id', 'user_id', 'module_id', 'group_id', 'dimension_verb_id'), 'unique' => 1),
@@ -60,7 +62,9 @@ class infiniteroomsSchema extends CakeSchema {
 			'module_time_ix' => array('column' => array('group_id', 'time'), 'unique' => 0),
 			'verb_ix' => array('column' => 'dimension_verb_id', 'unique' => 0),
 			'system_sysid_ix' => array('column' => array('sysid', 'system_id'), 'unique' => 0),
-			'system_ix' => array('column' => 'system_id', 'unique' => 0)
+			'system_ix' => array('column' => 'system_id', 'unique' => 0),
+            'dimdate_ix' => array('column' => 'dimension_date_id', 'unique' => 0),
+            'dimtime_ix' => array('column' => 'dimension_time_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
