@@ -1,6 +1,6 @@
 <?php
 App::uses('Component', 'Controller');
-App::uses('FactSummedActionsDatetime', 'Model');
+App::uses('Action', 'Model');
 App::uses('FactSummedVerbRuleDatetime', 'Model');
 
 class ProcessDataComponent extends Component {
@@ -28,8 +28,8 @@ class ProcessDataComponent extends Component {
     			$dateFormat = "M";
     			break;
     	}
-    	$FactSummedActionsDatetime = new FactSummedActionsDatetime();
-    	$data = $FactSummedActionsDatetime->getPeriodCountGchart($dateWindow, $conditions, $interval, $dateFormat);
+    	$Action = new Action();
+    	$data = $Action->getPeriodCountGchart($dateWindow, $conditions, $interval, $dateFormat);
     	return $data;
     }
     
