@@ -17,6 +17,8 @@ class Condition extends AppModel {
     		Condition::CONDITION_TYPE_USER=>'User',
     		Condition::CONDITION_TYPE_IP=>'IP Address'
     	);
+
+    //public $filtertype = 'select';
 /**
  * Display field
  *
@@ -139,6 +141,18 @@ class Condition extends AppModel {
             'insertQuery' => ''
         )
     );
+
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getFilterOptions($customer_id) {
+        return $this->find('list', array(
+            'conditions' => array('customer_id' => $customer_id)
+        ));
+    }
 
     /**
      * given a rule ID returns the condition related to it

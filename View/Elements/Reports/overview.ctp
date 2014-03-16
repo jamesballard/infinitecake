@@ -5,7 +5,7 @@ $this->Html->script('https://www.google.com/jsapi', false);
 echo $this->GChart->start('chart_div');
 echo $this->GChart->visualize('chart_div', $data);
 
-echo $this->BootstrapForm->create('Overview');
+echo $this->Form->create('Overview');
 ?>
 <fieldset>
 <?php
@@ -25,6 +25,6 @@ echo $this->element('FormItems/inputSize');
 ?>
 </fieldset>
 <?php
-echo $this->BootstrapForm->end();
+echo $this->Form->end();
 ?>
 <div id="chart_div"></div>

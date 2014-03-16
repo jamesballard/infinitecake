@@ -3,7 +3,7 @@
 
 echo $this->Html->image('pchart/clock.php?dayData='.$dayData.'&nightData='.$nightData.'&height='.$height.'&width='.$width);
 
-echo $this->BootstrapForm->create('Hourly');
+echo $this->Form->create('Hourly');
 ?>
 <fieldset>
 <?php
@@ -14,5 +14,5 @@ echo $this->element('FormItems/inputSize');
 ?>
 </fieldset>
 <?php
-echo $this->BootstrapForm->end();
+echo $this->Form->end();
 ?>

@@ -1,11 +1,10 @@
 <div class="conditions form">
-    <h2><?php echo __("Add Report Items"); ?></h2>
-    <?php echo $this->BootstrapForm->create('Condition'); ?>
+    <h2><?php echo __("Add classification Items"); ?></h2>
+    <?php echo $this->Form->create('Condition'); ?>
 <?php
-$html = '<fieldset>';
-$html .= "<legend>Item '+ (i + 1) +'</legend>";
+$html = "<legend>Item '+ (i + 1) +'</legend>";
 $html .=  $this->Form->input("Condition.' + i +'.name");
-$html .= $this->Form->input("Condition.' + i +'.type", array( 'value' => 1 , 'type' => 'hidden') );
+$html .= $this->Form->input("Condition.' + i +'.type", array( 'value' => 1 , 'type' => 'hidden'));
 $html .= $this->formGeneration->generateConditionRulesForm($rules, $rule_id);
 $html .= $this->Form->input("Condition.' + i +'.customer_id", array( 'value' => $customer_id, 'type' => 'hidden'));
 if ($formid == Rule::RULE_TYPE_ACTION) {
@@ -13,7 +12,6 @@ if ($formid == Rule::RULE_TYPE_ACTION) {
 } else {
     $html .= $this->formGeneration->generateConditionItemsForm($rule_types, $formid, $label, $conditionItems);
 }
-$html .= '</fieldset>';
 ?>
 
 <div id="elementContainer">
@@ -36,7 +34,7 @@ $html .= '</fieldset>';
         ?>
     </fieldset>
 </div>
-    <?php echo $this->BootstrapForm->button('Add item', array('id' => 'addElement', 'type' =>'button'), 'primary'); ?>
-    <?php echo $this->BootstrapForm->end('',array(),'success'); ?>
+    <?php echo $this->Form->button('Add item', array('id' => 'addElement', 'type' =>'button'), 'primary'); ?>
+    <?php echo $this->Form->end(); ?>
 </div>
-<?php echo $this->dynamicForms->addremoveHtmlElement('addElement', 'elementContainer', $html, 1); ?>
+<?php echo $this->dynamicForms->addremoveHtmlElement('addElement', 'elementContainer', 'fieldset', $html, 1); ?>

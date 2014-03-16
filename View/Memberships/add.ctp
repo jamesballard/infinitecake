@@ -1,6 +1,6 @@
 <div class="memberships form">
     <h2><?php echo __('Add Membership'); ?></h2>
-<?php echo $this->BootstrapForm->create('Membership'); ?>
+<?php echo $this->Form->create('Membership'); ?>
 	<fieldset>
     <?php
         echo $this->element('FormItems/legendSettings');

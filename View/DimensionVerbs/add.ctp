@@ -1,5 +1,5 @@
 <div class="dimensionVerbs form">
-<?php echo $this->BootstrapForm->create('DimensionVerb'); ?>
+<?php echo $this->Form->create('DimensionVerb'); ?>
 	<fieldset>
 		<legend><?php echo __('Add Dimension Verb'); ?></legend>
 	<?php

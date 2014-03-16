@@ -1,6 +1,6 @@
 <div class="rules form">
-<h2><?php echo __('Add Report'); ?></h2>
-<?php echo $this->BootstrapForm->create('Rule'); ?>
+<h2><?php echo __('Add Classification'); ?></h2>
+<?php echo $this->Form->create('Rule'); ?>
 	<fieldset>
     <?php
         echo $this->element('FormItems/legendSettings');
@@ -12,5 +12,5 @@
 	?>
     </fieldset>
 
-<?php echo $this->BootstrapForm->end(__('Continue')); ?>
+<?php echo $this->Form->end(array('label' => __('Continue'))); ?>
 </div>

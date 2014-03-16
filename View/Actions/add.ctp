@@ -1,6 +1,6 @@
 <div class="actions form">
     <h2><?php echo __('Add Action'); ?></h2>
-<?php echo $this->BootstrapForm->create('Action'); ?>
+<?php echo $this->Form->create('Action'); ?>
 	<fieldset>
         <?php echo $this->element('FormItems/legendSettings'); ?>
 	<?php
@@ -15,5 +15,5 @@
 		echo $this->Form->input('Condition');
 	?>
 	</fieldset>
-<?php echo $this->BootstrapForm->end(); ?>
+<?php echo $this->Form->end(); ?>
 </div>

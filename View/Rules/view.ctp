@@ -1,5 +1,5 @@
 <div class="rules view">
-	<h2 class="pull-left"><?php echo __('Report'); ?>: <?php echo h($rule['Rule']['name']); ?></h2>
+	<h2 class="pull-left"><?php echo __('Classification'); ?>: <?php echo h($rule['Rule']['name']); ?></h2>
 	
 	<?php echo $this->element('Buttons/action', array(
 								'id' => $rule['Rule']['id'],

@@ -74,4 +74,25 @@ class Department extends AppModel {
         )
 	);
 
+    /*
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @return array a list formatted array
+     */
+    public function getDimensionParameters($customer_id) {
+        return array(0 => __('No option required'));
+    }
+
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getFilterOptions($customer_id) {
+        return $this->find('list', array(
+            'conditions' => array('customer_id' => $customer_id)
+        ));
+    }
+
 }

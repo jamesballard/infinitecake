@@ -56,4 +56,13 @@ class DimensionTime extends AppModel {
             'counterQuery' => ''
         )
 	);
+
+    /*
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @return array a list formatted array
+     */
+    public function getDimensionParameters($customer_id) {
+        return array(0 => __('No option required'));
+    }
 }

@@ -1,6 +1,6 @@
 <div class="systems form">
 <h2><?php echo __('Edit System'); ?></h2>
-<?php echo $this->BootstrapForm->create('System'); ?>
+<?php echo $this->Form->create('System'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendChangeSettings');

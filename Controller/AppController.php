@@ -19,8 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
-App::uses('Controller', 'Controller');
+App::uses('MyController', 'Tools.Controller');
 
 /**
  * Application Controller
@@ -31,7 +30,7 @@ App::uses('Controller', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends MyController {
 
     public $components = array(
         'Acl',
@@ -43,7 +42,7 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $helpers = array('Html', 'Form', 'Session', 'Time', 'Permissions', 'Chosen.Chosen', 'BootstrapForm.BootstrapForm');
+    public $helpers = array('Html', 'Form' => array('className' => 'BootstrapForm.BootstrapForm'), 'Session', 'Time', 'Permissions', 'Chosen.Chosen');
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',

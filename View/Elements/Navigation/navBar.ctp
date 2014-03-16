@@ -1,6 +1,12 @@
 <div class="navbar">
     <div class="navbar-inner">
-        <?php echo $this->Html->link('Infinite Rooms', array('controller' => 'pages', 'action' => 'display', 'home'), array('class' => 'brand')); ?>
+        <a href="/" class="brand">
+            <svg width="40" height="40">
+                <image xlink:href="/img/logo.svg" src="/img/logo.png" width="40" height="40" />
+            </svg>
+            <div class="logo-svg-alternate"></div>
+            &nbsp;infinte rooms
+        </a>
         <ul class="nav">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -19,7 +25,7 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><?php echo $this->Html->link('Reports', array('controller' => 'Rules', 'action' => 'index')); ?></li>
+                    <li><?php echo $this->Html->link('Reports', array('controller' => 'Reports', 'action' => 'index')); ?></li>
                     <li><?php echo $this->Html->link('Members', array('controller' => 'Members', 'action' => 'index')); ?></li>
                     <li><?php echo $this->Html->link('Departments', array('controller' => 'Departments', 'action' => 'index')); ?></li>
                     <li><?php echo $this->Html->link('Courses', array('controller' => 'Courses', 'action' => 'index')); ?></li>

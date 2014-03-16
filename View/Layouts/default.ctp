@@ -31,7 +31,6 @@ $url = $this->request->here;
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex">
-
 	<?php
 		//echo $this->Html->meta('icon');
 
@@ -55,8 +54,8 @@ $url = $this->request->here;
 	?>
 </head>
 <body>
-    <!--[if lt IE 7]>
-    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <!--[if lt IE 8]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 	<div id="container">
     <?php echo $this->element('Navigation/navBar'); ?>

@@ -1,6 +1,6 @@
 <div class="groups form">
 <h2><?php echo __('Add Group'); ?></h2>
-<?php echo $this->BootstrapForm->create('Group'); ?>
+<?php echo $this->Form->create('Group'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendSettings');

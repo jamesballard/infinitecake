@@ -49,7 +49,7 @@ App::uses('Debugger', 'Utility');
 				  <p>Create and develop your own metrics to understand the role that analytics can play in learning design, feedback and assessment.</p>
 				  <p>
                      <?php if(in_array($current_user['Membership']['id'], array(1,2))) : ?>
-                        <a href="/Rules" class="btn btn-primary btn-large">
+                        <a href="/Reports" class="btn btn-primary btn-large">
                           Configuration
                         </a>
                      <?php else : ?>

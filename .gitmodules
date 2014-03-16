@@ -16,3 +16,6 @@
 [submodule "Plugin/Wizard"]
 	path = Plugin/Wizard
 	url = git@github.com:ProLoser/CakePHP-Wizard.git
+[submodule "Plugin/Tools"]
+	path = Plugin/Tools
+	url = git@github.com:dereuromark/tools.git

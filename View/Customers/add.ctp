@@ -1,5 +1,5 @@
 <div class="customers form">
-<?php echo $this->BootstrapForm->create('Customer'); ?>
+<?php echo $this->Form->create('Customer'); ?>
 	<fieldset>
 		<legend><?php echo __('Add Customer'); ?></legend>
 	<?php

@@ -1,6 +1,6 @@
 <div class="users form">
 <h2><?php echo __('Edit User'); ?></h2>
-<?php echo $this->BootstrapForm->create('User'); ?>
+<?php echo $this->Form->create('User'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendChangeSettings');

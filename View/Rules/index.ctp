@@ -1,5 +1,5 @@
 <div class="rules index">
-	<h2 class="pull-left"><?php echo __('Reports'); ?></h2>
+	<h2 class="pull-left"><?php echo __('Classifications'); ?></h2>
 	<?php 
 		echo $this->element('Buttons/add',array(
 					'current_user' => $current_user,

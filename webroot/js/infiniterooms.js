@@ -6,9 +6,14 @@
  * To change this template use File | Settings | File Templates.
  */
 $(document).ready(function(){
-
     $(".toggler").click(function(){
         $(this).toggleClass('toggler active, toggler inactive');
     })
+});
 
+$(document).ready(function() {
+    $(".datepicker").datepicker({
+        dateFormat: 'dd/mm/yy',
+        showButtonPanel: true
+    });
 });

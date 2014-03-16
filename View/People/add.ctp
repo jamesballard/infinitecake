@@ -1,6 +1,6 @@
 <div class="people form">
 <h2><?php echo __('Add Person'); ?></h2>
-<?php echo $this->BootstrapForm->create('Person'); ?>
+<?php echo $this->Form->create('Person'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendSettings');

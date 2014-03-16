@@ -1,6 +1,6 @@
 <div class="courses form">
 <h2><?php echo __("Add Course"); ?></h2>
-<?php echo $this->BootstrapForm->create('Course'); ?>
+<?php echo $this->Form->create('Course'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendSettings');

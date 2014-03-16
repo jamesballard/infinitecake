@@ -1,6 +1,6 @@
 <div class="modules form">
 <h2><?php echo __('Add Module'); ?></h2>
-<?php echo $this->BootstrapForm->create('Module'); ?>
+<?php echo $this->Form->create('Module'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendSettings');
@@ -12,5 +12,5 @@
 		echo $this->Form->input('system_id');
 	?>
 	</fieldset>
-<?php echo $this->BootstrapForm->end(); ?>
+<?php echo $this->Form->end(); ?>
 </div>

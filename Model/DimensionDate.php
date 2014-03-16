@@ -14,12 +14,40 @@ class DimensionDate extends AppModel {
  */
 	public $useTable = 'dimension_date';
 
+
 /**
  * Display field
  *
  * @var string
  */
 	public $displayField = 'date';
+
+//Define Filter Types
+    const DATE_INTERVAL_DAY = 1;
+    const DATE_INTERVAL_WEEK = 2;
+    const DATE_INTERVAL_MONTH = 3;
+    const DATE_INTERVAL_YEAR = 4;
+
+    public $interval_types = array(
+        DimensionDate::DATE_INTERVAL_DAY=>'Day',
+        DimensionDate::DATE_INTERVAL_WEEK=>'Week',
+        DimensionDate::DATE_INTERVAL_MONTH=>'Month',
+        DimensionDate::DATE_INTERVAL_YEAR=>'Year'
+    );
+
+    public $interval_values = array(
+        DimensionDate::DATE_INTERVAL_DAY=>'P1M',
+        DimensionDate::DATE_INTERVAL_WEEK=>'P1W',
+        DimensionDate::DATE_INTERVAL_MONTH=>'P1M',
+        DimensionDate::DATE_INTERVAL_YEAR=>'P1Y'
+    );
+
+    public $interval_formats = array(
+        DimensionDate::DATE_INTERVAL_DAY=>'d-M',
+        DimensionDate::DATE_INTERVAL_WEEK=>'W',
+        DimensionDate::DATE_INTERVAL_MONTH=>'M',
+        DimensionDate::DATE_INTERVAL_YEAR=>'Y'
+    );
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -56,5 +84,67 @@ class DimensionDate extends AppModel {
             'counterQuery' => ''
         )
 	);
+
+    /*
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @return array a list formatted array
+     */
+    public function getDimensionParameters() {
+        return $this->interval_types;
+    }
+
+    /*
+     * TODO: is this a description?!?
+     */
+    public function getConditions($key) {
+        switch ($key) {
+            case DimensionDate::DATE_INTERVAL_DAY:
+                return $this->interval_values[DimensionDate::DATE_INTERVAL_DAY];
+            case DimensionDate::DATE_INTERVAL_WEEK:
+                return $this->interval_values[DimensionDate::DATE_INTERVAL_WEEK];
+            case DimensionDate::DATE_INTERVAL_MONTH:
+                return $this->interval_values[DimensionDate::DATE_INTERVAL_MONTH];
+            case DimensionDate::DATE_INTERVAL_YEAR:
+                return $this->interval_values[DimensionDate::DATE_INTERVAL_YEAR];
+            default:
+                return $this->interval_values[DimensionDate::DATE_INTERVAL_MONTH];
+        }
+
+    }
+
+    public function getAxis($dimensions, $initial) {
+        $model = new $dimensions->label['model']();
+        $labels = $model->getLabels($dimensions->label['id'], $initial);
+
+        $interval = new DateInterval($this->interval_values[$dimensions->axis['id']]);
+
+        $axis = array();
+        foreach ($labels as $label) {
+            $begin = new DateTime($label['start']);
+            $end = new DateTime($label['end']);
+            $range = new DatePeriod($begin, $interval, $end);
+            foreach ($range as $date) {
+                //In a leap year this creates an irreconcilable offset so skip this day
+                if($date->format("d-M") != '29-Feb') {
+                    $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
+                    $date->add($interval);
+                    $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
+                    // Cache if all dates are in the past.
+                    $cache = false;
+                    if ($date->format('U') < time()) {
+                        $cache = true;
+                    }
+                    $axis[$label['name']][] = array(
+                        'conditions' => $conditions,
+                        'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
+                        'contain' => array('DimensionDate'),
+                        'cache' => $cache,
+                    );
+                }
+            }
+        }
+        return $axis;
+    }
 
 }

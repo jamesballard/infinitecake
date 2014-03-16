@@ -1,9 +1,9 @@
 <div class="control-group">
 <?php
-echo $this->Form->label('system', 'System(s)', array('class' => 'control-label'));
+echo $this->Form->label('System', 'System(s)', array('class' => 'control-label'));
 echo '<div class="controls">';
 echo $this->Chosen->select(
-    'system',
+    'System',
     $systems,
     array(
     	'data-placeholder' => 'Select system(s)...',

@@ -92,4 +92,27 @@ class System extends AppModel {
 		)
 	);
 
+    /**
+     * hasAndBelongsTo associations
+     *
+     * @var array
+     */
+    public $hasAndBelongsToMany = array(
+        'Report' => array(
+            'className' => 'Report',
+            'joinTable' => 'report_systems',
+            'foreignKey' => 'system_id',
+            'associationForeignKey' => 'report_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        ),
+    );
+
 }

@@ -94,6 +94,7 @@ CakePlugin::load('BootstrapForm');
 CakePlugin::load('Wizard');
 CakePlugin::load('dynamicForms');
 CakePlugin::load('Acl', array('bootstrap' => true));
+CakePlugin::load('Tools', array('bootstrap' => true));
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:

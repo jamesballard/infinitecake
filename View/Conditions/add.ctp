@@ -1,6 +1,6 @@
 <div class="conditions form">
 <h2><?php echo __("Add $label Condition"); ?></h2>
-<?php echo $this->BootstrapForm->create('Condition'); ?>
+<?php echo $this->Form->create('Condition'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendSettings');
@@ -13,5 +13,5 @@
         }
 	?>
 	</fieldset>
-<?php echo $this->BootstrapForm->end(); ?>
+<?php echo $this->Form->end(); ?>
 </div>

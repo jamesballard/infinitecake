@@ -1,6 +1,6 @@
 <div class="departments form">
 <h2><?php echo __('Edit Department'); ?></h2>
-<?php echo $this->BootstrapForm->create('Department'); ?>
+<?php echo $this->Form->create('Department'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendChangeSettings');
@@ -12,5 +12,5 @@
         echo $this->element('SelectForms/departments');
 	?>
 	</fieldset>
-<?php echo $this->BootstrapForm->end(); ?>
+<?php echo $this->Form->end(); ?>
 </div>

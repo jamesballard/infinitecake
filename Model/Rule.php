@@ -108,13 +108,37 @@ class Rule extends AppModel {
             'insertQuery' => ''
         )
     );
-/**
- * Returns a list formatted array of rules for multi-select form
- *
- * @param $customer_id integer
- * @param $rule_type integer
- * @return array
- */
+
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param $customer_id integer
+     * @return array a list formatted array
+     */
+    public function getDimensionParameters($customer_id) {
+        return $this->find('list', array(
+            'conditions' => array('customer_id' => $customer_id)
+        ));
+    }
+
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getFilterOptions($customer_id) {
+        return $this->find('list', array(
+            'conditions' => array('customer_id' => $customer_id)
+        ));
+    }
+
+    /**
+     * Returns a list formatted array of rules for multi-select form
+     *
+     * @param $customer_id integer
+     * @return array
+     */
     public function getCustomerRules($customer_id) {
         return $this->find('all', array(
             'contain' => false,

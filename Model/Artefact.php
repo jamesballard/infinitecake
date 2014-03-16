@@ -88,6 +88,27 @@ class Artefact extends AppModel {
         )
     );
 
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getDimensionParameters($customer_id) {
+        return array(0 => __('No option required'));
+    }
+
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getFilterOptions($customer_id) {
+        $artefacts = $this->getArtefactsByCustomerId($customer_id);
+        return Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
+    }
+
     public function getArtefacts() {
         // Define the artefacts for reports
         $conditions = array('type' => array(

@@ -21,12 +21,12 @@ class AcademicperiodBehavior extends ModelBehavior {
         return $acYear;
     }
 
-/**
- * Returns a DatePeriod for the years that logs are recorded to current date
- *
- * @param   timestamp   $start      Start date as timestamp, 0 = go back 1 year
- * @return  DatePeriod  $daterange  http://php.net/manual/en/class.dateperiod.php
- */
+    /**
+     * Returns a DatePeriod for the years that logs are recorded to current date
+     *
+     * @param   timestamp   $start      Start date as timestamp, 0 = go back 1 year
+     * @return  DatePeriod  $daterange  http://php.net/manual/en/class.dateperiod.php
+     */
     function getYears(Model $Model, $start=0) {
         if($start > 0) {
             $yearStart = strtotime ( '-7 months' , $start ) ;
@@ -35,7 +35,7 @@ class AcademicperiodBehavior extends ModelBehavior {
             $begin = new DateTime(date('Y-m-01',strtotime("-1 year", time())));
         }
 
-        //Add 4 months to push into next academic year (e.g. August +5) = UK Academic Year
+        //Add 5 months to push into next academic year (e.g. August +5) = UK Academic Year
         $end = new DateTime( date('Y-m-01',strtotime("+5 months")));
         // Get years as range.
         $interval = new DateInterval('P1Y');
@@ -51,9 +51,8 @@ class AcademicperiodBehavior extends ModelBehavior {
  * @param   timestamp      $start
  * @param   DateInterval    $interval http://php.net/manual/en/class.dateinterval.php
  * @return  array           Academic Year => DatePeriod
- * @TODO This is based on UK academic year starting 1st August - this should be configurable
  */
-    function getAcademicPeriod(Model $Model, $start, $interval) {
+    function getAcademicPeriod(Model $Model, $start, $interval='P1Y') {
         $daterange = $this->getYears($Model, $start);
         $periods = array();
         foreach ($daterange as $date) {

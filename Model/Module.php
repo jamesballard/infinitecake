@@ -88,4 +88,39 @@ class Module extends AppModel {
             'insertQuery' => ''
         )
     );
+
+    /*
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @return array a list formatted array
+     */
+    public function getDimensionParameters($customer_id) {
+        return array(0 => __('No option required'));
+    }
+
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getFilterOptions($customer_id) {
+        $modules = $this->find('all', array(
+            'contain' => array(
+                'System' => array(
+                    'fields' => array(
+                        'System.customer_id'
+                    )
+                ),
+            ),
+            'conditions' => array(
+                'System.customer_id' => array(
+                    $customer_id
+                )
+            ),
+            'fields' => array('Module.id as id', 'Module.name as name'),
+            'order' => array('name' => 'ASC')
+        ));
+        return Set::combine($modules, '{n}.Module.id', '{n}.Module.name');
+    }
 }

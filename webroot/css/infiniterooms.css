@@ -1,22 +1,41 @@
 @charset "utf-8";
 
-/** Layout **/
+/** Fonts **/
+@font-face {
+    font-family: "MyriadPro-Regular";
+    src: url(/fonts/MyriadPro-Regular.otf);
+}
 
+/** Layout **/
 #container {
 	text-align: left;
 }
 
-a.brand {
-    background: #003D4C;
-
-}
+.navbar {margin-bottom: 0px}
 
 .navbar .brand {
+@elementHeight: 32px;
+    padding: 3px 20px 3px 20px;
+    font-family: MyriadPro-Regular,"Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #eaeaea;
+    background: #5451a2;
+    text-transform: lowercase;
     text-shadow: none;
 }
 
-.navbar {margin-bottom: 0px}
+.navbar .nav>li>a {
+    padding: 13px 15px 10px;
+}
+
+.logo-svg-alternate {
+    display: none;
+}
+.no-svg .logo-svg-alternate {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-image: url(/img/logo32.png);
+}
 
 .content{
     background: url(../img/a3.gif) repeat-x;
@@ -63,6 +82,11 @@ a.brand {
 .inactive i.icon-plus{ display:inline-block; }
 .inactive i.icon-minus { display:none;}
 
+/* Report remove filter */
+.remove {
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
 
 /* SQL log */
 .cake-sql-log {

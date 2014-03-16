@@ -30,7 +30,10 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
+/**
+ * Use JSON extension processing for AJAX calls.
+ */
+    Router::parseExtensions('json');
 /**
  * Connect the stats controller to the overview page as there is no select index.
  */

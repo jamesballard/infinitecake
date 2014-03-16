@@ -1,10 +1,8 @@
 <div class="rules form">
 <h2><?php echo __('Edit Rule'); ?></h2>
-<?php echo $this->BootstrapForm->create('Rule'); ?>
+<?php echo $this->Form->create('Rule'); ?>
     <?php
-    $html = '<fieldset>';
-    $html .= "<legend>Label '+ (i + 1) +'</legend>";
-    //$html .= $this->html->link('Remove', array('id' => 'addElement', 'type' =>'button'), 'primary');
+    $html = "<legend>Label '+ (i + 1) +'</legend>";
     $html .= $this->Form->input("Condition.' + i +'.name");
     $html .= $this->Form->input("Condition.' + i +'.type", array( 'value' => 1 , 'type' => 'hidden') );
     $html .= $this->formGeneration->generateConditionRulesForm($rules, $rule_id);
@@ -12,7 +10,6 @@
     if($formid != Rule::RULE_TYPE_ACTION) {
         $html .= $this->formGeneration->generateConditionItemsForm($rule_types, $formid, $label, $conditionItems);
     }
-    $html .= '</fieldset>';
     ?>
     <div id="elementContainer">
 	<fieldset>
@@ -38,7 +35,7 @@
     <?php
             echo '<legend>Label '.($i + 1);
             echo '<span class="help-inline"><small>';
-            echo $this->html->link('Remove', '#');
+            echo $this->html->link('Remove', '#', array('class' => 'remScnt'));
             echo '</small></span></legend>';
             echo $this->Form->input("Condition.$i.id", array( 'value' => $condition['id']));
             echo $this->Form->input("Condition.$i.name", array( 'value' => $condition['name']));
@@ -54,16 +51,16 @@
                     'selected' => $selected
                 ));
             }
-            $i++;
     ?>
     </fieldset>
     <?php
+            $i++;
         endforeach;
 	?>
     </div>
     <fieldset>
-    <?php echo $this->BootstrapForm->button('Add Element', array('id' => 'addElement', 'type' =>'button'), 'primary'); ?>
-    <?php echo $this->BootstrapForm->end('',array(),'success'); ?>
+    <?php echo $this->Form->button('Add element', array('id' => 'addElement', 'type' =>'button'), 'primary'); ?>
+    <?php echo $this->Form->end(); ?>
     </fieldset>
 </div>
-<?php echo $this->dynamicForms->addremoveHtmlElement('addElement', 'elementContainer', $html, $i);
+<?php echo $this->dynamicForms->addremoveHtmlElement('addElement', 'elementContainer', 'fieldset', $html, $i);

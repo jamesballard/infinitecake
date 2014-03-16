@@ -1,6 +1,6 @@
 <div class="artefacts form">
 <h2><?php echo __('Edit Artefact'); ?></h2>
-<?php echo $this->BootstrapForm->create('Artefact'); ?>
+<?php echo $this->Form->create('Artefact'); ?>
 	<fieldset>
 	<?php
         echo $this->element('FormItems/legendChangeSettings');
@@ -10,5 +10,5 @@
 		echo $this->Form->input('type', array('type' => 'select', 'options' => $artefact_types));
 	?>
 	</fieldset>
-<?php echo $this->BootstrapForm->end(__('Submit')); ?>
+<?php echo $this->Form->end(__('Submit')); ?>
 </div>

@@ -67,7 +67,7 @@ class dynamicFormsHelper extends AppHelper {
      * @return string script tag output
      */
 
-    public function addremoveHtmlElement($addlink, $container, $html, $count) {
+    public function addremoveHtmlElement($addlink, $container, $element, $html, $count) {
         //Replace capitalised i and quotation marks from cake form auto-generation.
         $html = str_replace('+I+', '+ i +', $html);
         $html = str_replace('&#039;', '\'', $html);
@@ -79,7 +79,7 @@ class dynamicFormsHelper extends AppHelper {
                     var i = '.($count).';
 
                     $("#'.$addlink.'").live("click", function() {
-                        $(\''.$html.'<div class="controls"><a href="#" id="remScnt">Remove</a></div>\').appendTo(scntDiv);
+                        $(\'<'.$element.'>'.$html.'<div class="controls remove"><a href="#" class="remScnt">Remove</a></div></'.$element.'>\').appendTo(scntDiv);
                         i++;
                         $(".chzn-select").chosen();
                         $(".chzn-select-deselect").chosen({
@@ -88,9 +88,9 @@ class dynamicFormsHelper extends AppHelper {
                         return false;
                     });
 
-                    $("#remScnt").live("click", function() {
+                    $(".remScnt").live("click", function() {
                         if( i > 0 ) {
-                            $(this).closest("fieldset").remove();
+                            $(this).closest("'.$element.'").remove();
                             i--;
                         }
                         return false;
@@ -112,4 +112,38 @@ class dynamicFormsHelper extends AppHelper {
         return implode($new_lines);
     }
 
+    /**
+     * Create select option dependents within a form.
+     *
+     * @param string $master - the id of the select menu that will trigger update on change
+     * @param string $dependent - the id of the dependent select to change content
+     * @return string script tag output
+     */
+    public function addSelectionDependency($master, $dependent) {
+        $o = '<script type="text/javascript">
+                $(function() {
+                    $("#'.$master.'").change(function() {
+                        var selectedValue = $(this).val();
+                        var targeturl = $(this).attr("rel") + "?id=" + selectedValue;
+                        $.ajax({
+                            type: "get",
+                            url: targeturl,
+                            beforeSend: function(xhr) {
+                            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        },
+                            success: function(response) {
+                            if (response.content) {
+                                $("#'.$dependent.'").html(response.content);
+                            }
+                        },
+                            error: function(e) {
+                            alert("An error occurred: " + e.responseText.message);
+                            console.log(e);
+                        }
+                        });
+                    });
+                });
+            </script>';
+        return $o;
+    }
 }

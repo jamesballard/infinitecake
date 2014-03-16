@@ -5,7 +5,7 @@ echo $this->DrasticTreeMap->visualize('chart_div', $data);
 
 echo '<div id="chart_div"  style="width:'.$width.'px; height:'.$height.'px;"></div>';
 
-echo $this->BootstrapForm->create('Modules');
+echo $this->Form->create('Modules');
 ?>
 <fieldset>
 <?php
@@ -16,5 +16,5 @@ echo $this->element('FormItems/inputSize');
 ?>
 </fieldset>
 <?php
-echo $this->BootstrapForm->end();
+echo $this->Form->end();
 ?>
