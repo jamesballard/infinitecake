@@ -19,7 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::uses('MyController', 'Tools.Controller');
+//App::uses('MyController', 'Tools.Controller');
 
 /**
  * Application Controller
@@ -30,7 +30,7 @@ App::uses('MyController', 'Tools.Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends MyController {
+class AppController extends Controller {
 
     public $components = array(
         'Acl',
