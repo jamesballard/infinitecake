@@ -30,6 +30,7 @@ class ReportDimension extends AppModel {
     const DIMENSION_RULE = 'Rule';
 
     public $dimension_models = array(
+        NULL => 'None',
         self::DIMENSION_ARTEFACT => 'Artefact',
         self::DIMENSION_COURSE => 'Course',
         self::DIMENSION_DATE => 'Date',
@@ -73,6 +74,13 @@ class ReportDimension extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'Dimension' => array(
+            'className' => 'Dimension',
+            'foreignKey' => 'dimension_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
 	);
 }

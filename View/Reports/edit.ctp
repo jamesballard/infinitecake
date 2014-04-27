@@ -58,6 +58,10 @@ $filterlistelement .= '</div>';
             echo $this->element('MultiSelectForms/dashboards');
             echo $this->element('MultiSelectForms/systems');
             echo $this->element('FormItems/hiddenCustomer_id');
+            // TODO: hard-coded to count actions - may be other approaches.
+            echo $this->Form->input('ReportValue.0.id', array('type' => 'hidden'));
+            echo $this->Form->input('ReportValue.0.value_id', array('value' => 1, 'type' => 'hidden'));
+            echo $this->Form->input('ReportValue.0.parameter', array('value' => 1, 'type' => 'hidden'));
             echo $this->Form->input('visualisation', array(
                 'options' => $visualisation_types,
                 'default' => Report::VISUALISATION_LINE
@@ -74,7 +78,22 @@ $filterlistelement .= '</div>';
                 'class' => 'datepicker',
                 'placeholder' => 'dd/mm/yyyy (empty = latest)'
             ));
-
+            echo $this->Form->input('datewindow', array(
+                'options' => array(
+                    NULL => 'All',
+                    '-1 day' => '1 day',
+                    '-3 days' => '3 days',
+                    '-5 days' => '5 days',
+                    '-1 week' => '1 week',
+                    '-2 weeks' => '2 weeks',
+                    '-3 weeks' => '3 weeks',
+                    '-1 month' => '1 month',
+                    '-3 months' => '3 months',
+                    '-6 months' => '6 months',
+                    '-1 year' => '1 year'
+                ),
+                'default' => '-1 week'
+            ));
             /*
              * Only count is supported for logs.
              echo $this->Form->input('yaxis', array(
@@ -145,7 +164,7 @@ $filterlistelement .= '</div>';
                     'between' => '<div class="controls">',
                     'after' => false,
                     'class' => 'span2',
-                    'options' => array_merge(array('0' => __('None')), $dimension_models),
+                    'options' => $dimension_models,
                     'label' => 'Labels',
                     'default' => Dimension::DIMENSION_PERIOD
                 ));

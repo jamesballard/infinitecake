@@ -125,11 +125,7 @@ class ReportsController extends AppController {
                         'fields' => array()
                     ),
                     'ReportDimension' => array(),
-                    'ReportValue' => array(
-                        'Value' => array(
-                            'fields' => array()
-                        ),
-                    ),
+                    'ReportValue' => array(),
                     'Dashboard' => array()
                 ),
                 'conditions' => array('Report.'.$this->Report->primaryKey => $id)
@@ -149,12 +145,16 @@ class ReportsController extends AppController {
                 $class = new $model;
             }
             if ($dimension['type'] == 1) {
-                $axis_parameters = $class->getDimensionParameters($customer_id);
+                if ($model) {
+                    $axis_parameters = $class->getDimensionParameters($customer_id);
+                } else {
+                    $axis_parameters = array('' => __('No option required'));
+                }
             } else if ($dimension['type'] == 2) {
                 if ($model) {
                     $label_parameters = $class->getDimensionParameters($customer_id);
                 } else {
-                    $label_parameters = array(0 => __('No option required'));
+                    $label_parameters = array('' => __('No option required'));
                 }
             }
         }
@@ -185,25 +185,25 @@ class ReportsController extends AppController {
     public function axis_options_ajax() {
         //$this->request->onlyAllow('ajax');
         $model = $this->request->query('id');
-        if (!$model) {
-            throw new NotFoundException();
-        }
-
         $this->layout = 'ajax';
         $this->viewClass = 'Tools.Ajax';
 
-        $customer_id = array(
-            $this->get_allCustomersID(),
-            $this->get_currentUser()['Member']['customer_id'],
-        );
+        if (!$model) {
+            $options = array();
+        } else {
+            $customer_id = array(
+                $this->get_allCustomersID(),
+                $this->get_currentUser()['Member']['customer_id'],
+            );
 
-        $this->loadModel($model);
-        $class = new $model;
-        $cacheName = $model.'dimension.parameters';
-        $options = Cache::read($cacheName, 'short');
-        if (!$options) {
-            $options = $class->getDimensionParameters($customer_id);
-            Cache::write($cacheName, $options, 'short');
+            $this->loadModel($model);
+            $class = new $model;
+            $cacheName = $model.'dimension.parameters';
+            $options = Cache::read($cacheName, 'short');
+            if (!$options) {
+                $options = $class->getDimensionParameters($customer_id);
+                Cache::write($cacheName, $options, 'short');
+            }
         }
         $this->set(compact('options'));
     }
@@ -213,10 +213,14 @@ class ReportsController extends AppController {
         $model = $this->request->query('id');
         $this->layout = 'ajax';
         $this->viewClass = 'Tools.Ajax';
+
         if (!$model) {
             $options = array();
         } else {
-            $customer_id = $this->get_currentUser()['Member']['customer_id'];
+            $customer_id = array(
+                $this->get_allCustomersID(),
+                $this->get_currentUser()['Member']['customer_id'],
+            );
 
             $this->loadModel($model);
             $class = new $model;

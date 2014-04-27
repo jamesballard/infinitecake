@@ -6,11 +6,22 @@
  * Time: 20:50
  */
 class StatsController extends AppController {
-    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap');
+    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'zingCharts.zingCharts');
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action');
+    var $uses = array('Action', 'Report', 'Dashboard', 'DashboardReport');
+
+    function beforeFilter() {
+        parent::beforeFilter();
+        $dashboard_id = 1;
+        $this->set('reports', $this->DashboardReport->getDashboardReports($dashboard_id));
+    }
+
+    public function report($id) {
+        $this->set('report', $this->Report->getReport($id));
+        $this->set('data', $this->Report->getReportCountGchart($id));
+    }
       
 	public function overview() {
 		$systems = AppController::get_customerSystems();
@@ -41,10 +52,10 @@ class StatsController extends AppController {
 	            'width' => $width,
 	            'height' => $height
 	        );
-	        
+
 	        //Set query filters
 	        $conditions = $this->DataFilters->returnSystemFilter($system);
-        	
+
 	        $results = $this->ProcessData->getOverviewData($dateWindow, $period, $conditions);
             $data = array_merge($data,$results);
 

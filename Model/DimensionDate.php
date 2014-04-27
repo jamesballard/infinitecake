@@ -113,6 +113,14 @@ class DimensionDate extends AppModel {
 
     }
 
+    /**
+     * Get the x-axis array for the date dimension.
+     *
+     * @param $dimensions
+     * @param $initial
+     * @return array
+     *
+     */
     public function getAxis($dimensions, $initial) {
         $model = new $dimensions->label['model']();
         $labels = $model->getLabels($dimensions->label['id'], $initial);

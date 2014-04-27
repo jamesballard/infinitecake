@@ -21,6 +21,7 @@ class Value extends AppModel {
     const VALUE_TYPE_MAX = 5;
     const VALUE_TYPE_STDDEV = 6;
     const VALUE_TYPE_VARIANCE = 7;
+    const VALUE_TYPE_SELECT = 8;
 
     public $value_types = array(
         Value::VALUE_TYPE_COUNT=>'Count',
@@ -29,7 +30,8 @@ class Value extends AppModel {
         Value::VALUE_TYPE_MIN=>'Minimum',
         Value::VALUE_TYPE_MAX=>'Maximum',
         Value::VALUE_TYPE_STDDEV=>'Standard Deviation',
-        Value::VALUE_TYPE_VARIANCE=>'Variance'
+        Value::VALUE_TYPE_VARIANCE=>'Variance',
+        Value::VALUE_TYPE_SELECT=>'Select',
     );
 
     public function getValueSql($type, $field) {
@@ -48,6 +50,8 @@ class Value extends AppModel {
                 return "STD($field)";
             case Value::VALUE_TYPE_VARIANCE:
                 return "VARIANCE($field)";
+            case Value::VALUE_TYPE_SELECT:
+                return $field;
             default:
                 break;
         }

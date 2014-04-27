@@ -32,4 +32,15 @@ class DashboardReport extends AppModel {
 			'order' => ''
 		)
 	);
+
+    /**
+     * Get reports for given dashboard.
+     */
+    public function getDashboardReports($dashboard_id) {
+        return $this->find('all', array(
+            'contain' => array('Report'),
+            'conditions' => array('dashboard_id' => $dashboard_id),
+            'order' => array('Report.id')
+        ));
+    }
 }

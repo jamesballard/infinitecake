@@ -45,6 +45,7 @@ $url = $this->request->here;
         echo $this->Html->script('jquery');
         echo $this->Html->script('jquery-ui');
         echo $this->Html->script('bootstrap.min');
+        echo $this->Html->script('canvasjs.min');
         echo $this->Html->script('googleAnalytics');
         echo $this->Html->script('infiniterooms');
 

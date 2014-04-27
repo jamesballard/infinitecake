@@ -1,5 +1,9 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('Course', 'Model');
+App::uses('Filter', 'Model');
+App::uses('Module', 'Model');
+App::uses('Person', 'Model');
 /**
  * Action Model
  *
@@ -106,6 +110,165 @@ class Action extends AppModel {
             'insertQuery' => ''
         )
     );
+
+    /**
+     * Get the x-axis array for the course dimension.
+     *
+     * @param $dimensions
+     * @param $report
+     * @return array
+     *
+     */
+    public function getAxis($dimensions, $report) {
+        $axis = array();
+        $group = $report['ReportDimension'][0]['model'];
+        $groupModel = new $group();
+        $Filter = new Filter();
+
+        // SELECT SQL.
+        $sql = "SELECT $group.id, ";
+        $sql .= "$group.".$groupModel->displayField.", ";
+        $sql .= "COUNT(".$report['ReportValue'][0]['Value']['field'].") AS total ";
+
+        // FROM SQL.
+        $sql .= "FROM actions AS `Action`, systems AS System, groups AS `Group`, modules AS Module, ";
+        $sql .= "dimension_verb AS DimensionVerb, courses AS Course, artefacts AS Artefact ";
+
+        // WHERE SQL.
+        $sql .= "WHERE Action.system_id = System.id ";
+        $sql .= "AND Action.group_id = Group.id ";
+        $sql .= "AND Action.module_id = Module.id ";
+        $sql .= "AND Action.dimension_verb_id = DimensionVerb.id ";
+        $sql .= "AND Group.course_id = Course.id ";
+        $sql .= "AND Module.artefact_id = Artefact.id ";
+
+        // Add System WHERE clauses with IN array.
+        $systems = array();
+        foreach ($report['System'] as $system) {
+            $systems[] = $system['id'];
+        }
+        $sql .= "AND System.id IN (".implode(',', $systems).") ";
+
+        // Add Custom filter WHERE clauses.
+        foreach ($report['Filter'] as $filter) {
+            $sql .= $Filter->getFilterSQL($filter);
+        }
+
+        // GROUP BY.
+        $sql .= "GROUP BY ".$report['ReportDimension'][0]['model'].".id ";
+
+
+        // ORDER.
+        if ($report['Report']['rankorder']) {
+            $sql .= "ORDER BY total ".$report['Report']['rankorder']." ";
+        }
+
+        // LIMIT.
+        if ($report['Report']['ranklimit']) {
+            $sql .= "LIMIT ".$report['Report']['ranklimit'];
+        }
+
+        $points = $this->query($sql);
+        foreach ($points as $point) {
+            $axis[] = array(
+                'conditions' => array("$group.id" => $point[$group]['id']),
+                'name' => $point[$group][$groupModel->displayField],
+                'contain' => array('System', 'DimensionVerb'),
+                'cache' => false,
+                'joins' => array(
+                    array(
+                        'table' => 'groups',
+                        'alias' => 'Group',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Group.id = Action.group_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'modules',
+                        'alias' => 'Module',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Module.id = Action.module_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'courses',
+                        'alias' => 'Course',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Course.id = Group.course_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'artefacts',
+                        'alias' => 'Artefact',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Artefact.id = Module.artefact_id'
+                        )
+                    ),
+                )
+            );
+        }
+        return $axis;
+    }
+
+    public function getListData($select, $report, $conditions) {
+        // Add System WHERE clauses with IN array.
+        $systems = array();
+        foreach ($report['System'] as $system) {
+            $systems[] = $system['id'];
+        }
+        $conditions = array_merge($conditions, array('System.id' => $systems));
+        $conditions = array_merge($conditions, array('time >'  =>date("Y-m-d", strtotime($report['Report']['datewindow']))));
+
+        $cacheName = 'stream_actions.'.$this->formatCacheConditions($conditions);
+        $actions = Cache::read($cacheName, 'short');
+        $actions = false;
+        if (!$actions) {
+            $actions = $this->find('all', array(
+                    'contain' => array(
+                        'User',
+                        'Group' => array('Course'),
+                        'Module' => array('Artefact'),
+                        'DimensionVerb',
+                        'System'
+                    ),
+                    'conditions' => $conditions,
+                    'order' => array(
+                        'dimension_date_id' => $report['Report']['rankorder'],
+                        'dimension_time_id' => $report['Report']['rankorder']
+                    )
+                )
+            );
+            Cache::write($cacheName, $actions, 'short');
+        }
+        return $actions;
+    }
+
+    /**
+     * Get the x-axis array for the course dimension.
+     *
+     * @param $dimensions
+     * @param $report
+     * @return array
+     *
+     */
+    public function getLabelledAxis($dimensions, $report) {
+        $model = new $dimensions->label['model']();
+        $labels = $model->getLabels($dimensions->label['id'], $report);
+
+        $axis = array();
+        foreach ($labels as $label) {
+            $axis[$label['name']][] = array(
+                'conditions' => $conditions,
+                'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
+                'contain' => array('DimensionDate'),
+                'cache' => $cache,
+            );
+        }
+    }
 
     /**
      * Returns a Count for selected interval for the years available

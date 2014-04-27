@@ -10,6 +10,13 @@ App::uses('AppModel', 'Model');
  */
 class Artefact extends AppModel {
 
+/**
+ * Display field
+ *
+ * @var string
+ */
+    public $displayField = 'name';
+
 //Define Artefact Types
     const ARTEFACT_TYPE_ASSESSMENT = 1;
     const ARTEFACT_TYPE_COMMUNICATION = 2;

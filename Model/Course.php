@@ -13,7 +13,7 @@ class Course extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'name';
+	public $displayField = 'idnumber';
 
     public $filtertype = 'select';
 

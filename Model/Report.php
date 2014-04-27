@@ -3,6 +3,7 @@ App::uses('AppModel', 'Model');
 App::uses('Action', 'Model');
 App::uses('Dimension', 'Model');
 App::uses('DimensionDate', 'Model');
+App::uses('DimensionTime', 'Model');
 App::uses('Filter', 'Model');
 App::uses('Period', 'Model');
 App::uses('Value', 'Model');
@@ -23,6 +24,8 @@ class Report extends AppModel {
     const VISUALISATION_LINE = 4;
     const VISUALISATION_TABLE = 5;
     const VISUALISATION_TREEMAP = 6;
+    const VISUALISATION_LIST = 7;
+    const VISUALISATION_RADAR = 8;
 
     public $visualisation_types = array(
         self::VISUALISATION_BAR => 'Bar chart',
@@ -30,16 +33,20 @@ class Report extends AppModel {
         self::VISUALISATION_PIE => 'Pie chart',
         self::VISUALISATION_LINE => 'Line graph',
         self::VISUALISATION_TABLE => 'Data table',
-        self:: VISUALISATION_TREEMAP => 'Treemap',
+        self::VISUALISATION_TREEMAP => 'Treemap',
+        self::VISUALISATION_LIST => 'Activity List',
+        self::VISUALISATION_RADAR => 'Radar graph',
     );
 
-    public $visualisation_display = array(
-        self::VISUALISATION_BAR => 'bar',
-        self::VISUALISATION_COLUMN => 'column',
+    public static $visualisation_display = array(
+        self::VISUALISATION_BAR => 'hbar',
+        self::VISUALISATION_COLUMN => 'bar',
         self::VISUALISATION_PIE => 'pie',
         self::VISUALISATION_LINE => 'line',
-        self::VISUALISATION_TABLE => 'table',
-        self:: VISUALISATION_TREEMAP => 'treemap',
+        self::VISUALISATION_TABLE => 'grid',
+        self::VISUALISATION_TREEMAP => 'treemap',
+        self::VISUALISATION_LIST => 'list',
+        self::VISUALISATION_RADAR => 'radar',
     );
 
 // Define the dashboards for the report to display - TODO: subsume into dashboard feature in future
@@ -177,7 +184,9 @@ class Report extends AppModel {
                 ),
                 'ReportValue' => array(
                     'Value'
-                ), 'Filter'
+                ),
+                'System',
+                'Filter'
             ),
             'conditions' => array(
                 'id' => $id
@@ -202,7 +211,7 @@ class Report extends AppModel {
      * $param stdClass $report
      * $return string
      */
-    function getFactTable($report) {
+    public function getFactTable($report) {
         return $report['ReportValue'][0]['Value']['model'];
     }
 
@@ -230,29 +239,36 @@ class Report extends AppModel {
         }
         return $dimensions;
     }
-    /*
+    /**
      * Get the dimension labels for a report.
      *
      * $param stdClass $report
      * $return stdClass
      */
     function useLabels($label) {
-        if (isset($label['id'])) {
+        if (isset($label['id']) and !empty($label['id'])) {
             return true;
         } else {
             return false;
         }
     }
-    /*
+    /**
      * Get a date range for caching if not a time-series report.
      *
      * $param stdClass $report
-     * $return stdClass
+     * $return DatePeriod
      */
-    function getDateRange($initial) {
-        $initial = strtotime("-2 Years");
-        $begin = new DateTime(date("Y-m-01", strtotime($initial)));
-        $end = new DateTime(date("Y-m-01", strtotime(time())));
+    function getDateRange($report) {
+        if (!empty($report['Report']['startdate'])) {
+            $begin = DateTime::createFromFormat('U', $report['Report']['startdate']);
+        } else {
+            $begin = new DateTime(date("Y-m-01", strtotime("-2 Years")));
+        }
+        if (!empty($report['Report']['enddate'])) {
+            $end = DateTime::createFromFormat('U', $report['Report']['enddate']);
+        } else {
+            $end = new DateTime(date("Y-m-d", strtotime(time())));
+        }
         $interval = new DateInterval('P1M');
         return new DatePeriod($begin, $interval, $end);
     }
@@ -262,9 +278,14 @@ class Report extends AppModel {
      * $param stdClass $report
      * $return stdClass
      */
-    function getAxis($dimensions, $initial) {
-        $model = new $dimensions->axis['model']();
-        return $model->getAxis($dimensions, $initial);
+    function getAxis($dimensions, $report) {
+        if (in_array($dimensions->axis['model'], array('DimensionDate', 'DimensionTime'))) {
+            $model = new $dimensions->axis['model']();
+        } else {
+            $factTable = $this->getFactTable($report);
+            $model = new $factTable();
+        }
+        return $model->getAxis($dimensions, $report);
     }
     /*
      * Get additional filter conditions.
@@ -273,7 +294,13 @@ class Report extends AppModel {
      * $return array
      */
     function getConditions($report) {
-        return array();
+        $conditions = array();
+        // Add custom filters.
+        $Filter = new Filter();
+        foreach ($report['Filter'] as $filter) {
+            $conditions  = array_merge($conditions, $Filter->getFilterCondition($filter));
+        }
+        return $conditions;
     }
     /**
      * Returns a Count for selected interval for the years available
@@ -283,7 +310,7 @@ class Report extends AppModel {
      * @param string $format date format (e.g. 'M')
      * @return array Academic Year => Period => Count
      */
-    function getReportData($select, $factTable, $labels=false, $dates=null, $axis, $filters) {
+    function getLabelledReportData($select, $factTable, $dates=null, $axis, $filters) {
         $model = new $factTable();
         $data = array();
         foreach ($axis as $label => $points) {
@@ -313,39 +340,97 @@ class Report extends AppModel {
     }
 
     /**
+     * Returns unlabelled report data -
+     *
+     * @param $select
+     * @param $factTable
+     * @param null $dates
+     * @param $axis
+     * @param $filters
+     * @return array
+     */
+    function getCountData($select, $factTable, $dates=null, $axis, $filters) {
+        $model = new $factTable();
+        $data = array();
+        foreach ($axis as $point) {
+            $conditions = array_merge($point['conditions'], $filters);
+            $contain = array_merge($point['contain']);
+            $cacheName = 'report_count.'.$this->formatCacheConditions($conditions);
+            $value = Cache::read($cacheName, 'long');
+            $value = false;
+            if (!$value) {
+                $result = $model->find('all', array(
+                        'conditions' => $conditions, //array of conditions
+                        'contain' => $contain,
+                        'joins' => $point['joins'],
+                        'fields' => array($select)
+                    )
+                );
+                $value = $result[0][0][$select];
+                // Cache if all dates are in the past - otherwise new data will be incremented on import.
+                if ($point['cache']) {
+                    Cache::write($cacheName, $value, 'long');
+                }
+            }
+            $data[] = array($point['name'] => $value);
+        }
+        return $data;
+    }
+
+    /**
+     * @param $select
+     * @param $table
+     * @param $report
+     * @param $conditions
+     * @return mixed
+     */
+    function getListData($select, $table, $report, $conditions) {
+        $model = new $table();
+        $data = $model->getListData($select, $report, $conditions);
+        return $data;
+    }
+
+    /**
      * Returns a Count for selected interval for the years available in GChart format
      *
      * @param string $id Report ID
      * @return array $data Academic Year => Period => Count
      */
-    function getReportCountGchart($id) {
+    public function getReportCountGchart($id) {
         $report = $this->getReport($id);
-        // Set the initial date for when to report from.
-        $initial = $report['Report']['initial'];
         // Set the select aggregation SQL.
         $select = $this->getValue($report);
         // Set the fact table used for aggregation.
         $table = $this->getFactTable($report);
-        // Get the report dimensions.
-        $dimensions = $this->getDimensions($report);
-        // Set the report labels.
-        $labels = $this->useLabels($dimensions->label, $initial);
-        // If not using dates for x-axis then set a date range for caching.
-        if ($dimensions->axis['model'] == 'DimensionDate') {
-            $dates = null;
-        } else {
-            $dates = $this->getDateRange($initial);
-        }
-        // Set the x-axis values.
-        $axis = $this->getAxis($dimensions, $initial);
         // Set any additional filter conditions.
         $conditions = $this->getConditions($report);
-        // Get the data results.
-        $results = $this->getReportData($select, $table, $labels, $dates, $axis, $conditions);
-        // Format as a Google Chart array.
-        $data = $this->transformGchartArray($results);
 
-        return $data;
+        // Get the data results.
+        if ($report['Report']['visualisation'] == Report::VISUALISATION_LIST) {
+            $results = $this->getListData($select, $table, $report, $conditions);
+        } else {
+            // Get the report dimensions.
+            $dimensions = $this->getDimensions($report);
+            // If not using dates for x-axis then set a date range for caching.
+            if ($dimensions->axis['model'] == 'DimensionDate') {
+                $dates = null;
+            } else {
+                $dates = $this->getDateRange($report);
+            }
+            // Set the report labels.
+            $labels = $this->useLabels($dimensions->label, $report);
+            // Set the x-axis values.
+            $axis = $this->getAxis($dimensions, $report);
+            if ($labels) {
+                $results = $this->getLabelledReportData($select, $table, $dates, $axis, $conditions);
+            } else {
+                $results = $this->getCountData($select, $table, $dates, $axis, $conditions);
+            }
+        }
+        // Format as a Google Chart array.
+        //$data = $this->transformGchartArray($results);
+
+        return $results;
     }
 
 }

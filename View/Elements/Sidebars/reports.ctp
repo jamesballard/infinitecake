@@ -27,4 +27,13 @@ if(preg_match("/Userprofile/", $url)) {
 <li<?php echo (preg_match("/tasktype/", $url))? ' class="active"' : ''?>>
   <?php echo $this->Html->link('Rule type', array('controller' => $this->name, 'action' => 'tasktype')); ?>
 </li>
+<li class="nav-header"><?php echo __('My Reports') ?></li>
+<?php foreach($reports as $report) :
+    $report_id = $report['Report']['id'];
+?>
+<li<?php echo (preg_match("(report/$report_id)", $url))? ' class="active"' : ''?>>
+    <?php echo $this->Html->link($report['Report']['name'],
+        array('controller' => $this->name, 'action' => 'report', $report_id)); ?>
+</li>
+<?php endforeach; ?>
 <li class="divider"></li> 

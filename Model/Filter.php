@@ -1,5 +1,10 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('Artefact', 'Model');
+App::uses('Course', 'Model');
+App::uses('Module', 'Model');
+App::uses('DimensionVerb', 'Model');
+App::uses('Period', 'Model');
 /**
  * Filter Model
  *
@@ -99,4 +104,63 @@ class Filter extends AppModel {
 			'order' => ''
 		)
 	);
+
+    protected function getCondition($filter) {
+        $filterModel = new $filter['model']();
+        switch ($filter['comparison']) {
+            case self::FILTER_COMPARISON_EQUAL:
+                return array($filter['model'].'.'.$filterModel->displayField => $filter['value']);
+            case self::FILTER_COMPARISON_NOTEQUAL:
+                return array($filter['model'].'.'.$filterModel->displayField.' !=' => $filter['value']);
+            case self::FILTER_COMPARISON_BEGINSWITH:
+                return array($filter['model'].'.'.$filterModel->displayField.' LIKE' => $filter['value'].'%');
+            case self::FILTER_COMPARISON_ENDSWITH:
+                return array($filter['model'].'.'.$filterModel->displayField.' LIKE' => '%'.$filter['value']);
+            case self::FILTER_COMPARISON_CONTAINS:
+                return array($filter['model'].'.'.$filterModel->displayField.' LIKE' => '%'.$filter['value'].'%');
+            case self::FILTER_COMPARISON_NOTCONTAINS:
+                return array($filter['model'].'.'.$filterModel->displayField.' NOT LIKE' => '%'.$filter['value'].'%');
+            default:
+                return array($filter['model'].'.'.$filterModel->displayField => $filter['value']);
+        }
+    }
+
+    public function getFilterCondition($filter) {
+        $condition = array();
+        // Set the operator.
+        $filter['operator'] ? $operator = $this->filter_operators[$filter['operator']] : $operator = 'AND';
+        $condition[$operator] = $this->getCondition($filter);
+        return $condition;
+    }
+
+    protected function getComparisonSQL($comparison=self::FILTER_COMPARISON_EQUAL, $value) {
+        switch ($comparison) {
+            case self::FILTER_COMPARISON_EQUAL:
+                return "= '$value'";
+            case self::FILTER_COMPARISON_NOTEQUAL:
+                return "!= '$value'";
+            case self::FILTER_COMPARISON_BEGINSWITH:
+                return "LIKE '$value%'";
+            case self::FILTER_COMPARISON_ENDSWITH:
+                return "LIKE '%$value'";
+            case self::FILTER_COMPARISON_CONTAINS:
+                return "LIKE '%$value%'";
+            case self::FILTER_COMPARISON_NOTCONTAINS:
+                return "NOT LIKE '%$value%'";
+            default:
+                return "= '$value'";
+        }
+    }
+
+    public function getFilterSQL($filter) {
+        $operator = $filter['operator'];
+        $filterModel = new $filter['model']();
+        // Set the operator.
+        $sql = ($operator ? $this->filter_operators[$operator] : 'AND ').' ';
+        // Set the model and field.
+        $sql .= $filter['model'].'.'.$filterModel->displayField.' ';
+        // Set the comparison.
+        $sql .= $this->getComparisonSQL($filter['comparison'], $filter['value']).' ';
+        return $sql;
+    }
 }

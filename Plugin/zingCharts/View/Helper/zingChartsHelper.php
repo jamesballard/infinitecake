@@ -9,7 +9,7 @@
  * @version    1.0
  */
 
-class CanvasJSHelper extends AppHelper {
+class zingChartsHelper extends AppHelper {
 
     public $helpers = array('Html', 'Js');
 
@@ -25,6 +25,126 @@ class CanvasJSHelper extends AppHelper {
         $o = $this->Html->tag('div', '', $options);
         return $o;
     }
+
+    /**
+     * Check if report uses labels.
+     *
+     * $param stdClass $report
+     * $return boolean
+     */
+    protected function useLabels($report) {
+        foreach ($report['ReportDimension'] as $reportDimension) {
+            switch ($reportDimension['type']) {
+                case 1:
+                    break;
+                case 2:
+                    if (isset($reportDimension['parameter']) and !empty($reportDimension['parameter'])) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Configure the chart object.
+     *
+     * @param array $report
+     * @param array $data
+     * @return string
+     */
+    protected function getChartObject($report, $data) {
+        $useLabels = $this->useLabels($report);
+
+        $chart = Report::$visualisation_display[$report['Report']['visualisation']];
+        $o = 'var myChart = {
+            type   : "'.$chart.'",
+            backgroundColor: "#ffffff",
+            title  : {
+                text: "'.$report['Report']['name'].'",
+                backgroundColor:"#ffffff",
+                fontFamily:"Helvetica",
+                fontColor:"#333333",
+                textAlign: "left",
+                fontSize: 32
+            },';
+
+        if ($useLabels) {
+            $o .= 'legend  : {},';
+        }
+
+        $o .=  'plot:{
+                "line-width":1,
+                "shadow":0,
+                "exact":true
+            },
+            series : [';
+        if ($useLabels) {
+            foreach ($data as $label => $series) {
+                $o .= '{text: "'.$label.'", values:[';
+                foreach ($series as $points) {
+                    foreach ($points as $x => $y) {
+                        $o .= '["'.$x.'",'.(int)$y.'],';
+                    }
+                }
+                $o = rtrim($o, ',');
+                $o .= ']},';
+            }
+        } else {
+            $o .= '{values:[';
+            foreach ($data as $point) {
+                foreach ($point as $x => $y) {
+                    $o .= '["'.$x.'",'.(int)$y.'],';
+                }
+            }
+            $o = rtrim($o, ',');
+            $o .= ']},';
+        }
+        $o = rtrim($o, ',');
+        $o .= ']';
+        $o .= '};';
+        return $o;
+    }
+
+    /**
+     * Render the chart object.
+     *
+     * @param string $container
+     * @return string
+     */
+    protected function getChartRender($container) {
+        $o = 'window.onload=function(){
+                zingchart.render({
+                    autoResize: true,
+                    id : "'.$container.'",
+                    height : "100%",
+                    width : "auto",
+                    data : myChart,
+                });
+            };';
+        return $o;
+    }
+
+    /**
+     * Return a line graph for the given data into specified container.
+     *
+     * @param string $container - element id for chart container.
+     * @param array $report - the report details (e..g name)
+     * @param array $data - multi-dimensional data array
+     * @return string JS script
+     */
+    public function addZingChart($container, $report, $data) {
+        $o = '<script>';
+        $o .= $this->getChartObject($report, $data);
+        $o .= $this->getChartRender($container);
+        $o .= '</script>';
+        return $o;
+    }
+
+
 
     /**
      * Return a line graph for the given data into specified container.
