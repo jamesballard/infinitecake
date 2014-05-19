@@ -6,14 +6,33 @@
     src: url(/fonts/MyriadPro-Regular.otf);
 }
 
+html{
+    height: 100%;
+}
+body {
+    padding-top: 51px;
+    height: 100%;
+}
+
 /** Layout **/
 #container {
 	text-align: left;
 }
 
+.fill-height {
+    height: 100%;
+}
+#myChart {
+    height: 98%;
+    max-width: 1024px;
+    max-height: 768px;
+    margin-bottom: 0px;
+}
+
 .navbar {margin-bottom: 0px}
 
-.navbar .brand {
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:hover {
 @elementHeight: 32px;
     padding: 3px 20px 3px 20px;
     font-family: MyriadPro-Regular,"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -62,12 +81,6 @@
 	text-align: right;
 }
 
-#myChart {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
 /* jQuery UI */
 
 .ui-autocomplete-loading {
@@ -78,7 +91,27 @@
 
 .btn-offset {
     margin-left: 10px;
-	margin-top: 15px;
+	margin-top: 20px;
+}
+
+.btn-options {
+    padding: 0px;
+}
+
+.lblue, .lblue a {
+    color: #60b3ce;
+}
+
+.dblue, .dblue a {
+    color: #06799f;
+}
+
+.grey, .grey a {
+    color: #9e9e9e;
+}
+
+.orange, .orange a {
+    color: #ff8300;
 }
 
 /* Toggle icon */

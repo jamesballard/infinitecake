@@ -111,6 +111,78 @@ class Action extends AppModel {
         )
     );
 
+    public $joins = array(
+                    array(
+                        'table' => 'groups',
+                        'alias' => 'Group',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Group.id = Action.group_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'modules',
+                        'alias' => 'Module',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Module.id = Action.module_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'courses',
+                        'alias' => 'Course',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Course.id = Group.course_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'artefacts',
+                        'alias' => 'Artefact',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Artefact.id = Module.artefact_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'systems',
+                        'alias' => 'System',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'System.id = Action.system_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'dimension_verb',
+                        'alias' => 'DimensionVerb',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'DimensionVerb.id = Action.dimension_verb_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'dimension_date',
+                        'alias' => 'DimensionDate',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'DimensionDate.id = Action.dimension_date_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'dimension_time',
+                        'alias' => 'DimensionTime',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'DimensionTime.id = Action.dimension_time_id'
+                        )
+                    ),
+                );
+
+    public $order = array(
+        'DimensionDate.id DESC',
+        'DimensionTime.id DESC'
+    );
+
     /**
      * Get the x-axis array for the course dimension.
      *
@@ -124,6 +196,8 @@ class Action extends AppModel {
         $group = $report['ReportDimension'][0]['model'];
         $groupModel = new $group();
         $Filter = new Filter();
+
+        $cacheName = "Axis.Action.$group.id";
 
         // SELECT SQL.
         $sql = "SELECT $group.id, ";
@@ -146,12 +220,14 @@ class Action extends AppModel {
         $systems = array();
         foreach ($report['System'] as $system) {
             $systems[] = $system['id'];
+            $cacheName .= ".S".$system['id'];
         }
         $sql .= "AND System.id IN (".implode(',', $systems).") ";
 
         // Add Custom filter WHERE clauses.
         foreach ($report['Filter'] as $filter) {
             $sql .= $Filter->getFilterSQL($filter);
+            $cacheName .= ".F".$filter['model'].".".$filter['value'];
         }
 
         // GROUP BY.
@@ -161,25 +237,30 @@ class Action extends AppModel {
         // ORDER.
         if ($report['Report']['rankorder']) {
             $sql .= "ORDER BY total ".$report['Report']['rankorder']." ";
+            $cacheName .= ".O".$report['Report']['rankorder'];
         }
 
         // LIMIT.
         if ($report['Report']['ranklimit']) {
             $sql .= "LIMIT ".$report['Report']['ranklimit'];
+            $cacheName .= ".L".$report['Report']['ranklimit'];
         }
-
-        $points = $this->query($sql);
+        $points = Cache::read($cacheName, 'long');
+        if (!$points) {
+            $points = $this->query($sql);
+            Cache::write($cacheName, $points, 'long');
+        }
         foreach ($points as $point) {
             $axis[] = array(
                 'conditions' => array("$group.id" => $point[$group]['id']),
                 'name' => $point[$group][$groupModel->displayField],
-                'contain' => array('System', 'DimensionVerb'),
-                'cache' => false,
+                'cache' => 'short',
+                'contain' => false,
                 'joins' => array(
                     array(
                         'table' => 'groups',
                         'alias' => 'Group',
-                        'type' => 'LEFT',
+                        'type' => 'INNER',
                         'conditions' => array(
                             'Group.id = Action.group_id'
                         )
@@ -187,7 +268,7 @@ class Action extends AppModel {
                     array(
                         'table' => 'modules',
                         'alias' => 'Module',
-                        'type' => 'LEFT',
+                        'type' => 'INNER',
                         'conditions' => array(
                             'Module.id = Action.module_id'
                         )
@@ -195,7 +276,7 @@ class Action extends AppModel {
                     array(
                         'table' => 'courses',
                         'alias' => 'Course',
-                        'type' => 'LEFT',
+                        'type' => 'INNER',
                         'conditions' => array(
                             'Course.id = Group.course_id'
                         )
@@ -203,45 +284,86 @@ class Action extends AppModel {
                     array(
                         'table' => 'artefacts',
                         'alias' => 'Artefact',
-                        'type' => 'LEFT',
+                        'type' => 'INNER',
                         'conditions' => array(
                             'Artefact.id = Module.artefact_id'
                         )
                     ),
-                )
+                    array(
+                        'table' => 'systems',
+                        'alias' => 'System',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'System.id = Action.system_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'dimension_verb',
+                        'alias' => 'DimensionVerb',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'DimensionVerb.id = Action.dimension_verb_id'
+                        )
+                    ),
+                ),
+                'order' => ''
             );
         }
         return $axis;
     }
 
     public function getListData($select, $report, $conditions) {
+        $group = $report['ReportDimension'][0]['model'];
+        $Filter = new Filter();
+
+        // SELECT SQL.
+        $sql = "SELECT * ";
+
+        // FROM SQL.
+        $sql .= "FROM actions AS `Action`, systems AS System, groups AS `Group`, modules AS Module, ";
+        $sql .= "dimension_verb AS DimensionVerb, courses AS Course, artefacts AS Artefact ";
+
+        // WHERE SQL.
+        $sql .= "WHERE Action.system_id = System.id ";
+        $sql .= "AND Action.group_id = Group.id ";
+        $sql .= "AND Action.module_id = Module.id ";
+        $sql .= "AND Action.dimension_verb_id = DimensionVerb.id ";
+        $sql .= "AND Group.course_id = Course.id ";
+        $sql .= "AND Module.artefact_id = Artefact.id ";
+
         // Add System WHERE clauses with IN array.
         $systems = array();
         foreach ($report['System'] as $system) {
             $systems[] = $system['id'];
         }
         $conditions = array_merge($conditions, array('System.id' => $systems));
-        $conditions = array_merge($conditions, array('time >'  =>date("Y-m-d", strtotime($report['Report']['datewindow']))));
+        $sql .= "AND System.id IN (".implode(',', $systems).") ";
+
+        // Add Custom filter WHERE clauses.
+        foreach ($report['Filter'] as $filter) {
+            $sql .= $Filter->getFilterSQL($filter);
+        }
+
+        if(!empty($report['Report']['datewindow'])) {
+            $sql .= "AND time > ".date("Y-m-d", strtotime($report['Report']['datewindow']));
+            $conditions = array_merge($conditions,
+                array('time >'  => date("Y-m-d", strtotime($report['Report']['datewindow'])))
+            );
+        }
+
+        // ORDER.
+        $sql .= "ORDER BY time DESC ";
+
+
+        // LIMIT.
+        if ($report['Report']['ranklimit']) {
+            $sql .= "LIMIT ".$report['Report']['ranklimit'];
+        }
 
         $cacheName = 'stream_actions.'.$this->formatCacheConditions($conditions);
         $actions = Cache::read($cacheName, 'short');
-        $actions = false;
         if (!$actions) {
-            $actions = $this->find('all', array(
-                    'contain' => array(
-                        'User',
-                        'Group' => array('Course'),
-                        'Module' => array('Artefact'),
-                        'DimensionVerb',
-                        'System'
-                    ),
-                    'conditions' => $conditions,
-                    'order' => array(
-                        'dimension_date_id' => $report['Report']['rankorder'],
-                        'dimension_time_id' => $report['Report']['rankorder']
-                    )
-                )
-            );
+            $actions = $this->query($sql);
             Cache::write($cacheName, $actions, 'short');
         }
         return $actions;
@@ -266,6 +388,8 @@ class Action extends AppModel {
                 'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
                 'contain' => array('DimensionDate'),
                 'cache' => $cache,
+                'joins' => array(),
+                'order' => ''
             );
         }
     }

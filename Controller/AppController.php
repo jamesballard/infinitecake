@@ -19,7 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-//App::uses('MyController', 'Tools.Controller');
+App::uses('MyController', 'Tools.Controller');
 
 /**
  * Application Controller
@@ -30,7 +30,7 @@
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends MyController {
 
     public $components = array(
         'Acl',
@@ -46,7 +46,7 @@ class AppController extends Controller {
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',
-        'Customer', 'Rule', 'Department', 'Course', 'Condition', 'Artefact');
+        'Customer', 'Rule', 'Department', 'Course', 'Condition', 'Artefact', 'Report');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -71,6 +71,15 @@ class AppController extends Controller {
             $this->Session->write('current_user', $current_user);
 			$this->set('current_user', $current_user);
 		endif;
+
+        if (isset($current_user)) {
+            $customer = array(
+                $this->get_allCustomersID(),
+                $current_user['Member']['customer_id']
+            );
+            $this->set('navreports', $this->Report->getCustomerReports($customer));
+        }
+
     }
     
 /**

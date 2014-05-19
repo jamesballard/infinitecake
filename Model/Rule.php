@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('Condition', 'Model');
 /**
  * Rule Model
  *
@@ -131,6 +132,165 @@ class Rule extends AppModel {
         return $this->find('list', array(
             'conditions' => array('customer_id' => $customer_id)
         ));
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param integer $initial
+     * @return array
+     */
+    public function getLabels($id, $initial) {
+        $record = $this->read(null, $id);
+
+        $labels = array();
+
+        //TODO: how to go from Action to Rule!
+        switch ($record['Rule']['type']) {
+            case 1:
+                $joins = array(
+                    array(
+                        'table' => 'action_conditions',
+                        'alias' => 'ActionCondition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'ActionCondition.action_id = Action.id'
+                        )
+                    ),
+                    array(
+                        'table' => 'conditions',
+                        'alias' => 'Condition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Condition.id = ActionCondition.condition_id'
+                        )
+                    ),
+                );
+                break;
+            case 2:
+                $joins = array(
+                    array(
+                        'table' => 'dimension_verb_conditions',
+                        'alias' => 'VerbCondition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'VerbCondition.dimension_verb_id = Action.dimension_verb_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'conditions',
+                        'alias' => 'Condition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Condition.id = VerbCondition.condition_id'
+                        )
+                    ),
+                );
+                break;
+            case 3:
+                $joins = array(
+                    array(
+                        'table' => 'module_conditions',
+                        'alias' => 'ModuleCondition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'ModuleCondition.module_id = Action.module_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'conditions',
+                        'alias' => 'Condition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Condition.id = ModuleCondition.condition_id'
+                        )
+                    ),
+                );
+                break;
+            case 4:
+                $joins = array(
+                    array(
+                        'table' => 'artefact_conditions',
+                        'alias' => 'ArtefactCondition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'ArtefactCondition.artefact_id = Action.artefact_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'conditions',
+                        'alias' => 'Condition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Condition.id = ArtefactCondition.condition_id'
+                        )
+                    ),
+                );
+                break;
+            case 5:
+                $joins = array(
+                    array(
+                        'table' => 'groups',
+                        'alias' => 'Group',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Group.id = Action.group_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'course_conditions',
+                        'alias' => 'CourseCondition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'CourseCondition.course_id = Group.course_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'conditions',
+                        'alias' => 'Condition',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Condition.id = CourseCondition.condition_id'
+                        )
+                    ),
+                );
+                break;
+        }
+        $joins = array_merge($joins, array(
+            array(
+                'table' => 'rule_conditions',
+                'alias' => 'RuleCondition',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'RuleCondition.condition_id = Condition.id'
+                )
+            ),
+            array(
+                'table' => 'conditions',
+                'alias' => 'Rule',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'Rule.id = RuleCondition.rule_id'
+                )
+            ),
+        ));
+
+        $Condition = new Condition();
+        $rule_conditions = $Condition->get_rule_conditions($record['Rule']['id']);
+        foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
+            $labels[] =array(
+                'name' => $rule_condition['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => $joins,
+                'conditions' => array(
+                    'Condition.id' => $rule_condition['id'],
+                    'Rule.id' => $record['Rule']['id']
+                ),
+            );
+        }
+        return $labels;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('Rule', 'Model');
 /**
  * DimensionDate Model
  *
@@ -121,33 +122,40 @@ class DimensionDate extends AppModel {
      * @return array
      *
      */
-    public function getAxis($dimensions, $initial) {
+    public function getLabelledAxis($dimensions, $report) {
         $model = new $dimensions->label['model']();
-        $labels = $model->getLabels($dimensions->label['id'], $initial);
+        $labels = $model->getLabels($dimensions->label['id'], $report);
 
         $interval = new DateInterval($this->interval_values[$dimensions->axis['id']]);
 
+        $today = new DateTime();
+        $aeon = new DateTime(date('Y-01-01', strtotime("-2 years")));
+
         $axis = array();
         foreach ($labels as $label) {
-            $begin = new DateTime($label['start']);
-            $end = new DateTime($label['end']);
+            $conditions = $label['conditions'];
+            $joins = $label['joins'];
+            $begin = (!empty($label['start']) ? new DateTime($label['start']) : $aeon);
+            $end = (!empty($label['end']) ? new DateTime($label['end']) : $today);
             $range = new DatePeriod($begin, $interval, $end);
             foreach ($range as $date) {
                 //In a leap year this creates an irreconcilable offset so skip this day
                 if($date->format("d-M") != '29-Feb') {
-                    $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
+                    $conditions = array_merge($conditions, array('DimensionDate.date >=' => $date->format("Y-m-d")));
                     $date->add($interval);
                     $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
                     // Cache if all dates are in the past.
                     $cache = false;
                     if ($date->format('U') < time()) {
-                        $cache = true;
+                        $cache = 'long';
                     }
                     $axis[$label['name']][] = array(
                         'conditions' => $conditions,
                         'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
                         'contain' => array('DimensionDate'),
                         'cache' => $cache,
+                        'joins' => $joins,
+                        'order' => ''
                     );
                 }
             }

@@ -38,7 +38,7 @@ class zingChartsHelper extends AppHelper {
                 case 1:
                     break;
                 case 2:
-                    if (isset($reportDimension['parameter']) and !empty($reportDimension['parameter'])) {
+                    if (isset($reportDimension['model']) and !empty($reportDimension['model'])) {
                         return true;
                     } else {
                         return false;
@@ -79,9 +79,18 @@ class zingChartsHelper extends AppHelper {
         $o .=  'plot:{
                 "line-width":1,
                 "shadow":0,
-                "exact":true
-            },
-            series : [';
+                "exact":true';
+        //TODO: Needs configuration per graph and not all in one.
+        if($chart == 'radar') {
+            $o .= ',"aspect":"rose"';
+        }
+        $o .= '},';
+        if($chart == 'radar') {
+            $o .= '"scale-k":{
+                        "aspect":"circle"
+                    },';
+        }
+        $o .= 'series : [';
         if ($useLabels) {
             foreach ($data as $label => $series) {
                 $o .= '{text: "'.$label.'", values:[';
@@ -120,7 +129,7 @@ class zingChartsHelper extends AppHelper {
                 zingchart.render({
                     autoResize: true,
                     id : "'.$container.'",
-                    height : "100%",
+                    height : "auto",
                     width : "auto",
                     data : myChart,
                 });

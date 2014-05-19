@@ -35,11 +35,6 @@
  */
     Router::parseExtensions('json');
 /**
- * Connect the stats controller to the overview page as there is no select index.
- */
-	Router::connect('/Stats', array('controller' => 'stats', 'action' => 'overview'));
-
-/**
  * Set up robot.txt to manage search indexing.
  */
     Router::connect('/robots.txt',array('controller' => 'Seo', 'action' => 'robots'));

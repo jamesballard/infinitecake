@@ -24,7 +24,7 @@ class Report extends AppModel {
     const VISUALISATION_LINE = 4;
     const VISUALISATION_TABLE = 5;
     const VISUALISATION_TREEMAP = 6;
-    const VISUALISATION_LIST = 7;
+    //const VISUALISATION_LIST = 7;
     const VISUALISATION_RADAR = 8;
 
     public $visualisation_types = array(
@@ -34,7 +34,7 @@ class Report extends AppModel {
         self::VISUALISATION_LINE => 'Line graph',
         self::VISUALISATION_TABLE => 'Data table',
         self::VISUALISATION_TREEMAP => 'Treemap',
-        self::VISUALISATION_LIST => 'Activity List',
+        //self::VISUALISATION_LIST => 'Activity List',
         self::VISUALISATION_RADAR => 'Radar graph',
     );
 
@@ -45,7 +45,7 @@ class Report extends AppModel {
         self::VISUALISATION_LINE => 'line',
         self::VISUALISATION_TABLE => 'grid',
         self::VISUALISATION_TREEMAP => 'treemap',
-        self::VISUALISATION_LIST => 'list',
+        //TODO: Action view should facilitate this view: self::VISUALISATION_LIST => 'list',
         self::VISUALISATION_RADAR => 'radar',
     );
 
@@ -193,6 +193,19 @@ class Report extends AppModel {
             )
         ));
     }
+    /**
+     * Returns a list of reports for a customer.
+     *
+     * @param $customer_id
+     * @return array
+     */
+    public function getCustomerReports($customer_id) {
+        return $this->find('list', array(
+            'conditions' => array(
+                'customer_id' => $customer_id
+            )
+        ));
+    }
     /*
      * Get the aggregation sql for a report.
      *
@@ -246,7 +259,7 @@ class Report extends AppModel {
      * $return stdClass
      */
     function useLabels($label) {
-        if (isset($label['id']) and !empty($label['id'])) {
+        if (isset($label['model']) and !empty($label['model'])) {
             return true;
         } else {
             return false;
@@ -288,6 +301,21 @@ class Report extends AppModel {
         return $model->getAxis($dimensions, $report);
     }
     /*
+     * Get the dimension x-axis values.
+     *
+     * $param stdClass $report
+     * $return stdClass
+     */
+    function getLabelledAxis($dimensions, $report) {
+        if (in_array($dimensions->axis['model'], array('DimensionDate', 'DimensionTime'))) {
+            $model = new $dimensions->axis['model']();
+        } else {
+            $factTable = $this->getFactTable($report);
+            $model = new $factTable();
+        }
+        return $model->getLabelledAxis($dimensions, $report);
+    }
+    /*
      * Get additional filter conditions.
      *
      * $param stdClass $report
@@ -317,20 +345,23 @@ class Report extends AppModel {
             foreach ($points as $point) {
                 $conditions = array_merge($point['conditions'], $filters);
                 $contain = array_merge($point['contain'], array('System'));
-                $cacheName = 'period_count.'.$this->formatCacheConditions($conditions);
-                $value = Cache::read($cacheName, 'long');
+                $cacheName = "labelled_report.$select.$factTable".$this->formatCacheConditions($conditions);
                 $value = false;
+                if ($point['cache']) {
+                    $value = Cache::read($cacheName, $point['cache']);
+                }
                 if (!$value) {
                     $result = $model->find('all', array(
                             'conditions' => $conditions, //array of conditions
                             'contain' => $contain,
-                            'fields' => array($select)
+                            'joins' => $point['joins'],
+                            'fields' => array($select),
+                            'order' => $point['order']
                         )
                     );
                     $value = $result[0][0][$select];
-                    // Cache if all dates are in the past - otherwise new data will be incremented on import.
                     if ($point['cache']) {
-                        Cache::write($cacheName, $value, 'long');
+                        Cache::write($cacheName, $value, $point['cache']);
                     }
                 }
                 $data[$label][] = array($point['name'] => $value);
@@ -354,22 +385,24 @@ class Report extends AppModel {
         $data = array();
         foreach ($axis as $point) {
             $conditions = array_merge($point['conditions'], $filters);
-            $contain = array_merge($point['contain']);
-            $cacheName = 'report_count.'.$this->formatCacheConditions($conditions);
-            $value = Cache::read($cacheName, 'long');
+            $contain = $point['contain'];
+            $cacheName = "report.$select.$factTable".$this->formatCacheConditions($conditions);
             $value = false;
+            if ($point['cache']) {
+                $value = Cache::read($cacheName, $point['cache']);
+            }
             if (!$value) {
                 $result = $model->find('all', array(
                         'conditions' => $conditions, //array of conditions
                         'contain' => $contain,
                         'joins' => $point['joins'],
-                        'fields' => array($select)
+                        'fields' => array($select),
+                        'order' => $point['order']
                     )
                 );
                 $value = $result[0][0][$select];
-                // Cache if all dates are in the past - otherwise new data will be incremented on import.
                 if ($point['cache']) {
-                    Cache::write($cacheName, $value, 'long');
+                    Cache::write($cacheName, $value, $point['cache']);
                 }
             }
             $data[] = array($point['name'] => $value);
@@ -404,28 +437,26 @@ class Report extends AppModel {
         $table = $this->getFactTable($report);
         // Set any additional filter conditions.
         $conditions = $this->getConditions($report);
-
-        // Get the data results.
-        if ($report['Report']['visualisation'] == Report::VISUALISATION_LIST) {
-            $results = $this->getListData($select, $table, $report, $conditions);
+        // Get the report dimensions.
+        $dimensions = $this->getDimensions($report);
+        // If not using dates for x-axis then set a date range for caching.
+        if ($dimensions->axis['model'] == 'DimensionDate') {
+            $dates = null;
         } else {
-            // Get the report dimensions.
-            $dimensions = $this->getDimensions($report);
-            // If not using dates for x-axis then set a date range for caching.
-            if ($dimensions->axis['model'] == 'DimensionDate') {
-                $dates = null;
-            } else {
-                $dates = $this->getDateRange($report);
-            }
-            // Set the report labels.
-            $labels = $this->useLabels($dimensions->label, $report);
+            $dates = $this->getDateRange($report);
+        }
+        // Set the report labels.
+        $labels = $this->useLabels($dimensions->label, $report);
+        if ($labels) {
+            // Set the x-axis values.
+            $axis = $this->getLabelledAxis($dimensions, $report);
+            // Get the results.
+            $results = $this->getLabelledReportData($select, $table, $dates, $axis, $conditions);
+        } else {
             // Set the x-axis values.
             $axis = $this->getAxis($dimensions, $report);
-            if ($labels) {
-                $results = $this->getLabelledReportData($select, $table, $dates, $axis, $conditions);
-            } else {
-                $results = $this->getCountData($select, $table, $dates, $axis, $conditions);
-            }
+            // Get the results.
+            $results = $this->getCountData($select, $table, $dates, $axis, $conditions);
         }
         // Format as a Google Chart array.
         //$data = $this->transformGchartArray($results);

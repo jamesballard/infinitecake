@@ -59,30 +59,29 @@ $url = $this->request->here;
     <![endif]-->
 	<div id="container">
     <?php echo $this->element('Navigation/navBar'); ?>
-    <div class="container-fluid content">
-		  <div class="row-fluid">
-			    <div class="span2">
-			      <div class="sidebar">
-			        <ul class="nav nav-list">
-			          <!--Sidebar content-->
-			          <?php
-						$this->start('sidebar');
-						echo $this->element('Sidebars/guides');
-						//echo $this->element('Sidebars/help');
-						$this->end();
-					  ?> 
-			          <?php echo $this->fetch( 'sidebar' ); ?>
-			        </ul>
-			      </div>
-			    </div>
-			    <div class="span10">
-			      <div class="main-content">
-				    <!--Body content-->
-				    <?php echo $this->Session->flash(); ?>
-					<?php echo $this->fetch('content'); ?>
-				  </div>
-			    </div>
-		  </div>
+        <div class="row">
+            <div class="col-md-2">
+              <div class="sidebar">
+                <ul class="nav nav-list">
+                  <!--Sidebar content-->
+                  <?php
+                    $this->start('sidebar');
+                    echo $this->element('Sidebars/guides');
+                    //echo $this->element('Sidebars/help');
+                    $this->end();
+                  ?>
+                  <?php echo $this->fetch( 'sidebar' ); ?>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="main-content">
+                <!--Body content-->
+                <?php echo $this->Session->flash(); ?>
+                <?php echo $this->fetch('content'); ?>
+              </div>
+            </div>
+        </div>
 	</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

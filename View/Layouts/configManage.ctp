@@ -58,40 +58,39 @@ $url = $this->request->here;
     <!--[if lt IE 8]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-	<div id="container">
     <?php echo $this->element('Navigation/navBar'); ?>
     <div class="container-fluid content">
-		  <div class="row-fluid">
-			    <div class="span2">
-			      <div class="sidebar">
-			        <ul class="nav nav-list">
-			          <!--Sidebar content-->
-			          <?php
-						$this->start('sidebar');
-						echo $this->element('Sidebars/config');
-						echo $this->element('Sidebars/help');
-						$this->end();
-					  ?> 
-			          <?php echo $this->fetch( 'sidebar' ); ?>
-			        </ul>
-			      </div>
-			    </div>
-			    <div class="span10">
-			      <div class="main-content">
-				    <!--Body content-->
-				    <?php echo $this->Session->flash(); ?>
-					<?php echo $this->fetch('content'); ?>
-				  </div>
-			    </div>
-		  </div>
-	</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="sidebar">
+                    <ul class="nav nav-pills nav-stacked">
+                      <!--Sidebar content-->
+                      <?php
+                        $this->start('sidebar');
+                        echo $this->element('Sidebars/config');
+                        echo $this->element('Sidebars/help');
+                        $this->end();
+                      ?>
+                      <?php echo $this->fetch( 'sidebar' ); ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="main-content">
+                    <!--Body content-->
+                    <?php echo $this->Session->flash(); ?>
+                    <?php echo $this->fetch('content'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="footer">
+                <?php echo $this->Html->link(
+                        $this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
+                        'http://www.cakephp.org/',
+                        array('target' => '_blank', 'escape' => false)
+                    );
+                ?>
 		</div>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>

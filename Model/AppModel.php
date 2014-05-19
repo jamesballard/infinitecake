@@ -19,7 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-//App::uses('MyModel', 'Tools.Model');
+App::uses('MyModel', 'Tools.Model');
 
 /**
  * Application model for Cake.
@@ -29,7 +29,7 @@
  *
  * @package       app.Model
  */
-class AppModel extends Model {
+class AppModel extends MyModel {
     public $actsAs = array('Containable');
     public $recursive = -1;
 

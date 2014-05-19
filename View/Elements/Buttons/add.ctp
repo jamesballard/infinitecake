@@ -9,18 +9,14 @@ foreach($wizards as $wizard) {
         $action = 'wizard';
     }
 }
-
 ?>
-
-<div class="btn-toolbar">
-	<?php 
-		if(!$add && !$is_admin):
- 	         echo '<a href="#" class="btn btn-offset disabled"><i class="icon-plus-sign"></i> '.__('Add new').'</a>';
- 	    else:
-			echo '<div class="btn-group btn-offset">';
-	  		echo $this->Html->link('<i class="icon-plus-sign"></i> '.__('Add new'), array('action' => $action), array('class'=>'btn', 'escape' => FALSE));
-	  	endif;	
-	?>
-	</div>
-</div>
+<?php
+    if(!$add && !$is_admin):
+        echo '<a href="#" class="btn btn-default btn-offset disabled">';
+        echo '<span class="glyphicon glyphicon-plus-sign lblue"></span> '.__('Create').'</a>';
+    else:
+        echo $this->Html->link('<span class="glyphicon glyphicon-plus-sign lblue"></span> '.__('Create'),
+            array('action' => $action), array('class'=>'btn btn-default btn-offset', 'escape' => FALSE));
+    endif;
+?>
 <div class="clearfix"></div>

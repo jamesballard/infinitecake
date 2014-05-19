@@ -106,13 +106,15 @@ class Period extends AppModel {
         $labels = array();
         foreach ($daterange as $date) {
             $start = $date->format("Y");
-            $conditions = array(
+            $label = array(
                 'name' => $this->nameOffsetYear($start),
                 'start' => $date->format($record['Period']['start']),
+                'joins' => array(),
+                'conditions' => array()
             );
             $date->add($interval);
-            $conditions = array_merge($conditions, array('end' => $date->format($record['Period']['end'])));
-            $labels[] = $conditions;
+            $label = array_merge($label, array('end' => $date->format($record['Period']['end'])));
+            $labels[] = $label;
         }
         return $labels;
     }

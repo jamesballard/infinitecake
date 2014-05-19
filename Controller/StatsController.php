@@ -18,8 +18,13 @@ class StatsController extends AppController {
         $this->set('reports', $this->DashboardReport->getDashboardReports($dashboard_id));
     }
 
+    public function index() {
+
+    }
+
     public function report($id) {
-        $this->set('report', $this->Report->getReport($id));
+        $report = $this->Report->getReport($id);
+        $this->set('report', $report);
         $this->set('data', $this->Report->getReportCountGchart($id));
     }
       

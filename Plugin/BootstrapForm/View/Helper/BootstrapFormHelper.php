@@ -11,11 +11,11 @@ class BootstrapFormHelper extends FormHelper {
      */
     protected $_inputDefaults = array(
         'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
-        'div' => array('class' => 'control-group'),
-        'label' => array('class' => 'control-label'),
-        'between' => '<div class="controls">',
+        'div' => array('class' => 'form-group'),
+        'label' => array('class' => 'col-sm-2 control-label'),
+        'between' => '<div class="col-sm-10">',
         'after' => '</div>',
-        'class' => 'input-large',
+        'class' => 'form-control',
         'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
     );
 
@@ -48,6 +48,7 @@ class BootstrapFormHelper extends FormHelper {
     public function create($model = null, $options = array()) {
         $class = array(
             'class' => 'form-horizontal',
+            'role' => 'form'
         );
         $options = array_merge($class, $options);
         return parent::create($model, $options);
@@ -67,9 +68,9 @@ class BootstrapFormHelper extends FormHelper {
         $class = array(
             'class' => $class,
             'div' => array(
-                'class' => 'control-group',
+                'class' => 'form-group',
             ),
-            'before' => '<div class="controls">',
+            'before' => '<div class="col-sm-offset-2 col-sm-10">',
             'after' => '</div>'
         );
         $options = array_merge($class, $options);
@@ -88,9 +89,9 @@ class BootstrapFormHelper extends FormHelper {
         $bootstrap = array(
             'class' => $class,
             'div' => array(
-                'class' => 'control-group',
+                'class' => 'form-group',
             ),
-            'before' => '<div class="controls">',
+            'before' => '<div class="col-sm-offset-2 col-sm-10">',
             'after' => '</div>'
         );
         $options = array_merge($bootstrap, $options);

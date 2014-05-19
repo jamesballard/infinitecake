@@ -69,13 +69,13 @@ $filterlistelement .= '</div>';
             echo $this->Form->input('startdate', array(
                 'type' => 'text',
                 'label' => 'Start date',
-                'class' => 'datepicker',
+                'class' => 'form-control datepicker',
                 'placeholder' => 'dd/mm/yyyy (empty = earliest)'
             ));
             echo $this->Form->input('enddate', array(
                 'type' => 'text',
                 'label' => __('End date'),
-                'class' => 'datepicker',
+                'class' => 'form-control datepicker',
                 'placeholder' => 'dd/mm/yyyy (empty = latest)'
             ));
             echo $this->Form->input('datewindow', array(
@@ -102,22 +102,22 @@ $filterlistelement .= '</div>';
                 'default' => Report::VISUALISATION_LINE
             ));*/
         ?>
-            <div class="control-group controls-row">
+            <div class="form-group">
                 <?php
                 echo $this->Form->input('rankorder', array(
-                    'div' => false,
-                    'between' => '<div class="controls">',
-                    'after' => false,
-                    'class' => 'span2',
+                    'div' => '',
+                    'between' => '<div class="col-sm-2">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
                     'options' => array('' => 'All', 'DESC' => 'Top', 'ASC' => 'Bottom'),
                     'default' => 'All'
                 ));
                 echo $this->Form->input('ranklimit', array(
                     'type' => 'number',
-                    'div' => false,
+                    'div' => 'col-sm-3',
                     'between' => false,
-                    'after' => '</div>',
-                    'class' => 'span3',
+                    'after' => '',
+                    'class' => 'form-control',
                     'label' => false,
                     'placeholder' => 'Number of results'
                 ));
@@ -131,22 +131,22 @@ $filterlistelement .= '</div>';
                 echo $this->Form->input('ReportDimension.0.type', array('type' => 'hidden',
                     'value' => Dimension::DIMENSION_TYPE_AXIS));
                 echo $this->Form->input('ReportDimension.0.model', array(
-                    'div' => false,
+                    'div' => 'col-sm-2',
                     'rel' => $axis_url,
                     'id' => 'axis',
-                    'between' => '<div class="controls">',
+                    'between' => '<div class="form-group">',
                     'after' => false,
-                    'class' => 'span2',
+                    'class' => 'form-control',
                     'options' => $dimension_models,
                     'label' => 'x-Axis',
                     'default' => Dimension::DIMENSION_DATE
                 ));
                 echo $this->Form->input('ReportDimension.0.parameter', array(
-                    'div' => false,
+                    'div' => 'col-sm-3',
                     'id' => 'axisParams',
                     'between' => false,
                     'after' => '</div>',
-                    'class' => 'span3',
+                    'class' => 'form-control',
                     'options' => $axis_parameters,
                     'label' => false,
                 ));
@@ -158,22 +158,22 @@ $filterlistelement .= '</div>';
                 echo $this->Form->input('ReportDimension.1.type', array('type' => 'hidden',
                     'value' => Dimension::DIMENSION_TYPE_LABEL));
                 echo $this->Form->input('ReportDimension.1.model', array(
-                    'div' => false,
+                    'div' => 'col-sm-2',
                     'id' => 'labels',
                     'rel' => $label_url,
-                    'between' => '<div class="controls">',
+                    'between' => '<div class="form-group">',
                     'after' => false,
-                    'class' => 'span2',
+                    'class' => 'form-control',
                     'options' => $dimension_models,
                     'label' => 'Labels',
                     'default' => Dimension::DIMENSION_PERIOD
                 ));
                 echo $this->Form->input('ReportDimension.1.parameter', array(
-                    'div' => false,
+                    'div' => 'col-sm-3',
                     'id' => 'labelParams',
                     'between' => false,
                     'after' => '</div>',
-                    'class' => 'span3',
+                    'class' => 'form-control',
                     'options' => $label_parameters,
                     'label' => false,
                 ));
@@ -194,10 +194,10 @@ $filterlistelement .= '</div>';
                 echo $this->Form->input("Filter.$i.type", array('type' => 'hidden', 'value' => Filter::FILTER_TYPE_VALUE));
                 if ($i > 0) {
                     echo $this->Form->input("Filter.$i.operator", array(
-                        'div' => false,
-                        'between' => '<div class="controls">',
+                        'div' => 'col-sm-2',
+                        'between' => '<div class="form-group">',
                         'after' => false,
-                        'class' => 'span2',
+                        'class' => 'form-control',
                         'options' => $filter_operators,
                         'label' => false,
                         'default' => 'and'
@@ -205,40 +205,40 @@ $filterlistelement .= '</div>';
                     echo $this->Form->input("Filter.$i.model", array(
                         'label' => false,
                         'between' => false,
-                        'div' => false,
+                        'div' => 'col-sm-2',
                         'after' => false,
-                        'class' => 'span2',
+                        'class' => 'form-control',
                         'options' => array_combine(array_keys($filter_models), array_keys($filter_models)),
                     ));
                 } else {
                     echo $this->Form->input("Filter.$i.model", array(
                         'label' => false,
-                        'div' => false,
-                        'between' => '<div class="controls">',
+                        'div' => 'col-sm-2',
+                        'between' => '<div class="form-group">',
                         'after' => false,
-                        'class' => 'span2',
+                        'class' => 'form-control',
                         'options' => array_combine(array_keys($filter_models), array_keys($filter_models)),
                     ));
                 }
                 echo $this->Form->input("Filter.$i.comparison", array(
-                    'div' => false,
+                    'div' => 'col-sm-2',
                     'between' => false,
                     'after' => false,
-                    'class' => 'span2',
+                    'class' => 'form-control',
                     'options' => $filter_comparisons,
                     'label' => false,
                     'default' => 'is'
                 ));
                 echo $this->Form->input("Filter.$i.value", array(
-                    'div' => false,
+                    'div' => 'col-sm-3',
                     'between' => false,
                     'after' => false,
-                    'class' => 'span3',
+                    'class' => 'form-control',
                     //'options' => $filter_options, TODO: dynamic drop-down of filters from model.
                     'empty' => $empty,
                     'label' => false,
                 ));
-                echo '<span class="span2"><small>';
+                echo '<span class="col-sm-2"><small>';
                 echo $this->html->link('Remove', '#', array('class' => 'remScnt'));
                 echo '</small></span></div>';
                 ?>
