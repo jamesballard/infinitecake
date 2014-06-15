@@ -125,7 +125,11 @@ class DimensionTime extends AppModel {
             $systems[] = $system['id'];
         }
         $conditions = array('System.id' => $systems);
-
+        if (!empty($report['Report']['datewindow'])) {
+            $conditions = array(
+                'DimensionDate.date >' => date('Y-m-d', strtotime($report['Report']['datewindow']))
+            );
+        }
         $cache = 'short';
 
         foreach ($this->dayHours as $key => $hour) {
@@ -141,7 +145,7 @@ class DimensionTime extends AppModel {
         }
 
         foreach ($this->nightHours as $key => $hour) {
-            $conditions = array('DimensionTime.hour' => $hour);
+            $conditions = array_merge($conditions, array('DimensionTime.hour' => $hour));
             $axis[$this->interval_types[self::TIME_NIGHT]][] = array(
                 'conditions' => $conditions,
                 'name' => (string)$key,
@@ -165,8 +169,15 @@ class DimensionTime extends AppModel {
     public function getAxis($dimensions, $initial) {
         $axis = array();
 
+        $conditions = array();
+        if (!empty($report['Report']['datewindow'])) {
+            $conditions = array(
+                'DimensionDate.date >' => date('Y-m-d', strtotime($report['Report']['datewindow']))
+            );
+        }
+
         foreach ($this->dayHours as $hour) {
-            $conditions = array('DimensionTime.hour'=>$hour);
+            array_merge($conditions, array('DimensionTime.hour' => $hour));
             $cache = false;
             $axis[$this->interval_types[self::TIME_DAY]][] = array(
                 'conditions' => $conditions,
@@ -177,7 +188,7 @@ class DimensionTime extends AppModel {
         }
 
         foreach ($this->nightHours as $hour) {
-            $conditions = array('DimensionTime.hour'=>$hour);
+            array_merge($conditions, array('DimensionTime.hour' => $hour));
             $cache = false;
             $axis[$this->interval_types[self::TIME_NIGHT]][] = array(
                 'conditions' => $conditions,

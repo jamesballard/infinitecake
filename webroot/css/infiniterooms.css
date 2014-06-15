@@ -10,7 +10,6 @@ html{
     height: 100%;
 }
 body {
-    padding-top: 51px;
     height: 100%;
 }
 
@@ -20,16 +19,24 @@ body {
 }
 
 .fill-height {
-    height: 100%;
 }
 #myChart {
-    height: 98%;
-    max-width: 1024px;
-    max-height: 768px;
+    margin-top: 5px;
     margin-bottom: 0px;
 }
 
-.navbar {margin-bottom: 0px}
+#userDashboard {
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.navbar { margin-bottom: 0px }
+
+ul.nav,
+ul.nav>li,
+.navbar-default .navbar-nav>.open>a {
+    height: 50px;
+}
 
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:hover {
@@ -40,6 +47,10 @@ body {
     background: #5451a2;
     text-transform: lowercase;
     text-shadow: none;
+}
+
+.affix, .navbar-fixed-top {
+    -webkit-transform: scale3d(1,1,1);
 }
 
 .navbar .nav>li>a {
@@ -56,10 +67,19 @@ body {
     background-image: url(/img/logo32.png);
 }
 
-.content{
+.userSelect {
+    text-align: left;
+    padding-top: 14px;
+}
+
+.cake-debug-output {
+    margin-top: 51px;
+}
+
+.main-content{
     background: url(../img/a3.gif) repeat-x;
 	color: #333;
-	padding: 20px 20px 40px 20px;
+    margin-top: 51px;
 }
 
 /* Side Menu */
@@ -84,7 +104,7 @@ body {
 /* jQuery UI */
 
 .ui-autocomplete-loading {
-    background: white url('../img/ajax-loader.gif') right center no-repeat;
+    background: white url('../img/bar-loader.gif') right center no-repeat;
 }
 
 /* Index Buttons */

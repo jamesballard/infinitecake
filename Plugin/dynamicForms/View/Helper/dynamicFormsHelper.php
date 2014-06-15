@@ -18,7 +18,7 @@ class dynamicFormsHelper extends AppHelper {
      * @param string $data - url of remote data source in JSON format
      * @return string script tag output
      */
-    public function autoComplete($name,$data) {
+    public function autoComplete($name, $data) {
         $o = '<script>
 				  $(function() {
 				    $( "#'.$name.'" ).autocomplete({

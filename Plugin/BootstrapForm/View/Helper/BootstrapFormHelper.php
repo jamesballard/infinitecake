@@ -13,7 +13,7 @@ class BootstrapFormHelper extends FormHelper {
         'format' => array('before', 'label', 'between', 'input', 'error', 'after'),
         'div' => array('class' => 'form-group'),
         'label' => array('class' => 'col-sm-2 control-label'),
-        'between' => '<div class="col-sm-10">',
+        'between' => '<div class="col-sm-5">',
         'after' => '</div>',
         'class' => 'form-control',
         'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
@@ -29,8 +29,9 @@ class BootstrapFormHelper extends FormHelper {
             if(!is_array($options['label'])) {
                 $options['label'] = array('text' => $options['label']);
             }
-            $options['label'] = array_merge_recursive($options['label'], $this->_inputDefaults['label']);
+            $options['label'] = array_merge($this->_inputDefaults['label'], $options['label']);
         }
+        // Reset the label class.
         $options = array_merge(
             array('before' => null),
             $this->_inputDefaults,
@@ -57,8 +58,9 @@ class BootstrapFormHelper extends FormHelper {
     /**
      * Creates a standard form end element with Twitter Bootstrap wrappings.
      *
-     * @param string $name
-     * @return string HTML Form end output
+     * @param array $options
+     * @param array $secureAttributes
+     * @return string
      */
     public function end($options = array(), $secureAttributes = Array()) {
         $style = isset($options['style']) ? $options['style'] : null;
@@ -78,10 +80,13 @@ class BootstrapFormHelper extends FormHelper {
     }
 
     /**
-     * Creates a standard form end element with Twitter Bootstrap wrappings.
+     * Creates a button with Bootstrap styles.
      *
-     * @param string $name
-     * @return string HTML Form end output
+     * @param string $label
+     * @param array $options
+     * @param null $style
+     * @param null $size
+     * @return string
      */
     public function button($label='Submit', $options=array(), $style=null, $size = null) {
         $class = $this->generateStyle($style, $size);
@@ -105,6 +110,8 @@ class BootstrapFormHelper extends FormHelper {
         }
         if($style) {
             $class .= ' btn-'.$style;
+        } else {
+            $class .= ' btn-default';
         }
         return $class;
     }

@@ -234,7 +234,7 @@ class Report extends AppModel {
      * $param stdClass $report
      * $return stdClass
      */
-    function getDimensions($report) {
+    public function getDimensions($report) {
         $dimensions = new stdClass();
         foreach ($report['ReportDimension'] as $reportDimension) {
             switch ($reportDimension['type']) {
@@ -292,7 +292,7 @@ class Report extends AppModel {
      * $return stdClass
      */
     function getAxis($dimensions, $report) {
-        if (in_array($dimensions->axis['model'], array('DimensionDate', 'DimensionTime'))) {
+        if (in_array($dimensions->axis['model'], array('DimensionDate', 'DimensionTime', 'Rule'))) {
             $model = new $dimensions->axis['model']();
         } else {
             $factTable = $this->getFactTable($report);
@@ -323,6 +323,10 @@ class Report extends AppModel {
      */
     function getConditions($report) {
         $conditions = array();
+        // Get for date Windows.
+        if(!empty($report['Report']['datewindow'])) {
+
+        }
         // Add custom filters.
         $Filter = new Filter();
         foreach ($report['Filter'] as $filter) {
@@ -330,17 +334,21 @@ class Report extends AppModel {
         }
         return $conditions;
     }
+
     /**
-     * Returns a Count for selected interval for the years available
+     * Returns a Count for selected parameters.
      *
-     * @param string $fields the fields intended to be counted
-     * @param DateInterval $interval http://php.net/manual/en/class.dateinterval.php
-     * @param string $format date format (e.g. 'M')
-     * @return array Academic Year => Period => Count
+     * @param $select
+     * @param $factTable
+     * @param null $dates
+     * @param $axis
+     * @param $filters
+     * @return array
      */
     function getLabelledReportData($select, $factTable, $dates=null, $axis, $filters) {
         $model = new $factTable();
         $data = array();
+        $joins = $model->joins;
         foreach ($axis as $label => $points) {
             foreach ($points as $point) {
                 $conditions = array_merge($point['conditions'], $filters);
@@ -353,8 +361,8 @@ class Report extends AppModel {
                 if (!$value) {
                     $result = $model->find('all', array(
                             'conditions' => $conditions, //array of conditions
-                            'contain' => $contain,
-                            'joins' => $point['joins'],
+                            'contain' => false,
+                            'joins' => array_merge($joins, $point['joins']),
                             'fields' => array($select),
                             'order' => $point['order']
                         )
@@ -380,9 +388,10 @@ class Report extends AppModel {
      * @param $filters
      * @return array
      */
-    function getCountData($select, $factTable, $dates=null, $axis, $filters) {
+    function getReportData($select, $factTable, $dates=null, $axis, $filters) {
         $model = new $factTable();
         $data = array();
+        $joins = $model->joins;
         foreach ($axis as $point) {
             $conditions = array_merge($point['conditions'], $filters);
             $contain = $point['contain'];
@@ -394,8 +403,8 @@ class Report extends AppModel {
             if (!$value) {
                 $result = $model->find('all', array(
                         'conditions' => $conditions, //array of conditions
-                        'contain' => $contain,
-                        'joins' => $point['joins'],
+                        'contain' => false,
+                        'joins' => array_merge($joins, $point['joins']),
                         'fields' => array($select),
                         'order' => $point['order']
                     )
@@ -429,7 +438,7 @@ class Report extends AppModel {
      * @param string $id Report ID
      * @return array $data Academic Year => Period => Count
      */
-    public function getReportCountGchart($id) {
+    public function getReportChartData($id) {
         $report = $this->getReport($id);
         // Set the select aggregation SQL.
         $select = $this->getValue($report);
@@ -447,7 +456,9 @@ class Report extends AppModel {
         }
         // Set the report labels.
         $labels = $this->useLabels($dimensions->label, $report);
-        if ($labels) {
+        if ($report['Report']['visualisation'] == self::VISUALISATION_TREEMAP) {
+
+        } else if ($labels) {
             // Set the x-axis values.
             $axis = $this->getLabelledAxis($dimensions, $report);
             // Get the results.
@@ -456,7 +467,7 @@ class Report extends AppModel {
             // Set the x-axis values.
             $axis = $this->getAxis($dimensions, $report);
             // Get the results.
-            $results = $this->getCountData($select, $table, $dates, $axis, $conditions);
+            $results = $this->getReportData($select, $table, $dates, $axis, $conditions);
         }
         // Format as a Google Chart array.
         //$data = $this->transformGchartArray($results);

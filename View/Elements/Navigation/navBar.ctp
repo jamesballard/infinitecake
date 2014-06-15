@@ -23,6 +23,13 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboards <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li><?php echo $this->Html->link('User', array('controller' => 'Dashboards', 'action' => 'user')); ?></li>
+                        <li><?php echo $this->Html->link('Course', array('controller' => 'Dashboards', 'action' => 'course')); ?></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
                         <?php
                         foreach($navreports as $id => $report) {
                             echo '<li>'.$this->Html->link($report, array(

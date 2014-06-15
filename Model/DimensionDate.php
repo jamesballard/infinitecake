@@ -45,7 +45,7 @@ class DimensionDate extends AppModel {
 
     public $interval_formats = array(
         DimensionDate::DATE_INTERVAL_DAY=>'d-M',
-        DimensionDate::DATE_INTERVAL_WEEK=>'W',
+        DimensionDate::DATE_INTERVAL_WEEK=>'d-M',
         DimensionDate::DATE_INTERVAL_MONTH=>'M',
         DimensionDate::DATE_INTERVAL_YEAR=>'Y'
     );
@@ -115,12 +115,78 @@ class DimensionDate extends AppModel {
     }
 
     /**
+     * @param $report
+     * @param $interval
+     * @return DateTime
+     */
+    protected function getStartDate($report, $interval) {
+        if(!empty($report['Report']['startdate'])) {
+            $date = new DateTime($report['Report']['startdate']);
+        } else if (!empty($report['Report']['datewindow'])) {
+            $date = new DateTime(date('Y-m-d', strtotime($report['Report']['datewindow'])));
+        } else {
+            $date = new DateTime(date('Y-01-01', strtotime("-2 years")));
+        }
+        return $date;
+    }
+
+    /**
+     * @param $report
+     * @return DateTime
+     */
+    protected function getEndDate($report) {
+        if(!empty($report['Report']['enddate'])) {
+            return new DateTime($report['Report']['enddate']);
+        } else {
+            return new DateTime();
+        }
+    }
+
+    /**
      * Get the x-axis array for the date dimension.
      *
      * @param $dimensions
-     * @param $initial
+     * @param $report
      * @return array
+     */
+    public function getAxis($dimensions, $report) {
+        $interval = new DateInterval($this->interval_values[$dimensions->axis['id']]);
+
+        $aeon = $this->getStartDate($report, $interval);
+        $today = $this->getEndDate($report);
+
+        $axis = array();
+        $range = new DatePeriod($aeon, $interval, $today);
+        foreach ($range as $date) {
+            //In a leap year this creates an irreconcilable offset so skip this day
+            if($date->format("d-M") != '29-Feb') {
+                $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
+                $date->add($interval);
+                $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
+                // Cache if all dates are in the past.
+                $cache = false;
+                if ($date->format('U') < time()) {
+                    $cache = 'long';
+                }
+                $axis[] = array(
+                    'conditions' => $conditions,
+                    'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
+                    'contain' => array('DimensionDate'),
+                    'cache' => $cache,
+                    'joins' => array(),
+                    'order' => ''
+                );
+            }
+        }
+        return $axis;
+    }
+
+    /**
+     * Get a labelled x-axis array for the date dimension.
      *
+     * @param $dimensions
+     * @param $report
+     * @return array
      */
     public function getLabelledAxis($dimensions, $report) {
         $model = new $dimensions->label['model']();
@@ -128,8 +194,8 @@ class DimensionDate extends AppModel {
 
         $interval = new DateInterval($this->interval_values[$dimensions->axis['id']]);
 
-        $today = new DateTime();
-        $aeon = new DateTime(date('Y-01-01', strtotime("-2 years")));
+        $aeon = $this->getStartDate($report, $interval);
+        $today = $this->getEndDate($report);
 
         $axis = array();
         foreach ($labels as $label) {

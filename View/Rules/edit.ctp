@@ -47,7 +47,7 @@
             } else {
                 echo $this->element('MultiSelectForms/conditionItems', array(
                     'count' => $i,
-                    'rule_type' => $formid,
+                    'rule_key' => $rulekey,
                     'selected' => $selected
                 ));
             }

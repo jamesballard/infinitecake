@@ -3,44 +3,43 @@ $axis_url = $this->Html->url(array('controller' => 'Reports', 'action' => 'axis_
 $label_url = $this->Html->url(array('controller' => 'Reports', 'action' => 'label_options_ajax', 'ext' => 'json'));
 $empty = count($filter_options) > 0 ? __('pleaseSelect') : array('0' => __('noOptionAvailable'));
 
-$filterlistelement = '<div class="control-group controls-row">';
+$filterlistelement = '<div class="form-group">';
 $filterlistelement .= $this->Form->input("Filter.' + i +'.id");
 $filterlistelement .= $this->Form->input("Filter.' + i +'.type", array('type' => 'hidden', 'value' => Filter::FILTER_TYPE_VALUE));
 $filterlistelement .= $this->Form->input("Filter.' + i +'.operator", array(
-    'div' => false,
-    'between' => '<div class="controls">',
-    'after' => false,
-    'class' => 'span2',
-    'options' => $filter_operators,
     'label' => false,
+    'div' => '',
+    'between' => '<div class="col-sm-2">',
+    'after' => '</div>',
+    'class' => 'form-control',
+    'options' => $filter_operators,
     'default' => 'and'
 ));
 $filterlistelement .= $this->Form->input("Filter.' + i +'.model", array(
     'label' => false,
-    'between' => false,
-    'div' => false,
-    'after' => false,
-    'class' => 'span2',
+    'div' => '',
+    'between' => '<div class="col-sm-2">',
+    'after' => '</div>',
+    'class' => 'form-control',
     'options' => array_combine(array_keys($filter_models), array_keys($filter_models)),
 ));
 $filterlistelement .= $this->Form->input("Filter.' + i +'.comparison", array(
-    'div' => false,
-    'between' => false,
-    'after' => false,
-    'class' => 'span2',
-    'options' => $filter_comparisons,
     'label' => false,
+    'div' => '',
+    'between' => '<div class="col-sm-2">',
+    'after' => '</div>',
+    'class' => 'form-control',
+    'options' => $filter_comparisons,
     'default' => 'is'
 ));
 $filterlistelement .= $this->Form->input("Filter.' + i +'.value", array(
-    'id' => 'filterOptions',
-    'div' => false,
-    'between' => false,
+    'label' => false,
+    'div' => '',
+    'between' => '<div class="col-sm-3">',
     'after' => '</div>',
-    'class' => 'span3',
+    'class' => 'form-control',
     //'options' => $filter_options, // TODO: this needs to update based on model selected.
     'empty' => $empty,
-    'label' => false,
 ));
 $filterlistelement .= '</div>';
 
@@ -125,26 +124,26 @@ $filterlistelement .= '</div>';
             </div>
         </fieldset>
         <fieldset>
-            <div class="control-group controls-row">
+            <div class="form-group">
                 <?php
                 echo $this->Form->input('ReportDimension.0.id');
                 echo $this->Form->input('ReportDimension.0.type', array('type' => 'hidden',
                     'value' => Dimension::DIMENSION_TYPE_AXIS));
                 echo $this->Form->input('ReportDimension.0.model', array(
-                    'div' => 'col-sm-2',
+                    'div' => '',
                     'rel' => $axis_url,
                     'id' => 'axis',
-                    'between' => '<div class="form-group">',
-                    'after' => false,
+                    'between' => '<div class="col-sm-2">',
+                    'after' => '</div>',
                     'class' => 'form-control',
                     'options' => $dimension_models,
                     'label' => 'x-Axis',
                     'default' => Dimension::DIMENSION_DATE
                 ));
                 echo $this->Form->input('ReportDimension.0.parameter', array(
-                    'div' => 'col-sm-3',
+                    'div' => '',
                     'id' => 'axisParams',
-                    'between' => false,
+                    'between' => '<div class="col-sm-3">',
                     'after' => '</div>',
                     'class' => 'form-control',
                     'options' => $axis_parameters,
@@ -152,26 +151,26 @@ $filterlistelement .= '</div>';
                 ));
                 ?>
             </div>
-            <div class="control-group controls-row">
+            <div class="form-group">
                 <?php
                 echo $this->Form->input('ReportDimension.1.id');
                 echo $this->Form->input('ReportDimension.1.type', array('type' => 'hidden',
                     'value' => Dimension::DIMENSION_TYPE_LABEL));
                 echo $this->Form->input('ReportDimension.1.model', array(
-                    'div' => 'col-sm-2',
+                    'div' => '',
                     'id' => 'labels',
                     'rel' => $label_url,
-                    'between' => '<div class="form-group">',
-                    'after' => false,
+                    'between' => '<div class="col-sm-2">',
+                    'after' => '</div>',
                     'class' => 'form-control',
                     'options' => $dimension_models,
                     'label' => 'Labels',
                     'default' => Dimension::DIMENSION_PERIOD
                 ));
                 echo $this->Form->input('ReportDimension.1.parameter', array(
-                    'div' => 'col-sm-3',
+                    'div' => '',
                     'id' => 'labelParams',
-                    'between' => false,
+                    'between' => '<div class="col-sm-3">',
                     'after' => '</div>',
                     'class' => 'form-control',
                     'options' => $label_parameters,
@@ -188,55 +187,55 @@ $filterlistelement .= '</div>';
         foreach($this->request->data['Filter'] as $filter):
         ?>
         <fieldset>
-            <div class="control-group controls-row">
+            <div class="form-group">
                 <?php
                 echo $this->Form->input("Filter.$i.id");
                 echo $this->Form->input("Filter.$i.type", array('type' => 'hidden', 'value' => Filter::FILTER_TYPE_VALUE));
                 if ($i > 0) {
                     echo $this->Form->input("Filter.$i.operator", array(
-                        'div' => 'col-sm-2',
-                        'between' => '<div class="form-group">',
-                        'after' => false,
+                        'label' => false,
+                        'div' => '',
+                        'between' => '<div class="col-sm-2">',
+                        'after' => '</div>',
                         'class' => 'form-control',
                         'options' => $filter_operators,
-                        'label' => false,
                         'default' => 'and'
                     ));
                     echo $this->Form->input("Filter.$i.model", array(
                         'label' => false,
                         'between' => false,
-                        'div' => 'col-sm-2',
-                        'after' => false,
+                        'div' => '<div class="col-sm-2">',
+                        'after' => '</div>',
                         'class' => 'form-control',
                         'options' => array_combine(array_keys($filter_models), array_keys($filter_models)),
                     ));
                 } else {
                     echo $this->Form->input("Filter.$i.model", array(
                         'label' => false,
-                        'div' => 'col-sm-2',
-                        'between' => '<div class="form-group">',
-                        'after' => false,
+                        'div' => '',
+                        'between' => '<div class="col-sm-2">',
+                        'after' => '</div>',
                         'class' => 'form-control',
                         'options' => array_combine(array_keys($filter_models), array_keys($filter_models)),
                     ));
                 }
                 echo $this->Form->input("Filter.$i.comparison", array(
-                    'div' => 'col-sm-2',
-                    'between' => false,
-                    'after' => false,
+                    'label' => false,
+                    'div' => '',
+                    'between' => '<div class="col-sm-2">',
+                    'after' => '</div>',
                     'class' => 'form-control',
                     'options' => $filter_comparisons,
-                    'label' => false,
                     'default' => 'is'
                 ));
                 echo $this->Form->input("Filter.$i.value", array(
-                    'div' => 'col-sm-3',
-                    'between' => false,
-                    'after' => false,
+                    'label' => false,
+                    'div' => '',
+                    'between' => '<div class="col-sm-3">',
+                    'after' => '</div>',
                     'class' => 'form-control',
                     //'options' => $filter_options, TODO: dynamic drop-down of filters from model.
                     'empty' => $empty,
-                    'label' => false,
                 ));
                 echo '<span class="col-sm-2"><small>';
                 echo $this->html->link('Remove', '#', array('class' => 'remScnt'));

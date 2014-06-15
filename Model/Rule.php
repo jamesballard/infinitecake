@@ -135,21 +135,15 @@ class Rule extends AppModel {
     }
 
     /**
-     * Returns record as labels for report.
+     * Get a join array to the Actions table.
      *
-     * @param integer $id
-     * @param integer $initial
+     * @param $type
      * @return array
      */
-    public function getLabels($id, $initial) {
-        $record = $this->read(null, $id);
-
-        $labels = array();
-
-        //TODO: how to go from Action to Rule!
-        switch ($record['Rule']['type']) {
+    protected function getJoinToAction($type) {
+        switch ($type) {
             case 1:
-                $joins = array(
+                return array(
                     array(
                         'table' => 'action_conditions',
                         'alias' => 'ActionCondition',
@@ -167,9 +161,8 @@ class Rule extends AppModel {
                         )
                     ),
                 );
-                break;
             case 2:
-                $joins = array(
+                return array(
                     array(
                         'table' => 'dimension_verb_conditions',
                         'alias' => 'VerbCondition',
@@ -187,9 +180,8 @@ class Rule extends AppModel {
                         )
                     ),
                 );
-                break;
             case 3:
-                $joins = array(
+                return array(
                     array(
                         'table' => 'module_conditions',
                         'alias' => 'ModuleCondition',
@@ -207,9 +199,8 @@ class Rule extends AppModel {
                         )
                     ),
                 );
-                break;
             case 4:
-                $joins = array(
+                return array(
                     array(
                         'table' => 'artefact_conditions',
                         'alias' => 'ArtefactCondition',
@@ -227,9 +218,8 @@ class Rule extends AppModel {
                         )
                     ),
                 );
-                break;
             case 5:
-                $joins = array(
+                return array(
                     array(
                         'table' => 'groups',
                         'alias' => 'Group',
@@ -255,9 +245,11 @@ class Rule extends AppModel {
                         )
                     ),
                 );
-                break;
         }
-        $joins = array_merge($joins, array(
+    }
+
+    protected function getJoinToConditions() {
+        return array(
             array(
                 'table' => 'rule_conditions',
                 'alias' => 'RuleCondition',
@@ -274,7 +266,23 @@ class Rule extends AppModel {
                     'Rule.id = RuleCondition.rule_id'
                 )
             ),
-        ));
+        );
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param integer $initial
+     * @return array
+     */
+    public function getLabels($id, $initial) {
+        $record = $this->read(null, $id);
+
+        $labels = array();
+
+        $joins = $this->getJoinToAction($record['Rule']['type']);
+        $joins = array_merge($joins, $this->getJoinToConditions());
 
         $Condition = new Condition();
         $rule_conditions = $Condition->get_rule_conditions($record['Rule']['id']);
@@ -292,6 +300,47 @@ class Rule extends AppModel {
         }
         return $labels;
     }
+
+    /**
+     * Get the x-axis array for the date dimension.
+     *
+     * @param $dimensions
+     * @param $report
+     * @return array
+     */
+    public function getAxis($dimensions, $report) {
+        $record = $this->read(null, $dimensions->axis['id']);
+        $axis = array();
+        $joins = $this->getJoinToAction($record['Rule']['type']);
+        $joins = array_merge($joins, $this->getJoinToConditions());
+
+        $conditions = array();
+        if (!empty($report['Report']['datewindow'])) {
+            $conditions = array(
+                'DimensionDate.date >' => date('Y-m-d', strtotime($report['Report']['datewindow']))
+            );
+        }
+
+        $Condition = new Condition();
+        $rule_conditions = $Condition->get_rule_conditions($record['Rule']['id']);
+        foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
+            $conditions = array_merge($conditions, array(
+                'Condition.id' => $rule_condition['id'],
+                'Rule.id' => $record['Rule']['id']
+            ));
+            $cache = false;
+            $axis[] = array(
+                'name' => $rule_condition['name'],
+                'joins' => $joins,
+                'conditions' => $conditions,
+                'contain' => array('DimensionDate'),
+                'cache' => $cache,
+                'order' => ''
+            );
+        }
+        return $axis;
+    }
+
 
     /**
      * Returns a list formatted array of rules for multi-select form

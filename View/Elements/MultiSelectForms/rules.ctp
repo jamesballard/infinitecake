@@ -1,7 +1,7 @@
-<div class="control-group">
+<div class="form-group">
 <?php
-echo $this->Form->label('Condition.0.Rule', 'Rule(s)', array('class' => 'control-label'));
-echo '<div class="controls">';
+echo $this->Form->label('Condition.0.Rule', 'Rule(s)', array('class' => 'col-sm-2 control-label'));
+echo '<div class="col-sm-5">';
 echo $this->Chosen->select(
     "Condition.$count.Rule",
     $rules,
@@ -9,6 +9,7 @@ echo $this->Chosen->select(
         'data-placeholder' => "Select Rule(s)...",
         'multiple' => true,
         'deselect' => true,
+        'class' => 'form-control',
         'default' => $rule_id
     )
 );

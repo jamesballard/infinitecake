@@ -25,7 +25,7 @@ class StatsController extends AppController {
     public function report($id) {
         $report = $this->Report->getReport($id);
         $this->set('report', $report);
-        $this->set('data', $this->Report->getReportCountGchart($id));
+        $this->set('data', $this->Report->getReportChartData($id));
     }
       
 	public function overview() {

@@ -176,6 +176,22 @@ class Action extends AppModel {
                             'DimensionTime.id = Action.dimension_time_id'
                         )
                     ),
+                    array(
+                        'table' => 'users',
+                        'alias' => 'User',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'User.id = Action.user_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'persons',
+                        'alias' => 'Person',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Person.id = User.person_id'
+                        )
+                    ),
                 );
 
     public $order = array(
@@ -256,56 +272,7 @@ class Action extends AppModel {
                 'name' => $point[$group][$groupModel->displayField],
                 'cache' => 'short',
                 'contain' => false,
-                'joins' => array(
-                    array(
-                        'table' => 'groups',
-                        'alias' => 'Group',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'Group.id = Action.group_id'
-                        )
-                    ),
-                    array(
-                        'table' => 'modules',
-                        'alias' => 'Module',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'Module.id = Action.module_id'
-                        )
-                    ),
-                    array(
-                        'table' => 'courses',
-                        'alias' => 'Course',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'Course.id = Group.course_id'
-                        )
-                    ),
-                    array(
-                        'table' => 'artefacts',
-                        'alias' => 'Artefact',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'Artefact.id = Module.artefact_id'
-                        )
-                    ),
-                    array(
-                        'table' => 'systems',
-                        'alias' => 'System',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'System.id = Action.system_id'
-                        )
-                    ),
-                    array(
-                        'table' => 'dimension_verb',
-                        'alias' => 'DimensionVerb',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'DimensionVerb.id = Action.dimension_verb_id'
-                        )
-                    ),
-                ),
+                'joins' => array(),
                 'order' => ''
             );
         }
@@ -438,6 +405,75 @@ class Action extends AppModel {
             }
         }
         return $data;
+    }
+
+    public function getSessionLength() {
+
+    }
+
+    public function getTimeOnline($person_id) {
+        $actions = $this->find('all', array(
+           'contain' => array('DimensionDate', 'DimensionTime', 'DimensionVerb'),
+           'joins' => array(
+                array(
+                    'table' => 'users',
+                    'alias' => 'User',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'User.id = Action.user_id'
+                    )
+                ),
+                array(
+                    'table' => 'persons',
+                    'alias' => 'Person',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'Person.id = User.person_id'
+                    )
+                ),
+           ),
+           'conditions' => array(
+               'Person.id' => $person_id
+           ),
+           'order' => array(
+               'DimensionDate.id ASC',
+               'DimensionTime.id ASC'
+           )
+        ));
+        $sessions = array();
+        $timestart = 0;
+        $timeend = 0;
+        $lastaction = 0;
+        foreach ($actions as $action) {
+            $time = new datetime($action['Action']['time']);
+            if(empty($timestart)) {
+                $timestart = $time;
+            }
+            if(!empty($lastaction)) {
+                $sessionend = $time;
+                $sessionend->add(new DateInterval("PT2H"));
+                debug($time);
+                debug($sessionend);
+                if ($time > $sessionend) {
+                    $timeend = $lastaction;
+                }
+                if(!empty($timeend)) {
+                    $sessions[] = array(
+                        'start' => $timestart,
+                        'end' => $timeend
+                    );
+                    $timestart = $time;
+                    $timeend = 0;
+                }
+            }
+            $lastaction = $time;
+        }
+        $sessions[] = array(
+            'start' => $timestart,
+            'end' => $timeend
+        );
+        debug($sessions);
+        die;
     }
 
     /**

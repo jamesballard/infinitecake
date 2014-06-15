@@ -12,14 +12,13 @@ $this->end();
 
 echo $this->dynamicForms->autocomplete('ActionUser','People/jsonfeed');
 
-echo '<div class="ui-widget" style="width:400px">';
+echo '<div class="ui-widget">';
 
 echo $this->Form->create();
 
 echo $this->Form->input( 'userid', array( 'type' => 'hidden' ) ); 
 echo $this->Form->input('user', array('default' => $userdefault));
-
-echo $this->Form->end('Change');
-
+echo $this->Form->end(array('label' => 'Change'));
 echo '</div>';
+
 ?>

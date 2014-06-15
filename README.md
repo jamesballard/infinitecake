@@ -177,6 +177,8 @@ This will create Config/Schema/infiniterooms.php
       Console/cake acl grant Membership::Managers controllers/Guides
       Console/cake acl grant Membership::Managers controllers/CustomerStatuses
       Console/cake acl grant Membership::Managers controllers/Reports
+      Console/cake acl grant Membership::Managers controllers/Dashboards
+      Console/cake acl grant Membership::Users controllers/Dashboards
       Console/cake acl grant Membership::Users controllers/Guides
    ```
 

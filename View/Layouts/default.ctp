@@ -29,7 +29,7 @@ $url = $this->request->here;
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>Infinite Rooms: Learner Enhanced Technology</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
 	<?php
 		//echo $this->Html->meta('icon');
@@ -38,6 +38,7 @@ $url = $this->request->here;
         echo $this->Html->css('main');
         echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('jquery-ui');
+        echo $this->Html->css('chosen-bootstrap3');
         echo $this->Html->css('infiniterooms');
         echo $this->Html->css('activity-stream');
 
@@ -45,7 +46,6 @@ $url = $this->request->here;
         echo $this->Html->script('jquery');
         echo $this->Html->script('jquery-ui');
         echo $this->Html->script('bootstrap.min');
-        echo $this->Html->script('canvasjs.min');
         echo $this->Html->script('googleAnalytics');
         echo $this->Html->script('infiniterooms');
 
@@ -59,14 +59,12 @@ $url = $this->request->here;
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <?php echo $this->element('Navigation/navBar'); ?>
-    <div class="container-fluid fill-height">
-        <div class="row fill-height">
-            <div class="col-md-12 fill-height">
-                <div class="main-content fill-height">
-                    <!--Body content-->
-                    <?php echo $this->Session->flash(); ?>
-                    <?php echo $this->fetch('content'); ?>
-                </div>
+    <div class="container-fluid main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <!--Body content-->
+                <?php echo $this->Session->flash(); ?>
+                <?php echo $this->fetch('content'); ?>
             </div>
         </div>
         <div class="row">

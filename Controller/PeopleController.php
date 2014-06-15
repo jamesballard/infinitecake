@@ -210,13 +210,12 @@ class PeopleController extends AppController {
 		$current_user = $this->Session->read('current_user');
 		$users = $this->Person->find('all',array(
 					    'conditions' => array('Person.idnumber LIKE'=>'%'.$_GET['term'].'%',
-					    		'customer_id' => $current_user['Member']['customer_id']), //array of conditions
-					    'contain' => false, //int
-					    'fields' => array('Person.idnumber AS label','Person.id AS value'), //array of field names
+					    		'customer_id' => $current_user['Member']['customer_id']),
+					    'contain' => false,
+					    'fields' => array('Person.idnumber AS label','Person.id AS value')
 					)
 				);
-		$users = Set::extract('/Person/.', $users);		
-	
+		$users = Set::extract('/Person/.', $users);
 		return new CakeResponse(array('body' => json_encode($users)));
 	}
 	
