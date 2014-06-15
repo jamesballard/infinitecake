@@ -143,6 +143,8 @@ If database changes are made as part of an upgrade then the following should be 
 
 This will create Config/Schema/infiniterooms.php
 
+Edit this file to change the class name to infiniteroomsSchema.
+
 1. Get the latest code
 
    ```git
