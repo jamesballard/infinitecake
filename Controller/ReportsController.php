@@ -21,7 +21,8 @@ class ReportsController extends AppController {
         $this->set('systems', $this->get_customerSystems());
         if (in_array($this->action, array('add', 'edit'))) {
             $customers = $this->getCustomersList();
-            $customer_id = array($this->get_allCustomersID(), $this->get_currentUser()['Member']['customer_id']);
+            $currentUser = $this->get_currentUser();
+            $customer_id = array($this->get_allCustomersID(), $currentUser['Member']['customer_id']);
             $dashboards = $this->Dashboard->getCustomerDashboard($customer_id);
             $models = App::objects('model');
             $filterModels = array();
