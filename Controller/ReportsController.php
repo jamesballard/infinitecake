@@ -193,10 +193,8 @@ class ReportsController extends AppController {
         if (!$model) {
             $options = array();
         } else {
-            $customer_id = array(
-                $this->get_allCustomersID(),
-                $this->get_currentUser()['Member']['customer_id'],
-            );
+            $currentUser = $this->get_currentUser();
+            $customer_id = array($this->get_allCustomersID(), $currentUser['Member']['customer_id']);
 
             $this->loadModel($model);
             $class = new $model;
@@ -219,10 +217,8 @@ class ReportsController extends AppController {
         if (!$model) {
             $options = array();
         } else {
-            $customer_id = array(
-                $this->get_allCustomersID(),
-                $this->get_currentUser()['Member']['customer_id'],
-            );
+            $currentUser = $this->get_currentUser();
+            $customer_id = array($this->get_allCustomersID(), $currentUser['Member']['customer_id']);
 
             $this->loadModel($model);
             $class = new $model;
