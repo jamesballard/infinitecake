@@ -31,6 +31,7 @@ $url = $this->request->here;
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<?php
 		//echo $this->Html->meta('icon');
 

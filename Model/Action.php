@@ -199,6 +199,51 @@ class Action extends AppModel {
         'DimensionTime.id DESC'
     );
 
+    public function getCustomerStart($customer_id) {
+        $this->find('all', array(
+            'joins' => array(
+                array(
+                    'table' => 'systems',
+                    'alias' => 'System',
+                    'ctype' => 'INNER',
+                    'conditions' => array(
+                        'System.id = Action.system_id'
+                    )
+                ),
+                array(
+                    'table' => 'customers',
+                    'alias' => 'Customer',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'Customer.id = System.customer_id'
+                    )
+                ),
+                array(
+                    'table' => 'dimension_date',
+                    'alias' => 'DimensionDate',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'DimensionDate.id = Action.dimension_date_id'
+                    )
+                ),
+                array(
+                    'table' => 'dimension_time',
+                    'alias' => 'DimensionTime',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'DimensionTime.id = Action.dimension_time_id'
+                    )
+                ),
+            ),
+           'fields' => array(
+               'MIN(dimension_date_id) as Date, MIN(dimension_time_id) as Time'
+           ),
+           'conditions' => array(
+               'Customer.id' => $customer_id
+           )
+        ));
+    }
+
     /**
      * Get the x-axis array for the course dimension.
      *

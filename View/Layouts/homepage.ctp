@@ -30,6 +30,7 @@ $url = $this->request->here;
 	<title>Infinite Rooms: Learner Enhanced Technology</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<?php
 		//echo $this->Html->meta('icon');
 

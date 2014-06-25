@@ -366,7 +366,8 @@ class DashboardsController extends AppController {
                     $this->Report->getLabelledAxis($dimensions, $report), // x-Axis
                     array( // Conditions.
                         'Person.id' => $userid
-                    )
+                    ),
+                    $systems
                 );
             } else {
                 $dashboards[$key]['data'] = $this->Report->getReportData(
@@ -376,7 +377,8 @@ class DashboardsController extends AppController {
                     $this->Report->getAxis($dimensions, $report), // x-Axis
                     array( // Conditions.
                         'Person.id' => $userid
-                    )
+                    ),
+                    $systems
                 );
             }
         }

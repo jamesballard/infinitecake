@@ -271,16 +271,20 @@ class Report extends AppModel {
      * $param stdClass $report
      * $return DatePeriod
      */
-    function getDateRange($report) {
+    function getDateRange($table, $report) {
         if (!empty($report['Report']['startdate'])) {
             $begin = DateTime::createFromFormat('U', $report['Report']['startdate']);
         } else {
+            //TODO: calculate start time as first record from customer.
+            /*$model = new $table();
+            $start = $model->getCustomerStart($report['Report']['customer_id']);
+            debug($start);*/
             $begin = new DateTime(date("Y-m-01", strtotime("-2 Years")));
         }
         if (!empty($report['Report']['enddate'])) {
             $end = DateTime::createFromFormat('U', $report['Report']['enddate']);
         } else {
-            $end = new DateTime(date("Y-m-d", strtotime(time())));
+            $end = new DateTime();
         }
         $interval = new DateInterval('P1M');
         return new DatePeriod($begin, $interval, $end);
@@ -343,21 +347,47 @@ class Report extends AppModel {
      * @param null $dates
      * @param $axis
      * @param $filters
+     * @param $systems
      * @return array
      */
-    function getLabelledReportData($select, $factTable, $dates=null, $axis, $filters) {
-        $model = new $factTable();
+    function getLabelledReportData($select, $factTable, $dates=null, $axis, $filters, $systems) {
         $data = array();
-        $joins = $model->joins;
         foreach ($axis as $label => $points) {
             foreach ($points as $point) {
-                $conditions = array_merge($point['conditions'], $filters);
-                $contain = array_merge($point['contain'], array('System'));
-                $cacheName = "labelled_report.$select.$factTable".$this->formatCacheConditions($conditions);
-                $value = false;
-                if ($point['cache']) {
-                    $value = Cache::read($cacheName, $point['cache']);
+                if ($dates) {
+                    $value = $this->getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems);
+                } else {
+                    $value = $this->getPointCount($select, $factTable, $point, $filters, $systems);
                 }
+                $data[$label][] = array($point['name'] => $value);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * @param $select
+     * @param $factTable
+     * @param $dates
+     * @param $point
+     * @param $filters
+     * @param $systems
+     * @return bool|int|mixed
+     */
+    protected function getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems) {
+        $model = new $factTable();
+        $joins = $model->joins;
+        $count = 0;
+        foreach ($dates as $date) {
+            foreach ($systems as $system) {
+                set_time_limit(0);
+                $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
+                $conditions = array_merge($conditions, array('System.id' => $system['id']));
+                $date->add(new DateInterval("P1M"));
+                $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
+                $conditions = array_merge($conditions, $point['conditions'], $filters);
+                $cacheName = "report.".$this->formatCacheConditions($conditions, $select, $factTable);
+                $value = Cache::read($cacheName, 'long');
                 if (!$value) {
                     $result = $model->find('all', array(
                             'conditions' => $conditions, //array of conditions
@@ -368,38 +398,34 @@ class Report extends AppModel {
                         )
                     );
                     $value = $result[0][0][$select];
-                    if ($point['cache']) {
-                        Cache::write($cacheName, $value, $point['cache']);
+                    if ($date->format('U') < time()) {
+                        Cache::write($cacheName, $value, 'long');
                     }
                 }
-                $data[$label][] = array($point['name'] => $value);
+                $count = $count + $value;
             }
         }
-        return $data;
+        return $count;
     }
 
     /**
-     * Returns unlabelled report data -
-     *
      * @param $select
      * @param $factTable
-     * @param null $dates
-     * @param $axis
+     * @param $point
      * @param $filters
-     * @return array
+     * @param $systems
+     * @return bool|mixed
      */
-    function getReportData($select, $factTable, $dates=null, $axis, $filters) {
+    protected function getPointCount($select, $factTable, $point, $filters, $systems) {
         $model = new $factTable();
-        $data = array();
         $joins = $model->joins;
-        foreach ($axis as $point) {
-            $conditions = array_merge($point['conditions'], $filters);
-            $contain = $point['contain'];
-            $cacheName = "report.$select.$factTable".$this->formatCacheConditions($conditions);
-            $value = false;
-            if ($point['cache']) {
-                $value = Cache::read($cacheName, $point['cache']);
-            }
+        $conditions = array_merge($point['conditions'], $filters);
+
+        $count = 0;
+        foreach ($systems as $system) {
+            $conditions = array_merge($conditions, array('System.id' => $system['id']));
+            $cacheName = "report.".$this->formatCacheConditions($conditions, $select, $factTable);
+            $value = Cache::read($cacheName, $point['cache']);
             if (!$value) {
                 $result = $model->find('all', array(
                         'conditions' => $conditions, //array of conditions
@@ -413,6 +439,30 @@ class Report extends AppModel {
                 if ($point['cache']) {
                     Cache::write($cacheName, $value, $point['cache']);
                 }
+            }
+            $count = $count + $value;
+        }
+        return $count;
+    }
+
+    /**
+     * Returns unlabelled report data -
+     *
+     * @param $select
+     * @param $factTable
+     * @param null $dates
+     * @param $axis
+     * @param $filters
+     * @param $systems
+     * @return array
+     */
+    function getReportData($select, $factTable, $dates=null, $axis, $filters, $systems) {
+        $data = array();
+        foreach ($axis as $point) {
+            if ($dates) {
+                $value = $this->getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems);
+            } else {
+                $value = $this->getPointCount($select, $factTable, $point, $filters, $systems);
             }
             $data[] = array($point['name'] => $value);
         }
@@ -448,11 +498,13 @@ class Report extends AppModel {
         $conditions = $this->getConditions($report);
         // Get the report dimensions.
         $dimensions = $this->getDimensions($report);
+        // Get systems.
+        $systems = $report['System'];
         // If not using dates for x-axis then set a date range for caching.
         if ($dimensions->axis['model'] == 'DimensionDate') {
             $dates = null;
         } else {
-            $dates = $this->getDateRange($report);
+            $dates = $this->getDateRange($table, $report);
         }
         // Set the report labels.
         $labels = $this->useLabels($dimensions->label, $report);
@@ -462,12 +514,12 @@ class Report extends AppModel {
             // Set the x-axis values.
             $axis = $this->getLabelledAxis($dimensions, $report);
             // Get the results.
-            $results = $this->getLabelledReportData($select, $table, $dates, $axis, $conditions);
+            $results = $this->getLabelledReportData($select, $table, $dates, $axis, $conditions, $systems);
         } else {
             // Set the x-axis values.
             $axis = $this->getAxis($dimensions, $report);
             // Get the results.
-            $results = $this->getReportData($select, $table, $dates, $axis, $conditions);
+            $results = $this->getReportData($select, $table, $dates, $axis, $conditions, $systems);
         }
         // Format as a Google Chart array.
         //$data = $this->transformGchartArray($results);

@@ -39,13 +39,19 @@ class AppModel extends MyModel {
      * @var array $conditions
      * return string
      */
-    public function formatCacheConditions($conditions) {
-        return implode('.', array_map(function($value) {
-            if (is_array($value)) {
-                return implode('.', $value);
-            } else {
-                return $value;
-            }
-        }, $conditions));
+    public function formatCacheConditions($conditions=NULL, $select=NULL, $table=NULL) {
+        $name = '';
+        if($select) {
+            $name .= $select[0].'.';
+        }
+        if ($table) {
+            $name .= $table[0].'.';
+        }
+        foreach($conditions as $key => $condition) {
+            preg_match_all('#([A-Z]+)#', $key, $matches);
+            $name .= implode('',$matches[1]).'.';
+            $name .= $condition.'.';
+        }
+        return $name;
     }
 }

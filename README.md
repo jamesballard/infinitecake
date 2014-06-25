@@ -60,12 +60,18 @@ app/[Cc]onfig/database.php
 2. Insert date dimension days
    
    ```mysql
-      INSERT INTO dimension_date (id, date)
-      SELECT number, DATE_ADD( '2008-01-01', INTERVAL number DAY )
+      INSERT INTO dimension_date (id, DATE)
+      SELECT number, DATE_ADD( '2007-07-31', INTERVAL number DAY )
       FROM numbers
-      WHERE DATE_ADD( '2008-01-01', INTERVAL number DAY ) BETWEEN '2008-01-01' AND '2020-01-01'
+      WHERE DATE_ADD( '2007-07-31', INTERVAL number DAY ) BETWEEN '2007-07-31' AND '2020-01-01'
       ORDER BY number;
    ```
+
+   Delete the one with id = 0 to avoid conflicts with application updates.
+
+   ```mysql
+         DELETE * FROM dimension_date WHERE id = 0;
+      ```
 
 3. Update date dimension fields
 

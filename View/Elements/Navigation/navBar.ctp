@@ -9,8 +9,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-                <svg width="40" height="40">
-                    <image xlink:href="/img/logo.svg" src="/img/logo.png" width="40" height="40" />
+                <svg width="48" height="48">
+                    <image xlink:href="/img/logo.svg" src="/img/logo.png" width="48" height="48" />
                 </svg>
                 <div class="logo-svg-alternate"></div>
                 &nbsp;infinite rooms
