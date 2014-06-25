@@ -89,7 +89,8 @@ class ReportsController extends AppController {
 				$this->Session->setFlash(__('The report could not be saved. Please, try again.'));
 			}
 		}
-        $customer_id = $this->get_currentUser()['Member']['customer_id'];
+        $currentUser = $this->get_currentUser();
+        $customer_id = array($this->get_allCustomersID(), $currentUser['Member']['customer_id']);
         $axis_parameters = $this->DimensionDate->getDimensionParameters($customer_id);
         $label_parameters = $this->Period->getDimensionParameters($customer_id);
         $this->set(compact('axis_parameters', 'label_parameters'));
