@@ -271,7 +271,8 @@ class Report extends AppModel {
      * $param stdClass $report
      * $return DatePeriod
      */
-    function getDateRange($table, $report) {
+    function getDateRange($table, $uselabels, $dimensions, $report) {
+
         if (!empty($report['Report']['startdate'])) {
             $begin = DateTime::createFromFormat('U', $report['Report']['startdate']);
         } else {
@@ -281,13 +282,28 @@ class Report extends AppModel {
             debug($start);*/
             $begin = new DateTime(date("Y-m-01", strtotime("-2 Years")));
         }
+
         if (!empty($report['Report']['enddate'])) {
             $end = DateTime::createFromFormat('U', $report['Report']['enddate']);
         } else {
             $end = new DateTime();
         }
+
         $interval = new DateInterval('P1M');
-        return new DatePeriod($begin, $interval, $end);
+
+        if ($uselabels) {
+            $dates = array();
+            $model = new $dimensions->label['model']();
+            $labels = $model->getLabels($dimensions->label['id'], $report);
+            foreach ($labels as $label) {
+                $begin = (!empty($label['start']) ? new DateTime($label['start']) : $begin);
+                $end = (!empty($label['end']) ? new DateTime($label['end']) : $end);
+                $dates[$label['name']] = new DatePeriod($begin, $interval, $end);
+            }
+            return $dates;
+        } else {
+            return new DatePeriod($begin, $interval, $end);
+        }
     }
     /*
      * Get the dimension x-axis values.
@@ -318,6 +334,21 @@ class Report extends AppModel {
             $model = new $factTable();
         }
         return $model->getLabelledAxis($dimensions, $report);
+    }
+    /*
+     * Get the dimension x-axis values.
+     *
+     * $param stdClass $report
+     * $return stdClass
+     */
+    function getHierarchyAxis($dimensions, $report) {
+        if (in_array($dimensions->axis['model'], array('DimensionDate', 'DimensionTime'))) {
+            $model = new $dimensions->axis['model']();
+        } else {
+            $factTable = $this->getFactTable($report);
+            $model = new $factTable();
+        }
+        return $model->getHierarchyAxis($dimensions, $report);
     }
     /*
      * Get additional filter conditions.
@@ -355,11 +386,11 @@ class Report extends AppModel {
         foreach ($axis as $label => $points) {
             foreach ($points as $point) {
                 if ($dates) {
-                    $value = $this->getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems);
+                    $value = $this->getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems, $label);
                 } else {
                     $value = $this->getPointCount($select, $factTable, $point, $filters, $systems);
                 }
-                $data[$label][] = array($point['name'] => $value);
+                $data[$label][$point['name']] = $value;
             }
         }
         return $data;
@@ -374,11 +405,18 @@ class Report extends AppModel {
      * @param $systems
      * @return bool|int|mixed
      */
-    protected function getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems) {
+    protected function getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems, $label=null) {
         $model = new $factTable();
         $joins = $model->joins;
         $count = 0;
-        foreach ($dates as $date) {
+
+        if($label) {
+            $range = $dates[$label];
+        } else {
+            $range = $dates;
+        }
+
+        foreach ($range as $date) {
             foreach ($systems as $system) {
                 set_time_limit(0);
                 $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
@@ -389,15 +427,13 @@ class Report extends AppModel {
                 $cacheName = "report.".$this->formatCacheConditions($conditions, $select, $factTable);
                 $value = Cache::read($cacheName, 'long');
                 if (!$value) {
-                    $result = $model->find('all', array(
+                    $result = $model->findFacts($select, array(
                             'conditions' => $conditions, //array of conditions
-                            'contain' => false,
                             'joins' => array_merge($joins, $point['joins']),
-                            'fields' => array($select),
                             'order' => $point['order']
                         )
                     );
-                    $value = $result[0][0][$select];
+                    $value = Set::classicExtract($result,'0.0.'.$factTable.'__fact');
                     if ($date->format('U') < time()) {
                         Cache::write($cacheName, $value, 'long');
                     }
@@ -418,7 +454,7 @@ class Report extends AppModel {
      */
     protected function getPointCount($select, $factTable, $point, $filters, $systems) {
         $model = new $factTable();
-        $joins = $model->joins;
+        $joins = $model->extraJoins;
         $conditions = array_merge($point['conditions'], $filters);
 
         $count = 0;
@@ -427,15 +463,13 @@ class Report extends AppModel {
             $cacheName = "report.".$this->formatCacheConditions($conditions, $select, $factTable);
             $value = Cache::read($cacheName, $point['cache']);
             if (!$value) {
-                $result = $model->find('all', array(
-                        'conditions' => $conditions, //array of conditions
-                        'contain' => false,
+                $result = $model->findFacts($select, array(
+                        'conditions' => $conditions,
                         'joins' => array_merge($joins, $point['joins']),
-                        'fields' => array($select),
                         'order' => $point['order']
                     )
                 );
-                $value = $result[0][0][$select];
+                $value = Set::classicExtract($result,'0.0.'.$factTable.'__fact');
                 if ($point['cache']) {
                     Cache::write($cacheName, $value, $point['cache']);
                 }
@@ -500,17 +534,21 @@ class Report extends AppModel {
         $dimensions = $this->getDimensions($report);
         // Get systems.
         $systems = $report['System'];
+        // Set the report labels.
+        $labels = $this->useLabels($dimensions->label, $report);
         // If not using dates for x-axis then set a date range for caching.
         if ($dimensions->axis['model'] == 'DimensionDate') {
             $dates = null;
         } else {
-            $dates = $this->getDateRange($table, $report);
+            $dates = $this->getDateRange($table, $labels, $dimensions, $report);
         }
-        // Set the report labels.
-        $labels = $this->useLabels($dimensions->label, $report);
-        if ($report['Report']['visualisation'] == self::VISUALISATION_TREEMAP) {
-
-        } else if ($labels) {
+        /*if ($report['Report']['visualisation'] == self::VISUALISATION_TREEMAP) {
+            // Set the x-axis values.
+            $axis = $this->getLabelledAxis($dimensions, $report);
+            // Get the results.
+            $results = $this->getHierarchicalReportData($select, $table, $dates, $axis, $conditions, $systems);
+        } else */
+        if ($labels) {
             // Set the x-axis values.
             $axis = $this->getLabelledAxis($dimensions, $report);
             // Get the results.

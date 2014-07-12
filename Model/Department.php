@@ -95,4 +95,34 @@ class Department extends AppModel {
         ));
     }
 
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        $conditions = array(
+            'Department.customer_id' => $report['Report']['customer_id']
+        );
+
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out courses.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Department') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $cacheName = 'customer_departments.'.$this->formatCacheConditions($conditions);
+        $departments = Cache::read($cacheName, 'short');
+        if (!$departments) {
+            $departments = $this->find('all', array(
+                'conditions' => $conditions
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $departments;
+    }
+
 }

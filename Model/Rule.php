@@ -359,14 +359,14 @@ class Rule extends AppModel {
             )
         ));
     }
-/**
- * Returns a list formatted array of rules for multi-select form
- *
- * @param $customer_id integer
- * @param $rule_type integer
- * @return array
- */
 
+    /**
+     * Returns a list formatted array of rules for multi-select form
+     *
+     * @param $customer_id integer
+     * @param $rule_type integer
+     * @return array
+     */
     public function getRulesListByCustomerAndType($customer_id, $rule_type) {
         return $rulesRecords = $this->find('list', array(
             'contain' => false,
@@ -378,5 +378,45 @@ class Rule extends AppModel {
                 'type' => $rule_type
             )
         ));
+    }
+
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        //TODO: can a rule appear on x-axis or just a label?
+
+        $joins = $this->getJoinToConditions();
+
+        $conditions = array(
+            'Rule.customer_id' => $report['Report']['customer_id']
+        );
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out artefacts.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Rule') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $Condition = new Condition();
+        //$rule_conditions = $Condition->get_rule_conditions($record['Rule']['id']);
+        //foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
+
+        //}
+
+        $cacheName = 'customer_rules.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                'conditions' => $conditions,
+                'joins' => $joins
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $artefacts;
     }
 }

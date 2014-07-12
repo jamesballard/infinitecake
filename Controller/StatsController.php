@@ -10,7 +10,7 @@ class StatsController extends AppController {
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
-    var $uses = array('Action', 'Report', 'Dashboard', 'DashboardReport');
+    var $uses = array('Action', 'Report', 'Period', 'Dashboard', 'DashboardReport');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -27,8 +27,49 @@ class StatsController extends AppController {
         $this->set('report', $report);
         $this->set('data', $this->Report->getReportChartData($id));
     }
-      
-	public function overview() {
+
+    function artefact() {
+        $data = array();
+        $artefacts = array(1 => 'Forum', 7 => 'Quiz');
+        $labels = $this->Period->getLabels(5, strtotime("-3 years"));
+        foreach ($labels as $label) {
+            foreach($artefacts as $id => $artefact) {
+                $conditions = array_merge($label['conditions'], array('Artefact.id' => $id));
+                $count = $this->Action->findFacts('COUNT(*)', array(
+                    'conditions' => $conditions,
+                    'joins' => $this->Action->extraJoins,
+                    'mapped'=>false
+                ));
+                $result = Set::classicExtract($count,'0.0.Action__fact');
+                $data[$label['name']][$artefact] = $result;
+            }
+        }
+        $report = array(
+            'Report' => array(
+                'name' => 'Artefacts',
+                'visualisation' => Report::VISUALISATION_TREEMAP
+            ),
+            'Filter' => array(),
+            'ReportDimension' => array(
+                array(
+                    'model' => 'DimensionDate',
+                    'parameter' => '2',
+                    'type' => '1',
+                    'Dimension' => array()
+                ),
+                array(
+                    'model' => '',
+                    'parameter' => '',
+                    'type' => '2',
+                    'Dimension' => array()
+                )
+            ),
+        );
+        $this->set('data', $data);
+        $this->set('report', $report);
+    }
+
+    public function overview() {
 		$systems = AppController::get_customerSystems();
 
     		//Set defaults

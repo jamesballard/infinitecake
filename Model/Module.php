@@ -123,4 +123,43 @@ class Module extends AppModel {
         ));
         return Set::combine($modules, '{n}.Module.id', '{n}.Module.name');
     }
+
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        $joinconditions = array(
+            'System.customer_id' => $report['Report']['customer_id'],
+            'Module.system_id = System.id'
+        );
+
+        $conditions = array();
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out artefacts.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Module') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $cacheName = 'customer_modules.'.$this->formatCacheConditions($conditions);
+        $modules = Cache::read($cacheName, 'short');
+        if (!$modules) {
+            $modules = $this->find('all', array(
+                'conditions' => $conditions,
+                'joins' => array(
+                    array('table' => 'systems',
+                        'alias' => 'System',
+                        'type' => 'INNER',
+                        'conditions' => $joinconditions
+                    )
+                )
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $modules;
+    }
 }

@@ -110,10 +110,13 @@ class Period extends AppModel {
                 'name' => $this->nameOffsetYear($start),
                 'start' => $date->format($record['Period']['start']),
                 'joins' => array(),
-                'conditions' => array()
+                'conditions' => array(
+                    'DimensionDate.date >=' => $date->format($record['Period']['start'])
+                )
             );
             $date->add($interval);
             $label = array_merge($label, array('end' => $date->format($record['Period']['end'])));
+            $label['conditions']['DimensionDate.date <'] = $date->format($record['Period']['start']);
             $labels[] = $label;
         }
         return $labels;
@@ -141,5 +144,35 @@ class Period extends AppModel {
                 return false;
                 break;
         }
+    }
+
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        $conditions = array(
+            'Period.customer_id' => $report['Report']['customer_id']
+        );
+
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out courses.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Period') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $cacheName = 'customer_periods.'.$this->formatCacheConditions($conditions);
+        $periods = Cache::read($cacheName, 'short');
+        if (!$periods) {
+            $periods = $this->find('all', array(
+                'conditions' => $conditions
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $periods;
     }
 }

@@ -112,4 +112,34 @@ class Person extends AppModel {
             'conditions' => array('customer_id' => $customer_id)
         ));
     }
+
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        $conditions = array(
+            'Person.customer_id' => $report['Report']['customer_id']
+        );
+
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out courses.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Person') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $cacheName = 'customer_persons.'.$this->formatCacheConditions($conditions);
+        $persons = Cache::read($cacheName, 'short');
+        if (!$persons) {
+            $persons = $this->find('all', array(
+                'conditions' => $conditions
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $persons;
+    }
 }

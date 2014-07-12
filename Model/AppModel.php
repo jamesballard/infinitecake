@@ -50,7 +50,11 @@ class AppModel extends MyModel {
         foreach($conditions as $key => $condition) {
             preg_match_all('#([A-Z]+)#', $key, $matches);
             $name .= implode('',$matches[1]).'.';
-            $name .= $condition.'.';
+            if (is_array($condition)) {
+                $name .= implode('|',$condition);
+            } else {
+                $name .= $condition.'.';
+            }
         }
         return $name;
     }

@@ -130,7 +130,7 @@ class zingChartsHelper extends AppHelper {
                 $o .= $this->setLabelledSeries($data, $report);
                 break;
             case self::SERIES_HIERARCHY:
-
+                $o .= $this->setHierarchySeries($data, $report);
                 break;
             case self::SERIES_CUSTOM:
                 $o .= $this->setCustomSeries($data, $report);
@@ -154,8 +154,8 @@ class zingChartsHelper extends AppHelper {
                 "border-width":"'.(isset($report['Report']['border-width']) ? $report['Report']['border-width'] : '1px').'",
                 height:"'.(isset($report['Report']['height']) ? $report['Report']['height'] : '98%').'",
                 width:"'.(isset($report['Report']['width']) ? $report['Report']['width'] : '98%').'",
-                x:"'.(isset($report['Report']['x']) ? $report['Report']['x'] : '10px').'",
-                y:"'.(isset($report['Report']['y']) ? $report['Report']['y'] : '10px').'",';
+                x:"'.(isset($report['Report']['x']) ? $report['Report']['x'] : '1%').'",
+                y:"'.(isset($report['Report']['y']) ? $report['Report']['y'] : '1%').'",';
     }
 
     protected function configArraytoString($array) {
@@ -258,10 +258,8 @@ class zingChartsHelper extends AppHelper {
         $values = '';
         foreach ($data as $label => $series) {
             $values .= '{text: "'.$label.'", values:[';
-            foreach ($series as $points) {
-                foreach ($points as $x => $y) {
-                    $values .= '["'.$x.'",'.(int)$y.'],';
-                }
+            foreach ($series as $x => $y) {
+                $values .= '["'.$x.'",'.(int)$y.'],';
             }
             $values = $this->trimEndComma($values);
             $values .= ']},';
@@ -363,6 +361,46 @@ class zingChartsHelper extends AppHelper {
         return $values;
     }
 
+    protected function setHierarchySeries($data) {
+        $o = '';
+        foreach($data as $key => $value) {
+            $o .= '{"text":"'.$key.'",';
+            $o .= '"children":[';
+            foreach ($value as $x => $y) {
+                $o .= '{"text":"'.$x.' ('.$key.')",';
+                $o .= '"value":'.$y.'},';
+            }
+            $o = $this->trimEndComma($o);
+            $o .= ']},';
+        }
+        $o = $this->trimEndComma($o);
+        return $o;
+    }
+
+    /**
+     * Recursively traverses a multi-dimensional array to return Treemap Series.
+     *
+     * @param $array
+     * @return string
+     */
+    protected function traverseHierachySeries($array) {
+        //TODO: Needs fixing for multi-tiered hierarchy.
+        $o = '';
+        foreach($array as $key => $value) {
+            $o .= '{"text":"'.$key.'",';
+            if (is_array($value)) {
+                $o .= '"children":[';
+                $this->traverseHierachySeries($value);
+                $o = $this->trimEndComma($o);
+                $o .= ']},';
+            } else {
+                $o .= '"value":'.$value.'},';
+            }
+        }
+        $o = $this->trimEndComma($o);
+        return $o;
+    }
+
     protected function closeSeries() {
         return ']';
     }
@@ -442,417 +480,182 @@ class zingChartsHelper extends AppHelper {
 
 /*
 {
-"background-color":"#ecf2f6",
 "graphset":[
     {
-        "type":"bar",
-        "background-color":"#fff",
-        "border-color":"#dae5ec",
-        "border-width":"1px",
-        "height":"29%",
-        "width":"96%",
-        "x":"2%",
-        "y":"2%",
-        "title":{
-            "margin-top":"7px",
-            "margin-left":"9px",
-            "font-family":"Arial",
-            "text":"DEPARTMENT PERFORMANCE",
-            "background-color":"none",
-            "shadow":0,
-            "text-align":"left",
-            "font-size":"11px",
-            "font-weight":"bold",
-            "font-color":"#707d94"
-        },
-        "scale-y":{
-            "values":"0:300:100",
-            "line-color":"none",
-            "tick":{
-                "visible":false
-            },
-            "item":{
-                "font-color":"#8391a5",
-                "font-family":"Arial",
-                "font-size":"10px",
-                "padding-right":"5px"
-            },
-            "guide":{
-                "line-style":"solid",
-                "line-width":"1px",
-                "line-color":"#d2dae2",
-                "alpha":0.4
-            }
-        },
-        "scale-x":{
-            "items-overlap":true,
-            "max-items":9999,
-            "values":["Apparel","Drug","Footwear","Gift Card","Home","Jewelry","Garden","Other"],
-            "offset-y":"3px",
-            "line-color":"#d2dae2",
-            "item":{
-                "font-color":"#8391a5",
-                "font-family":"Arial",
-                "font-size":"11px",
-                "padding-top":"2px"
-            },
-            "tick":{
-                "visible":false,
-                "line-color":"#d2dae2"
-            },
-            "guide":{
-                "visible":false
-            }
-        },
+        "type":"treemap",
         "plotarea":{
-            "margin":"45px 20px 38px 45px"
+            "margin":"0 0 30 0"
         },
-        "plot":{
-            "bar-width":"33px",
-            "exact":true,
-            "hover-state":{
-                "visible":false
-            },
-            "tooltip":{
-                "font-color":"#ffffff",
-                "font-family":"Arial",
-                "font-size":"11px",
-                "border-radius":"6px",
-                "shadow":false,
-                "padding":"5px 10px"
-            }
+        "tooltip":{
+
+        },
+        "options":{
+
         },
         "series":[
             {
-                "values":[150,165,173,201,185,195,162,125],
-                "-animation":{
-                    "method":4,
-                    "effect":4,
-                    "speed":2500,
-                    "sequence":0
-                },
-                "styles":[
+                "text": "2011/12",
+                "children":[
                     {
-                        "background-color":"#4dbac0"
-                    },
+                       "text": "Forum",
+                        "value": 703823
+                    }
+                ]
+            },
+            {
+                "text": "2012/13",
+                "children": [
                     {
-                        "background-color":"#25a6f7"
-                    },
+                        "text": "Forum",
+                        "value": 703823
+                    }
+                ]
+            },
+            {
+                "text": "2013/14",
+                "children": [
                     {
-                        "background-color":"#ad6bae"
-                    },
-                    {
-                        "background-color":"#707d94"
-                    },
-                    {
-                        "background-color":"#f3950d"
-                    },
-                    {
-                        "background-color":"#e62163"
-                    },
-                    {
-                        "background-color":"#4e74c0"
-                    },
-                    {
-                        "background-color":"#9dc012"
+                        "text": "Forum",
+                        "value": 703823
                     }
                 ]
             }
         ]
-    },
-    {
-        "type":"hbar",
-        "background-color":"#fff",
-        "border-color":"#dae5ec",
-        "border-width":"1px",
-        "x":"2%",
-        "y":"33%",
-        "height":"65%",
-        "width":"30%",
-        "title":{
-            "margin-top":"7px",
-            "margin-left":"9px",
-            "text":"BRAND PERFORMANCE",
-            "background-color":"none",
-            "shadow":0,
-            "text-align":"left",
-            "font-family":"Arial",
-            "font-size":"11px",
-            "font-color":"#707d94"
-        },
-        "scale-y":{
-            "line-color":"none",
-            "tick":{
-                "visible":false
-            },
-            "item":{
-                "visible":false
-            },
-            "guide":{
-                "visible":false
-            }
-        },
-        "scale-x":{
-            "values":["Kenmore","Craftsman","DieHard","Land's End","Laclyn Smith","Joe Boxer"],
-            "line-color":"none",
-            "tick":{
-                "visible":false
-            },
-            "item":{
-                "width":200,
-                "text-align":"left",
-                "offset-x":206,
-                "offset-y":-12,
-                "font-color":"#8391a5",
-                "font-family":"Arial",
-                "font-size":"11px",
-                "padding-bottom":"8px"
-            },
-            "guide":{
-                "visible":false
-            }
-        },
-        "plot":{
-            "bars-overlap":"100%",
-            "bar-width":"12px",
-            "thousands-separator":",",
-            "tooltip":{
-                "font-color":"#ffffff",
-                "background-color":"#707e94",
-                "font-family":"Arial",
-                "font-size":"11px",
-                "border-radius":"6px",
-                "shadow":false,
-                "padding":"5px 10px"
-            },
-            "hover-state":{
-                "background-color":"#707e94"
-            }
-        },
-        "plotarea":{
-            "margin":"50px 15px 10px 15px"
-        },
         "series":[
             {
-                "values":[103902,112352,121823,154092,182023,263523],
-                "-animation":{
-                    "method":0,
-                    "effect":4,
-                    "speed":2000,
-                    "sequence":0
-                },
-                "z-index":2,
-                "styles":[
+                "text":"North America",
+                "children":[
                     {
-                        "background-color":"#4dbac0"
+                        "text":"United States",
+                        "children":[
+                            {
+                                "text":"Texas",
+                                "value":21
+                            },
+                            {
+                                "text":"California",
+                                "value":53
+                            },
+                            {
+                                "text":"Ohio",
+                                "value":12
+                            },
+                            {
+                                "text":"New York",
+                                "value":46
+                            },
+                            {
+                                "text":"Michigan",
+                                "value":39
+                            },
+                            {
+                                "text":"Alabama",
+                                "value":25
+                            }
+                        ]
                     },
                     {
-                        "background-color":"#4dbac0"
+                        "text":"Canada",
+                        "value":113
                     },
                     {
-                        "background-color":"#4dbac0"
-                    },
-                    {
-                        "background-color":"#4dbac0"
-                    },
-                    {
-                        "background-color":"#4dbac0"
-                    },
-                    {
-                        "background-color":"#4dbac0"
+                        "text":"Mexico",
+                        "value":78
                     }
-                ],
-                "tooltip-text":"$%node-value"
+                ]
             },
             {
-                "max-trackers":0,
-                "values":[300000,300000,300000,300000,300000,300000],
-                "data-rvalues":[103902,112352,121823,154092,182023,263523],
-                "background-color":"#d9e4eb",
-                "z-index":1,
-                "value-box":{
-                    "visible":true,
-                    "offset-y":"-12px",
-                    "offset-x":"-54px",
-                    "text-align":"right",
-                    "font-color":"#8391a5",
-                    "font-family":"Arial",
-                    "font-size":"11px",
-                    "text":"$%data-rvalues",
-                    "padding-bottom":"8px"
-                }
-            }
-        ]
-    },
-    {
-        "type":"line",
-        "background-color":"#fff",
-        "border-color":"#dae5ec",
-        "border-width":"1px",
-        "width":"64%",
-        "height":"65%",
-        "x":"34%",
-        "y":"33.2%",
-        "title":{
-            "margin-top":"7px",
-            "margin-left":"12px",
-            "text":"TODAY'S SALES",
-            "background-color":"none",
-            "shadow":0,
-            "text-align":"left",
-            "font-family":"Arial",
-            "font-size":"11px",
-            "font-color":"#707d94"
-        },
-        "plotarea":{
-            "margin":"50px 25px 70px 46px"
-        },
-        "scale-y":{
-            "values":"0:100:25",
-            "line-color":"none",
-            "guide":{
-                "line-style":"solid",
-                "line-color":"#d2dae2",
-                "line-width":"1px",
-                "alpha":0.5
-            },
-            "tick":{
-                "visible":false
-            },
-            "item":{
-                "font-color":"#8391a5",
-                "font-family":"Arial",
-                "font-size":"10px",
-                "padding-right":"5px"
-            }
-        },
-        "scale-x":{
-            "line-color":"#d2dae2",
-            "line-width":"2px",
-            "values":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-            "tick":{
-                "line-color":"#d2dae2",
-                "line-width":"1px"
-            },
-            "guide":{
-                "visible":false
-            },
-            "item":{
-                "font-color":"#8391a5",
-                "font-family":"Arial",
-                "font-size":"10px",
-                "padding-top":"5px"
-            }
-        },
-        "legend":{
-            "layout":"2x2",
-            "background-color":"none",
-            "shadow":0,
-            "margin":"auto auto 15 auto",
-            "border-width":0,
-            "item":{
-                "font-color":"#707d94",
-                "font-family":"Arial",
-                "padding":"0px",
-                "margin":"0px",
-                "font-size":"9px"
-            },
-            "marker":{
-                "show-line":"true",
-                "type":"match",
-                "font-family":"Arial",
-                "font-size":"10px",
-                "size":4,
-                "line-width":2,
-                "padding":"3px"
-            }
-        },
-        "crosshair-x":{
-            "lineWidth":1,
-            "line-color":"#707d94",
-            "plotLabel":{
-                "shadow":false,
-                "font-color":"#ffffff",
-                "font-family":"Arial",
-                "font-size":"10px",
-                "padding":"5px 10px",
-                "border-radius":"5px",
-                "alpha":1
-            },
-            "scale-label":{
-                "font-color":"#ffffff",
-                "background-color":"#707d94",
-                "font-family":"Arial",
-                "font-size":"10px",
-                "padding":"5px 10px",
-                "border-radius":"5px"
-            }
-        },
-        "tooltip":{
-            "visible":false
-        },
-        "series":[
-            {
-                "values":[69,68,54,48,70,74,98,70,72,68,49,69],
-                "text":"Kenmore",
-                "line-color":"#4dbac0",
-                "line-width":"2px",
-                "shadow":0,
-                "marker":{
-                    "background-color":"#fff",
-                    "size":3,
-                    "border-width":1,
-                    "border-color":"#36a2a8",
-                    "shadow":0
-                },
-                "palette":0
+                "text":"Europe",
+                "children":[
+                    {
+                        "text":"France",
+                        "value":42
+                    },
+                    {
+                        "text":"Spain",
+                        "value":28
+                    },
+                    {
+                        "text":"Switzerland",
+                        "value":13
+                    },
+                    {
+                        "text":"Germany",
+                        "value":56
+                    },
+                    {
+                        "text":"Cyprus",
+                        "value":7
+                    }
+                ]
             },
             {
-                "values":[51,53,47,60,48,52,75,52,55,47,60,48],
-                "text":"Craftsman",
-                "line-width":"2px",
-                "line-color":"#25a6f7",
-                "shadow":0,
-                "marker":{
-                    "background-color":"#fff",
-                    "size":3,
-                    "border-width":1,
-                    "border-color":"#1993e0",
-                    "shadow":0
-                },
-                "palette":1,
-                "visible":1
+                "text":"Africa",
+                "children":[
+                    {
+                        "text":"Egypt",
+                        "value":22
+                    },
+                    {
+                        "text":"Congo",
+                        "value":38
+                    },
+                    {
+                        "text":"Lesotho",
+                        "value":9
+                    }
+                ]
             },
             {
-                "values":[42,43,30,50,31,48,55,46,48,32,50,38],
-                "text":"DieHard",
-                "line-color":"#ad6bae",
-                "line-width":"2px",
-                "shadow":0,
-                "marker":{
-                    "background-color":"#fff",
-                    "size":3,
-                    "border-width":1,
-                    "border-color":"#975098",
-                    "shadow":0
-                },
-                "palette":2,
-                "visible":1
+                "text":"Asia",
+                "children":[
+                    {
+                        "text":"India",
+                        "value":92
+                    },
+                    {
+                        "text":"China",
+                        "value":68
+                    },
+                    {
+                        "text":"Mongolia",
+                        "value":25
+                    }
+                ]
             },
             {
-                "values":[25,15,26,21,24,26,33,25,15,25,22,24],
-                "text":"Land's End",
-                "line-color":"#f3950d",
-                "line-width":"2px",
-                "shadow":0,
-                "marker":{
-                    "background-color":"#fff",
-                    "size":3,
-                    "border-width":1,
-                    "border-color":"#d37e04",
-                    "shadow":0
-                },
-                "palette":3
+                "text":"South America",
+                "children":[
+                    {
+                        "text":"Brazil",
+                        "value":42
+                    },
+                    {
+                        "text":"Argentina",
+                        "value":28
+                    },
+                    {
+                        "text":"Peru",
+                        "value":15
+                    },
+                    {
+                        "text":"Uruguay",
+                        "value":33
+                    }
+                ]
+            },
+            {
+                "text":"Australia (continent)",
+                "children":[
+                    {
+                        "text":"Australia (country)",
+                        "value":121
+                    },
+                    {
+                        "text":"New Zealand",
+                        "value":24
+                    }
+                ]
             }
         ]
     }

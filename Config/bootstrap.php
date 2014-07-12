@@ -33,6 +33,13 @@ Cache::config('short', array(
     'probability' => 100
 ));
 
+Cache::config('medium', array(
+    'engine' => 'File',
+    'duration' => '+1 day',
+    'probability' => 100,
+    'path' => CACHE . 'medium' . DS,
+));
+
 Cache::config('long', array(
     'engine' => 'File',
     'duration' => '+1 year',

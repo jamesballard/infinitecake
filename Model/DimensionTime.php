@@ -112,19 +112,12 @@ class DimensionTime extends AppModel {
      * Get the x-axis array for the date dimension.
      *
      * @param $dimensions
-     * @param $initial
+     * @param $report
      * @return array
      *
      */
     public function getLabelledAxis($dimensions, $report) {
         $axis = array();
-
-        // Add System WHERE clauses with IN array.
-        $systems = array();
-        foreach ($report['System'] as $system) {
-            $systems[] = $system['id'];
-        }
-        $conditions = array('System.id' => $systems);
         if (!empty($report['Report']['datewindow'])) {
             $conditions = array(
                 'DimensionDate.date >' => date('Y-m-d', strtotime($report['Report']['datewindow']))

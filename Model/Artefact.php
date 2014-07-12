@@ -47,19 +47,19 @@ class Artefact extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'artefact_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
+        'Module' => array(
+            'className' => 'Module',
+            'foreignKey' => 'artefact_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
 	);
 
     public $hasAndBelongsToMany = array(
@@ -168,4 +168,67 @@ class Artefact extends AppModel {
         return $artefacts;
     }
 
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        $joinconditions = array(
+            'CustomerArtefact.customer_id' => $report['Report']['customer_id'],
+            'CustomerArtefact.artefact_id = Artefact.id'
+        );
+
+        $conditions = array();
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out artefacts.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Artefact') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $cacheName = 'customer_artefacts.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                'conditions' => $conditions,
+                'joins' => array(
+                    array('table' => 'customer_artefacts',
+                        'alias' => 'CustomerArtefact',
+                        'type' => 'INNER',
+                        'conditions' => $joinconditions
+                    )
+                ),
+                'group' => 'Artefact.id'
+            ));
+            Cache::write($cacheName, 'short', $artefacts);
+        }
+        return $artefacts;
+    }
+
+    public function dimensionForAction($action) {
+        $cacheName = 'customer_artefacts.'.$action['module_id'];
+        $artefact = Cache::read($cacheName, 'long');
+        if (!$artefact) {
+            $artefact = $this->find('all', array(
+                'conditions' => array(
+                    'Module.id' => $action['module_id']
+                ),
+                'joins' => array(
+                    array('table' => 'modules',
+                        'alias' => 'Module',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Module.artefact_id' => 'Artefact.id'
+                        )
+                    )
+                ),
+                'group' => 'Artefact.id'
+            ));
+            Cache::write($cacheName, 'long', $artefact);
+        }
+        return $artefact;
+    }
 }

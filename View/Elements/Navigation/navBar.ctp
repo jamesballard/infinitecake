@@ -1,3 +1,4 @@
+<?php $url = $this->request->here; ?>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -16,7 +17,7 @@
                 &nbsp;infinite rooms
             </a>
         </div>
-
+        <?php if (!preg_match("/login/", $url)) : ?>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -65,5 +66,6 @@
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
+        <?php endif; ?>
     </div><!-- /.container-fluid -->
 </nav>

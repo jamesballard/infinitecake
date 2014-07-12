@@ -115,4 +115,34 @@ class Course extends AppModel {
         ));
     }
 
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        $conditions = array(
+            'Course.customer_id' => $report['Report']['customer_id']
+        );
+
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out courses.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Course') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $courses = Cache::read($cacheName, 'short');
+        if (!$courses) {
+            $courses = $this->find('all', array(
+                'conditions' => $conditions
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $courses;
+    }
+
 }
