@@ -94,6 +94,58 @@ class Course extends AppModel {
 	);
 
     /**
+     * Count the number of courses for a given customer.
+     *
+     * @param $customer_id
+     * @return array|mixed
+     */
+    public function countCustomerCourses($customer_id) {
+        $conditions = array('Customer.id' => $customer_id);
+        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $courses = Cache::read($cacheName, 'short');
+        if (!$courses) {
+            $courses = $this->find('count', array(
+                    'contain' => false,
+                    'joins' => array(
+                        array(
+                            'table' => 'customers',
+                            'alias' => 'Customer',
+                            'type' => 'INNER',
+                            'conditions' => array(
+                                'Customer.id = Course.customer_id'
+                            )
+                        ),
+                    ),
+                    'conditions' => $conditions
+                )
+            );
+            Cache::write($cacheName, $courses, 'short');
+        }
+        return $courses;
+    }
+
+    /**
+     * Returns an array of courses based on a customer id
+     * @param int $customer_id - the id of a customer
+     * @return array of artefacts
+     */
+    public function getCustomerCourses($customer_id = null) {
+        if(empty($customer_id)) return false;
+        $conditions = array(
+            'Course.customer_id' => $customer_id
+        );
+        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $courses = Cache::read($cacheName, 'short');
+        if (!$courses) {
+            $courses = $this->find('all', array(
+                'conditions' => $conditions
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $courses;
+    }
+
+    /**
      * Get the sub list of dimension options when this model is used.
      *
      * @param array|integer $customer_id
@@ -113,6 +165,30 @@ class Course extends AppModel {
         return $this->find('list', array(
             'conditions' => array('customer_id' => $customer_id)
         ));
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param mixed $report
+     * @return array
+     */
+    public function getLabels($id, $report) {
+        $labels = array();
+        $courses = $this->getCustomerCourses($report['Report']['customer_id']);
+        foreach ($courses as $course) {
+            $labels[] =array(
+                'name' => $course['Course']['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'Artefact.id' => $course['Course']['id']
+                ),
+            );
+        }
+        return $labels;
     }
 
     /**

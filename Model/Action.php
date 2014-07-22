@@ -1,10 +1,10 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('FactModel','Model');
 App::uses('Course', 'Model');
 App::uses('Filter', 'Model');
 App::uses('Module', 'Model');
 App::uses('Person', 'Model');
-App::uses('FactModel','Model');
 /**
  * Action Model
  *
@@ -199,7 +199,7 @@ class Action extends FactModel {
         array(
             'table' => 'courses',
             'alias' => 'Course',
-            'type' => 'INNER',
+            'type' => 'LEFT',
             'conditions' => array(
                 'Course.id = Group.course_id'
             )
@@ -207,7 +207,7 @@ class Action extends FactModel {
         array(
             'table' => 'artefacts',
             'alias' => 'Artefact',
-            'type' => 'INNER',
+            'type' => 'LEFT',
             'conditions' => array(
                 'Artefact.id = Module.artefact_id'
             )
@@ -215,18 +215,66 @@ class Action extends FactModel {
         array(
             'table' => 'persons',
             'alias' => 'Person',
-            'type' => 'INNER',
+            'type' => 'LEFT',
             'conditions' => array(
                 'Person.id = User.person_id'
             )
         ),
     );
 
+    /**
+     * The default sort order for the Model.
+     *
+     * @var array
+     */
     public $order = array(
         'DimensionDate.id DESC',
         'DimensionTime.id DESC'
     );
 
+    /**
+     * Get a count of the total actions for a customer.
+     *
+     * @param $customer_id
+     * @return array|mixed
+     */
+    public function countCustomerActions($customer_id) {
+        $conditions = array('Customer.id' => $customer_id);
+        $cacheName = 'customer_actions.'.$this->formatCacheConditions($conditions);
+        $actions = Cache::read($cacheName, 'short');
+        if (!$actions) {
+            $actions = $this->find('count', array(
+                    'contain' => false,
+                    'joins' => array(
+                        array(
+                            'table' => 'systems',
+                            'alias' => 'System',
+                            'ctype' => 'INNER',
+                            'conditions' => array(
+                                'System.id = Action.system_id'
+                            )
+                        ),
+                        array(
+                            'table' => 'customers',
+                            'alias' => 'Customer',
+                            'type' => 'INNER',
+                            'conditions' => array(
+                                'Customer.id = System.customer_id'
+                            )
+                        ),
+                    ),
+                    'conditions' => $conditions
+                )
+            );
+            Cache::write($cacheName, $actions, 'short');
+        }
+        return $actions;
+    }
+
+    /**
+     * Get the first record for a customer to use as a start date for reports.
+     * @param $customer_id
+     */
     public function getCustomerStart($customer_id) {
         $this->find('all', array(
             'joins' => array(
@@ -272,6 +320,14 @@ class Action extends FactModel {
         ));
     }
 
+    /**
+     * Calculates an ordered ranked list of point (e..g top 10)
+     * This is quite expensive and resource intensive to calculate.
+     *
+     * @param $group
+     * @param $report
+     * @return mixed
+     */
     protected function getRankedPoints($group, $report) {
         $groupModel = new $group();
         $Filter = new Filter();

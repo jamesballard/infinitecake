@@ -42,20 +42,20 @@ class AppModel extends MyModel {
     public function formatCacheConditions($conditions=NULL, $select=NULL, $table=NULL) {
         $name = '';
         if($select) {
-            $name .= $select[0].'.';
+            $name .= $select[0].'_';
         }
         if ($table) {
-            $name .= $table[0].'.';
+            $name .= $table[0].'_';
         }
         foreach($conditions as $key => $condition) {
             preg_match_all('#([A-Z]+)#', $key, $matches);
-            $name .= implode('',$matches[1]).'.';
+            $name .= implode('',$matches[1]).'_';
             if (is_array($condition)) {
-                $name .= implode('|',$condition);
+                $name .= implode('_',$condition);
             } else {
-                $name .= $condition.'.';
+                $name .= $condition.'_';
             }
         }
-        return $name;
+        return strtolower($name);
     }
 }

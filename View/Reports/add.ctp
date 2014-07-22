@@ -54,7 +54,6 @@ $filterlistelement .= '</div>';
             echo $this->element('FormItems/legendChangeSettings');
             echo $this->Form->input('id');
             echo $this->Form->input('name');
-            echo $this->element('MultiSelectForms/dashboards');
             echo $this->element('MultiSelectForms/systems');
             echo $this->element('FormItems/hiddenCustomer_id');
             // TODO: hard-coded to count actions - may be other approaches.
@@ -91,7 +90,7 @@ $filterlistelement .= '</div>';
                     '-6 months' => '6 months',
                     '-1 year' => '1 year'
                 ),
-                'default' => '-1 week'
+                'default' => NULL
             ));
             /*
              * Only count is supported for logs.

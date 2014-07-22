@@ -26,7 +26,7 @@
 		<td><?php echo $visualisation_types[h($report['Report']['visualisation'])]; ?>&nbsp;</td>
         <?php
         if($this->Permissions->is_admin($current_user)):
-            echo '<td>'.$this->Html->link(h($rule['Customer']['name']), array('controller' => 'Customers', 'action' => 'view', $rule['Customer']['id'])).'</td>';
+            echo '<td>'.$this->Html->link(h($report['Customer']['name']), array('controller' => 'Customers', 'action' => 'view', $report['Customer']['id'])).'</td>';
         endif;
         ?>
 	</tr>

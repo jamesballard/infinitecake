@@ -39,9 +39,8 @@ $url = $this->request->here;
         echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('jquery-ui');
         echo $this->Html->css('chosen-bootstrap3');
+        echo $this->Html->css('font-awesome.min');
         echo $this->Html->css('infiniterooms');
-        echo $this->Html->css('activity-stream');
-      
 
         echo $this->Html->script('modernizr');
         echo $this->Html->script('jquery');
@@ -60,7 +59,7 @@ $url = $this->request->here;
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <?php echo $this->element('Navigation/navBar'); ?>
-    <div class="container-fluid content">
+    <div class="container-fluid main-content">
         <div class="row">
             <div class="col-md-2">
                 <div class="sidebar">
@@ -77,7 +76,7 @@ $url = $this->request->here;
                 </div>
             </div>
             <div class="col-md-10">
-                <div class="main-content">
+                <div class="config-content">
                     <!--Body content-->
                     <?php echo $this->Session->flash(); ?>
                     <?php echo $this->fetch('content'); ?>

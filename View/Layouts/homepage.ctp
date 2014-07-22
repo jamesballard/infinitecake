@@ -38,15 +38,15 @@ $url = $this->request->here;
         echo $this->Html->css('main');
         echo $this->Html->css('bootstrap.min');
         echo $this->Html->css('jquery-ui');
+        echo $this->Html->css('chosen-bootstrap3');
+        echo $this->Html->css('font-awesome.min');
         echo $this->Html->css('infiniterooms');
 
         echo $this->Html->script('modernizr');
         echo $this->Html->script('jquery');
         echo $this->Html->script('jquery-ui');
         echo $this->Html->script('bootstrap.min');
-        echo $this->Html->script('activity-stream');
         echo $this->Html->script('googleAnalytics');
-        echo $this->Html->css('chosen-bootstrap3');
         echo $this->Html->script('infiniterooms');
 
 		echo $this->fetch('meta');
@@ -58,21 +58,26 @@ $url = $this->request->here;
     <!--[if lt IE 8]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-	<div id="container">
-        <?php echo $this->element('Navigation/navBar'); ?>
-		<div class="content">
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
-		</div>
-	</div>
+    <?php echo $this->element('Navigation/navBar'); ?>
+    <div class="container-fluid main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <!--Body content-->
+                <?php echo $this->Session->flash(); ?>
+                <?php echo $this->fetch('content'); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="footer">
+                <?php echo $this->Html->link(
+                    $this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
+                    'http://www.cakephp.org/',
+                    array('target' => '_blank', 'escape' => false)
+                );
+                ?>
+            </div>
+        </div>
+    </div>
 	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>

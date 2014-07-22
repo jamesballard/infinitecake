@@ -9,7 +9,7 @@
  * @version    1.0
  */
 
-class FactModel extends MyModel {
+class FactModel extends AppModel {
 
     var $name = 'FactModel';
 
@@ -43,21 +43,71 @@ class FactModel extends MyModel {
 
         $dimensions = $this->getAssociated('belongsTo');
 
-        $joins = array();
-        $this_name = $this->alias;
-        foreach ( $dimensions as $k => $dim ) {
-            $fk = $this->belongsTo[$dim]['foreignKey'];
-            $joins[] = array(
-                'table' => $this->$dim->useTable,
-                'alias' => $dim,
-                'type' => 'INNER',
-                'conditions' => array(
-                    "$dim.id = $this_name.$fk"
-                )
-            );
+        $extraJoins = array();
+
+        // Get array of dimensions used in query
+        $usedDimensions = array();
+        foreach ($options['conditions'] as $k => $v) {
+            $alias = strtok($k, '.');
+            $usedDimensions[] = $alias;
+            switch($alias) {
+                case 'Course':
+                    $usedDimensions[] = 'Group';
+                    $extraJoins[] = array(
+                        'table' => 'courses',
+                        'alias' => 'Course',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Course.id = Group.course_id'
+                        )
+                    );
+                    break;
+                case 'Artefact':
+                    $usedDimensions[] = 'Module';
+                    $extraJoins[] = array(
+                        'table' => 'artefacts',
+                        'alias' => 'Artefact',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Artefact.id = Module.artefact_id'
+                        )
+                    );
+                    break;
+                case 'Person':
+                    $usedDimensions[] = 'User';
+                    $extraJoins[] = array(
+                        'table' => 'persons',
+                        'alias' => 'Person',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Person.id = User.person_id'
+                        )
+                    );
+                    break;
+                default:
+                    break;
+            }
         }
 
-        $joins = array_merge($joins, $options['joins'] );
+        $usedDimensions = array_unique($usedDimensions);
+
+        $this_name = $this->alias;
+        foreach ( $dimensions as $k => $dim ) {
+            if (in_array($dim, $usedDimensions)) {
+                $joinType = $dim == 'Module' ? 'LEFT' : 'INNER'; // The Module dimension can be zero and so doesn't support INNER.
+                $fk = $this->belongsTo[$dim]['foreignKey'];
+                $joins[] = array(
+                    'table' => $this->$dim->useTable,
+                    'alias' => $dim,
+                    'type' => $joinType,
+                    'conditions' => array(
+                        "$dim.id = $this_name.$fk"
+                    )
+                );
+            }
+        }
+        // Join order is important so add the second level joins after.
+        $joins = array_merge($joins, $extraJoins);
 
         $fields = array_merge($options['fields'], array($fact.' AS '.$this->alias.'__fact'));
         if (!empty($options['group'])) {

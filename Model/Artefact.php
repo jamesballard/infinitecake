@@ -96,6 +96,35 @@ class Artefact extends AppModel {
     );
 
     /**
+     * Returns an array of artefacts based on a customer id
+     * @param int $customer_id - the id of a customer
+     * @return array of artefacts
+     */
+    public function getCustomerArtefacts($customer_id = null) {
+        if(empty($customer_id)) return false;
+        $conditions = array(
+            'CustomerArtefact.customer_id' => $customer_id,
+            'CustomerArtefact.artefact_id = Artefact.id'
+        );
+        $cacheName = 'customer_artefacts.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                'joins' => array(
+                    array('table' => 'customer_artefacts',
+                        'alias' => 'CustomerArtefact',
+                        'type' => 'INNER',
+                        'conditions' => $conditions
+                    )
+                ),
+                'group' => 'Artefact.id'
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $artefacts;
+    }
+
+    /**
      * Get the sub list of dimension options when this model is used.
      *
      * @param array|integer $customer_id
@@ -112,8 +141,32 @@ class Artefact extends AppModel {
      * @return array a list formatted array
      */
     public function getFilterOptions($customer_id) {
-        $artefacts = $this->getArtefactsByCustomerId($customer_id);
+        $artefacts = $this->getCustomerArtefacts($customer_id);
         return Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param mixed $report
+     * @return array
+     */
+    public function getLabels($id, $report) {
+        $labels = array();
+        $artefacts = $this->getCustomerArtefacts($report['Report']['customer_id']);
+        foreach ($artefacts as $artefact) {
+            $labels[] =array(
+                'name' => $artefact['Artefact']['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'Artefact.id' => $artefact['Artefact']['id']
+                ),
+            );
+        }
+        return $labels;
     }
 
     public function getArtefacts() {
@@ -135,35 +188,6 @@ class Artefact extends AppModel {
                 )
             );
             Cache::write($cacheName, $artefacts, 'short');
-        }
-        return $artefacts;
-    }
-
-    /**
-     * Returns an array of artefacts based on a customer id
-     * @param int $customer_id - the id of a customer
-     * @return array of artefacts
-     */
-    public function getArtefactsByCustomerId($customer_id = null) {
-        if(empty($customer_id)) return false;
-        $conditions = array(
-            'CustomerArtefact.customer_id' => $customer_id,
-            'CustomerArtefact.artefact_id = Artefact.id'
-        );
-        $cacheName = 'customer_artefacts.'.$this->formatCacheConditions($conditions);
-        $artefacts = Cache::read($cacheName, 'short');
-        if (!$artefacts) {
-            $artefacts = $this->find('all', array(
-                'joins' => array(
-                    array('table' => 'customer_artefacts',
-                        'alias' => 'CustomerArtefact',
-                        'type' => 'INNER',
-                        'conditions' => $conditions
-                    )
-                ),
-                'group' => 'Artefact.id'
-            ));
-            Cache::write($cacheName, 'short');
         }
         return $artefacts;
     }

@@ -53,6 +53,33 @@ class DimensionTime extends AppModel {
         '11' => 23
     );
 
+    private $twentyFourHours = array(
+        '0' => 0,
+        '1' => 1,
+        '2' => 2,
+        '3' => 3,
+        '4' => 4,
+        '5' => 5,
+        '6' => 6,
+        '7' => 7,
+        '8' => 8,
+        '9' => 9,
+        '10' => 10,
+        '11' => 11,
+        '12' => 12,
+        '13' => 13,
+        '14' => 14,
+        '15' => 15,
+        '16' => 16,
+        '17' => 17,
+        '18' => 18,
+        '19' => 19,
+        '20' => 20,
+        '21' => 21,
+        '22' => 22,
+        '23' => 23,
+    );
+
     //Define Filter Types
     const TIME_ALL = 1;
     const TIME_DAY = 2;
@@ -118,6 +145,8 @@ class DimensionTime extends AppModel {
      */
     public function getLabelledAxis($dimensions, $report) {
         $axis = array();
+
+        $conditions = array();
         if (!empty($report['Report']['datewindow'])) {
             $conditions = array(
                 'DimensionDate.date >' => date('Y-m-d', strtotime($report['Report']['datewindow']))
@@ -169,28 +198,18 @@ class DimensionTime extends AppModel {
             );
         }
 
-        foreach ($this->dayHours as $hour) {
-            array_merge($conditions, array('DimensionTime.hour' => $hour));
+        foreach ($this->twentyFourHours as $hour) {
+            $conditions = array_merge($conditions, array('DimensionTime.hour' => $hour));
             $cache = false;
-            $axis[$this->interval_types[self::TIME_DAY]][] = array(
+            $axis[] = array(
                 'conditions' => $conditions,
                 'name' => (string)$hour,
-                'contain' => array('DimensionTime'),
+                'contain' => false,
+                'joins' => array(),
+                'order' => '',
                 'cache' => $cache,
             );
         }
-
-        foreach ($this->nightHours as $hour) {
-            array_merge($conditions, array('DimensionTime.hour' => $hour));
-            $cache = false;
-            $axis[$this->interval_types[self::TIME_NIGHT]][] = array(
-                'conditions' => $conditions,
-                'name' => (string)$hour,
-                'contain' => array('DimensionTime'),
-                'cache' => $cache,
-            );
-        }
-
         return $axis;
     }
 }

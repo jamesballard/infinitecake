@@ -129,7 +129,7 @@ Configure::write('Dispatcher.filters', array(
  * Scheduled tasks for cron.
  */
 Configure::write('SchedulerShell.jobs', array(
-    'TriggerProcedure' => array('interval'=>'PT1H','task'=>'TriggerProcedure') //every hour
+    'TriggerProcedure' => array('interval'=>'PT1H', 'task'=>'TriggerProcedure') //every hour
 ));
 
 /**

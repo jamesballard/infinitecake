@@ -37,16 +37,23 @@ class DimensionDate extends AppModel {
     );
 
     public $interval_values = array(
-        DimensionDate::DATE_INTERVAL_DAY=>'P1M',
+        DimensionDate::DATE_INTERVAL_DAY=>'P1D',
         DimensionDate::DATE_INTERVAL_WEEK=>'P1W',
         DimensionDate::DATE_INTERVAL_MONTH=>'P1M',
         DimensionDate::DATE_INTERVAL_YEAR=>'P1Y'
     );
 
-    public $interval_formats = array(
+    public $interval_formats_grouped = array(
         DimensionDate::DATE_INTERVAL_DAY=>'d-M',
         DimensionDate::DATE_INTERVAL_WEEK=>'d-M',
         DimensionDate::DATE_INTERVAL_MONTH=>'M',
+        DimensionDate::DATE_INTERVAL_YEAR=>'Y'
+    );
+
+    public $interval_formats = array(
+        DimensionDate::DATE_INTERVAL_DAY=>'d-M-y',
+        DimensionDate::DATE_INTERVAL_WEEK=>'d-M-y',
+        DimensionDate::DATE_INTERVAL_MONTH=>'M-y',
         DimensionDate::DATE_INTERVAL_YEAR=>'Y'
     );
 
@@ -189,8 +196,15 @@ class DimensionDate extends AppModel {
      * @return array
      */
     public function getLabelledAxis($dimensions, $report) {
-        $model = new $dimensions->label['model']();
+        $labelModel = $dimensions->label['model'];
+        $model = new $labelModel();
         $labels = $model->getLabels($dimensions->label['id'], $report);
+
+        if ($labelModel == 'Period') {
+            $format = $this->interval_formats_grouped[$dimensions->axis['id']];
+        } else {
+            $format = $this->interval_formats[$dimensions->axis['id']];
+        }
 
         $interval = new DateInterval($this->interval_values[$dimensions->axis['id']]);
 
@@ -217,7 +231,7 @@ class DimensionDate extends AppModel {
                     }
                     $axis[$label['name']][] = array(
                         'conditions' => $conditions,
-                        'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
+                        'name' => (string)$date->format($format),
                         'contain' => array('DimensionDate'),
                         'cache' => $cache,
                         'joins' => $joins,

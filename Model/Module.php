@@ -89,6 +89,34 @@ class Module extends AppModel {
         )
     );
 
+    /**
+     * Returns an array of modules based on a customer id
+     * @param int $customer_id - the id of a customer
+     * @return array of modules
+     */
+    public function getCustomerModules($customer_id = null) {
+        if(empty($customer_id)) return false;
+        $conditions = array(
+            'System.customer_id' => $customer_id
+        );
+        $cacheName = 'customer_modules.'.$this->formatCacheConditions($conditions);
+        $modules = Cache::read($cacheName, 'short');
+        if (!$modules) {
+            $modules = $this->find('all', array(
+                'joins' => array(
+                    array('table' => 'systems',
+                        'alias' => 'System',
+                        'type' => 'INNER',
+                        'conditions' => $conditions
+                    )
+                ),
+                'group' => 'Module.id'
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $modules;
+    }
+
     /*
      * Get the sub list of dimension options when this model is used.
      *
@@ -122,6 +150,30 @@ class Module extends AppModel {
             'order' => array('name' => 'ASC')
         ));
         return Set::combine($modules, '{n}.Module.id', '{n}.Module.name');
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param mixed $report
+     * @return array
+     */
+    public function getLabels($id, $report) {
+        $labels = array();
+        $modules = $this->getCustomerModules($report['Report']['customer_id']);
+        foreach ($modules as $module) {
+            $labels[] =array(
+                'name' => $module['Module']['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'Artefact.id' => $module['Module']['id']
+                ),
+            );
+        }
+        return $labels;
     }
 
     /**

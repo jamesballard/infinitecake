@@ -20,50 +20,47 @@ App::uses('Debugger', 'Utility');
 <div class="row">
   <div class="col-md-12">
     <h3>Hi, <?php echo $current_user['Member']['firstname']; ?>!</h3>
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <h3 class="dblue"><i class="fa fa-slack fa-2x"></i> Summary</h3>
+            <dl class="dl-horizontal">
+                <dt>Actions</dt>
+                <dd><?php echo number_format($actions); ?></dd>
+                <dt>Users</dt>
+                <dd><?php echo number_format($persons); ?></dd>
+                <dt>Courses</dt>
+                <dd><?php echo number_format($courses); ?></dd>
+            </dl>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <h3 class="lblue"><i class="fa fa-rocket fa-2x"></i> Get started</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <h3 class="orange"><i class="fa fa-cubes fa-2x"></i> Using this site</h3>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <i class="fa fa-cube fa-4x pull-left orange"></i>
+                    <p><strong>Dashboards</strong><br />
+                    Use dashboards to explore how student activity can help identify and promote effective teaching practices.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <i class="fa fa-cube fa-4x pull-left orange"></i>
+                    <p><strong>Reports</strong><br />
+                    Develop your own visualisations to see how student contributions can provide dynamic indications of success.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <i class="fa fa-cube fa-4x pull-left orange"></i>
+                    <p><strong>Configuration</strong><br />
+                    Create classifications of your data to understand the role that analytics can play in learning design, feedback and assessment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 </div>
-<?php
-//Print the main analytics navigation for all user
-if(in_array($current_user['Membership']['id'], array(1,2,3))) { ?>
-    <div class="row">
-          <div class="col-md-4 jumbotron analytics">
-              <h2>Analyse</h2>
-              <p>Use keys metrics to explore how student activity can help identify and promote effective teaching practices from three perspectives.</p>
-              <p class="inline">
-                  <a href="/Stats" class="btn btn-primary btn-large">
-                    Site
-                  </a>
-                  <a href="/CourseProfile" class="btn btn-primary btn-large">
-                      Course
-                  </a>
-                  <a href="/UserProfile" class="btn btn-primary btn-large">
-                      User
-                  </a>
-              </p>
-          </div>
-          <div class="col-md-4 jumbotron analytics">
-              <h2>Develop</h2>
-              <p>Create and develop your own metrics to understand the role that analytics can play in learning design, feedback and assessment.</p>
-              <p class="inline">
-                 <?php if(in_array($current_user['Membership']['id'], array(1,2))) : ?>
-                    <a href="/Reports" class="btn btn-primary btn-large">
-                      Configuration
-                    </a>
-                 <?php else : ?>
-                    <a href="#" class="btn btn-primary btn-large disabled">
-                        Contact Admin
-                    </a>
-                 <?php endif; ?>
-              </p>
-          </div>
-          <div class="col-md-4 jumbotron analytics">
-              <h2>Share</h2>
-              <p>Collaborate across systems and institutions to see how student contributions can provide dynamic indications of success.</p>
-              <p class="inline">
-                <a href="#" class="btn btn-primary btn-large disabled">
-                  Coming Soon
-                </a>
-              </p>
-          </div>
-    </div>
-<?php } ?>

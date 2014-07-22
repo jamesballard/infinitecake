@@ -33,7 +33,7 @@ class Report extends AppModel {
         self::VISUALISATION_PIE => 'Pie chart',
         self::VISUALISATION_LINE => 'Line graph',
         self::VISUALISATION_TABLE => 'Data table',
-        self::VISUALISATION_TREEMAP => 'Treemap',
+        //self::VISUALISATION_TREEMAP => 'Treemap',
         //self::VISUALISATION_LIST => 'Activity List',
         self::VISUALISATION_RADAR => 'Radar graph',
     );
@@ -44,7 +44,7 @@ class Report extends AppModel {
         self::VISUALISATION_PIE => 'pie',
         self::VISUALISATION_LINE => 'line',
         self::VISUALISATION_TABLE => 'grid',
-        self::VISUALISATION_TREEMAP => 'treemap',
+        //TODO: Needs a hierarchy definition to work self::VISUALISATION_TREEMAP => 'treemap',
         //TODO: Action view should facilitate this view: self::VISUALISATION_LIST => 'list',
         self::VISUALISATION_RADAR => 'radar',
     );
@@ -214,8 +214,12 @@ class Report extends AppModel {
      */
     function getValue($report) {
         $model = new Value();
-        $type = $report['ReportValue'][0]['Value']['type'];
-        $field = $report['ReportValue'][0]['Value']['field'];
+        /* TODO: currently only COUNT(*) is supported.
+         * $type = $report['ReportValue'][0]['Value']['type'];
+         * $field = $report['ReportValue'][0]['Value']['field'];
+         * */
+        $type = Value::VALUE_TYPE_COUNT;
+        $field = '*';
         return $model->getValueSql($type, $field);
     }
     /*
@@ -225,7 +229,11 @@ class Report extends AppModel {
      * $return string
      */
     public function getFactTable($report) {
-        return $report['ReportValue'][0]['Value']['model'];
+        /*
+         * TODO: currently only Action is supports.
+         * $report['ReportValue'][0]['Value']['model'];
+         */
+        return 'Action';
     }
 
     /*
@@ -407,7 +415,7 @@ class Report extends AppModel {
      */
     protected function getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems, $label=null) {
         $model = new $factTable();
-        $joins = $model->joins;
+        $joins = $model->extraJoins;
         $count = 0;
 
         if($label) {
@@ -426,14 +434,14 @@ class Report extends AppModel {
                 $conditions = array_merge($conditions, $point['conditions'], $filters);
                 $cacheName = "report.".$this->formatCacheConditions($conditions, $select, $factTable);
                 $value = Cache::read($cacheName, 'long');
-                if (!$value) {
+                if ($value === false) {
                     $result = $model->findFacts($select, array(
                             'conditions' => $conditions, //array of conditions
                             'joins' => array_merge($joins, $point['joins']),
                             'order' => $point['order']
                         )
                     );
-                    $value = Set::classicExtract($result,'0.0.'.$factTable.'__fact');
+                    $value = Set::classicExtract($result, '0.0.'.'FactModel__fact');
                     if ($date->format('U') < time()) {
                         Cache::write($cacheName, $value, 'long');
                     }
@@ -462,14 +470,14 @@ class Report extends AppModel {
             $conditions = array_merge($conditions, array('System.id' => $system['id']));
             $cacheName = "report.".$this->formatCacheConditions($conditions, $select, $factTable);
             $value = Cache::read($cacheName, $point['cache']);
-            if (!$value) {
+            if ($value === false) {
                 $result = $model->findFacts($select, array(
                         'conditions' => $conditions,
                         'joins' => array_merge($joins, $point['joins']),
                         'order' => $point['order']
                     )
                 );
-                $value = Set::classicExtract($result,'0.0.'.$factTable.'__fact');
+                $value = Set::classicExtract($result,'0.0.FactModel__fact');
                 if ($point['cache']) {
                     Cache::write($cacheName, $value, $point['cache']);
                 }

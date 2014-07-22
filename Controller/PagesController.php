@@ -34,7 +34,7 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $uses = array();
+	public $uses = array('Action', 'Person', 'Course');
 
 /**
  * Displays a view
@@ -43,6 +43,11 @@ class PagesController extends AppController {
  */
 	public function display() {
 		$path = func_get_args();
+
+        $current_user = $this->get_currentUser();
+        $actions = $this->Action->countCustomerActions($current_user['Member']['customer_id']);
+        $persons = $this->Person->countCustomerPeople($current_user['Member']['customer_id']);
+        $courses = $this->Course->countCustomerCourses($current_user['Member']['customer_id']);
 
 		$count = count($path);
 		if (!$count) {
@@ -63,7 +68,7 @@ class PagesController extends AppController {
         // Change templates based on Config/templates.php
         $this->layout = Configure::read('layout.'.$page);
 
-        $this->set(compact('page', 'subpage'));
+        $this->set(compact('page', 'subpage', 'actions', 'persons', 'courses'));
 		$this->set('title_for_layout', $title);
 		$this->render(implode('/', $path));
 	}

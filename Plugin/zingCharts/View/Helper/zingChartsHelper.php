@@ -381,23 +381,24 @@ class zingChartsHelper extends AppHelper {
      * Recursively traverses a multi-dimensional array to return Treemap Series.
      *
      * @param $array
+     * @param $report
      * @return string
      */
-    protected function traverseHierachySeries($array) {
-        //TODO: Needs fixing for multi-tiered hierarchy.
+    protected function traverseHierachySeries(Array $array, $report) {
         $o = '';
-        foreach($array as $key => $value) {
-            $o .= '{"text":"'.$key.'",';
-            if (is_array($value)) {
+        foreach($array as $k => $v) {
+            debug($k);
+            if(is_array($v)) {
+                $o .= '{"text":"'.$k.'",';
                 $o .= '"children":[';
-                $this->traverseHierachySeries($value);
+                $o .= $this->traverseHierachySeries($v, $report);
                 $o = $this->trimEndComma($o);
-                $o .= ']},';
-            } else {
-                $o .= '"value":'.$value.'},';
+                $o .=  ']},';
+            }else{
+                $o .= '{"text":"'.$k.'",';
+                $o .= '"value":"'.$v.'"},';
             }
         }
-        $o = $this->trimEndComma($o);
         return $o;
     }
 

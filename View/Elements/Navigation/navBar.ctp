@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <svg width="48" height="48">
                     <image xlink:href="/img/logo.svg" src="/img/logo.png" width="48" height="48" />
                 </svg>

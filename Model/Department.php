@@ -74,10 +74,32 @@ class Department extends AppModel {
         )
 	);
 
-    /*
+    /**
+     * Returns an array of courses based on a customer id
+     * @param int $customer_id - the id of a customer
+     * @return array of artefacts
+     */
+    public function getCustomerDepartments($customer_id = null) {
+        if(empty($customer_id)) return false;
+        $conditions = array(
+            'Department.customer_id' => $customer_id
+        );
+        $cacheName = 'customer_departments.'.$this->formatCacheConditions($conditions);
+        $departments = Cache::read($cacheName, 'short');
+        if (!$departments) {
+            $departments = $this->find('all', array(
+                'conditions' => $conditions
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $departments;
+    }
+
+    /**
      * Get the sub list of dimension options when this model is used.
      *
-     * @return array a list formatted array
+     * @param $customer_id
+     * @return array
      */
     public function getDimensionParameters($customer_id) {
         return array(0 => __('No option required'));
@@ -93,6 +115,30 @@ class Department extends AppModel {
         return $this->find('list', array(
             'conditions' => array('customer_id' => $customer_id)
         ));
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param mixed $report
+     * @return array
+     */
+    public function getLabels($id, $report) {
+        $labels = array();
+        $departments = $this->getCustomerDepartments($report['Report']['customer_id']);
+        foreach ($departments as $department) {
+            $labels[] =array(
+                'name' => $department['Department']['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'Artefact.id' => $department['Department']['id']
+                ),
+            );
+        }
+        return $labels;
     }
 
     /**

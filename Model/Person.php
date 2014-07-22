@@ -92,10 +92,63 @@ class Person extends AppModel {
         )
     );
 
-    /*
+    /**
+     * Count the number of courses for a given customer.
+     *
+     * @param $customer_id
+     * @return array|mixed
+     */
+    public function countCustomerPeople($customer_id) {
+        $conditions = array('Customer.id' => $customer_id);
+        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $people = Cache::read($cacheName, 'short');
+        if (!$people) {
+            $people = $this->find('count', array(
+                    'contain' => false,
+                    'joins' => array(
+                        array(
+                            'table' => 'customers',
+                            'alias' => 'Customer',
+                            'type' => 'INNER',
+                            'conditions' => array(
+                                'Customer.id = Person.customer_id'
+                            )
+                        ),
+                    ),
+                    'conditions' => $conditions
+                )
+            );
+            Cache::write($cacheName, $people, 'short');
+        }
+        return $people;
+    }
+
+    /**
+     * Returns an array of people based on a customer id
+     * @param int $customer_id - the id of a customer
+     * @return array of people
+     */
+    public function getCustomerPeople($customer_id = null) {
+        if(empty($customer_id)) return false;
+        $conditions = array(
+            'Person.customer_id' => $customer_id
+        );
+        $cacheName = 'customer_persons.'.$this->formatCacheConditions($conditions);
+        $people = Cache::read($cacheName, 'short');
+        if (!$people) {
+            $people = $this->find('all', array(
+                'conditions' => $conditions
+            ));
+            Cache::write($cacheName, 'short');
+        }
+        return $people;
+    }
+
+    /**
      * Get the sub list of dimension options when this model is used.
      *
-     * @return array a list formatted array
+     * @param $customer_id
+     * @return array
      */
     public function getDimensionParameters($customer_id) {
         return array(0 => __('No option required'));
@@ -111,6 +164,30 @@ class Person extends AppModel {
         return $this->find('list', array(
             'conditions' => array('customer_id' => $customer_id)
         ));
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param mixed $report
+     * @return array
+     */
+    public function getLabels($id, $report) {
+        $labels = array();
+        $people = $this->getCustomerPeople($report['Report']['customer_id']);
+        foreach ($people as $person) {
+            $labels[] =array(
+                'name' => $person['Person']['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'Artefact.id' => $person['Person']['id']
+                ),
+            );
+        }
+        return $labels;
     }
 
     /**
