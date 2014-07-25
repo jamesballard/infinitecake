@@ -1,7 +1,9 @@
 <?php
 class TriggerProcedureTask extends Shell {
     public $uses = array('Customer', 'Rule', 'Action', 'Group', 'User', 'CustomerStatus');
+
     public function execute() {
+
         $customers = $this->Customer->find('all', array(
             'conditions' => array(
                 'id >' => 1
