@@ -101,7 +101,7 @@ class Course extends AppModel {
      */
     public function countCustomerCourses($customer_id) {
         $conditions = array('Customer.id' => $customer_id);
-        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_course_count.'.$this->formatCacheConditions($conditions);
         $courses = Cache::read($cacheName, 'short');
         if (!$courses) {
             $courses = $this->find('count', array(
@@ -134,7 +134,7 @@ class Course extends AppModel {
         $conditions = array(
             'Course.customer_id' => $customer_id
         );
-        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_courses_all.'.$this->formatCacheConditions($conditions);
         $courses = Cache::read($cacheName, 'short');
         if (!$courses) {
             $courses = $this->find('all', array(
@@ -210,7 +210,7 @@ class Course extends AppModel {
             }
         }
 
-        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_course_axis.'.$this->formatCacheConditions($conditions);
         $courses = Cache::read($cacheName, 'short');
         if (!$courses) {
             $courses = $this->find('all', array(

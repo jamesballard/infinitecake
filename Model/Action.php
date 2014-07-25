@@ -240,7 +240,7 @@ class Action extends FactModel {
      */
     public function countCustomerActions($customer_id) {
         $conditions = array('Customer.id' => $customer_id);
-        $cacheName = 'customer_actions.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_actions_count.'.$this->formatCacheConditions($conditions);
         $actions = Cache::read($cacheName, 'short');
         if (!$actions) {
             $actions = $this->find('count', array(

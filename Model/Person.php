@@ -100,7 +100,7 @@ class Person extends AppModel {
      */
     public function countCustomerPeople($customer_id) {
         $conditions = array('Customer.id' => $customer_id);
-        $cacheName = 'customer_persons.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_persons_count.'.$this->formatCacheConditions($conditions);
         $people = Cache::read($cacheName, 'short');
         if (!$people) {
             $people = $this->find('count', array(
@@ -133,7 +133,7 @@ class Person extends AppModel {
         $conditions = array(
             'Person.customer_id' => $customer_id
         );
-        $cacheName = 'customer_persons.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_persons_all.'.$this->formatCacheConditions($conditions);
         $people = Cache::read($cacheName, 'short');
         if (!$people) {
             $people = $this->find('all', array(
@@ -209,7 +209,7 @@ class Person extends AppModel {
             }
         }
 
-        $cacheName = 'customer_persons.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_persons_axis.'.$this->formatCacheConditions($conditions);
         $persons = Cache::read($cacheName, 'short');
         if (!$persons) {
             $persons = $this->find('all', array(
