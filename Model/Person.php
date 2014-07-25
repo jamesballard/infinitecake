@@ -100,7 +100,7 @@ class Person extends AppModel {
      */
     public function countCustomerPeople($customer_id) {
         $conditions = array('Customer.id' => $customer_id);
-        $cacheName = 'customer_courses.'.$this->formatCacheConditions($conditions);
+        $cacheName = 'customer_persons.'.$this->formatCacheConditions($conditions);
         $people = Cache::read($cacheName, 'short');
         if (!$people) {
             $people = $this->find('count', array(
