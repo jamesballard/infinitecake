@@ -9,35 +9,36 @@
     ?>
     <table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('shortname'); ?></th>
 			<th><?php echo $this->Paginator->sort('idnumber'); ?></th>
 			<th><?php echo $this->Paginator->sort('active'); ?></th>
 			<th><?php echo $this->Paginator->sort('department_id'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
+            <?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 	</tr>
 	<?php
 	foreach ($courses as $course): ?>
 	<tr>
-		<td><?php echo h($course['Course']['id']); ?>&nbsp;</td>
-		<td><?php echo h($course['Course']['name']); ?>&nbsp;</td>
+        <td><?php echo $this->element('Buttons/action', array(
+                'id' => $course['Course']['id'],
+                'name' => $course['Course']['name'],
+                'customer_id' => h($course['Customer']['id']),
+                'current_user' => $current_user,
+                'delete' => false,
+                'offset' => false
+            ));
+            ?></td>
 		<td><?php echo h($course['Course']['shortname']); ?>&nbsp;</td>
 		<td><?php echo h($course['Course']['idnumber']); ?>&nbsp;</td>
-		<td><?php echo h($course['Course']['active']); ?>&nbsp;</td>
+		<td><?php echo empty($course['Course']['active']) ? 'No' : 'Yes'; ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($course['Department']['name'], array('controller' => 'departments', 'action' => 'view', $course['Department']['id'])); ?>
 		</td>
-        <td>
-            <?php echo $this->element('Buttons/action', array(
-                    'id' => $course['Course']['id'],
-                    'customer_id' => h($course['Department']['customer_id']),
-                    'current_user' => $current_user,
-                    'delete' => true,
-                    'offset' => false
-                ));
-            ?>
-        </td>
+        <?php
+        if($this->Permissions->is_admin($current_user)):
+            echo '<td>'.$this->Html->link(h($course['Customer']['name']), array('controller' => 'Customers', 'action' => 'view', $course['Customer']['id'])).'</td>';
+        endif;
+        ?>
 	</tr>
 <?php endforeach; ?>
 	</table>

@@ -34,11 +34,12 @@ class CoursesController extends AppController {
                             'Department.id',
                             'Department.name',
                             'Department.idnumber'
-                        ),
-                        'Customer' => array(
-                            'fields' => array(
-                                'Customer.name'
-                            )
+                        )
+                    ),
+                    'Customer' => array(
+                        'fields' => array(
+                            'Customer.id',
+                            'Customer.name'
                         )
                     )
                 )
