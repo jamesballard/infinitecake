@@ -293,7 +293,7 @@ class AppController extends MyController {
 
     public function getCustomerArtefacts() {
         $currentUser = $this->get_currentUser();
-        return $this->Artefact->getArtefactsByCustomerId($currentUser['Member']['customer_id']);
+        return $this->Artefact->getCustomerArtefacts($currentUser['Member']['customer_id']);
     }
 
     /*
