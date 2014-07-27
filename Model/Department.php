@@ -90,7 +90,7 @@ class Department extends AppModel {
             $departments = $this->find('all', array(
                 'conditions' => $conditions
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $departments, 'short');
         }
         return $departments;
     }
@@ -166,7 +166,7 @@ class Department extends AppModel {
             $departments = $this->find('all', array(
                 'conditions' => $conditions
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $departments, 'short');
         }
         return $departments;
     }

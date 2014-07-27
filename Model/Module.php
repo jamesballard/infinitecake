@@ -112,7 +112,7 @@ class Module extends AppModel {
                 ),
                 'group' => 'Module.id'
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $modules, 'short');
         }
         return $modules;
     }
@@ -210,7 +210,7 @@ class Module extends AppModel {
                     )
                 )
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $modules, 'short');
         }
         return $modules;
     }

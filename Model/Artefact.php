@@ -119,7 +119,7 @@ class Artefact extends AppModel {
                 ),
                 'group' => 'Artefact.id'
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $artefacts, 'short');
         }
         return $artefacts;
     }
@@ -227,7 +227,7 @@ class Artefact extends AppModel {
                 ),
                 'group' => 'Artefact.id'
             ));
-            Cache::write($cacheName, 'short', $artefacts);
+            Cache::write($cacheName, $artefacts, 'short');
         }
         return $artefacts;
     }
@@ -251,7 +251,7 @@ class Artefact extends AppModel {
                 ),
                 'group' => 'Artefact.id'
             ));
-            Cache::write($cacheName, 'long', $artefact);
+            Cache::write($cacheName, $artefact, 'long');
         }
         return $artefact;
     }

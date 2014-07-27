@@ -171,7 +171,7 @@ class Period extends AppModel {
             $periods = $this->find('all', array(
                 'conditions' => $conditions
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $periods, 'short');
         }
         return $periods;
     }

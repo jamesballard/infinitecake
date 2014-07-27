@@ -140,7 +140,7 @@ class Course extends AppModel {
             $courses = $this->find('all', array(
                 'conditions' => $conditions
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $courses, 'short');
         }
         return $courses;
     }
@@ -216,7 +216,7 @@ class Course extends AppModel {
             $courses = $this->find('all', array(
                 'conditions' => $conditions
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $courses, 'short');
         }
         return $courses;
     }

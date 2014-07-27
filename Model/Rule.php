@@ -415,7 +415,7 @@ class Rule extends AppModel {
                 'conditions' => $conditions,
                 'joins' => $joins
             ));
-            Cache::write($cacheName, 'short');
+            Cache::write($cacheName, $artefacts, 'short');
         }
         return $artefacts;
     }
