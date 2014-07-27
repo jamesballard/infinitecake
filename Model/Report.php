@@ -469,6 +469,7 @@ class Report extends AppModel {
         foreach ($systems as $system) {
             $conditions = array_merge($conditions, array('System.id' => $system['id']));
             $cacheName = "report.".$this->formatCacheConditions($conditions, $select, $factTable);
+            $value = false;
             if ($point['cache']) {
                 $value = Cache::read($cacheName, $point['cache']);
             }
