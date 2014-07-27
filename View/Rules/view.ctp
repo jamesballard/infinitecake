@@ -1,15 +1,16 @@
 <div class="rules view">
-	<h2 class="pull-left"><?php echo __('Classification'); ?>: <?php echo h($rule['Rule']['name']); ?></h2>
+	<h2 class="pull-left"><?php echo __('Classification'); ?>:
 	
 	<?php echo $this->element('Buttons/action', array(
 								'id' => $rule['Rule']['id'],
+                                'name' => $rule['Rule']['name'],
 								'customer_id' => h($rule['Rule']['customer_id']),
 								'current_user' => $current_user,
 								'delete' => true,
 								'offset' => true
 							)); 
 	?>
-
+    </h2>
 	<dl class="dl-horizontal">
         <dt><?php echo __('Category'); ?></dt>
         <dd class="clearfix">
