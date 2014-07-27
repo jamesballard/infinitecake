@@ -25,7 +25,14 @@ class Course extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Department' => array(
+        'Customer' => array(
+            'className' => 'Customer',
+            'foreignKey' => 'customer_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'Department' => array(
 			'className' => 'Department',
 			'foreignKey' => 'department_id',
 			'conditions' => '',

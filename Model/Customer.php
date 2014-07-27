@@ -24,7 +24,20 @@ class Customer extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Person' => array(
+        'Course' => array(
+            'className' => 'Course',
+            'foreignKey' => 'customer_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'Person' => array(
 			'className' => 'Person',
 			'foreignKey' => 'customer_id',
 			'dependent' => false,
