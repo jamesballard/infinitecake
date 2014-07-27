@@ -84,6 +84,25 @@ class FactModel extends AppModel {
                         )
                     );
                     break;
+                case 'Department':
+                    $usedDimensions[] = 'Group';
+                    $extraJoins[] = array(
+                        'table' => 'courses',
+                        'alias' => 'Course',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Course.id = Group.course_id'
+                        )
+                    );
+                    $extraJoins[] = array(
+                        'table' => 'departments',
+                        'alias' => 'Department',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Department.id = Course.department_id'
+                        )
+                    );
+                    break;
                 default:
                     break;
             }
