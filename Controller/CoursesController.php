@@ -149,12 +149,11 @@ class CoursesController extends AppController {
 		} else {
 			$this->request->data = $this->Course->find('first', array(
                     'contain' => array(
-                        'PersonCourse' => array(
-                            'Person' => array (
-                                'fields' => array(
-                                    'Person.id',
-                                    'Person.idnumber'
-                                )
+                        'PersonCourse' => array(),
+                        'Person' => array (
+                            'fields' => array(
+                                'Person.id',
+                                'Person.idnumber'
                             )
                         ),
                         'Department' => array(
