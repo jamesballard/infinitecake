@@ -7,7 +7,7 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('shortname');
 		echo $this->Form->input('idnumber');
-		echo $this->Form->input('active');
+        echo $this->element('SelectForms/yesno', array('name' => 'active', 'label' => 'Active'));
         echo $this->element('SelectForms/departments');
         echo $this->element('MultiSelectForms/people');
 	?>
