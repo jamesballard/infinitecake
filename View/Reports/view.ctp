@@ -10,7 +10,7 @@
     ));
     ?>
     </h2>
-    <div class="clearfix">
+    <div class="clearfix"></div>
         <dl class="dl-horizontal">
             <dt><?php echo __('Id'); ?></dt>
             <dd class="clearfix">
@@ -90,5 +90,4 @@
             <?php endif; ?>
 
         </dl>
-    </div>
 </div>
