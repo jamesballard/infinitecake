@@ -5,6 +5,7 @@ App::uses('Course', 'Model');
 App::uses('Filter', 'Model');
 App::uses('Module', 'Model');
 App::uses('Person', 'Model');
+App::uses('Department', 'Model');
 /**
  * Action Model
  *
