@@ -7,11 +7,11 @@
 								'customer_id' => h($rule['Rule']['customer_id']),
 								'current_user' => $current_user,
 								'delete' => true,
-								'offset' => true
+								'offset' => false
 							)); 
 	?>
     </h2>
-	<dl class="dl-horizontal">
+	<dl class="clearfix dl-horizontal">
         <dt><?php echo __('Category'); ?></dt>
         <dd class="clearfix">
             <?php echo $rule_cats[$rule['Rule']['category']]; ?>

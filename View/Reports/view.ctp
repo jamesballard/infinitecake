@@ -1,16 +1,16 @@
 <div class="reports view">
-<h2 class="pull-left"><?php  echo __('Report'); ?>: </h2>
+<h2 class="pull-left"><?php  echo __('Report'); ?>:
 <?php echo $this->element('Buttons/action', array(
         'id' => $report['Report']['id'],
         'name' => $report['Report']['name'],
         'customer_id' => 1,
         'current_user' => $current_user,
-        'delete' => false,
-        'offset' => true
+        'delete' => true,
+        'offset' => false
     ));
     ?>
-
-    <dl class="dl-horizontal">
+    </h2>
+    <dl class="clearfix dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
 		<dd class="clearfix">
 			<?php echo h($report['Report']['id']); ?>
