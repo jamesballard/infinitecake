@@ -16,6 +16,7 @@ class PersonCourse extends AppModel {
 	public $displayField = 'name';
 
 
+    public $useTable = 'person_courses';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
