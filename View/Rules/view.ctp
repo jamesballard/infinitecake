@@ -11,7 +11,7 @@
 							)); 
 	?>
     </h2>
-    <div class="clearfix">
+    <div class="clearfix"></div>
         <dl class="dl-horizontal">
             <dt><?php echo __('Category'); ?></dt>
             <dd class="clearfix">
@@ -107,5 +107,4 @@
                 </dd>
             <?php endif; ?>
         </dl>
-    </div>
 </div>
