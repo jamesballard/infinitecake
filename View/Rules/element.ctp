@@ -12,6 +12,8 @@ if ($formid == Rule::RULE_TYPE_ACTION) {
 } else {
     $html .= $this->formGeneration->generateConditionItemsForm($rule_types, $formid, $label, $conditionItems);
 }
+
+$rulekey = (($formid == Rule::RULE_TYPE_VERB) ? 'DimensionVerb' : $rule_types[$formid]);
 ?>
 
 <div id="elementContainer">
@@ -27,7 +29,7 @@ if ($formid == Rule::RULE_TYPE_ACTION) {
             } else {
                 echo $this->element('MultiSelectForms/conditionItems', array(
                     'count' => 0,
-                    'rule_type' => $formid,
+                    'rule_key' => $rulekey,
                     'selected' => array()
                 ));
             }
