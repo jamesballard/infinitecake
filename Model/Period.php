@@ -14,6 +14,26 @@ class Period extends AppModel {
  */
 	public $displayField = 'name';
 
+    //Define Intervals
+    const PERIOD_INTERVAL_DAY = 1;
+    const PERIOD_INTERVAL_WEEK = 2;
+    const PERIOD_INTERVAL_MONTH = 3;
+    const PERIOD_INTERVAL_YEAR = 4;
+
+    public $interval_types = array(
+        Period::PERIOD_INTERVAL_DAY=>'Day',
+        Period::PERIOD_INTERVAL_WEEK=>'Week',
+        Period::PERIOD_INTERVAL_MONTH=>'Month',
+        Period::PERIOD_INTERVAL_YEAR=>'Year'
+    );
+
+    public $interval_values = array(
+        Period::PERIOD_INTERVAL_DAY=>'P1D',
+        Period::PERIOD_INTERVAL_WEEK=>'P1W',
+        Period::PERIOD_INTERVAL_MONTH=>'P1M',
+        Period::PERIOD_INTERVAL_YEAR=>'P1Y'
+    );
+
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -111,12 +131,12 @@ class Period extends AppModel {
                 'start' => $date->format($record['Period']['start']),
                 'joins' => array(),
                 'conditions' => array(
-                    'DimensionDate.date >=' => $date->format($record['Period']['start'])
+                    'Period.date >=' => $date->format($record['Period']['start'])
                 )
             );
             $date->add($interval);
             $label = array_merge($label, array('end' => $date->format($record['Period']['end'])));
-            $label['conditions']['DimensionDate.date <'] = $date->format($record['Period']['start']);
+            $label['conditions']['Period.date <'] = $date->format($record['Period']['start']);
             $labels[] = $label;
         }
         return $labels;

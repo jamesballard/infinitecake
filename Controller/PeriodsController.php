@@ -12,6 +12,7 @@ class PeriodsController extends AppController {
         $this->layout = 'configManage';
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
+            $this->set('intervals', $this->Period->interval_types);
             $customers = $this->getCustomersList();
             $this->set(compact('customers'));
         }
