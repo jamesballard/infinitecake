@@ -81,7 +81,7 @@ class Period extends AppModel {
             $yearStart = strtotime ("-$offset months" , strtotime("-1 year", time()));
         }
         // Return the begin date based on day in record.
-        return new DateTime(date('Y-m-'.$dateArray[2], $yearStart));
+        return new DateTime(date('Y-m-'.$dateArray[0], $yearStart));
     }
 
     /**
@@ -93,7 +93,7 @@ class Period extends AppModel {
         // Work out offset from next January.
         $offset = 13 - $dateArray[1];
         // Return the end date based on day in record.
-        return new DateTime(date('Y-m-'.$dateArray[2], strtotime("+$offset months")));
+        return new DateTime(date('Y-m-'.$dateArray[0], strtotime("+$offset months")));
     }
 
     /**
@@ -113,7 +113,7 @@ class Period extends AppModel {
     private function getYears($record, $initial) {
         $begin = $this->getBeginTime($record['Period']['start'], $initial);
         $end = $this->getEndTime($record['Period']['end']);
-        $interval = new DateInterval($this->interval_types[$record['Period']['interval']]);
+        $interval = new DateInterval($this->interval_values[$record['Period']['interval']]);
         $daterange = new DatePeriod($begin, $interval, $end);
 
         $labels = array();
@@ -143,7 +143,7 @@ class Period extends AppModel {
      */
     public function getLabels($id, $initial) {
         $record = $this->read(null, $id);
-        switch ($this->interval_types[$record['Period']['interval']]) {
+        switch ($this->interval_values[$record['Period']['interval']]) {
             case 'P1D':
                 break;
             case 'P1W':
@@ -171,13 +171,14 @@ class Period extends AppModel {
 
         $begin = $this->getBeginTime($record['Period']['start']);
         $end = $this->getEndTime($record['Period']['end']);
-        $interval = new DateInterval($this->interval_types[$record['Period']['interval']]);
+        $interval = new DateInterval($this->interval_values[$record['Period']['interval']]);
         $range = new DatePeriod($begin, $interval, $end);
 
         $axis = array();
         foreach ($range as $date) {
             //In a leap year this creates an irreconcilable offset so skip this day
             if($date->format("d-M") != '29-Feb') {
+                $name = (string)$this->nameOffsetYear($date->format("Y"));
                 $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
                 $date->add($interval);
                 $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
@@ -188,7 +189,7 @@ class Period extends AppModel {
                 }
                 $axis[] = array(
                     'conditions' => $conditions,
-                    'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
+                    'name' => $name,
                     'contain' => array('DimensionDate'),
                     'cache' => $cache,
                     'joins' => array(),
