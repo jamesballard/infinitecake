@@ -30,6 +30,7 @@ class PeriodsController extends AppController {
                 'contain' => array(
                     'Customer' => array(
                         'fields' => array(
+                            'Customer.id',
                             'Customer.name'
                         )
                     )
