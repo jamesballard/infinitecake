@@ -149,7 +149,7 @@ class Rule extends AppModel {
                         'alias' => 'ActionCondition',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'ActionCondition.action_id = Action.id'
+                            'ActionCondition.action_id = FactModel.id'
                         )
                     ),
                     array(
@@ -168,7 +168,7 @@ class Rule extends AppModel {
                         'alias' => 'VerbCondition',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'VerbCondition.dimension_verb_id = Action.dimension_verb_id'
+                            'VerbCondition.dimension_verb_id = FactModel.dimension_verb_id'
                         )
                     ),
                     array(
@@ -187,7 +187,7 @@ class Rule extends AppModel {
                         'alias' => 'ModuleCondition',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'ModuleCondition.module_id = Action.module_id'
+                            'ModuleCondition.module_id = FactModel.module_id'
                         )
                     ),
                     array(
@@ -202,11 +202,19 @@ class Rule extends AppModel {
             case 4:
                 return array(
                     array(
+                        'table' => 'modules',
+                        'alias' => 'Module',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Module.id = FactModel.module_id'
+                        )
+                    ),
+                    array(
                         'table' => 'artefact_conditions',
                         'alias' => 'ArtefactCondition',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'ArtefactCondition.artefact_id = Action.artefact_id'
+                            'ArtefactCondition.artefact_id = Module.artefact_id'
                         )
                     ),
                     array(
@@ -225,7 +233,7 @@ class Rule extends AppModel {
                         'alias' => 'Group',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'Group.id = Action.group_id'
+                            'Group.id = FactModel.group_id'
                         )
                     ),
                     array(

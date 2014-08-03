@@ -416,7 +416,6 @@ class Report extends AppModel {
      */
     protected function getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems, $label=null) {
         $model = new $factTable();
-        $joins = $model->extraJoins;
         $count = 0;
 
         if($label) {
@@ -438,7 +437,7 @@ class Report extends AppModel {
                 if ($value === false) {
                     $result = $model->findFacts($select, array(
                             'conditions' => $conditions, //array of conditions
-                            'joins' => array_merge($joins, $point['joins']),
+                            'joins' => $point['joins'],
                             'order' => $point['order']
                         )
                     );
@@ -463,7 +462,6 @@ class Report extends AppModel {
      */
     protected function getPointCount($select, $factTable, $point, $filters, $systems) {
         $model = new $factTable();
-        $joins = $model->extraJoins;
         $conditions = array_merge($point['conditions'], $filters);
 
         $count = 0;
@@ -477,7 +475,7 @@ class Report extends AppModel {
             if ($value === false) {
                 $result = $model->findFacts($select, array(
                         'conditions' => $conditions,
-                        'joins' => array_merge($joins, $point['joins']),
+                        'joins' => $point['joins'],
                         'order' => $point['order']
                     )
                 );

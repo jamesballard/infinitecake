@@ -41,6 +41,9 @@ $filterlistelement .= $this->Form->input("Filter.' + i +'.value", array(
     //'options' => $filter_options, // TODO: this needs to update based on model selected.
     'empty' => $empty,
 ));
+$filterlistelement .= '<span class="col-sm-2"><small>';
+$filterlistelement .= $this->html->link('Remove', '#', array('class' => 'remScnt'));
+$filterlistelement .= '</small></span></div>';
 $filterlistelement .= '</div>';
 
 ?>

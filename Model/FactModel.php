@@ -103,6 +103,8 @@ class FactModel extends AppModel {
                         )
                     );
                     break;
+                case 'Rule':
+
                 default:
                     break;
             }
@@ -127,6 +129,7 @@ class FactModel extends AppModel {
         }
         // Join order is important so add the second level joins after.
         $joins = array_merge($joins, $extraJoins);
+        $joins = array_merge($joins, $options['joins']);
 
         $fields = array_merge($options['fields'], array($fact.' AS '.$this->alias.'__fact'));
         if (!empty($options['group'])) {
