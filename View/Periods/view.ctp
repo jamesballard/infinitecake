@@ -1,55 +1,52 @@
-<div class="courses view">
-<h2 class="pull-left"><?php  echo __('Course'); ?></h2>
-    <?php echo $this->element('Buttons/action', array(
-            'id' => $course['Course']['id'],
-            'customer_id' => h($course['Department']['customer_id']),
-            'current_user' => $current_user,
-            'delete' => true,
-            'offset' => true
-        ));
-    ?>
-	<dl class="dl-horizontal">
+<div class="periods view">
+<h2 class="pull-left"><?php  echo __('Period'); ?></h2>
+<?php echo $this->element('Buttons/action', array(
+        'id' => $period['Period']['id'],
+        'customer_id' => 1,
+        'current_user' => $current_user,
+        'delete' => false,
+        'offset' => true
+    ));
+    ?>    <dl class="dl-horizontal">
 		<dt><?php echo __('Id'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($course['Course']['id']); ?>
+			<?php echo h($period['Period']['id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($course['Course']['name']); ?>
+			<?php echo h($period['Period']['name']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Shortname'); ?></dt>
+		<dt><?php echo __('Start'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($course['Course']['shortname']); ?>
+			<?php echo h($period['Period']['start']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Idnumber'); ?></dt>
+		<dt><?php echo __('End'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($course['Course']['idnumber']); ?>
+			<?php echo h($period['Period']['end']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Active'); ?></dt>
+		<dt><?php echo __('Interval'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($course['Course']['active']); ?>
+			<?php echo h($period['Period']['interval']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Department'); ?></dt>
+		<dt><?php echo __('Customer'); ?></dt>
 		<dd class="clearfix">
-			<?php echo $this->Html->link($course['Department']['name'], array('controller' => 'departments', 'action' => 'view', $course['Department']['id'])); ?>
+			<?php echo $this->Html->link($period['Customer']['name'], array('controller' => 'customers', 'action' => 'view', $period['Customer']['id'])); ?>
 			&nbsp;
 		</dd>
-	<?php if (!empty($course['Person'])): ?>
-            <dt><?php echo __('People'); ?></dt>
-            <dd class="clearfix">
-			    <ul>
-                    <?php
-                    $i = 0;
-		            foreach ($course['Person'] as $person): ?>
-                        <li><?php echo $this->Html->link($person['idnumber'], array('controller' => 'people', 'action' => 'view', $person['id'])); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </dd>
-        <?php endif; ?>
+		<dt><?php echo __('Created'); ?></dt>
+		<dd class="clearfix">
+			<?php echo h($period['Period']['created']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Modified'); ?></dt>
+		<dd class="clearfix">
+			<?php echo h($period['Period']['modified']); ?>
+			&nbsp;
+		</dd>
     </dl>
 </div>
