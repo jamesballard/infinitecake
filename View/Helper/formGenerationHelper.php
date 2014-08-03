@@ -12,28 +12,27 @@ class formGenerationHelper extends AppHelper {
     public $helpers = array('Html', 'Form', 'Chosen.Chosen');
 
     /**
-     * Returns a html string for the condition items form for use with javascript updates
-     *
-     * @param array $rule_types the passed list of rule types
-     * @param string $label the label for the form
-     * @param array $conditionItems the passed list of condition items for the form
-     * @return string html formatted form
+     * @param $rule_types
+     * @param $rule_type
+     * @param $label
+     * @param $conditionItems
+     * @return string
      */
-
     public function generateConditionItemsForm($rule_types, $rule_type, $label, $conditionItems) {
-        $o = '<div class="control-group">';
+        $o = '<div class="form-group">';
         $o .= $this->Form->label(
             "Condition.'+ i +'.".$rule_types[$rule_type],
             $label.'(s)',
-            array('class' => 'control-label')
+            array('class' => 'col-sm-2 control-label')
         );
-        $o .= '<div class="controls">';
+        $o .= '<div class="col-sm-5">';
         $o .= $this->Chosen->select(
             "Condition.'+ i +'.".$rule_types[$rule_type],
             array_map("addslashes",$conditionItems),
             array(
                 'data-placeholder' => "Select $label(s)...",
                 'multiple' => true,
+                'class' => 'form-control',
                 'deselect' => true
             )
         );
@@ -49,17 +48,17 @@ class formGenerationHelper extends AppHelper {
      * @param integer $rule_id the current rule being created to add as default
      * @return string html formatted form
      */
-
     public function generateConditionRulesForm($rules, $rule_id) {
-        $o = '<div class="control-group">';
-        $o .= $this->Form->label("Condition.'+ i +'.Rule", 'Rule(s)', array('class' => 'control-label'));
-        $o .= '<div class="controls">';
+        $o = '<div class="form-group">';
+        $o .= $this->Form->label("Condition.'+ i +'.Rule", 'Rule(s)', array('class' => 'col-sm-2 control-label'));
+        $o .= '<div class="col-sm-5">';
         $o .= $this->Chosen->select(
             "Condition.'+ i +'.Rule",
             array_map("addslashes",$rules),
             array(
                 'data-placeholder' => "Select Rule(s)...",
                 'multiple' => true,
+                'class' => 'form-control',
                 'deselect' => true,
                 'default' => $rule_id
             )

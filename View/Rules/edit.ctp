@@ -2,7 +2,10 @@
 <h2><?php echo __('Edit Rule'); ?></h2>
 <?php echo $this->Form->create('Rule'); ?>
     <?php
-    $html = "<legend>Label '+ (i + 1) +'</legend>";
+    $html = "<legend>Label '+ (i + 1) +'";
+    $html .= '<span class="help-inline"><small>';
+    $html .= $this->html->link('Remove', '#', array('class' => 'remScnt'));
+    $html .= '</small></span></legend>';
     $html .= $this->Form->input("Condition.' + i +'.name");
     $html .= $this->Form->input("Condition.' + i +'.type", array( 'value' => 1 , 'type' => 'hidden') );
     $html .= $this->formGeneration->generateConditionRulesForm($rules, $rule_id);

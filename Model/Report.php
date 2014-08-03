@@ -6,6 +6,7 @@ App::uses('DimensionDate', 'Model');
 App::uses('DimensionTime', 'Model');
 App::uses('Filter', 'Model');
 App::uses('Period', 'Model');
+App::uses('Rule', 'Model');
 App::uses('Value', 'Model');
 /**
  * Report Model

@@ -78,8 +78,8 @@ class dynamicFormsHelper extends AppHelper {
                     var scntDiv = $("#'.$container.'");
                     var i = '.($count).';
 
-                    $("#'.$addlink.'").live("click", function() {
-                        $(\'<'.$element.'>'.$html.'<div class="controls remove"><a href="#" class="remScnt">Remove</a></div></'.$element.'>\').appendTo(scntDiv);
+                    $("#'.$addlink.'").on("click", function() {
+                        $(\'<'.$element.'>'.$html.'</'.$element.'>\').appendTo(scntDiv);
                         i++;
                         $(".chzn-select").chosen();
                         $(".chzn-select-deselect").chosen({
@@ -88,11 +88,8 @@ class dynamicFormsHelper extends AppHelper {
                         return false;
                     });
 
-                    $(".remScnt").live("click", function() {
-                        if( i > 0 ) {
-                            $(this).closest("'.$element.'").remove();
-                            i--;
-                        }
+                    $(".remScnt").on("click", function() {
+                        $(this).closest("'.$element.'").remove();
                         return false;
                     });
                 });
