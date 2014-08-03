@@ -172,11 +172,13 @@ class DimensionDate extends AppModel {
                 'start' => '',
                 'end' => '',
                 'joins' => array(
-                    'table' => 'dimension_date',
-                    'alias' => 'DimensionDate',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        'DimensionDate.id = FactModel.dimension_date_id'
+                    array(
+                        'table' => 'dimension_date',
+                        'alias' => 'DimensionDate',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'DimensionDate.id = FactModel.dimension_date_id'
+                        )
                     )
                 ),
                 'conditions' => array(
