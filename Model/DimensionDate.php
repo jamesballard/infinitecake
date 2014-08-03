@@ -171,18 +171,9 @@ class DimensionDate extends AppModel {
                 'name' => $year,
                 'start' => '',
                 'end' => '',
-                'joins' => array(
-                    array(
-                        'table' => 'dimension_date',
-                        'alias' => 'DimensionDate',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'DimensionDate.id = FactModel.dimension_date_id'
-                        )
-                    )
-                ),
+                'joins' => array(),
                 'conditions' => array(
-                    'DimensionDate.year =' => $year
+                    'DimensionDate.year =' => "$year"
                 )
             );
         }
