@@ -69,7 +69,7 @@ class Period extends AppModel {
      * $param string $start
      * @return DateTime http://php.net/manual/en/class.datetime.php
      */
-    private function getBeginTime($start, $initial) {
+    private function getBeginTime($start, $initial=null) {
         $dateArray = explode('-', $start);
         $initial = strtotime("-2 Years");
         // Work out offset from previous January.
@@ -84,11 +84,9 @@ class Period extends AppModel {
         return new DateTime(date('Y-m-'.$dateArray[2], $yearStart));
     }
 
-    /*
-     * Returns a formatted end date.
-     *
-     * $param string $end
-     * @return DateTime http://php.net/manual/en/class.datetime.php
+    /**
+     * @param $end
+     * @return DateTime
      */
     private function getEndTime($end) {
         $dateArray = explode('-', $end);
@@ -99,10 +97,8 @@ class Period extends AppModel {
     }
 
     /**
-     * Returns the year in format YYYY/yy based on start year
-     *
-     * @param   integer $year  format YYYY
-     * @return  string  $year  format YYYY/yy
+     * @param $startYear
+     * @return string
      */
     private function nameOffsetYear($startYear) {
         $year = $startYear. '/'. substr(($startYear + 1),-2);
@@ -110,17 +106,14 @@ class Period extends AppModel {
     }
 
     /**
-     * Returns a DatePeriod for the provided record.
-     *
-     * @param   string  $start
-     * @param   string  $end
-     * @param   integer $initial    Start date as timestamp, 0 = go back 1 year
-     * @return  DatePeriod  $daterange  http://php.net/manual/en/class.dateperiod.php
+     * @param $record
+     * @param $initial
+     * @return array
      */
     private function getYears($record, $initial) {
         $begin = $this->getBeginTime($record['Period']['start'], $initial);
         $end = $this->getEndTime($record['Period']['end']);
-        $interval = new DateInterval($record['Period']['interval']);
+        $interval = new DateInterval($this->interval_types[$record['Period']['interval']]);
         $daterange = new DatePeriod($begin, $interval, $end);
 
         $labels = array();
@@ -150,7 +143,7 @@ class Period extends AppModel {
      */
     public function getLabels($id, $initial) {
         $record = $this->read(null, $id);
-        switch ($record['Period']['interval']) {
+        switch ($this->interval_types[$record['Period']['interval']]) {
             case 'P1D':
                 break;
             case 'P1W':
@@ -164,6 +157,46 @@ class Period extends AppModel {
                 return false;
                 break;
         }
+    }
+
+    /**
+     * Get the x-axis array for the date dimension.
+     *
+     * @param $dimensions
+     * @param $report
+     * @return array
+     */
+    public function getAxis($dimensions, $report) {
+        $record = $this->read(null, $dimensions->axis['id']);
+
+        $begin = $this->getBeginTime($record['Period']['start']);
+        $end = $this->getEndTime($record['Period']['end']);
+        $interval = new DateInterval($this->interval_types[$record['Period']['interval']]);
+        $range = new DatePeriod($begin, $interval, $end);
+
+        $axis = array();
+        foreach ($range as $date) {
+            //In a leap year this creates an irreconcilable offset so skip this day
+            if($date->format("d-M") != '29-Feb') {
+                $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
+                $date->add($interval);
+                $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
+                // Cache if all dates are in the past.
+                $cache = false;
+                if ($date->format('U') < time()) {
+                    $cache = 'long';
+                }
+                $axis[] = array(
+                    'conditions' => $conditions,
+                    'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
+                    'contain' => array('DimensionDate'),
+                    'cache' => $cache,
+                    'joins' => array(),
+                    'order' => ''
+                );
+            }
+        }
+        return $axis;
     }
 
     /**

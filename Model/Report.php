@@ -320,7 +320,7 @@ class Report extends AppModel {
      * $return stdClass
      */
     function getAxis($dimensions, $report) {
-        if (in_array($dimensions->axis['model'], array('DimensionDate', 'DimensionTime', 'Rule'))) {
+        if (in_array($dimensions->axis['model'], array('DimensionDate', 'DimensionTime', 'Period', 'Rule'))) {
             $model = new $dimensions->axis['model']();
         } else {
             $factTable = $this->getFactTable($report);
