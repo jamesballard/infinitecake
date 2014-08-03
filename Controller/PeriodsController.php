@@ -40,7 +40,8 @@ class PeriodsController extends AppController {
                 'contain' => array(
                     'Customer' => array(
                         'fields' => array(
-                            'Customer.id'
+                            'Customer.id',
+                            'Customer.name'
                         )
                     )
                 ),
@@ -101,14 +102,14 @@ class PeriodsController extends AppController {
 	public function edit($id = null) {
 		$this->Period->id = $id;
 		if (!$this->Period->exists()) {
-			throw new NotFoundException(__('Invalid course'));
+			throw new NotFoundException(__('Invalid period'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Period->save($this->request->data)) {
-				$this->Session->setFlash(__('The course has been saved'));
+				$this->Session->setFlash(__('The period has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The course could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The period could not be saved. Please, try again.'));
 			}
 		} else {
 			$this->request->data = $this->Period->find('first', array(
