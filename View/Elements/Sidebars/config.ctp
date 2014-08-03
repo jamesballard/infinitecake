@@ -1,16 +1,19 @@
 <?php $url = $this->request->here; ?>
-<li class="nav-header">Status</li>
+<li class="title">Status</li>
 <li<?php echo (preg_match("/CustomerStatuses/", $url))? ' class="active"' : ''?>>
     <?php echo $this->Html->link('Data Status', array('controller' => 'CustomerStatuses', 'action' => 'index')); ?>
 </li>
-<li class="nav-header">Report Configuration</li>
+<li class="title">Report Configuration</li>
 <li<?php echo (preg_match("/Reports/", $url))? ' class="active"' : ''?>>
   <?php echo $this->Html->link(__('Reports'), array('controller' => 'Reports', 'action' => 'index')); ?>
 </li>
 <li<?php echo (preg_match("/Rules/", $url))? ' class="active"' : ''?>>
     <?php echo $this->Html->link(__('Classification'), array('controller' => 'Rules', 'action' => 'index')); ?>
 </li>
-<li class="nav-header">Institution Data</li>
+<li<?php echo (preg_match("/Periods/", $url))? ' class="active"' : ''?>>
+    <?php echo $this->Html->link(__('Period'), array('controller' => 'Periods', 'action' => 'index')); ?>
+</li>
+<li class="title">Institution Data</li>
 <li<?php echo (preg_match("/Members/", $url))? ' class="active"' : ''?>>
   <?php echo $this->Html->link('Members', array('controller' => 'Members', 'action' => 'index')); ?>
 </li>
@@ -23,7 +26,7 @@
 <li<?php echo (preg_match("/People/", $url))? ' class="active"' : ''?>>
     <?php echo $this->Html->link('People', array('controller' => 'People', 'action' => 'index')); ?>
 </li>
-<li class="nav-header">System Data</li>
+<li class="title">System Data</li>
 <li<?php echo (preg_match("/Systems/", $url))? ' class="active"' : ''?>>
   <?php echo $this->Html->link('Systems', array('controller' => 'Systems', 'action' => 'index')); ?>
 </li>
