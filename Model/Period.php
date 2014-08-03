@@ -70,7 +70,7 @@ class Period extends AppModel {
      * @return DateTime http://php.net/manual/en/class.datetime.php
      */
     private function getBeginTime($start, $initial=null) {
-        $dateArray = explode('-', $start);
+        $dateArray = explode('/', $start);
         $initial = strtotime("-2 Years");
         // Work out offset from previous January.
         $offset = abs(1 - $dateArray[1]);
@@ -89,7 +89,7 @@ class Period extends AppModel {
      * @return DateTime
      */
     private function getEndTime($end) {
-        $dateArray = explode('-', $end);
+        $dateArray = explode('/', $end);
         // Work out offset from next January.
         $offset = 13 - $dateArray[1];
         // Return the end date based on day in record.
