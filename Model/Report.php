@@ -1,6 +1,7 @@
 <?php
 App::uses('AppModel', 'Model');
 App::uses('Action', 'Model');
+App::uses('Department', 'Model');
 App::uses('Dimension', 'Model');
 App::uses('DimensionDate', 'Model');
 App::uses('DimensionTime', 'Model');
