@@ -183,7 +183,7 @@ class Person extends AppModel {
                 'end' => '',
                 'joins' => array(),
                 'conditions' => array(
-                    'Artefact.id' => $person['Person']['id']
+                    'Person.id' => $person['Person']['id']
                 ),
             );
         }

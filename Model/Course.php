@@ -191,7 +191,7 @@ class Course extends AppModel {
                 'end' => '',
                 'joins' => array(),
                 'conditions' => array(
-                    'Artefact.id' => $course['Course']['id']
+                    'Course.id' => $course['Course']['id']
                 ),
             );
         }

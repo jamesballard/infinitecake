@@ -169,7 +169,7 @@ class Module extends AppModel {
                 'end' => '',
                 'joins' => array(),
                 'conditions' => array(
-                    'Artefact.id' => $module['Module']['id']
+                    'Module.id' => $module['Module']['id']
                 ),
             );
         }

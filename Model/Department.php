@@ -134,7 +134,7 @@ class Department extends AppModel {
                 'end' => '',
                 'joins' => array(),
                 'conditions' => array(
-                    'Artefact.id' => $department['Department']['id']
+                    'Department.id' => $department['Department']['id']
                 ),
             );
         }
