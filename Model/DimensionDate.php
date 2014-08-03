@@ -93,7 +93,7 @@ class DimensionDate extends AppModel {
         )
 	);
 
-    /*
+    /**
      * Get the sub list of dimension options when this model is used.
      *
      * @return array a list formatted array
@@ -102,8 +102,11 @@ class DimensionDate extends AppModel {
         return $this->interval_types;
     }
 
-    /*
-     * TODO: is this a description?!?
+    /**
+     * Returns the parameter conditions when configuring a report.
+     *
+     * @param $key
+     * @return mixed
      */
     public function getConditions($key) {
         switch ($key) {
@@ -126,7 +129,7 @@ class DimensionDate extends AppModel {
      * @param $interval
      * @return DateTime
      */
-    protected function getStartDate($report, $interval) {
+    protected function getStartDate($report, $interval=null) {
         if(!empty($report['Report']['startdate'])) {
             $date = new DateTime($report['Report']['startdate']);
         } else if (!empty($report['Report']['datewindow'])) {
@@ -147,6 +150,81 @@ class DimensionDate extends AppModel {
         } else {
             return new DateTime();
         }
+    }
+
+    /**
+     * Gets years as a label.
+     *
+     * @param $report
+     * @return array
+     */
+    protected function getYears($report) {
+        $begin = $this->getStartDate($report);
+        $end = $this->getEndDate($report);
+        $interval = new DateInterval($this->interval_values[DimensionDate::DATE_INTERVAL_YEAR]);
+        $daterange = new DatePeriod($begin, $interval, $end);
+
+        $labels = array();
+        foreach ($daterange as $date) {
+            $year = $date->format("Y");
+            $labels[] = array(
+                'name' => $year,
+                'start' => '',
+                'end' => '',
+                'joins' => array(
+                    'table' => 'dimension_date',
+                    'alias' => 'DimensionDate',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'DimensionDate.id = FactModel.dimension_date_id'
+                    )
+                ),
+                'conditions' => array(
+                    'DimensionDate.year =' => $year
+                )
+            );
+        }
+        return $labels;
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param mixed $report
+     * @return array
+     */
+    public function getLabels($id, $report) {
+        switch ($this->interval_values[$id]) {
+            case 'P1D':
+                return $this->getDays($report);
+                break;
+            case 'P1W':
+                return $this->getWeeks($report);
+                break;
+            case 'P1M':
+                return $this->getMonths($report);
+                break;
+            case 'P1Y':
+                return $this->getYears($report);
+                break;
+            default:
+                return false;
+                break;
+        }
+        $labels = array();
+        foreach ($courses as $course) {
+            $labels[] =array(
+                'name' => $course['Course']['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'Course.id' => $course['Course']['id']
+                ),
+            );
+        }
+        return $labels;
     }
 
     /**
