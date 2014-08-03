@@ -113,13 +113,7 @@ class PeriodsController extends AppController {
 				$this->Session->setFlash(__('The period could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Period->find('first', array(
-                    'contain' => false,
-                    'conditions' => array(
-                        'Period.id' => $id
-                    )
-                )
-            );
+			$this->request->data = $this->Period->read(null, $id);
 		}
         $this->check_customerID($this->request->data['Period']['customer_id']);
 	}
