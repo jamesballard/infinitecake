@@ -158,6 +158,98 @@ class DimensionDate extends AppModel {
      * @param $report
      * @return array
      */
+    protected function getDays($report) {
+        $days = array(
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+            0 => 'Sunday'
+        );
+
+        $labels = array();
+        foreach ($days as $key => $day) {
+            $labels[] = array(
+                'name' => $day,
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'DimensionDate.day_of_week =' => "$key"
+                )
+            );
+        }
+        return $labels;
+    }
+
+    /**
+     * Gets years as a label.
+     *
+     * @param $report
+     * @return array
+     */
+    protected function getWeeks($report) {
+        $labels = array();
+        $x=1;
+        while($x <= 52) {
+            $labels[] = array(
+                'name' => $x,
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'DimensionDate.week_starting_monday =' => "$x"
+                )
+            );
+        }
+        return $labels;
+    }
+
+    /**
+     * Gets years as a label.
+     *
+     * @param $report
+     * @return array
+     */
+    protected function getMonths($report) {
+        $months = array(
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December'
+        );
+
+        $labels = array();
+        foreach ($months as $key => $month) {
+            $labels[] = array(
+                'name' => $month,
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'DimensionDate.month =' => "$key"
+                )
+            );
+        }
+        return $labels;
+    }
+
+    /**
+     * Gets years as a label.
+     *
+     * @param $report
+     * @return array
+     */
     protected function getYears($report) {
         $begin = $this->getStartDate($report);
         $end = $this->getEndDate($report);

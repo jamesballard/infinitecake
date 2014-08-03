@@ -135,6 +135,22 @@ class DimensionTime extends AppModel {
         return array(0 => __('No option required'));
     }
 
+    public function getLabels($id, $report) {
+        $labels = array();
+        foreach ($this->twentyFourHours as $hour) {
+            $labels[] = array(
+                'name' => $hour,
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'DimensionTime.hour =' => "$hour"
+                )
+            );
+        }
+        return $labels;
+    }
+
     /**
      * Get the x-axis array for the date dimension.
      *
