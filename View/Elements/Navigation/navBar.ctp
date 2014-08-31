@@ -52,6 +52,8 @@
                         <li><?php echo $this->Html->link('People', array('controller' => 'People', 'action' => 'index')); ?></li>
                     </ul>
                 </li>
+                <li><a href="/support">Support</a></li>
+                <!--
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -64,6 +66,7 @@
                         <li><?php echo $this->Html->link('Engagement', array('controller' => 'Guides', 'action' => 'engagement')); ?></li>
                     </ul>
                 </li>
+                -->
             </ul>
         </div><!-- /.navbar-collapse -->
         <?php endif; ?>
