@@ -419,12 +419,11 @@ class Report extends AppModel {
         $model = new $factTable();
         $count = 0;
 
-        if($label) {
+        if($label !== null) {
             $range = $dates[$label];
         } else {
             $range = $dates;
         }
-
         foreach ($range as $date) {
             foreach ($systems as $system) {
                 set_time_limit(0);
@@ -548,14 +547,14 @@ class Report extends AppModel {
         // Set the report labels.
         $labels = $this->useLabels($dimensions->label, $report);
         // If not using dates for x-axis then set a date range for caching.
-        if ($dimensions->axis['model'] == 'DimensionDate') {
+        if (in_array($dimensions->axis['model'], array('DimensionDate', 'Period'))) {
             $dates = null;
         } else {
             $dates = $this->getDateRange($table, $labels, $dimensions, $report);
         }
         /*if ($report['Report']['visualisation'] == self::VISUALISATION_TREEMAP) {
             // Set the x-axis values.
-            $axis = $this->getLabelledAxis($dimensions, $report);
+            $axis = $this->bbelledAxis($dimensions, $report);
             // Get the results.
             $results = $this->getHierarchicalReportData($select, $table, $dates, $axis, $conditions, $systems);
         } else */

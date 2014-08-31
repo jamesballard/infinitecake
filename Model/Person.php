@@ -178,7 +178,7 @@ class Person extends AppModel {
         $people = $this->getCustomerPeople($report['Report']['customer_id']);
         foreach ($people as $person) {
             $labels[] =array(
-                'name' => $person['Person']['name'],
+                'name' => $person['Person']['idnumber'],
                 'start' => '',
                 'end' => '',
                 'joins' => array(),

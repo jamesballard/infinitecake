@@ -63,11 +63,12 @@ class Period extends AppModel {
         ));
     }
 
-    /*
+    /**
      * Returns a formatted start date.
      *
-     * $param string $start
-     * @return DateTime http://php.net/manual/en/class.datetime.php
+     * @param $start
+     * @param null $initial
+     * @return DateTime
      */
     private function getBeginTime($start, $initial=null) {
         $dateArray = explode('/', $start);
@@ -97,6 +98,15 @@ class Period extends AppModel {
     }
 
     /**
+     * @param $date
+     * @return string
+     */
+    protected function getYearFormat($date) {
+        $dateArray = explode('/', $date);
+        return 'Y-m-'.$dateArray[0];
+    }
+
+    /**
      * @param $startYear
      * @return string
      */
@@ -116,20 +126,22 @@ class Period extends AppModel {
         $interval = new DateInterval($this->interval_values[$record['Period']['interval']]);
         $daterange = new DatePeriod($begin, $interval, $end);
 
+        $format = $this->getYearFormat($record['Period']['start']);
+
         $labels = array();
         foreach ($daterange as $date) {
             $start = $date->format("Y");
             $label = array(
                 'name' => $this->nameOffsetYear($start),
-                'start' => $date->format($record['Period']['start']),
+                'start' => $date->format($format),
                 'joins' => array(),
                 'conditions' => array(
-                    'Period.date >=' => $date->format($record['Period']['start'])
+                    'DimensionDate.date >=' => $date->format($format)
                 )
             );
             $date->add($interval);
-            $label = array_merge($label, array('end' => $date->format($record['Period']['end'])));
-            $label['conditions']['Period.date <'] = $date->format($record['Period']['start']);
+            $label = array_merge($label, array('end' => $date->format($format)));
+            $label['conditions']['DimensionDate.date <'] = $date->format($format);
             $labels[] = $label;
         }
         return $labels;

@@ -48,8 +48,11 @@ class AppModel extends MyModel {
             $name .= $table[0].'_';
         }
         foreach($conditions as $key => $condition) {
-            preg_match_all('#([A-Z]+)#', $key, $matches);
-            $name .= implode('',$matches[1]).'_';
+            preg_match_all('#([A-Z]+)#', $key, $tables);
+            $name .= implode('',$tables[1]).'_';
+
+            preg_match_all('/\.(.*?)\ /', $key, $fields);
+            $name .= implode('',$fields[1]).'_';
             if (is_array($condition)) {
                 $name .= implode('_',$condition);
             } else {
