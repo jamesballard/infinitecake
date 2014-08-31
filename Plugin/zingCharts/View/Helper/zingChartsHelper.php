@@ -469,7 +469,6 @@ class zingChartsHelper extends AppHelper {
         $i = 1;
         foreach ($dashboards as $dashboard) {
             $o .= $this->configureGraph($dashboard['config'], $dashboard['data'], $i);
-            $o .= ',';
             $i++;
         }
         $o .= '};';
