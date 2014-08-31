@@ -57,10 +57,6 @@ class DashboardsController extends AppController {
                         'background-color' => '#ffffff',
                         'border-color' => '#dae5ec',
                         'border-width' => '1px',
-                        'height' => '610px',
-                        'width' => '300px',
-                        'x' => '10px',
-                        'y' => '10px',
                         'title' => array(
                             'text' => 'Weekly Activity',
                             'margin-top' => '7px',
@@ -202,10 +198,6 @@ class DashboardsController extends AppController {
                         'background-color' => '#ffffff',
                         'border-color' => '#dae5ec',
                         'border-width' => '1px',
-                        'height' => '300px',
-                        'width' => '350px',
-                        'x' => '320px',
-                        'y' => '10px',
                         'title' => array(
                             'text' => 'Task types',
                             'margin-top' => '7px',
@@ -277,10 +269,6 @@ class DashboardsController extends AppController {
                         'background-color' => '#ffffff',
                         'border-color' => '#dae5ec',
                         'border-width' => '1px',
-                        'height' => '300px',
-                        'width' => '350px',
-                        'x' => '320px',
-                        'y' => '320px',
                         'title' => array(
                             'text' => 'Time of day',
                             'margin-top' => '7px',

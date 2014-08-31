@@ -152,10 +152,10 @@ class zingChartsHelper extends AppHelper {
     protected function formatGraph($report) {
         return '"border-color":"'.(isset($report['Report']['border-color']) ? $report['Report']['border-color'] : '#dae5ec').'",
                 "border-width":"'.(isset($report['Report']['border-width']) ? $report['Report']['border-width'] : '1px').'",
-                height:"'.(isset($report['Report']['height']) ? $report['Report']['height'] : '98%').'",
-                width:"'.(isset($report['Report']['width']) ? $report['Report']['width'] : '98%').'",
-                x:"'.(isset($report['Report']['x']) ? $report['Report']['x'] : '1%').'",
-                y:"'.(isset($report['Report']['y']) ? $report['Report']['y'] : '1%').'",';
+                height:"'.(isset($report['Report']['height']) ? $report['Report']['height'] : '100%').'",
+                width:"'.(isset($report['Report']['width']) ? $report['Report']['width'] : '100%').'",
+                x:"'.(isset($report['Report']['x']) ? $report['Report']['x'] : '0%').'",
+                y:"'.(isset($report['Report']['y']) ? $report['Report']['y'] : '0%').'",';
     }
 
     protected function configArraytoString($array) {
@@ -250,7 +250,7 @@ class zingChartsHelper extends AppHelper {
             }
         }
         $values = $this->trimEndComma($values);
-        $values .= ']}';
+        $values .= '],"target":"graph"}';
         return $values;
     }
 
@@ -262,7 +262,7 @@ class zingChartsHelper extends AppHelper {
                 $values .= '["'.$x.'",'.(int)$y.'],';
             }
             $values = $this->trimEndComma($values);
-            $values .= ']},';
+            $values .= '],"target":"graph"},';
         }
         $values = $this->trimEndComma($values);
         return $values;
@@ -353,7 +353,8 @@ class zingChartsHelper extends AppHelper {
             foreach ($point as $x => $y) {
                 $values .= '{
                     "values":['.(int)$y.'],
-                    "text":"'.$x.'"
+                    "text":"'.$x.'",
+                    "target":"graph"
                 },';
             }
         }
@@ -368,7 +369,7 @@ class zingChartsHelper extends AppHelper {
             $o .= '"children":[';
             foreach ($value as $x => $y) {
                 $o .= '{"text":"'.$x.' ('.$key.')",';
-                $o .= '"value":'.$y.'},';
+                $o .= '"value":'.$y.',"target":"graph"},';
             }
             $o = $this->trimEndComma($o);
             $o .= ']},';
@@ -396,7 +397,7 @@ class zingChartsHelper extends AppHelper {
                 $o .=  ']},';
             }else{
                 $o .= '{"text":"'.$k.'",';
-                $o .= '"value":"'.$v.'"},';
+                $o .= '"value":"'.$v.'","target":"graph"},';
             }
         }
         return $o;
@@ -455,26 +456,104 @@ class zingChartsHelper extends AppHelper {
     }
 
     /**
-     * Return multiple graphs for the given data into specified container.
-     *
-     * @param string $container - element id for chart container.
-     * @param array $dashboards - the dashboard details incl data array.
-     * @return string JS script
+     * Return multiple graphs for the given data into containers with id chart $i.
+     * @param $dashboards
+     * @param string $width
+     * @param string $height
+     * @return string
      */
-    public function addDashboardChart($container, $dashboards, $width='85%', $height='99%') {
+    public function addDashboardChart($dashboards, $width='100%', $height='100%') {
         $o = '<script>';
-        $o .= $this->openChartObject();
-        $o .= $this->setBackgroundColour();
-        $o .= $this->openGraphSet();
+        $o .= $this->createRenderVar('svg', $width, $height);
+        $o .= $this->openOnLoadFunction();
+        $i = 1;
         foreach ($dashboards as $dashboard) {
-            $o .= $this->createGraph($dashboard['config'], $dashboard['data']);
+            $o .= $this->configureGraph($dashboard['config'], $dashboard['data'], $i);
             $o .= ',';
+            $i++;
         }
-        $o = $this->trimEndComma($o);
-        $o .= $this->closeGraphSet();
-        $o .= $this->closeChartObject();
-        $o .= $this->getChartRender($container, $width, $height);
+        $o .= '};';
         $o .= '</script>';
+        return $o;
+    }
+
+    /**
+     * Returns the render variable for utilising multiple charts in a single page.
+     * @param string $output
+     * @param string $width
+     * @param string $height
+     * @return string
+     */
+    protected function createRenderVar($output='svg', $width, $height) {
+        return 'var toRender={
+                id:null,
+                output:"'.$output.'",
+                height:"'.$height.'",
+                width:"'.$width.'",
+                data:null
+            };';
+    }
+
+    /**
+     * Returns an open Window.onload function to contain chart.
+     * @return string
+     */
+    protected function openOnLoadFunction() {
+        return 'window.onload=function(){';
+    }
+
+    protected function configureGraph($report, $data, $i) {
+        $chart = Report::$visualisation_display[$report['Report']['visualisation']];
+        $seriesType = $this->getSeriesType($report);
+
+        $o = 'toRender.id= "chart'.$i.'";';
+        $o .= 'toRender.data= {';
+
+        $o .= $this->setType($chart);
+        $o .= $this->setBackgroundColour('#ffffff');
+        $o .= $this->formatGraph($report);
+        if(isset($report['Report']['title'])) {
+            $o .= $this->setComponent('title', $report);
+        }
+        if(isset($report['Report']['scale-x'])) {
+            $o .= $this->setComponent('scale-x', $report);
+        }
+        if(isset($report['Report']['scale-y'])) {
+            $o .= $this->setComponent('scale-y', $report);
+        }
+        if(isset($report['Report']['plotarea'])) {
+            $o .= $this->setComponent('plotarea', $report);
+        }
+        if ($seriesType == self::SERIES_LABELLED) {
+            $o .= $this->setLegend();
+        }
+        $plotValues = $this->getPlotValues($chart, $report);
+        $o .= $this->setPlot($plotValues);
+
+        $o .= $this->setGraphConfiguration($chart);
+
+        $o .= $this->openSeries();
+        switch ($seriesType) {
+            case self::SERIES_STANDARD:
+                $o .= $this->setStandardSeries($data, $report);
+                break;
+            case self::SERIES_LABELLED:
+                $o .= $this->setLabelledSeries($data, $report);
+                break;
+            case self::SERIES_HIERARCHY:
+                $o .= $this->setHierarchySeries($data, $report);
+                break;
+            case self::SERIES_CUSTOM:
+                $o .= $this->setCustomSeries($data, $report);
+                break;
+            case self::SERIES_PIE:
+                $o .= $this->setPieSeries($data, $report);
+                break;
+        }
+        $o .= $this->closeSeries();
+
+        $o .= '};';
+        $o .= 'zingchart.render(toRender);';
         return $o;
     }
 }
