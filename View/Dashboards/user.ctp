@@ -6,7 +6,7 @@
         <?php
         echo $this->dynamicForms->autocomplete('DashboardUser','/People/jsonfeed');
         ?>
-        <div class="ui-widget">';
+        <div class="ui-widget">
             <?php
             echo $this->Form->create('Dashboard', array('class' => 'form-inline'));
 
