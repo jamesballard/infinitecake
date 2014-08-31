@@ -155,19 +155,19 @@ ul.nav>li,
     padding: 0px;
 }
 
-.lblue, .lblue a {
+.lblue, .lblue a, .panel-default>.panel-heading .lblue {
     color: #60b3ce;
 }
 
-.dblue, .dblue a {
+.dblue, .dblue a, .panel-default>.panel-heading .dblue {
     color: #06799f;
 }
 
-.grey, .grey a {
+.grey, .grey a, .panel-default>.panel-heading .grey {
     color: #9e9e9e;
 }
 
-.orange, .orange a {
+.orange, .orange a, .panel-default>.panel-heading .orange {
     color: #ff8300;
 }
 
