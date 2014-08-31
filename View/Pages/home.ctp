@@ -118,7 +118,7 @@ App::uses('Debugger', 'Utility');
     <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading dblue">
-                <i class="fa fa-line-chart fa-fw"></i> Overall Activity
+                <i class="fa fa-line-chart fa-2x"></i> Overall Activity
             </div>
             <div class="panel-body">
                 <p>Insert chart here</p>
