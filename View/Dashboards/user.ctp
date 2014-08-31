@@ -36,19 +36,20 @@
 
 <div class="row">
     <div class="col-md-7">
-        <?php echo $this->zingCharts->start('graph1'); ?>
+        <?php echo $this->zingCharts->start('chart1'); ?>
     </div>
     <div class="col-md-5">
         <div class="row">
             <div class="col-md-12">
-                <?php echo $this->zingCharts->start('graph2'); ?>
+                <?php echo $this->zingCharts->start('chart2'); ?>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <?php echo $this->zingCharts->start('graph3'); ?>
+                <?php echo $this->zingCharts->start('chart3'); ?>
             </div>
         </div>
     </div>
 </div>
-<?php endif; ?>
+<?php endif;
+ echo $this->zingCharts->addDashboardChart($dashboards); ?>
