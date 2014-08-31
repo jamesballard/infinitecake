@@ -133,21 +133,21 @@ App::uses('Debugger', 'Utility');
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <i class="fa fa-cube fa-4x pull-left orange"></i>
+                        <i class="fa fa-cube fa-4x pull-left site-panel orange"></i>
                         <p><strong>Dashboards</strong><br />
                             Use dashboards to explore how student activity can help identify and promote effective teaching practices.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <i class="fa fa-cube fa-4x pull-left orange"></i>
+                        <i class="fa fa-cube fa-4x pull-left site-panel orange"></i>
                         <p><strong>Reports</strong><br />
                             Develop your own visualisations to see how student contributions can provide dynamic indications of success.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <i class="fa fa-cube fa-4x pull-left orange"></i>
+                        <i class="fa fa-cube fa-4x pull-left site-panel orange"></i>
                         <p><strong>Configuration</strong><br />
                             Create classifications of your data to understand the role that analytics can play in learning design, feedback and assessment.</p>
                     </div>

@@ -230,6 +230,10 @@ ul.nav>li,
     color: #df8a13;
 }
 
+.site-panel {
+    margin-top: 15px;
+}
+
 /* Toggle icon */
 .active i.icon-minus{ display:inline-block; }
 .active i.icon-plus { display:none;}
