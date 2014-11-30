@@ -18,117 +18,72 @@
 App::uses('Debugger', 'Utility');
 ?>
 <div class="row">
-    <div class="col-lg-12">
-        <h3>Hi, <?php echo $current_user['Member']['firstname']; ?>!</h3>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-paw fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo number_format($actions); ?></div>
-                        <div>Actions</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-users fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo number_format($persons); ?></div>
-                        <div>Users</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-graduation-cap fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo number_format($courses); ?></div>
-                        <div>Courses</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-red">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-support fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">13</div>
-                        <div>Support Tickets!</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-8">
+    <div class="col-xs-12 col-sm-9 col-sm-push-3 col-md-9 col-lg-9">
         <div class="panel panel-default">
             <div class="panel-heading dblue">
-                <i class="fa fa-line-chart fa-2x"></i> Overall Activity
+                <i class="fa fa-line-chart fa-fw"></i> Overall Activity
             </div>
-            <div class="panel-body">
-                <p>Insert chart here</p>
+            <div class="panel-body overall-stats">
+                <?php
+                echo $this->Html->script('zingchart-html5-min');
+                echo $this->Html->script('license');
+                echo $this->zingCharts->start('chart1');
+                echo $this->zingCharts->addDashboardChart($summary, '100%', '350');
+                ?>
             </div>
         </div>
     </div>
+    <div class="col-xs-12 col-sm-3 col-sm-pull-9 col-md-3 col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-heading orange">
+                <i class="fa fa-cubes fa-fw"></i> Status
+            </div>
+            <div class="panel-body">
+                <h3>Hi, <?php echo $current_user['Member']['firstname']; ?>!</h3>
+                <p>Last update: <?php echo $latest->format('d-M-Y H:i'); ?></p>
+                <div class="status-block panel-lightblue">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-paw fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge"><?php echo number_format($actions); ?></div>
+                            <div>Actions</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status-block panel-orange">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge"><?php echo number_format($persons); ?></div>
+                            <div>Users</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status-block panel-darkblue">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-graduation-cap fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge"><?php echo number_format($courses); ?></div>
+                            <div>Courses</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading orange">
-                <i class="fa fa-cubes fa-2x"></i> Using this site
+                <i class="fa fa-cubes fa-fw"></i> Using this site
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -155,13 +110,10 @@ App::uses('Debugger', 'Utility');
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading lblue">
-                <i class="fa fa-rocket fa-2x"></i> Get started
+                <i class="fa fa-rocket fa-fw"></i> Get started
             </div>
             <div class="panel-body">
                 <p>Coming soon...</p>

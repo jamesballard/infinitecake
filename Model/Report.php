@@ -514,6 +514,30 @@ class Report extends AppModel {
     }
 
     /**
+     * Returns unlabelled report data -
+     *
+     * @param $select
+     * @param $factTable
+     * @param null $dates
+     * @param $axis
+     * @param $filters
+     * @param $systems
+     * @return array
+     */
+    function getReportDataFlat($select, $factTable, $dates=null, $axis, $filters, $systems) {
+        $data = array();
+        foreach ($axis as $point) {
+            if ($dates) {
+                $value = $this->getPointCountWithDate($select, $factTable, $dates, $point, $filters, $systems);
+            } else {
+                $value = $this->getPointCount($select, $factTable, $point, $filters, $systems);
+            }
+            $data[$point['name']] = $value;
+        }
+        return $data;
+    }
+
+    /**
      * @param $select
      * @param $table
      * @param $report

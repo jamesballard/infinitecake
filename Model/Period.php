@@ -82,7 +82,7 @@ class Period extends AppModel {
             $yearStart = strtotime ("-$offset months" , strtotime("-1 year", time()));
         }
         // Return the begin date based on day in record.
-        return new DateTime(date('Y-m-'.$dateArray[0], $yearStart));
+        return new DateTime(date('Y-'.$dateArray[1].'-'.$dateArray[0], $yearStart));
     }
 
     /**
@@ -94,7 +94,7 @@ class Period extends AppModel {
         // Work out offset from next January.
         $offset = 13 - $dateArray[1];
         // Return the end date based on day in record.
-        return new DateTime(date('Y-m-'.$dateArray[0], strtotime("+$offset months")));
+        return new DateTime(date('Y-'.$dateArray[1].'-'.$dateArray[0], strtotime("+$offset months")));
     }
 
     /**

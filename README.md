@@ -192,3 +192,14 @@ Edit this file to change the class name to infiniteroomsSchema.
    ```
 
    NB: We need to store/record these somewhere so the upgrade script can find them.
+
+## Upgrade CakePHP 
+
+Should be on the master branch for latest stable Cakephp.
+
+   ```cli
+      cd cakephp
+      git pull 
+      cd ../
+      git submodule update
+   ```

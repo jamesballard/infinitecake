@@ -34,8 +34,8 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $uses = array('Action', 'Person', 'Course');
-
+	public $uses = array('Action', 'Person', 'Course', 'Report');
+    public $helpers = array('zingCharts.zingCharts');
 /**
  * Displays a view
  *
@@ -48,6 +48,8 @@ class PagesController extends AppController {
         $actions = $this->Action->countCustomerActions($current_user['Member']['customer_id']);
         $persons = $this->Person->countCustomerPeople($current_user['Member']['customer_id']);
         $courses = $this->Course->countCustomerCourses($current_user['Member']['customer_id']);
+        $latest = $this->Action->getLatest($current_user['Member']['customer_id']);
+        $latest = new DateTime($latest[0]['latest']);
 
 		$count = count($path);
 		if (!$count) {
@@ -68,7 +70,84 @@ class PagesController extends AppController {
         // Change templates based on Config/templates.php
         $this->layout = Configure::read('layout.'.$page);
 
-        $this->set(compact('page', 'subpage', 'actions', 'persons', 'courses'));
+        $summary = array();
+        // Overall activity per week.
+        $summary['ov'] = array(
+            'config' => array(
+                'Report' => array(
+                    'name' => 'Weekly Activity',
+                    'visualisation' => Report::VISUALISATION_LINE,
+                    'height' => 400,
+                    'startdate' => null,
+                    'enddate' => null,
+                    'datewindow' => '-3 years',
+                    'rankorder' => '',
+                    'ranklimit' => null,
+                    'sortorder' => null,
+                    'background-color' => '#ffffff',
+                    'border-color' => '#dae5ec',
+                    'border-width' => '1px',
+                    'title' => array(
+                        ),
+                    ),
+                    'plot-area' => array(
+                        'margin' => '5px',
+                    ),
+                'Filter' => array(),
+                'ReportDimension' => array(
+                    array(
+                        'model' => 'DimensionDate',
+                        'parameter' => '3',
+                        'type' => '1',
+                        'Dimension' => array()
+                    ),
+                    array(
+                        'model' => 'Period',
+                        'parameter' => '1',
+                        'type' => '2',
+                        'Dimension' => array()
+                    )
+                ),
+                'ReportValue' => array(
+                    array(
+                        'value_id' => '1',
+                        'parameter' => '1',
+                        'Value' => array(
+                            'name' => 'Count activity',
+                            'model' => 'Action',
+                            'field' => '*',
+                            'type' => '1',
+                        )
+                    )
+                )
+            )
+        );
+
+        $current_user = $this->get_currentUser();
+
+        $systems = $this->System->find('all', array(
+            'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+        ));
+        $systems = Set::extract($systems, '{n}.System');
+
+        $summary['ov']['config']['System'] = $systems;
+
+        $report = $summary['ov']['config'];
+
+        $dimensions = $this->Report->getDimensions($report);
+
+        if ($this->Report->useLabels($dimensions->label, $report)) {
+            $summary['ov']['data'] = $this->Report->getLabelledReportData(
+                'COUNT(*)', // Select
+                'Action', // From
+                false, // Date cache
+                $this->Report->getLabelledAxis($dimensions, $report), // x-Axis
+                array(),
+                $systems
+            );
+        }
+        $this->set('summary', $summary);
+        $this->set(compact('page', 'subpage', 'actions', 'persons', 'courses', 'latest'));
 		$this->set('title_for_layout', $title);
 		$this->render(implode('/', $path));
 	}

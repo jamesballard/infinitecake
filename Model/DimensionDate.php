@@ -331,6 +331,7 @@ class DimensionDate extends AppModel {
             //In a leap year this creates an irreconcilable offset so skip this day
             if($date->format("d-M") != '29-Feb') {
                 $conditions = array('DimensionDate.date >=' => $date->format("Y-m-d"));
+                $name = (string)$date->format($this->interval_formats[$dimensions->axis['id']]);
                 $date->add($interval);
                 $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
                 // Cache if all dates are in the past.
@@ -340,7 +341,7 @@ class DimensionDate extends AppModel {
                 }
                 $axis[] = array(
                     'conditions' => $conditions,
-                    'name' => (string)$date->format($this->interval_formats[$dimensions->axis['id']]),
+                    'name' => $name,
                     'contain' => array('DimensionDate'),
                     'cache' => $cache,
                     'joins' => array(),
@@ -385,6 +386,7 @@ class DimensionDate extends AppModel {
                 //In a leap year this creates an irreconcilable offset so skip this day
                 if($date->format("d-M") != '29-Feb') {
                     $conditions = array_merge($conditions, array('DimensionDate.date >=' => $date->format("Y-m-d")));
+                    $name = (string)$date->format($format);
                     $date->add($interval);
                     $conditions = array_merge($conditions, array('DimensionDate.date <'  =>$date->format("Y-m-d")));
                     // Cache if all dates are in the past.
@@ -394,7 +396,7 @@ class DimensionDate extends AppModel {
                     }
                     $axis[$label['name']][] = array(
                         'conditions' => $conditions,
-                        'name' => (string)$date->format($format),
+                        'name' => $name,
                         'contain' => array('DimensionDate'),
                         'cache' => $cache,
                         'joins' => $joins,

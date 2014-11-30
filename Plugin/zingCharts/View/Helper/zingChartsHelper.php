@@ -18,6 +18,7 @@ class zingChartsHelper extends AppHelper {
     const SERIES_HIERARCHY = 3; // A hierarchically grouped standard series.
     const SERIES_CUSTOM = 4; // A customised series.
     const SERIES_PIE = 5; // A pie chart has own series structure
+    const SERIES_DYNAMIC_CHILD = 6; // A chart supporting dynamically generated child on click
 
     protected function trimEndComma($string) {
         return rtrim($string, ',');
@@ -48,7 +49,11 @@ class zingChartsHelper extends AppHelper {
         } else if ($report['Report']['visualisation'] == Report::VISUALISATION_PIE) {
             return self::SERIES_PIE;
         } else if (isset($report['Report']['series'])) {
-            return self::SERIES_CUSTOM;
+            if($report['Report']['series']['url']) {
+                return self::SERIES_DYNAMIC_CHILD;
+            } else {
+                return self::SERIES_CUSTOM;
+            }
         } else {
             foreach ($report['ReportDimension'] as $reportDimension) {
                 switch ($reportDimension['type']) {
@@ -137,6 +142,9 @@ class zingChartsHelper extends AppHelper {
                 break;
             case self::SERIES_PIE:
                 $o .= $this->setPieSeries($data, $report);
+                break;
+            case self::SERIES_DYNAMIC_CHILD:
+                $o .= $this->setDynamicChildSeries($data, $report);
                 break;
         }
         $o .= $this->closeSeries();
@@ -254,6 +262,20 @@ class zingChartsHelper extends AppHelper {
         return $values;
     }
 
+    protected function setDynamicChildSeries($data, $report) {
+        $values = '{values:[';
+        foreach ($data as $point) {
+            foreach ($point as $x => $y) {
+                $values .= '["'.$x.'",'.(int)$y.'],';
+            }
+        }
+        $values = $this->trimEndComma($values);
+        $values .= '],';
+        $values .= $this->configArraytoString($report['Report']['series']);
+        $values .= '}';
+        return $values;
+    }
+
     protected function setLabelledSeries($data) {
         $values = '';
         foreach ($data as $label => $series) {
@@ -329,12 +351,14 @@ class zingChartsHelper extends AppHelper {
         $o = '';
         foreach($report['Report']['series'] as $series) {
             $o .= '{';
-            $o .= $this->getCustomSeriesValues($data, 'values', $series['values']);
+            if (isset($series['values'])) {
+                $o .= $this->getCustomSeriesValues($data, 'values', $series['values']);
+                unset($series['values']);
+            }
             if (isset($series['data-rvalues'])) {
                 $o .= $this->getCustomSeriesValues($data, 'data-rvalues', $series['data-rvalues']);
                 unset($series['data-rvalues']);
             }
-            unset($series['values']);
             if (isset($series['styles'])) {
                 $o .= $this->setSeriesStyles($data, $series['styles']);
                 unset($series['styles']);
@@ -489,6 +513,7 @@ class zingChartsHelper extends AppHelper {
                 output:"'.$output.'",
                 height:"'.$height.'",
                 width:"'.$width.'",
+                defaultsurl:"/zingtheme/material.txt",
                 data:null
             };';
     }
@@ -506,16 +531,28 @@ class zingChartsHelper extends AppHelper {
         $seriesType = $this->getSeriesType($report);
 
         $o = 'toRender.id= "chart'.$i.'";';
+        $o .= 'toRender.width= "'.(isset($report['Report']['width']) ? $report['Report']['width'] : '100%').'";';
+        $o .= 'toRender.height= "'.(isset($report['Report']['height']) ? $report['Report']['height'] : '100%').'";';
+
         $o .= 'toRender.data= {';
 
         $o .= $this->setType($chart);
+        if(isset($report['Report']['stacked'])) {
+            $o .= '"stacked":true,';
+        }
         $o .= $this->setBackgroundColour('#ffffff');
         $o .= $this->formatGraph($report);
-        if(isset($report['Report']['title'])) {
+        /*if(isset($report['Report']['title'])) {
             $o .= $this->setComponent('title', $report);
-        }
+        }*/
         if(isset($report['Report']['scale-x'])) {
             $o .= $this->setComponent('scale-x', $report);
+        }
+        if(isset($report['Report']['scroll-x'])) {
+            $o .= $this->setComponent('scroll-x', $report);
+        }
+        if(isset($report['Report']['preview'])) {
+            $o .= $this->setComponent('preview', $report);
         }
         if(isset($report['Report']['scale-y'])) {
             $o .= $this->setComponent('scale-y', $report);
@@ -524,7 +561,11 @@ class zingChartsHelper extends AppHelper {
             $o .= $this->setComponent('plotarea', $report);
         }
         if ($seriesType == self::SERIES_LABELLED) {
-            $o .= $this->setLegend();
+            if(isset($report['Report']['legend']) and $report['Report']['legend'] === false) {
+                $o .= '';
+            } else {
+                $o .= $this->setLegend();
+            }
         }
         $plotValues = $this->getPlotValues($chart, $report);
         $o .= $this->setPlot($plotValues);
@@ -548,6 +589,9 @@ class zingChartsHelper extends AppHelper {
             case self::SERIES_PIE:
                 $o .= $this->setPieSeries($data, $report);
                 break;
+            case self::SERIES_DYNAMIC_CHILD:
+                $o .= $this->setDynamicChildSeries($data, $report);
+                break;
         }
         $o .= $this->closeSeries();
 
@@ -555,189 +599,59 @@ class zingChartsHelper extends AppHelper {
         $o .= 'zingchart.render(toRender);';
         return $o;
     }
-}
 
-/*
-{
-"graphset":[
-    {
-        "type":"treemap",
-        "plotarea":{
-            "margin":"0 0 30 0"
-        },
-        "tooltip":{
-
-        },
-        "options":{
-
-        },
-        "series":[
-            {
-                "text": "2011/12",
-                "children":[
-                    {
-                       "text": "Forum",
-                        "value": 703823
-                    }
-                ]
-            },
-            {
-                "text": "2012/13",
-                "children": [
-                    {
-                        "text": "Forum",
-                        "value": 703823
-                    }
-                ]
-            },
-            {
-                "text": "2013/14",
-                "children": [
-                    {
-                        "text": "Forum",
-                        "value": 703823
-                    }
-                ]
-            }
-        ]
-        "series":[
-            {
-                "text":"North America",
-                "children":[
-                    {
-                        "text":"United States",
-                        "children":[
-                            {
-                                "text":"Texas",
-                                "value":21
-                            },
-                            {
-                                "text":"California",
-                                "value":53
-                            },
-                            {
-                                "text":"Ohio",
-                                "value":12
-                            },
-                            {
-                                "text":"New York",
-                                "value":46
-                            },
-                            {
-                                "text":"Michigan",
-                                "value":39
-                            },
-                            {
-                                "text":"Alabama",
-                                "value":25
-                            }
-                        ]
-                    },
-                    {
-                        "text":"Canada",
-                        "value":113
-                    },
-                    {
-                        "text":"Mexico",
-                        "value":78
-                    }
-                ]
-            },
-            {
-                "text":"Europe",
-                "children":[
-                    {
-                        "text":"France",
-                        "value":42
-                    },
-                    {
-                        "text":"Spain",
-                        "value":28
-                    },
-                    {
-                        "text":"Switzerland",
-                        "value":13
-                    },
-                    {
-                        "text":"Germany",
-                        "value":56
-                    },
-                    {
-                        "text":"Cyprus",
-                        "value":7
-                    }
-                ]
-            },
-            {
-                "text":"Africa",
-                "children":[
-                    {
-                        "text":"Egypt",
-                        "value":22
-                    },
-                    {
-                        "text":"Congo",
-                        "value":38
-                    },
-                    {
-                        "text":"Lesotho",
-                        "value":9
-                    }
-                ]
-            },
-            {
-                "text":"Asia",
-                "children":[
-                    {
-                        "text":"India",
-                        "value":92
-                    },
-                    {
-                        "text":"China",
-                        "value":68
-                    },
-                    {
-                        "text":"Mongolia",
-                        "value":25
-                    }
-                ]
-            },
-            {
-                "text":"South America",
-                "children":[
-                    {
-                        "text":"Brazil",
-                        "value":42
-                    },
-                    {
-                        "text":"Argentina",
-                        "value":28
-                    },
-                    {
-                        "text":"Peru",
-                        "value":15
-                    },
-                    {
-                        "text":"Uruguay",
-                        "value":33
-                    }
-                ]
-            },
-            {
-                "text":"Australia (continent)",
-                "children":[
-                    {
-                        "text":"Australia (country)",
-                        "value":121
-                    },
-                    {
-                        "text":"New Zealand",
-                        "value":24
-                    }
-                ]
-            }
-        ]
+    /**
+     * Creates chart with JSON feed for data.
+     * TODO: check cache - does this work effectively for changing data.
+     * @param $name
+     * @param $url
+     * @param $width
+     * @param $height
+     * @return string
+     */
+    public function json_feed($name, $url, $width='100%', $height='600') {
+        $o = '<script>';
+        $o .= 'zingchart.render({
+            id:"'.$name.'",
+            output:"svg",
+            height:"'.$height.'",
+            width:"'.$width.'",
+            dataurl:"'.$url.'",
+            defaultsurl:"/zingtheme/material.txt"
+        });';
+        $o .= '</script>';
+        return $o;
     }
-]
+
+    /**
+     * Returns the render variable for utilising multiple charts in a single page.
+     * @param string $output
+     * @return string
+     */
+    protected function jsonRenderVar($output='svg') {
+        return 'var toRender={
+                id:null,
+                output:"'.$output.'",
+                height:"400",
+                width:"100%",
+                defaultsurl:"/zingtheme/material.txt",
+                dataurl:null
+            };';
+    }
+
+    public function configureJsonGraph($charts) {
+        $o = '<script>';
+        $o .= $this->jsonRenderVar();
+        $o .= 'window.onload=function(){';
+        foreach($charts as $chart) {
+            $o .= 'toRender.id= "'.$chart->id.'";';
+            $o .= 'toRender.width= "'.$chart->width.'";';
+            $o .= 'toRender.height= "'.$chart->height.'";';
+            $o .= 'toRender.dataurl= "'.$chart->url.'";';
+            $o .= 'zingchart.render(toRender);';
+        }
+        $o .= '}';
+        $o .= '</script>';
+        return $o;
+    }
 }
-*/

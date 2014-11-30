@@ -5,6 +5,7 @@ App::uses('Course', 'Model');
 App::uses('Filter', 'Model');
 App::uses('Module', 'Model');
 App::uses('Person', 'Model');
+App::uses('User', 'Model');
 App::uses('Department', 'Model');
 /**
  * Action Model
@@ -533,5 +534,42 @@ class Action extends FactModel {
         );
         debug($sessions);
         die;
+    }
+
+    public function getLatest($customer_id) {
+        $conditions = array('Customer.id' => $customer_id);
+        $cacheName = 'customer_actions_latest.'.$this->formatCacheConditions($conditions);
+        $actions = Cache::read($cacheName, 'short');
+        if (!$actions) {
+            $actions = $this->find('first', array(
+                    'contain' => false,
+                    'fields' => array(
+                        'MAX(Action.time) as latest'
+                    ),
+                    'joins' => array(
+                        array(
+                            'table' => 'systems',
+                            'alias' => 'System',
+                            'ctype' => 'INNER',
+                            'conditions' => array(
+                                'System.id = Action.system_id'
+                            )
+                        ),
+                        array(
+                            'table' => 'customers',
+                            'alias' => 'Customer',
+                            'type' => 'INNER',
+                            'conditions' => array(
+                                'Customer.id = System.customer_id'
+                            )
+                        ),
+                    ),
+                    'conditions' => $conditions,
+                    'order' => false
+                )
+            );
+            Cache::write($cacheName, $actions, 'short');
+        }
+        return $actions;
     }
 }

@@ -3,14 +3,20 @@
 /** Fonts **/
 @font-face {
     font-family: "MyriadPro-Regular";
-    src: url(/fonts/MyriadPro-Regular.otf);
+    src: url('../fonts/MyriadPro-Regular.otf');
 }
 
-html{
+html, body {
+	background-color: #feffd7;
     height: 100%;
 }
-body {
-    height: 100%;
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+h2, h3 {
+	margin-top: 5px;
 }
 
 /** Layout **/
@@ -106,7 +112,6 @@ ul.nav>li,
 
 .userSelect {
     text-align: left;
-    padding-top: 14px;
 }
 
 .cake-debug-output {
@@ -114,9 +119,8 @@ ul.nav>li,
 }
 
 .main-content{
-    background: url(../img/a3.gif) repeat-x;
-	color: #333;
-    margin-top: 51px;
+	color: #2c3e50;
+    margin-top: 71px;
 }
 
 /* Side Menu */
@@ -155,83 +159,90 @@ ul.nav>li,
     padding: 0px;
 }
 
-.lblue, .lblue a, .panel-default>.panel-heading .lblue {
+.panel-default>.panel-heading {
+	font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 22px;
+	color: #2c3e50;
+}
+
+.panel-default>.panel-heading .fa {
+	color: #ff8300;
+}
+
+.lblue, .lblue a {
     color: #60b3ce;
 }
 
-.dblue, .dblue a, .panel-default>.panel-heading .dblue {
+.dblue, .dblue a {
     color: #06799f;
 }
 
-.grey, .grey a, .panel-default>.panel-heading .grey {
+.grey, .grey a {
     color: #9e9e9e;
 }
 
-.orange, .orange a, .panel-default>.panel-heading .orange {
+.orange, .orange a {
     color: #ff8300;
 }
 
-/* Front Page (from sbadmin2 Start Bootstrap template */
+.deepblue, .deepblue a {
+    color: #2c3e50;
+}
+
+/* Front Page */
 .huge {
-    font-size: 40px;
+    font-size: 30px;
 }
 
-.panel-green {
-    border-color: #5cb85c;
+.overall-stats {
+	min-height: 400px;
 }
 
-.panel-green .panel-heading {
-    border-color: #5cb85c;
+.panel h3 {
+	margin: 0;
+}
+
+
+.panel {
+	-webkit-box-shadow: 3px 3px 5px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow:    3px 3px 5px 0px rgba(50, 50, 50, 0.5);
+	box-shadow:         3px 3px 5px 0px rgba(50, 50, 50, 0.5);
+}
+
+.status-block {
+	margin-bottom: 10px;
+	background-color: #fff;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	padding: 10px 15px;
+}
+
+.panel-lightblue {
+	background-color: #60b3ce;
+	border-color: #3e97b5;
     color: #fff;
-    background-color: #5cb85c;
 }
 
-.panel-green a {
-    color: #5cb85c;
-}
-
-.panel-green a:hover {
-    color: #3d8b3d;
-}
-
-.panel-red {
-    border-color: #d9534f;
-}
-
-.panel-red .panel-heading {
-    border-color: #d9534f;
+.panel-orange {
+	background-color: #ff8300;
+	border-color: #c66600;
     color: #fff;
-    background-color: #d9534f;
 }
 
-.panel-red a {
-    color: #d9534f;
-}
-
-.panel-red a:hover {
-    color: #b52b27;
-}
-
-.panel-yellow {
-    border-color: #f0ad4e;
-}
-
-.panel-yellow .panel-heading {
-    border-color: #f0ad4e;
+.panel-darkblue {
+	background-color: #06799f;
+	border-color: #045d7b;
     color: #fff;
-    background-color: #f0ad4e;
-}
-
-.panel-yellow a {
-    color: #f0ad4e;
-}
-
-.panel-yellow a:hover {
-    color: #df8a13;
 }
 
 .site-panel {
     margin-top: 15px;
+}
+
+/* Chart Container Dimensions */
+
+.chart-height-2x {
+	min-height: 615px;
 }
 
 /* Toggle icon */
