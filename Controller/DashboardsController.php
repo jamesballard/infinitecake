@@ -550,7 +550,7 @@ class DashboardsController extends AppController {
                     'scale-x' => array(
                         'values' => array_keys($data),
                         'zooming' => true,
-                        'zoom-to' => [0,50],
+                        'zoom-to' => '[0,50]',
                         'item' => array(
                             'visible' => false
                         )
