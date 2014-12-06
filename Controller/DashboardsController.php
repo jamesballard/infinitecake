@@ -306,7 +306,7 @@ class DashboardsController extends AppController {
                     'y' => '0%',
                     'width' => '100%',
                     'height' => '100%',
-                    'type' => 'pie3d',
+                    'type' => 'pie',
                     'series' => $pie,
                     'plot-area' => array(
                         'margin' => '5px',
@@ -545,27 +545,32 @@ class DashboardsController extends AppController {
                     'x' => '0%',
                     'y' => '0%',
                     'width' => '100%',
-                    'height' => '50%',
+                    'height' => '40%',
                     'type' => 'bar',
                     'scale-x' => array(
                         'values' => array_keys($data),
                         'zooming' => true,
-                        'zoom-to' => array(0,50),
+                        'zoom-to' => array(0,30),
                         'item' => array(
                             'visible' => false
                         )
                     ),
                     'scroll-x' => array(),
                     'plotarea' => array(
-                        'margin' => '5px 20px 100px 50px'
+                        'margin' => '20px 20px 100px 50px'
                     ),
                     'preview' => array(
                         'position' => "50% 95%",
                         'background-color' => 'transparent'
                     ),
                     'plot' => array(
-                        'tooltip' => array(
-                            'text' => '%k: %v'
+                        'value-box' => array(
+                            'text' => '%k<br />%v',
+                            'font-angle' => -85,
+                            'auto-align' => true,
+                            'offset-y' => '-8px',
+                            'offset-x' => '2px',
+                            'font-size' => '8px'
                         )
                     ),
                     'series' => array(
@@ -579,9 +584,9 @@ class DashboardsController extends AppController {
                 array(
                     'id' => 'groupUser',
                     'x' => '0%',
-                    'y' => '50%',
+                    'y' => '40%',
                     'width' => '100%',
-                    'height' => '50%',
+                    'height' => '60%',
                     'type' => 'null',
                     'labels' => array(
                         array(
@@ -613,7 +618,7 @@ class DashboardsController extends AppController {
             'Report' => array(
                 'startdate' => null,
                 'enddate' => null,
-                'datewindow' => '-2 months',
+                'datewindow' => '-3 months',
                 'rankorder' => '',
                 'ranklimit' => null,
                 'sortorder' => null,
@@ -689,12 +694,12 @@ class DashboardsController extends AppController {
                 array(
                     'id' => 'groupUser',
                     'x' => '0%',
-                    'y' => '50%',
+                    'y' => '40%',
                     'width' => '100%',
-                    'height' => '50%',
+                    'height' => '60%',
                     'type' => 'hbar',
                     'title' => array(
-                        'text' => "Activity for $userid during last 2 months"
+                        'text' => 'Activity for $userid during last 3 months'
                     ),
                     'plotarea' => array(
                         'margin' => '40px 20px 30px 50px',
@@ -774,6 +779,200 @@ class DashboardsController extends AppController {
                             )
                         )
                     )
+                )
+            )
+        );
+        return new CakeResponse(array('body' => json_encode($chart)));
+    }
+
+    /**
+     * Return JSON chart details for user weekly activity dashboard chart
+     * @param $courseid
+     * @return CakeResponse
+     */
+    public function coursetypes($courseid) {
+
+        // Set the Report.
+        $report = array(
+            'Report' => array(
+                'name' => 'Task Types',
+                'startdate' => null,
+                'enddate' => null,
+                'datewindow' => '-3 months',
+                'rankorder' => '',
+                'ranklimit' => null,
+                'sortorder' => null,
+            ),
+            'Filter' => array(),
+            'ReportDimension' => array(
+                array(
+                    'model' => 'Rule',
+                    'parameter' => '1',
+                    'type' => '1',
+                    'Dimension' => array()
+                ),
+                array(
+                    'model' => '',
+                    'parameter' => '',
+                    'type' => '2',
+                    'Dimension' => array()
+                )
+            ),
+            'ReportValue' => array(
+                array(
+                    'value_id' => '1',
+                    'parameter' => '1',
+                    'Value' => array(
+                        'name' => 'Count activity',
+                        'model' => 'Action',
+                        'field' => '*',
+                        'type' => '1',
+                    )
+                )
+            ),
+            'where' => array(
+                'Group.id' => $courseid
+            )
+        );
+
+        $current_user = $this->get_currentUser();
+
+        $systems = $this->System->find('all', array(
+            'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+        ));
+        $systems = Set::extract($systems, '{n}.System');
+
+        $report['System'] = $systems;
+
+        $dimensions = $this->Report->getDimensions($report);
+
+        $data = $this->Report->getReportDataFlat(
+            'COUNT(*)', // Select
+            'Action', // From
+            false, // Date cache
+            $this->Report->getAxis($dimensions, $report), // x-Axis
+            $report['where'],
+            $systems
+        );
+
+        $pie = array();
+        foreach ($data as $k => $v) {
+            $pie[] = array(
+                'text' => $k,
+                'values' => array($v)
+            );
+        }
+
+        $chart = array(
+            'graphset' => array(
+                array(
+                    'id' => 'coursetypes',
+                    'x' => '0%',
+                    'y' => '0%',
+                    'width' => '100%',
+                    'height' => '100%',
+                    'type' => 'pie',
+                    'series' => $pie,
+                    'tooltip' => array(
+                        'text' => "%t: %v (%npv%)",
+                    )
+                )
+            )
+        );
+        return new CakeResponse(array('body' => json_encode($chart)));
+    }
+
+    /**
+     * Return JSON chart details for user weekly activity dashboard chart
+     * @param $courseid
+     * @return CakeResponse
+     */
+    public function coursemodules($courseid) {
+        $current_user = $this->get_currentUser();
+        // Set the Report.
+        $report = array(
+            'Report' => array(
+                'name' => 'Module Use',
+                'startdate' => null,
+                'enddate' => null,
+                'datewindow' => '-3 months',
+                'rankorder' => '',
+                'ranklimit' => null,
+                'sortorder' => null,
+                'customer_id' => $current_user['Member']['customer_id']
+            ),
+            'Filter' => array(),
+            'ReportDimension' => array(
+                array(
+                    'model' => 'Artefact',
+                    'parameter' => '',
+                    'type' => '1',
+                    'Dimension' => array()
+                ),
+                array(
+                    'model' => '',
+                    'parameter' => '',
+                    'type' => '2',
+                    'Dimension' => array()
+                )
+            ),
+            'ReportValue' => array(
+                array(
+                    'value_id' => '1',
+                    'parameter' => '1',
+                    'Value' => array(
+                        'name' => 'Count activity',
+                        'model' => 'Action',
+                        'field' => '*',
+                        'type' => '1',
+                    )
+                )
+            ),
+            'where' => array(
+                'Group.id' => $courseid
+            )
+        );
+
+        $systems = $this->System->find('all', array(
+            'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+        ));
+        $systems = Set::extract($systems, '{n}.System');
+
+        $report['System'] = $systems;
+
+        $dimensions = $this->Report->getDimensions($report);
+
+        $data = $this->Report->getReportDataFlat(
+            'COUNT(*)', // Select
+            'Action', // From
+            false, // Date cache
+            $this->Report->getAxis($dimensions, $report), // x-Axis
+            $report['where'],
+            $systems
+        );
+
+        $chart = array(
+            'graphset' => array(
+                array(
+                    'id' => 'coursemodules',
+                    'x' => '0%',
+                    'y' => '0%',
+                    'width' => '100%',
+                    'height' => '100%',
+                    'type' => 'radar',
+                    'tooltip' => array(
+                        'text' => "%v"
+                    ),
+                    'plot-area' => array(
+                        'margin' => 0
+                    ),
+                    'plot' => array(
+                        'aspect' => 'rose'
+                    ),
+                    'scale-k' => array(
+                        'values' => array_keys($data)
+                    ),
+                    'series' => array(array('values' => array_values($data)))
                 )
             )
         );

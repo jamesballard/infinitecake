@@ -116,10 +116,12 @@
 
     "graph" : {
         "background-color":"#ffffff",
-        "border-color":"#dae5ec",
-        "border-width":"1px",
+        "border-color":"none",
+        "border-width":"0px",
         "height":"700",
         "width":"100%",
+        "margin":"0",
+        "padding":"0",
         "x":"0%",
         "y":"0%",
         "title":{

@@ -51,12 +51,12 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading orange">
-                        <i class="fa fa-cube fa-fw"></i> User Dashboard: <?php echo $userdefault; ?>
+                        <i class="fa fa-cube fa-fw"></i> User: <?php echo $userdefault; ?>
                     </div>
                     <div class="panel-body">
                         <p>Data is summarised from the previous 3 months and represent a weekly count of activity to
-                            explore regularity of access opportunities, a classification showing the variety of tasks,
-                            and access time to identify when interactions or interventions might be scheduled.
+                            explore regular access opportunities, a classification showing task variety,
+                            and access times to identify when interactions or interventions might be scheduled.
                         </p>
                     </div>
                 </div>
