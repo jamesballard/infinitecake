@@ -9,8 +9,8 @@ App::uses('AppController', 'Controller');
  */
 class DashboardsController extends AppController {
 
-    public $uses = array('Dashboard', 'Person', 'User', 'Course', 'Group', 'Report', 'Action');
-	public $components = array('Paginator', 'Session');
+    public $uses = array('Dashboard', 'Person', 'User', 'Course', 'Group', 'GroupCategory', 'Report', 'Action');
+	public $components = array('Paginator');
     public $helpers = array('dynamicForms.dynamicForms', 'zingCharts.zingCharts');
 
     /**
@@ -979,7 +979,453 @@ class DashboardsController extends AppController {
         return new CakeResponse(array('body' => json_encode($chart)));
     }
 
-/**
+    /**
+     * category method
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function category($id=null) {
+        if($id){
+            $this->Session->write('Dashboard.category', $id);
+        }
+        //Create selected user as session variable.
+        $categoryid = $this->Session->read('Dashboard.category');
+        if ($this->request->is('post')) {
+            $categoryid = $this->request->data['Dashboard']['categoryid'];
+            $this->set('categoryid', $categoryid);
+            $this->set('categorydefault', $categoryid);
+            $this->Session->write('Dashboard.course', $categoryid);
+        }
+        if ($categoryid) {
+            $selectedcategory = $this->GroupCategory->find('first', array(
+                    'conditions' => array('id' => $categoryid),
+                    'contain' => false,
+                    'fields' => array('name'),
+                )
+            );
+            $this->set('categoryid', $categoryid);
+            $this->set('categorydefault', $selectedcategory['GroupCategory']['name']);
+        } else {
+            $this->set('categoryid','');
+            $this->set('categorydefault','');
+        }
+    }
+
+    /**
+     * Return JSON chart details for groups dashboard chart
+     * @param $categoryid
+     * @return CakeResponse
+     */
+    public function categories($categoryid) {
+
+        $current_user = $this->get_currentUser();
+
+        // Set the Report.
+        $report = array(
+            'Report' => array(
+                'name' => 'Heat Map',
+                'startdate' => null,
+                'enddate' => null,
+                'datewindow' => '-3 months',
+                'rankorder' => '',
+                'ranklimit' => null,
+                'sortorder' => null,
+                'customer_id' => $current_user['Member']['customer_id']
+            ),
+            'GroupCategory' => array(
+                'group_category_id' => $categoryid
+            ),
+            'Filter' => array(),
+            'ReportDimension' => array(
+                array(
+                    'model' => 'Group',
+                    'parameter' => '0',
+                    'type' => '1',
+                    'Dimension' => array()
+                ),
+                array(
+                    'model' => 'Rule',
+                    'parameter' => '1',
+                    'type' => '2',
+                    'Dimension' => array()
+                )
+            ),
+            'ReportValue' => array(
+                array(
+                    'value_id' => '1',
+                    'parameter' => '1',
+                    'Value' => array(
+                        'name' => 'Count activity',
+                        'model' => 'Action',
+                        'field' => '*',
+                        'type' => '1',
+                    )
+                )
+            ),
+            'where' => array(
+                'GroupCategory.id' => $categoryid
+            )
+        );
+
+        $systems = $this->System->find('all', array(
+            'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+        ));
+        $systems = Set::extract($systems, '{n}.System');
+
+        $report['System'] = $systems;
+
+        $dimensions = $this->Report->getDimensions($report);
+
+        $data = $this->Report->getLabelledReportData(
+            'COUNT(*)', // Select
+            'Action', // From
+            false, // Date cache
+            $this->Report->getLabelledAxis($dimensions, $report), // x-Axis
+            $report['where'],
+            $systems
+        );
+
+        $series = array();
+        foreach($data as $label => $values) {
+            $scaleX = array_keys($values);
+            $series[] = array(
+                'text' => $label,
+                'values' => array_values($values)
+            );
+        }
+
+        $chart = array(
+            'graphset' => array(
+                array(
+                    'id' => 'categories',
+                    'x' => '0%',
+                    'y' => '0%',
+                    'width' => '100%',
+                    'height' => '100%',
+                    'type' => 'piano',
+                    'scale-x' => array(
+                        'values' => $scaleX,
+                        'zooming' => true,
+                        'zoom-to' => array(0,30),
+                        'items-overlap' => true,
+                        'item' => array(
+                            'font-angle' => -65
+                        )
+                    ),
+                    'scroll-x' => array(),
+                    'plotarea' => array(
+                        'margin' => '20px 20px 150px 100px'
+                    ),
+                    'preview' => array(
+                        'position' => "50% 95%",
+                        'background-color' => 'transparent'
+                    ),
+                    'plot' => array(
+                        'border-radius-top-right' => 0,
+                        'border-radius-top-left' => 0,
+                    ),
+                    'series' => $series
+                )
+            )
+        );
+        return new CakeResponse(array('body' => json_encode($chart)));
+    }
+
+    /**
+     * Return JSON chart details for user weekly activity dashboard chart
+     * @param $categoryid
+     * @return CakeResponse
+     */
+    public function categorytypes($categoryid) {
+
+        // Set the Report.
+        $report = array(
+            'Report' => array(
+                'name' => 'Task Types',
+                'startdate' => null,
+                'enddate' => null,
+                'datewindow' => '-3 months',
+                'rankorder' => '',
+                'ranklimit' => null,
+                'sortorder' => null,
+            ),
+            'Filter' => array(),
+            'ReportDimension' => array(
+                array(
+                    'model' => 'Rule',
+                    'parameter' => '1',
+                    'type' => '1',
+                    'Dimension' => array()
+                ),
+                array(
+                    'model' => '',
+                    'parameter' => '',
+                    'type' => '2',
+                    'Dimension' => array()
+                )
+            ),
+            'ReportValue' => array(
+                array(
+                    'value_id' => '1',
+                    'parameter' => '1',
+                    'Value' => array(
+                        'name' => 'Count activity',
+                        'model' => 'Action',
+                        'field' => '*',
+                        'type' => '1',
+                    )
+                )
+            ),
+            'where' => array(
+                'GroupCategory.id' => $categoryid
+            )
+        );
+
+        $current_user = $this->get_currentUser();
+
+        $systems = $this->System->find('all', array(
+            'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+        ));
+        $systems = Set::extract($systems, '{n}.System');
+
+        $report['System'] = $systems;
+
+        $dimensions = $this->Report->getDimensions($report);
+
+        $data = $this->Report->getReportDataFlat(
+            'COUNT(*)', // Select
+            'Action', // From
+            false, // Date cache
+            $this->Report->getAxis($dimensions, $report), // x-Axis
+            $report['where'],
+            $systems
+        );
+
+        $pie = array();
+        foreach ($data as $k => $v) {
+            $pie[] = array(
+                'text' => $k,
+                'values' => array($v)
+            );
+        }
+
+        $chart = array(
+            'graphset' => array(
+                array(
+                    'id' => 'coursetypes',
+                    'x' => '0%',
+                    'y' => '0%',
+                    'width' => '100%',
+                    'height' => '100%',
+                    'type' => 'pie',
+                    'series' => $pie,
+                    'tooltip' => array(
+                        'text' => "%t: %v (%npv%)",
+                    )
+                )
+            )
+        );
+        return new CakeResponse(array('body' => json_encode($chart)));
+    }
+
+    /**
+     * Return JSON chart details for user weekly activity dashboard chart
+     * @param $categoryid
+     * @return CakeResponse
+     */
+    public function categorymodules($categoryid) {
+        $current_user = $this->get_currentUser();
+        // Set the Report.
+        $report = array(
+            'Report' => array(
+                'name' => 'Module Use',
+                'startdate' => null,
+                'enddate' => null,
+                'datewindow' => '-3 months',
+                'rankorder' => '',
+                'ranklimit' => null,
+                'sortorder' => null,
+                'customer_id' => $current_user['Member']['customer_id']
+            ),
+            'Filter' => array(),
+            'ReportDimension' => array(
+                array(
+                    'model' => 'Artefact',
+                    'parameter' => '',
+                    'type' => '1',
+                    'Dimension' => array()
+                ),
+                array(
+                    'model' => '',
+                    'parameter' => '',
+                    'type' => '2',
+                    'Dimension' => array()
+                )
+            ),
+            'ReportValue' => array(
+                array(
+                    'value_id' => '1',
+                    'parameter' => '1',
+                    'Value' => array(
+                        'name' => 'Count activity',
+                        'model' => 'Action',
+                        'field' => '*',
+                        'type' => '1',
+                    )
+                )
+            ),
+            'where' => array(
+                'GroupCategory.id' => $categoryid
+            )
+        );
+
+        $systems = $this->System->find('all', array(
+            'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+        ));
+        $systems = Set::extract($systems, '{n}.System');
+
+        $report['System'] = $systems;
+
+        $dimensions = $this->Report->getDimensions($report);
+
+        $data = $this->Report->getReportDataFlat(
+            'COUNT(*)', // Select
+            'Action', // From
+            false, // Date cache
+            $this->Report->getAxis($dimensions, $report), // x-Axis
+            $report['where'],
+            $systems
+        );
+
+        $chart = array(
+            'graphset' => array(
+                array(
+                    'id' => 'coursemodules',
+                    'x' => '0%',
+                    'y' => '0%',
+                    'width' => '100%',
+                    'height' => '100%',
+                    'type' => 'radar',
+                    'tooltip' => array(
+                        'text' => "%v"
+                    ),
+                    'plot-area' => array(
+                        'margin' => 0
+                    ),
+                    'plot' => array(
+                        'aspect' => 'rose'
+                    ),
+                    'scale-k' => array(
+                        'values' => array_keys($data)
+                    ),
+                    'series' => array(array('values' => array_values($data)))
+                )
+            )
+        );
+        return new CakeResponse(array('body' => json_encode($chart)));
+    }
+
+    /**
+     * user method
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function usertimeline($id = null) {
+        if($id){
+            $this->Session->write('Dashboard.user', $id);
+        }
+        //Create selected user as session variable.
+        $userid = $this->Session->read('Dashboard.user');
+        if ($this->request->is('post')) {
+            $userid = $this->request->data['Dashboard']['userid'];
+            $this->set('userid', $userid);
+            $this->set('userdefault', $userid);
+            $this->Session->write('Dashboard.user', $userid);
+        }
+        if ($userid) {
+            $selecteduser = $this->Person->find('first',array(
+                    'conditions' => array('id' => $userid),
+                    'contain' => false,
+                    'fields' => array('idnumber'),
+                )
+            );
+            $this->set('userid', $userid);
+            $this->set('userdefault', $selecteduser['Person']['idnumber']);
+        } else {
+            $this->set('userid','');
+            $this->set('userdefault','');
+        }
+
+        if(!empty($userid)) {
+            $conditions = array('Person.id' => $userid);
+            $this->Paginator->settings = array(
+                'joins' => array(
+                    array(
+                        'table' => 'groups',
+                        'alias' => 'Group',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Group.id = Action.group_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'modules',
+                        'alias' => 'Module',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Module.id = Action.module_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'artefacts',
+                        'alias' => 'Artefact',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Artefact.id = Module.artefact_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'dimension_verb',
+                        'alias' => 'DimensionVerb',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'DimensionVerb.id = Action.dimension_verb_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'users',
+                        'alias' => 'User',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'User.id = Action.user_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'persons',
+                        'alias' => 'Person',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'Person.id = User.person_id'
+                        )
+                    )
+                ),
+                'fields' => array(
+                    'Action.name', 'Action.time', 'Module.name', 'Artefact.name',
+                    'Group.name', 'Group.idnumber'
+                ),
+                'conditions' => $conditions,
+                'limit' => 10,
+                'order' => 'Action.time DESC'
+            );
+            $actions = $this->Paginator->paginate('Action');
+            $this->set('actions', $actions);
+        }
+    }
+
+
+    /**
  * index method
  *
  * @return void

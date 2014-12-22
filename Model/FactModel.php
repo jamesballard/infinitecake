@@ -103,6 +103,17 @@ class FactModel extends AppModel {
                         )
                     );
                     break;
+                case 'GroupCategory':
+                    $usedDimensions[] = 'Group';
+                    $extraJoins[] = array(
+                        'table' => 'group_categories',
+                        'alias' => 'GroupCategory',
+                        'type' => 'LEFT',
+                        'conditions' => array(
+                            'GroupCategory.id = Group.group_category_id'
+                        )
+                    );
+                    break;
                 case 'Rule':
 
                 default:

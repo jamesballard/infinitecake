@@ -24,8 +24,10 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dashboards <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><?php echo $this->Html->link('User', array('controller' => 'Dashboards', 'action' => 'user')); ?></li>
+                        <li><?php echo $this->Html->link('Category', array('controller' => 'Dashboards', 'action' => 'category')); ?></li>
                         <li><?php echo $this->Html->link('Course', array('controller' => 'Dashboards', 'action' => 'course')); ?></li>
+                        <li><?php echo $this->Html->link('User', array('controller' => 'Dashboards', 'action' => 'user')); ?></li>
+                        <li><?php echo $this->Html->link('User Timeline', array('controller' => 'Dashboards', 'action' => 'usertimeline')); ?></li>
                     </ul>
                 </li>
                 <li class="dropdown">

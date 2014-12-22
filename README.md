@@ -187,6 +187,7 @@ Edit this file to change the class name to infiniteroomsSchema.
       Console/cake acl grant Membership::Managers controllers/Reports
       Console/cake acl grant Membership::Managers controllers/Dashboards
       Console/cake acl grant Membership::Managers controllers/Periods
+      Console/cake acl grant Membership::Managers controllers/GroupCategories
       Console/cake acl grant Membership::Users controllers/Dashboards
       Console/cake acl grant Membership::Users controllers/Guides
    ```

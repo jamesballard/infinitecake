@@ -2,6 +2,7 @@
 App::uses('AppModel', 'Model');
 App::uses('FactModel','Model');
 App::uses('Course', 'Model');
+App::uses('Group', 'Model');
 App::uses('Filter', 'Model');
 App::uses('Module', 'Model');
 App::uses('Person', 'Model');
@@ -134,7 +135,7 @@ class Action extends FactModel {
         array(
             'table' => 'courses',
             'alias' => 'Course',
-            'type' => 'INNER',
+            'type' => 'LEFT',
             'conditions' => array(
                 'Course.id = Group.course_id'
             )
@@ -142,7 +143,7 @@ class Action extends FactModel {
         array(
             'table' => 'artefacts',
             'alias' => 'Artefact',
-            'type' => 'INNER',
+            'type' => 'LEFT',
             'conditions' => array(
                 'Artefact.id = Module.artefact_id'
             )
@@ -190,11 +191,19 @@ class Action extends FactModel {
         array(
             'table' => 'persons',
             'alias' => 'Person',
-            'type' => 'INNER',
+            'type' => 'LEFT',
             'conditions' => array(
                 'Person.id = User.person_id'
             )
         ),
+        array(
+            'table' => 'ips',
+            'alias' => 'Ip',
+            'type' => 'INNER',
+            'conditions' => array(
+                'Ip.id = Action.ip_id'
+            )
+        )
     );
 
     public $extraJoins = array(
@@ -222,6 +231,15 @@ class Action extends FactModel {
                 'Person.id = User.person_id'
             )
         ),
+    );
+
+    // setup paginate to page 2 posts at a time
+    public $paginate = array(
+        'limit' => 20,
+        'order' => array(
+            'DimensionDate.id DESC',
+            'DimensionTime.id DESC'
+        )
     );
 
     /**
