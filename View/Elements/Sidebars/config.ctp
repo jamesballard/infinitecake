@@ -1,8 +1,4 @@
 <?php $url = $this->request->here; ?>
-<li class="title">Status</li>
-<li<?php echo (preg_match("/CustomerStatuses/", $url))? ' class="active"' : ''?>>
-    <?php echo $this->Html->link('Data Status', array('controller' => 'CustomerStatuses', 'action' => 'index')); ?>
-</li>
 <li class="title">Report Configuration</li>
 <li<?php echo (preg_match("/Reports/", $url))? ' class="active"' : ''?>>
   <?php echo $this->Html->link(__('Reports'), array('controller' => 'Reports', 'action' => 'index')); ?>

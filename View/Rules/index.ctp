@@ -9,7 +9,6 @@
 	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('category'); ?></th>
             <th><?php echo $this->Paginator->sort('subcategory'); ?></th>
@@ -17,13 +16,19 @@
 			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
 	foreach ($rules as $rule): ?>
 	<tr>
-		<td><?php echo h($rule['Rule']['id']); ?>&nbsp;</td>
-		<td><?php echo h($rule['Rule']['name']); ?>&nbsp;</td>
+		<td><?php echo $this->element('Buttons/action', array(
+				'id' => $rule['Rule']['id'],
+				'name' => $rule['Rule']['name'],
+				'customer_id' => h($rule['Rule']['customer_id']),
+				'current_user' => $current_user,
+				'delete' => true,
+				'offset' => false
+			));
+			?>&nbsp;</td>
         <td><?php echo $rule_cats[h($rule['Rule']['category'])]; ?>&nbsp;</td>
         <td><?php echo $rule_subs[h($rule['Rule']['subcategory'])]; ?>&nbsp;</td>
         <td><?php echo $rule_types[h($rule['Rule']['type'])]; ?>&nbsp;</td>
@@ -34,16 +39,6 @@
 		?>
 		<td><?php echo h($rule['Rule']['created']); ?>&nbsp;</td>
 		<td><?php echo h($rule['Rule']['modified']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->element('Buttons/action', array(
-								'id' => $rule['Rule']['id'],
-								'customer_id' => h($rule['Rule']['customer_id']),
-								'current_user' => $current_user,
-								'delete' => true,
-								'offset' => false
-							)); 
-			?>
-		</td>
 	</tr>
 <?php endforeach; ?>
 	</table>

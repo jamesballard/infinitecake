@@ -9,20 +9,25 @@
 	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('type'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
+			<th><?php echo $this->Paginator->sort('type'); ?></th>
 			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
 	foreach ($systems as $system): ?>
 	<tr>
-		<td><?php echo h($system['System']['id']); ?>&nbsp;</td>
+		<td><?php echo $this->element('Buttons/action', array(
+				'id' => $system['System']['id'],
+				'name' => $system['System']['name'],
+				'customer_id' => h($system['System']['customer_id']),
+				'current_user' => $current_user,
+				'delete' => false,
+				'offset' => false
+			));
+			?>&nbsp;</td>
 		<td><?php echo $system_types[h($system['System']['type'])]; ?>&nbsp;</td>
-		<td><?php echo h($system['System']['name']); ?>&nbsp;</td>
 		<?php
 			if($this->Permissions->is_admin($current_user)):
 				echo '<td>'.h($system['Customer']['name']).'</td>';
@@ -30,16 +35,6 @@
 		?>
 		<td><?php echo h($system['System']['created']); ?>&nbsp;</td>
 		<td><?php echo h($system['System']['modified']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->element('Buttons/action', array(
-								'id' => $system['System']['id'],
-								'customer_id' => h($system['System']['customer_id']),
-								'current_user' => $current_user,
-								'delete' => false,
-								'offset' => false
-							)); 
-			?>
-		</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
