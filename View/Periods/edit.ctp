@@ -1,6 +1,6 @@
 <div class="periods form">
     <h2><?php echo __('Edit Period'); ?></h2>
-<?php echo $this->BootstrapForm->create('Period'); ?>
+<?php echo $this->Form->create('Period'); ?>
 	<fieldset>
         <?php echo $this->element('FormItems/legendChangeSettings'); ?>
 	<?php

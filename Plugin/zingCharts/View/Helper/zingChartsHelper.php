@@ -18,7 +18,8 @@ class zingChartsHelper extends AppHelper {
     const SERIES_HIERARCHY = 3; // A hierarchically grouped standard series.
     const SERIES_CUSTOM = 4; // A customised series.
     const SERIES_PIE = 5; // A pie chart has own series structure
-    const SERIES_DYNAMIC_CHILD = 6; // A chart supporting dynamically generated child on click
+    const SERIES_DYNAMIC_CHILD = 6; // A chart supporting dynamically generated child on click // A pie chart has own series structure
+    const SERIES_TABLE = 7; // A chart supporting dynamically generated child on click
 
     protected function trimEndComma($string) {
         return rtrim($string, ',');
@@ -46,6 +47,8 @@ class zingChartsHelper extends AppHelper {
     protected function getSeriesType($report) {
         if ($report['Report']['visualisation'] == Report::VISUALISATION_TREEMAP) {
             return self::SERIES_HIERARCHY;
+        } else if ($report['Report']['visualisation'] == Report::VISUALISATION_TABLE) {
+            return self::SERIES_TABLE;
         } else if ($report['Report']['visualisation'] == Report::VISUALISATION_PIE) {
             return self::SERIES_PIE;
         } else if (isset($report['Report']['series'])) {
@@ -121,6 +124,9 @@ class zingChartsHelper extends AppHelper {
         if ($seriesType == self::SERIES_LABELLED) {
             $o .= $this->setLegend();
         }
+        if ($seriesType == self::SERIES_TABLE) {
+            $o .= $this->setTableHeader($data);
+        }
         $plotValues = $this->getPlotValues($chart, $report);
         $o .= $this->setPlot($plotValues);
 
@@ -133,6 +139,9 @@ class zingChartsHelper extends AppHelper {
                 break;
             case self::SERIES_LABELLED:
                 $o .= $this->setLabelledSeries($data, $report);
+                break;
+            case self::SERIES_TABLE:
+                $o .= $this->setTableSeries($data, $report);
                 break;
             case self::SERIES_HIERARCHY:
                 $o .= $this->setHierarchySeries($data, $report);
@@ -290,6 +299,22 @@ class zingChartsHelper extends AppHelper {
         return $values;
     }
 
+    protected function setTableSeries($data) {
+        $grid = array();
+        foreach ($data as $label => $series) {
+            foreach ($series as $x => $y) {
+                $grid[$x][] = (int)$y;
+            }
+        }
+
+        $values = '';
+        foreach ($grid as $x => $y) {
+            $values .= '{values:["'.$x.'","'.implode('","', $y).'"]},';
+        }
+        $values = $this->trimEndComma($values);
+        return $values;
+    }
+
     protected function getCustomSeriesValues($data, $name, $type) {
         switch ($type) {
             case 'plot':
@@ -424,6 +449,23 @@ class zingChartsHelper extends AppHelper {
                 $o .= '"value":"'.$v.'","target":"graph"},';
             }
         }
+        return $o;
+    }
+
+    /**
+     * Set headers for table data where labels are headers
+     * @param $data
+     * @return string
+     */
+    protected function setTableHeader($data) {
+        $o = '"options":{
+                "header-row":true,
+                "col-labels":["",';
+        foreach ($data as $label => $series) {
+            $o .= '"'.$label.'",';
+        }
+        $o = $this->trimEndComma($o);
+        $o .= ']},';
         return $o;
     }
 
@@ -567,6 +609,11 @@ class zingChartsHelper extends AppHelper {
                 $o .= $this->setLegend();
             }
         }
+
+        if ($seriesType == self::SERIES_TABLE) {
+            $o .= $this->setTableHeader($data);
+        }
+
         $plotValues = $this->getPlotValues($chart, $report);
         $o .= $this->setPlot($plotValues);
 
@@ -579,6 +626,9 @@ class zingChartsHelper extends AppHelper {
                 break;
             case self::SERIES_LABELLED:
                 $o .= $this->setLabelledSeries($data, $report);
+                break;
+            case self::SERIES_TABLE:
+                $o .= $this->setTableSeries($data, $report);
                 break;
             case self::SERIES_HIERARCHY:
                 $o .= $this->setHierarchySeries($data, $report);

@@ -1,6 +1,6 @@
 <div class="dashboards form">
     <h2><?php echo __('Add Dashboard'); ?></h2>
-<?php echo $this->BootstrapForm->create('Dashboard'); ?>
+<?php echo $this->Form->create('Dashboard'); ?>
 	<fieldset>
         <?php echo $this->element('FormItems/legendSettings'); ?>
 	<?php
