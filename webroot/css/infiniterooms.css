@@ -59,11 +59,15 @@ h2, h3 {
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:hover {
 @elementHeight: 32px;
-    padding: 1px 20px 1px 20px;
+    padding: 0 20px 0 20px;
     color: #2c3e50;
     background: #feffd7;
     text-transform: lowercase;
     text-shadow: none;
+}
+
+.brandname {
+    padding-top: 10px;
 }
 
 .navbar-default .navbar-nav>li>a {

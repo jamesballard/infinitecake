@@ -9,12 +9,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
-                <svg width="48" height="48">
-                    <image xlink:href="/img/logo.svg" src="/img/logo.png" width="48" height="48" />
+            <a class="navbar-brand" href="<?php echo $this->webroot ?>">
+                <!--<svg width="48" height="48">
+                    <image xlink:href="<?php echo $this->webroot ?>logo.svg"
+                           src="<?php echo $this->webroot ?>logo.png" width="48" height="48" />
                 </svg>
-                <div class="logo-svg-alternate"></div>
-                &nbsp;infinite rooms
+                <div class="logo-svg-alternate"></div>-->
+                <?php echo $this->Html->image('logo.png', array('alt' => '', 'border' => '0', 'width' => 60, 'height' => 60)); ?>
+                <span class="brandname">infinite rooms</span>
             </a>
         </div>
         <?php if (!preg_match("/login/", $url)) : ?>

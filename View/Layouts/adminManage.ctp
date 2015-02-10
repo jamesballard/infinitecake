@@ -43,6 +43,8 @@ $url = $this->request->here;
 		echo $this->Html->css('timeline');
         echo $this->Html->css('infiniterooms');
 
+        echo $this->Html->meta ('favicon.ico', '/favicon.ico', array ('type' => 'icon'));
+
         echo $this->Html->script('modernizr');
         echo $this->Html->script('jquery');
         echo $this->Html->script('jquery-ui');

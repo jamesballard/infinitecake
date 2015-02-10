@@ -52,6 +52,8 @@ $url = $this->request->here;
         echo $this->Html->script('googleAnalytics');
         echo $this->Html->script('infiniterooms');
 
+        echo $this->Html->meta ('favicon.ico', '/favicon.ico', array ('type' => 'icon'));
+
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
