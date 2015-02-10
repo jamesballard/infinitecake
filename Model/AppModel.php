@@ -33,6 +33,15 @@ class AppModel extends MyModel {
     public $actsAs = array('Containable');
     public $recursive = -1;
 
+    public function __construct($id = false, $table = null, $ds = null) {
+        parent::__construct($id, $table, $ds);
+
+        // Avoiding AppModel instances instead of real Models without telling you about it
+        if (!is_a($this, $this->name) && $this->displayField  !== 'id' && !Configure::read('Core.disableModelInstanceNotice')) {
+            trigger_error('AppModel instance! Expected: '.$this->name);
+        }
+    }
+
     /*
      * Takes a conditions array (2-dimensional), flattens it to 1, and implodes to create unique cache reference.
      *

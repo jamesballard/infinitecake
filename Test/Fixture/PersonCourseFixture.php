@@ -36,8 +36,8 @@ class PersonCourseFixture extends CakeTestFixture {
 			'course_id' => 1,
 			'person_id' => 1,
 			'name' => 'Lorem ipsum dolor sit amet',
-			'created' => '2014-06-15 02:04:35',
-			'modified' => '2014-06-15 02:04:35'
+			'created' => '2015-02-03 07:57:53',
+			'modified' => '2015-02-03 07:57:53'
 		),
 	);
 

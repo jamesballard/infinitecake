@@ -12,6 +12,7 @@
 class FactModel extends AppModel {
 
     var $name = 'FactModel';
+    public $useTable = false;
 
     // I prefer using findFacts() directly but like this you could quickly make a find type of the whole thing.
     function find($type='all', $options = array()) {
