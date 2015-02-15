@@ -9,7 +9,8 @@ class CoursesController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
             $customers = $this->getCustomersList();

@@ -9,7 +9,8 @@ class GroupsController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
 		$this->set('group_types', $this->Group->group_types);
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {

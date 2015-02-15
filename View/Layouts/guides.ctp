@@ -40,13 +40,14 @@ $url = $this->request->here;
         echo $this->Html->css('jquery-ui');
         echo $this->Html->css('infiniterooms');
         echo $this->Html->css('activity-stream');
-      
 
         echo $this->Html->script('modernizr');
         echo $this->Html->script('jquery');
         echo $this->Html->script('jquery-ui');
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->script('googleAnalytics');
+
+        echo $this->Html->meta ('favicon.ico', '/favicon.ico', array ('type' => 'icon'));
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

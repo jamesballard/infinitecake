@@ -12,7 +12,8 @@ class RulesController extends AppController {
 
     function beforeFilter() {
 		parent::beforeFilter();
-		$this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'customise');
         $this->Wizard->steps = array('report', 'existing', 'element');
         $this->set('rule_types', $this->Rule->rule_types);
         $this->set('rule_cats', $this->Rule->rule_cats);

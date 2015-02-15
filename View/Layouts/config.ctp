@@ -58,7 +58,7 @@ $url = $this->request->here;
 		echo $this->fetch('script');
 	?>
 </head>
-<body>
+<body class="body-config">
     <!--[if lt IE 8]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -71,8 +71,18 @@ $url = $this->request->here;
                       <!--Sidebar content-->
                       <?php
                         $this->start('sidebar');
-                        echo $this->element('Sidebars/config');
-                        echo $this->element('Sidebars/help');
+                          switch ($menu) {
+                              case 'admin':
+                                  echo $this->element('Sidebars/admin');
+                                  break;
+                              case 'customise':
+                                  echo $this->element('Sidebars/customise');
+                                  break;
+                              case 'configure':
+                              default:
+                                  echo $this->element('Sidebars/config');
+                                  break;
+                          }
                         $this->end();
                       ?>
                       <?php echo $this->fetch( 'sidebar' ); ?>

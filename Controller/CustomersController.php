@@ -9,7 +9,8 @@ class CustomersController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->layout = 'adminManage';
+        $this->layout = 'config';
+        $this->set('menu', 'admin');
 	}
 	
 /**

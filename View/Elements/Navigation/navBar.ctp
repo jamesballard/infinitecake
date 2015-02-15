@@ -10,11 +10,6 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="<?php echo $this->webroot ?>">
-                <!--<svg width="48" height="48">
-                    <image xlink:href="<?php echo $this->webroot ?>logo.svg"
-                           src="<?php echo $this->webroot ?>logo.png" width="48" height="48" />
-                </svg>
-                <div class="logo-svg-alternate"></div>-->
                 <?php echo $this->Html->image('logo.png', array('alt' => '', 'border' => '0', 'width' => 60, 'height' => 60)); ?>
                 <span class="brandname">infinite rooms</span>
             </a>
@@ -47,15 +42,36 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuration <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customise <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li><?php echo $this->Html->link('Dashboards', array('controller' => 'Dashboards', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Reports', array('controller' => 'Reports', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Classifications', array('controller' => 'Rules', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Periods', array('controller' => 'Periods', 'action' => 'index')); ?></li>
+                    </ul>
+                </li>
+                <?php if($current_user['Membership']['id'] < 3) : ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configure <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo $this->Html->link('Artefacts', array('controller' => 'Reports', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Members', array('controller' => 'Members', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Departments', array('controller' => 'Departments', 'action' => 'index')); ?></li>
-                        <li><?php echo $this->Html->link('Courses', array('controller' => 'Courses', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Courses', array('controller' => 'Groups', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('People', array('controller' => 'People', 'action' => 'index')); ?></li>
                     </ul>
                 </li>
+                <?php endif; ?>
+                <?php if($current_user['Membership']['id'] == 1) : ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo $this->Html->link('Customers', array('controller' => 'Customers', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Memberships', array('controller' => 'Memberships', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Verbs', array('controller' => 'DimensionVerbs', 'action' => 'index')); ?></li>
+                    </ul>
+                </li>
+                <?php endif; ?>
                 <li><a href="/support">Support</a></li>
                 <!--
                 <li class="dropdown">

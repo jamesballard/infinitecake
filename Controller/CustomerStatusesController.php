@@ -9,7 +9,8 @@ class CustomerStatusesController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
         $this->set('process_types', $this->CustomerStatus->process_types);
     }
 

@@ -13,7 +13,8 @@ class ReportsController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'customise');
         $this->set('visualisation_types', $this->Report->visualisation_types);
         $this->set('filter_operators', $this->Filter->filter_operators);
         $this->set('filter_comparisons', $this->Filter->filter_comparisons);

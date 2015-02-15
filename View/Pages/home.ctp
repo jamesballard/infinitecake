@@ -16,20 +16,61 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::uses('Debugger', 'Utility');
+echo $this->Html->script('zingchart-html5-min');
+echo $this->Html->script('license');
 ?>
 <div class="row">
     <div class="col-xs-12 col-sm-9 col-sm-push-3 col-md-9 col-lg-9">
         <div class="panel panel-default">
             <div class="panel-heading dblue">
+                <?php if(!empty($actions)) : ?>
                 <i class="fa fa-line-chart fa-fw"></i> Overall Activity
+                <?php else : ?>
+                <i class="fa fa-rocket fa-fw"></i> Get started
+                <?php endif; ?>
             </div>
             <div class="panel-body overall-stats">
-                <?php
-                echo $this->Html->script('zingchart-html5-min');
-                echo $this->Html->script('license');
-                echo $this->zingCharts->start('chart1');
-                echo $this->zingCharts->addDashboardChart($summary, '100%', '350');
-                ?>
+                <?php if(!empty($actions)) :
+                    echo $this->zingCharts->start('chart1'); ?>
+                <?php else : ?>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="panel panel-bare">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-fw fa-download"></i> Install</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <p>Install the report plugin for your system(s)</p>
+                                    <p>Follow the instructions for each plugin on Github.</p>
+                                    <a href="https://github.com/Tantalon/infinitemoodle" target="_blank" class="btn btn-default">Moodle</a> |
+                                    <a href="https://github.com/Tantalon/infinitemahara" target="_blank" class="btn btn-default">Mahara</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-bare">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-fw fa-pencil-square-o"></i> Configure</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <p>You'll need to add the following customer key to your module configuration so we know where to map your data.</p>
+                                    <p>XXX-123-456-789</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-bare">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-fw fa-thumbs-o-up"></i> Relax</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <p>The data export runs in the cron automagically. Once data arrives you'll get a new dashboard that will keep itself up-to-date.</p>
+                                    <p>If you have a lot of data it may take a while to catch up - the count on the left will track your progress.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -79,45 +120,15 @@ App::uses('Debugger', 'Utility');
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading orange">
-                <i class="fa fa-cubes fa-fw"></i> Using this site
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <i class="fa fa-cube fa-4x pull-left site-panel orange"></i>
-                        <p><strong>Dashboards</strong><br />
-                            Use dashboards to explore how student activity can help identify and promote effective teaching practices.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <i class="fa fa-cube fa-4x pull-left site-panel orange"></i>
-                        <p><strong>Reports</strong><br />
-                            Develop your own visualisations to see how student contributions can provide dynamic indications of success.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <i class="fa fa-cube fa-4x pull-left site-panel orange"></i>
-                        <p><strong>Configuration</strong><br />
-                            Create classifications of your data to understand the role that analytics can play in learning design, feedback and assessment.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-8">
-        <div class="panel panel-default">
-            <div class="panel-heading lblue">
-                <i class="fa fa-rocket fa-fw"></i> Get started
-            </div>
-            <div class="panel-body">
-                <p>Coming soon...</p>
-            </div>
-        </div>
-    </div>
-</div>
+<?php
+if(!empty($actions)) :
+$chart1 = new StdClass();
+$chart1->id = 'chart1';
+$chart1->url = '/Dashboards/overall_activity';
+$chart1->width = '100%';
+$chart1->height = '450';
+
+$charts = array($chart1);
+echo $this->zingCharts->configureJsonGraph($charts);
+endif;
+?>

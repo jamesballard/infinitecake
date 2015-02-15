@@ -13,6 +13,11 @@ class DashboardsController extends AppController {
 	public $components = array('Paginator');
     public $helpers = array('dynamicForms.dynamicForms', 'zingCharts.zingCharts');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->layout = 'config';
+        $this->set('menu', 'customise');
+    }
     /**
  * user method
  *
@@ -1145,7 +1150,7 @@ class DashboardsController extends AppController {
                 'name' => 'Task Types',
                 'startdate' => null,
                 'enddate' => null,
-                'datewindow' => '-3 months',
+                'datewindow' => '-2 years',
                 'rankorder' => '',
                 'ranklimit' => null,
                 'sortorder' => null,
@@ -1422,6 +1427,84 @@ class DashboardsController extends AppController {
             $actions = $this->Paginator->paginate('Action');
             $this->set('actions', $actions);
         }
+    }
+
+    public function overall_activity() {
+        $report = array(
+            'Report' => array(
+                'name' => 'Weekly Activity',
+                'visualisation' => Report::VISUALISATION_LINE,
+                'height' => 400,
+                'startdate' => null,
+                'enddate' => null,
+                'datewindow' => '-3 years',
+                'rankorder' => '',
+                'ranklimit' => null,
+                'sortorder' => null,
+            ),
+            'Filter' => array(),
+            'ReportDimension' => array(
+                array(
+                    'model' => 'DimensionDate',
+                    'parameter' => '3',
+                    'type' => '1',
+                    'Dimension' => array()
+                ),
+                array(
+                    'model' => 'Period',
+                    'parameter' => '1',
+                    'type' => '2',
+                    'Dimension' => array()
+                )
+            ),
+            'ReportValue' => array(
+                array(
+                    'value_id' => '1',
+                    'parameter' => '1',
+                    'Value' => array(
+                        'name' => 'Count activity',
+                        'model' => 'Action',
+                        'field' => '*',
+                        'type' => '1',
+                    )
+                )
+            )
+        );
+
+        $current_user = $this->get_currentUser();
+
+        $systems = $this->System->find('all', array(
+            'conditions' => array('customer_id' => $current_user['Member']['customer_id'])
+        ));
+        $systems = Set::extract($systems, '{n}.System');
+
+        $report['System'] = $systems;
+
+        $dimensions = $this->Report->getDimensions($report);
+
+        if ($this->Report->useLabels($dimensions->label, $report)) {
+            $data = $this->Report->getLabelledReportData(
+                'COUNT(*)', // Select
+                'Action', // From
+                false, // Date cache
+                $this->Report->getLabelledAxis($dimensions, $report), // x-Axis
+                array(),
+                $systems
+            );
+        }
+
+        $chart = array(
+            'graphset' => array(
+                array(
+                    'type' => 'line',
+                    'plot-area' => array(
+                        'margin' => '5px'
+                    ),
+                    'series' => array(array('values' => array_values($data)))
+                )
+            )
+        );
+        return new CakeResponse(array('body' => json_encode($chart)));
     }
 
 

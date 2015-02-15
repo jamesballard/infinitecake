@@ -9,7 +9,8 @@ class ArtefactsController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->layout = 'adminManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
 		$this->set('artefact_types', $this->Artefact->artefact_types);
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
@@ -22,10 +23,31 @@ class ArtefactsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->paginate = array(
-				'contain' => false
-			);
-		$this->set('artefacts', $this->paginate());
+        $currentUser = $this->get_currentUser();
+
+        if($this->is_admin()):
+            $this->paginate = array(
+                'contain' => array(
+                    'Customer' => array(
+                        'fields' => array(
+                            'Customer.id',
+                            'Customer.name'
+                        )
+                    )
+                )
+            );
+        else:
+            $this->paginate = array(
+                'conditions' => array(
+                    'Rule.customer_id' => array(
+                        $this->get_allCustomersID(),
+                        $currentUser['Member']['customer_id']
+                    )
+                )
+            );
+        endif;
+
+        $this->set('rules', $this->paginate());
 	}
 
 /**

@@ -1,4 +1,9 @@
 <div class="dashboards index">
+    <h2><?php echo __('Dashboards'); ?></h2>
+    <?php echo $this->element('Misc/underConstruction'); ?>
+</div>
+<!--
+<div class="dashboards index">
 	<h2 class="pull-left"><?php echo __('Dashboards'); ?></h2>
     <?php
     echo $this->element('Buttons/add',array(
@@ -52,3 +57,4 @@
 	?>
 	</div>
 </div>
+-->

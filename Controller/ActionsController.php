@@ -9,7 +9,8 @@ class ActionsController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->layout = 'adminManage';
+        $this->layout = 'config';
+        $this->set('menu', 'admin');
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
             $users = Cache::read('user_list', 'short');

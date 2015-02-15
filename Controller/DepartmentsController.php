@@ -11,7 +11,8 @@ class DepartmentsController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
         if (in_array($this->action, array('add', 'edit'))) {
             $customers = $this->getCustomersList();
             $departments = $this->getCustomerDepartments();

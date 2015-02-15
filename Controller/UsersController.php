@@ -9,7 +9,8 @@ class UsersController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
 	}
 	
 /**
