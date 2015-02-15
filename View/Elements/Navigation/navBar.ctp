@@ -54,7 +54,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configure <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><?php echo $this->Html->link('Artefacts', array('controller' => 'Reports', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Artefacts', array('controller' => 'Artefacts', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Members', array('controller' => 'Members', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Departments', array('controller' => 'Departments', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Courses', array('controller' => 'Groups', 'action' => 'index')); ?></li>

@@ -90,7 +90,7 @@ $url = $this->request->here;
                 </div>
             </div>
             <div class="col-md-10">
-                <div class="config-content">
+                <div class="content">
                     <!--Body content-->
                     <?php echo $this->Session->flash(); ?>
                     <?php echo $this->fetch('content'); ?>
