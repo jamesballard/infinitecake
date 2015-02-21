@@ -21,7 +21,7 @@ class Member extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'username' => array(
+		'email' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
@@ -128,16 +128,29 @@ class Member extends AppModel {
         }
         if ($saveAro == true){
             $aroRecord = $this->Aro->find('first', array('conditions' => array('foreign_key' => $insertId, 'model' => $this->name)));
-            $aroRecord['Aro']['alias'] = $this->name . '::' . $this->data[$this->name]['username'];
+            $aroRecord['Aro']['alias'] = $this->name . '::' . $this->data[$this->name]['email'];
             $this->Aro->save($aroRecord);
         }
     }
 
-    public function getMembership($username) {
+    public function getMembership($email) {
         return $this->find('first', array(
-                'conditions' => array('username' => $username),
+                'conditions' => array('email' => $email),
                 'contain' => false, 
                 'fields' => array('Member.membership_id'),
+            )
+        );
+    }
+
+    /**
+     * Find member from token hash for password reset.
+     * @param $token
+     * @return array
+     */
+    public function findBytokenhash($token) {
+        return $this->find('first', array(
+                'conditions' => array('tokenhash' => $token),
+                'contain' => false
             )
         );
     }

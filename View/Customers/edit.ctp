@@ -6,9 +6,9 @@
         echo $this->element('FormItems/legendChangeSettings');
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
-		echo $this->Form->input('zip');
-		echo $this->Form->input('lat');
-		echo $this->Form->input('lon');
+		//echo $this->Form->input('zip');
+		//echo $this->Form->input('lat');
+		//echo $this->Form->input('lon');
 	?>
 	</fieldset>
 <?php echo $this->BootstrapForm->end(); ?>

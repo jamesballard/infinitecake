@@ -1,6 +1,10 @@
+<?php if(empty($actions)) : ?>
+    <h3><?php echo __('User Timeline'); ?></h3>
+    <?php echo $this->element('Misc/waitingForData'); ?>
+<?php else : ?>
 <div class="row">
     <div class="col-md-2">
-        <h3><?php echo __('User Dashboard'); ?></h3>
+        <h3><?php echo __('User Timeline'); ?></h3>
     </div>
     <div class="col-md-8 userSelect" >
         <?php
@@ -66,4 +70,7 @@
 
     </script>
 
-<?php endif; ?>
+<?php
+    endif;
+    endif;
+?>

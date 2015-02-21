@@ -54,7 +54,7 @@ echo $this->Html->script('license');
                                 </div>
                                 <div class="panel-body">
                                     <p>You'll need to add the following customer key to your module configuration so we know where to map your data.</p>
-                                    <p>XXX-123-456-789</p>
+                                    <p class="alert alert-info"><?php echo $current_user['Customer']['CustomerKey']['accesskey']; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@ echo $this->Html->script('license');
                                     <h4><i class="fa fa-fw fa-thumbs-o-up"></i> Relax</h4>
                                 </div>
                                 <div class="panel-body">
-                                    <p>The data export runs in the cron automagically. Once data arrives you'll get a new dashboard that will keep itself up-to-date.</p>
+                                    <p>The data export runs in the cron automagically. Once data arrives you'll get dashboards that keep themselves up-to-date.</p>
                                     <p>If you have a lot of data it may take a while to catch up - the count on the left will track your progress.</p>
                                 </div>
                             </div>

@@ -92,15 +92,12 @@ Cache::config('long', array(
  *
  */
 CakePlugin::load('AclExtras');
-CakePlugin::load('Flash');
-CakePlugin::load('DrasticTreeMap');
-CakePlugin::load('GChart');
 CakePlugin::load('Chosen');
-CakePlugin::load('infinity');
 CakePlugin::load('BootstrapForm');
 CakePlugin::load('Wizard');
 CakePlugin::load('dynamicForms');
 CakePlugin::load('zingCharts');
+CakePlugin::load('Mandrill');
 CakePlugin::load('Acl', array('bootstrap' => true));
 CakePlugin::load('Tools', array('bootstrap' => true));
 

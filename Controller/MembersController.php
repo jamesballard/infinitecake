@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Members Controller
  *
@@ -11,7 +12,7 @@ class MembersController extends AppController {
         parent::beforeFilter();
         $this->layout = 'config';
         $this->set('menu', 'configure');
-        $this->Auth->allow(array('login', 'logout'));
+        $this->Auth->allow(array('login', 'logout', 'forgotpwd', 'reset'));
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
         	$memberships = $this->getMembershipsList();
@@ -71,14 +72,14 @@ class MembersController extends AppController {
             $this->redirect('/', null, false);
         }
         if(!empty($this->data)){
-            $membership = $this->Member->getMembership($this->data['Member']['username']);
+            $membership = $this->Member->getMembership($this->data['Member']['email']);
             $this->request->data['Member']['membership_id'] = $membership['Member']['membership_id'];
 
-            // If the username/password match
+            // If the email/password match
             if($this->Auth->login($this->request->data)){
                 $this->redirect('/');
             } else {
-                $this->Member->invalidate('username', 'Username and password combination is incorrect!');
+                $this->Member->invalidate('email', 'Email and password combination is incorrect!');
             }
         }
     }
@@ -87,6 +88,79 @@ class MembersController extends AppController {
         //Leave empty for now.
         $this->Session->setFlash('Good-Bye');
         $this->redirect($this->Auth->logout());
+    }
+
+    /**
+     * Forgot password page
+     */
+    function forgotpwd(){
+        if(!empty($this->data)) {
+            if(empty($this->data['Member']['email'])) {
+                $this->Session->setFlash('Please provide your Email Address that you used to register with us');
+            } else {
+                $email = $this->data['Member']['email'];
+                $member = $this->Member->find('first',array('conditions'=>array('Member.email' => $email)));
+                if($member) {
+                    if($member['Member']['active']) {
+                        $key = Security::hash(String::uuid(),'sha512',true);
+                        $hash=sha1($member['Member']['email'].rand(0,100));
+                        $url = Router::url( array('controller'=>'members','action'=>'reset'), true ).'/'.$key.'#'.$hash;
+                        $ms = $url;
+                        $ms = wordwrap($ms,1000);
+                        $member['Member']['tokenhash'] = $key;
+                        $this->Member->id = $member['Member']['id'];
+                        if($this->Member->saveField('tokenhash', $member['Member']['tokenhash'])) {
+                            $email = new CakeEmail('mandrill');
+                            $email->to($member['Member']['email'], $member['Member']['firstname']);
+                            $email->subject('Infinite Rooms reset password');
+                            $email->viewVars(array(
+                                'ms' => $ms,
+                                'name' => $member['Member']['firstname']
+                            ));
+                            $email->template('pwd_reset');
+                            $email->send();
+                        } else {
+                            $this->Session->setFlash("Error Generating Reset link");
+                        }
+                    } else {
+                        $this->Session->setFlash('This account is not active.');
+                    }
+                } else {
+                    $this->Session->setFlash('Email does not exist');
+                }
+            }
+        }
+    }
+
+    /**
+     * Reset password.
+     * @param null $token
+     */
+    function reset($token=null){
+        if(!empty($token)){
+            $member = $this->Member->findBytokenhash($token);
+            if($member){
+                $this->Member->id = $member['Member']['id'];
+                if(!empty($this->data)){
+                    $this->Member->data = $this->data;
+                    $this->Member->data['Member']['email'] = $member['Member']['email'];
+                    $new_hash = sha1($member['Member']['email'].rand(0,100));//created token
+                    $this->Member->data['User']['tokenhash'] = $new_hash;
+                    if($this->Member->validates(array('fieldList' => array('password','password_confirm')))){
+                        if($this->Member->save($this->Member->data)) {
+                            $this->Session->setFlash('Password has been updated');
+                            $this->redirect(array('controller'=>'members', 'action'=>'login'));
+                        }
+                    } else {
+                        //$this->set('errors', $this->Member->invalidFields());
+                    }
+                }
+            } else {
+                $this->Session->setFlash('Token corrupted, please retry to generate a new reset link.');
+            }
+        } else {
+            $this->redirect('/');
+        }
     }
 
 /**
@@ -124,7 +198,27 @@ class MembersController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Member->create();
+
+            $toemail = $this->request->data['Member']['email'];
+            $key = Security::hash(String::uuid(),'sha512',true);
+            $hash=sha1($toemail.rand(0,100));
+            $url = Router::url( array('controller'=>'members', 'action' => 'reset'), true ).'/'.$key.'#'.$hash;
+            $ms = $url;
+            $ms = wordwrap($ms, 1000);
+
+            $this->request->data['Member']['tokenhash'] = $key;
+            $this->request->data['Member']['active'] = 1;
+
 			if ($this->Member->save($this->request->data)) {
+                $email = new CakeEmail('mandrill');
+                $email->to($toemail, $this->request->data['Member']['firstname']);
+                $email->subject('Welcome to Infinite Rooms');
+                $email->viewVars(array(
+                    'ms' => $ms,
+                    'name' => $this->request->data['Member']['firstname']
+                ));
+                $email->template('welcome');
+                $email->send();
 				$this->Session->setFlash(__('The member has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {

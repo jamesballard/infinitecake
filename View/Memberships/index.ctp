@@ -9,29 +9,24 @@
 	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
 	foreach ($memberships as $membership): ?>
 	<tr>
-		<td><?php echo h($membership['Membership']['id']); ?>&nbsp;</td>
-		<td><?php echo h($membership['Membership']['name']); ?>&nbsp;</td>
+		<td><?php echo $this->element('Buttons/action', array(
+                'id' => $membership['Membership']['id'],
+                'name' => $membership['Membership']['name'],
+                'customer_id' => 1,
+                'current_user' => $current_user,
+                'delete' => false,
+                'offset' => false
+            ));
+            ?></td>
 		<td><?php echo h($membership['Membership']['created']); ?>&nbsp;</td>
 		<td><?php echo h($membership['Membership']['modified']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->element('Buttons/action', array(
-								'id' => $membership['Membership']['id'],
-								'customer_id' => 1,
-								'current_user' => $current_user,
-								'delete' => false,
-								'offset' => false
-							)); 
-			?>
-		</td>
 	</tr>
 <?php endforeach; ?>
 	</table>

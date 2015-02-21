@@ -11,33 +11,30 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('zip'); ?></th>
+			<!--<th><?php echo $this->Paginator->sort('zip'); ?></th>
 			<th><?php echo $this->Paginator->sort('lat'); ?></th>
-			<th><?php echo $this->Paginator->sort('lon'); ?></th>
+			<th><?php echo $this->Paginator->sort('lon'); ?></th>-->
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
 	foreach ($customers as $customer): ?>
 	<tr>
 		<td><?php echo h($customer['Customer']['id']); ?>&nbsp;</td>
-		<td><?php echo h($customer['Customer']['name']); ?>&nbsp;</td>
-		<td><?php echo h($customer['Customer']['zip']); ?>&nbsp;</td>
+		<td><?php echo $this->element('Buttons/action', array(
+                'id' => $customer['Customer']['id'],
+                'name' => $customer['Customer']['name'],
+                'customer_id' => h($customer['Customer']['id']),
+                'current_user' => $current_user,
+                'delete' => false,
+                'offset' => false
+            ));
+            ?>
+		<!--<td><?php echo h($customer['Customer']['zip']); ?>&nbsp;</td>
 		<td><?php echo h($customer['Customer']['lat']); ?>&nbsp;</td>
-		<td><?php echo h($customer['Customer']['lon']); ?>&nbsp;</td>
+		<td><?php echo h($customer['Customer']['lon']); ?>&nbsp;</td>-->
 		<td><?php echo h($customer['Customer']['created']); ?>&nbsp;</td>
 		<td><?php echo h($customer['Customer']['modified']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->element('Buttons/action', array(
-								'id' => $customer['Customer']['id'],
-								'customer_id' => h($customer['Customer']['id']),
-								'current_user' => $current_user,
-								'delete' => false,
-								'offset' => false
-							)); 
-			?>
-		</td>
 	</tr>
 <?php endforeach; ?>
 	</table>

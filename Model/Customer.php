@@ -78,6 +78,22 @@ class Customer extends AppModel {
         )
 	);
 
+    public $hasOne = array(
+        'CustomerKey' => array(
+            'className' => 'CustomerKey',
+            'foreignKey' => 'customer_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
+
     public $hasAndBelongsToMany = array(
         'Artefact' => array(
             'className' => 'Artefact',

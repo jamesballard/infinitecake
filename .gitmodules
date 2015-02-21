@@ -1,9 +1,6 @@
 [submodule "cakephp"]
 	path = cakephp
 	url = https://github.com/cakephp/cakephp.git
-[submodule "Plugin/GChart"]
-	path = Plugin/GChart
-	url = https://github.com/jamesballard/Google-visualization-api-cakephp.git
 [submodule "Plugin/AclExtras"]
 	path = Plugin/AclExtras
 	url = https://github.com/markstory/acl_extras.git
@@ -19,3 +16,6 @@
 [submodule "Plugin/Tools"]
 	path = Plugin/Tools
 	url = https://github.com/dereuromark/tools.git
+[submodule "Plugin/Mandrill"]
+	path = Plugin/Mandrill
+	url = https://github.com/a2design-company/Mandrill-CakePHP-plugin.git

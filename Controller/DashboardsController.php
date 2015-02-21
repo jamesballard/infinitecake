@@ -15,8 +15,12 @@ class DashboardsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->layout = 'config';
         $this->set('menu', 'customise');
+        $current_user = $this->get_currentUser();
+        $actions = $this->Action->countCustomerActions($current_user['Member']['customer_id']);
+        $persons = $this->Person->countCustomerPeople($current_user['Member']['customer_id']);
+        $courses = $this->Course->countCustomerCourses($current_user['Member']['customer_id']);
+        $this->set(compact('actions', 'persons', 'courses'));
     }
     /**
  * user method
@@ -1514,6 +1518,7 @@ class DashboardsController extends AppController {
  * @return void
  */
 	public function index() {
+        $this->layout = 'config';
 		$this->Dashboard->recursive = 0;
 		$this->set('dashboards', $this->Paginator->paginate());
 	}
@@ -1526,6 +1531,7 @@ class DashboardsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+        $this->layout = 'config';
 		if (!$this->Dashboard->exists($id)) {
 			throw new NotFoundException(__('Invalid dashboard'));
 		}
@@ -1539,6 +1545,7 @@ class DashboardsController extends AppController {
  * @return void
  */
 	public function add() {
+        $this->layout = 'config';
 		if ($this->request->is('post')) {
 			$this->Dashboard->create();
 			if ($this->Dashboard->save($this->request->data)) {
@@ -1561,6 +1568,7 @@ class DashboardsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+        $this->layout = 'config';
 		if (!$this->Dashboard->exists($id)) {
 			throw new NotFoundException(__('Invalid dashboard'));
 		}

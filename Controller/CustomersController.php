@@ -52,7 +52,8 @@ class CustomersController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Customer->create();
-			if ($this->Customer->save($this->request->data)) {
+            $this->request->data['CustomerKey']['accesskey'] = String::uuid();
+			if ($this->Customer->saveAll($this->request->data)) {
 				$this->Session->setFlash(__('The customer has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {

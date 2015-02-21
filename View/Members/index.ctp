@@ -9,10 +9,9 @@
 	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('username'); ?></th>
+			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('firstname'); ?></th>
 			<th><?php echo $this->Paginator->sort('lastname'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('membership_id'); ?></th>
 			<?php echo $this->element('Misc/tableheaderCustomerAdmin'); ?>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
@@ -23,7 +22,7 @@
 	<tr>
 		<td><?php echo $this->element('Buttons/action', array(
 				'id' => $member['Member']['id'],
-				'name' => h($member['Member']['username']),
+				'name' => h($member['Member']['email']),
 				'customer_id' => h($member['Member']['customer_id']),
 				'current_user' => $current_user,
 				'delete' => true,
@@ -32,7 +31,6 @@
 			?>&nbsp;</td>
 		<td><?php echo h($member['Member']['firstname']); ?>&nbsp;</td>
 		<td><?php echo h($member['Member']['lastname']); ?>&nbsp;</td>
-		<td><?php echo h($member['Member']['email']); ?>&nbsp;</td>
 		<td><?php echo h($member['Membership']['name']); ?></td>
 		<?php
 			if($this->Permissions->is_admin($current_user)):

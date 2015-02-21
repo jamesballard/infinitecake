@@ -66,7 +66,7 @@ $url = $this->request->here;
     <div class="container-fluid main-content">
         <div class="row">
             <div class="col-md-12">
-                <div class="content">
+                <div class="content home-offset">
                 <!--Body content-->
                 <?php echo $this->Session->flash(); ?>
                 <?php echo $this->fetch('content'); ?>

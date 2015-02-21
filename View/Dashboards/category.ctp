@@ -1,3 +1,7 @@
+<?php if(empty($courses)) : ?>
+    <h3><?php echo __('Category Dashboard'); ?></h3>
+    <?php echo $this->element('Misc/waitingForData'); ?>
+<?php else : ?>
 <div class="row">
     <div class="col-md-3">
         <h3><?php echo __('Category Dashboard'); ?></h3>
@@ -111,5 +115,7 @@
         $chart1, $chart2, $chart3
     );
 echo $this->zingCharts->configureJsonGraph($charts);
+endif;
+
 endif;
 ?>

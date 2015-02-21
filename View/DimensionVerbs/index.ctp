@@ -9,34 +9,29 @@
 	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('sysname'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
 			<th><?php echo $this->Paginator->sort('uri'); ?></th>
 			<th><?php echo $this->Paginator->sort('artefact_id'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
 	foreach ($dimensionVerbs as $dimensionVerb): ?>
 	<tr>
-		<td><?php echo h($dimensionVerb['DimensionVerb']['id']); ?>&nbsp;</td>
-		<td><?php echo h($dimensionVerb['DimensionVerb']['sysname']); ?>&nbsp;</td>
+		<td><?php echo $this->element('Buttons/action', array(
+                'id' => $dimensionVerb['DimensionVerb']['id'],
+                'name' => h($dimensionVerb['DimensionVerb']['sysname']),
+                'customer_id' => 1,
+                'current_user' => $current_user,
+                'delete' => false,
+                'offset' => false
+            ));
+            ?></td>
 		<td><?php echo h($dimensionVerb['DimensionVerb']['name']); ?>&nbsp;</td>
 		<td><?php echo $verb_types[h($dimensionVerb['DimensionVerb']['type'])]; ?>&nbsp;</td>
 		<td><?php echo h($dimensionVerb['DimensionVerb']['uri']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($dimensionVerb['Artefact']['name'], array('controller' => 'artefacts', 'action' => 'view', $dimensionVerb['Artefact']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->element('Buttons/action', array(
-								'id' => $dimensionVerb['DimensionVerb']['id'],
-								'customer_id' => 1,
-								'current_user' => $current_user,
-								'delete' => false,
-								'offset' => false
-							)); 
-			?>
 		</td>
 	</tr>
 <?php endforeach; ?>

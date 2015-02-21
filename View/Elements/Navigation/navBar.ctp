@@ -14,7 +14,7 @@
                 <span class="brandname">infinite rooms</span>
             </a>
         </div>
-        <?php if (!preg_match("/login/", $url)) : ?>
+        <?php if (!preg_match("/\/(members|Members)\/(login|forgotpwd|logout|reset)/", $url)) : ?>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -41,6 +41,7 @@
                         ?>
                     </ul>
                 </li>
+                <?php if($current_user['Membership']['id'] < 3) : ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customise <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -50,15 +51,19 @@
                         <li><?php echo $this->Html->link('Periods', array('controller' => 'Periods', 'action' => 'index')); ?></li>
                     </ul>
                 </li>
-                <?php if($current_user['Membership']['id'] < 3) : ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configure <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><?php echo $this->Html->link('Artefacts', array('controller' => 'Artefacts', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Members', array('controller' => 'Members', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Departments', array('controller' => 'Departments', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Courses', array('controller' => 'Groups', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('People', array('controller' => 'People', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Systems', array('controller' => 'Systems', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Artefacts', array('controller' => 'Artefacts', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Modules', array('controller' => 'Modules', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Users', array('controller' => 'Users', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Groups', array('controller' => 'Groups', 'action' => 'index')); ?></li>
+
                     </ul>
                 </li>
                 <?php endif; ?>
@@ -69,6 +74,7 @@
                         <li><?php echo $this->Html->link('Customers', array('controller' => 'Customers', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Memberships', array('controller' => 'Memberships', 'action' => 'index')); ?></li>
                         <li><?php echo $this->Html->link('Verbs', array('controller' => 'DimensionVerbs', 'action' => 'index')); ?></li>
+                        <li><?php echo $this->Html->link('Access', array('controller' => 'admin', 'action' => 'acl')); ?></li>
                     </ul>
                 </li>
                 <?php endif; ?>
