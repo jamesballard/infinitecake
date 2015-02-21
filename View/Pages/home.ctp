@@ -81,7 +81,7 @@ echo $this->Html->script('license');
             </div>
             <div class="panel-body">
                 <h3>Hi, <?php echo $current_user['Member']['firstname']; ?>!</h3>
-                <p>Last update: <?php echo $latest->format('d-M-Y H:i'); ?></p>
+                <p>Last update: <?php echo !empty($actions) ? $latest->format('d-M-Y H:i') : 'No data yet!'; ?></p>
                 <div class="status-block panel-lightblue">
                     <div class="row">
                         <div class="col-xs-3">

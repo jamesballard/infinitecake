@@ -236,12 +236,27 @@ ul.nav>li.title {
 
 
 .panel {
-	-webkit-box-shadow: 3px 3px 5px 0px rgba(50, 50, 50, 0.5);
+	/*-webkit-box-shadow: 3px 3px 5px 0px rgba(50, 50, 50, 0.5);
 	-moz-box-shadow:    3px 3px 5px 0px rgba(50, 50, 50, 0.5);
-	box-shadow:         3px 3px 5px 0px rgba(50, 50, 50, 0.5);
+	box-shadow:         3px 3px 5px 0px rgba(50, 50, 50, 0.5);*/
+    background-color: transparent;
+    border: none
 }
 
-.panel-bare {
+.panel-default>.panel-heading {
+    background-color: transparent;
+    padding-left: 0;
+    border: none;
+}
+
+.panel-default>.panel-body {
+    background-color: #fff;
+    border: 1px solid #cfeffa;
+    border-radius: 4px;
+}
+
+.panel-bare,
+.panel-bare>.panel-body {
     border: none;
     -webkit-box-shadow: none;
     -moz-box-shadow:    none;
