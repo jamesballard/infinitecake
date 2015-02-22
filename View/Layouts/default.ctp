@@ -49,7 +49,6 @@ $url = $this->request->here;
         echo $this->Html->script('jquery-ui');
         echo $this->Html->script('jquery.infinitescroll.min');
         echo $this->Html->script('bootstrap.min');
-        echo $this->Html->script('googleAnalytics');
         echo $this->Html->script('infiniterooms');
 
         $this->Js->set('service', !empty($current_user['Customer']['service']) ?
@@ -62,6 +61,8 @@ $url = $this->request->here;
             $current_user['Member']['id'] : 'Not logged in');
 
         echo $this->Js->writeBuffer(array('onDomReady' => false));
+
+        echo $this->Html->script('googleAnalytics');
 
         echo $this->Html->meta ('favicon.ico', '/favicon.ico', array ('type' => 'icon'));
 
