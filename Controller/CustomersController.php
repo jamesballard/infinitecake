@@ -11,6 +11,7 @@ class CustomersController extends AppController {
 		parent::beforeFilter();
         $this->layout = 'config';
         $this->set('menu', 'admin');
+        $this->set('service_levels', $this->Customer->service_levels);
 	}
 	
 /**

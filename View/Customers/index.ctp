@@ -9,8 +9,8 @@
 	?>
 	<table class="table table-striped" cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
+			<th><?php echo $this->Paginator->sort('service'); ?></th>
 			<!--<th><?php echo $this->Paginator->sort('zip'); ?></th>
 			<th><?php echo $this->Paginator->sort('lat'); ?></th>
 			<th><?php echo $this->Paginator->sort('lon'); ?></th>-->
@@ -20,7 +20,6 @@
 	<?php
 	foreach ($customers as $customer): ?>
 	<tr>
-		<td><?php echo h($customer['Customer']['id']); ?>&nbsp;</td>
 		<td><?php echo $this->element('Buttons/action', array(
                 'id' => $customer['Customer']['id'],
                 'name' => $customer['Customer']['name'],
@@ -30,6 +29,7 @@
                 'offset' => false
             ));
             ?>
+        <td><?php echo $service_levels[h($customer['Customer']['service'])]; ?></td>
 		<!--<td><?php echo h($customer['Customer']['zip']); ?>&nbsp;</td>
 		<td><?php echo h($customer['Customer']['lat']); ?>&nbsp;</td>
 		<td><?php echo h($customer['Customer']['lon']); ?>&nbsp;</td>-->

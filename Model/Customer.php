@@ -16,6 +16,23 @@ class Customer extends AppModel {
  */
 	public $displayField = 'name';
 
+    /**
+     * Service level constants
+     */
+    const SERVICE_RESEARCH = 1;
+    const SERVICE_INSTITUTION = 2;
+    const SERVICE_ENTERPRISE = 3;
+
+    /**
+     * Service level descriptions
+     * @var array
+     */
+    public $service_levels = array(
+        self::SERVICE_RESEARCH => 'Researcher',
+        self::SERVICE_INSTITUTION => 'Institution',
+        self::SERVICE_ENTERPRISE => 'Enterprise'
+    );
+
 //The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
