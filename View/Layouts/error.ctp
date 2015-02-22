@@ -48,6 +48,17 @@ $url = $this->request->here;
         echo $this->Html->script('googleAnalytics');
         echo $this->Html->script('infiniterooms');
 
+        $this->Js->set('service', !empty($current_user['Customer']['service']) ?
+            $current_user['Customer']['service'] : 'Not logged in');
+        $this->Js->set('customerID', !empty($current_user['Customer']['id']) ?
+            $current_user['Customer']['id'] : 'Not logged in');
+        $this->Js->set('customerStart', !empty($current_user['Customer']['created']) ?
+            date('M-Y', strtotime($current_user['Customer']['created'])) : 'Not logged in');
+        $this->Js->set('userID', !empty($current_user['Member']['id']) ?
+            $current_user['Member']['id'] : 'Not logged in');
+
+        echo $this->Js->writeBuffer(array('onDomReady' => false));
+
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');

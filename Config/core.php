@@ -174,7 +174,7 @@ Configure::write('Routing.prefixes', array('admin'));
  */
 Configure::write('Session', array(
     'defaults' => 'php',
-    'timeout' => 120,// minutes
+    'timeout' => 60,// minutes
     'cookieTimeout' => 1440,// minutes
     'checkAgent' => false,
     'autoRegenerate' => true,

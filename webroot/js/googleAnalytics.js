@@ -5,13 +5,32 @@
  * Time: 15:29
  * To change this template use File | Settings | File Templates.
  */
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-39286952-1']);
-_gaq.push(['_setDomainName', 'infiniterooms.co.uk']);
-_gaq.push(['_trackPageview']);
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-(function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+ga('create', 'UA-59997451-2', 'auto');
+
+/* Service Level */
+var serviceLevel = window.app.service;
+ga('set', 'dimension1', serviceLevel);
+
+/* Customer ID */
+var customerID = window.app.customerID;
+ga('set', 'dimension2', customerID);
+
+/* Customer start date */
+var startMonth = window.app.customerStart;
+ga('set', 'dimension3', startMonth);
+
+/* User ID */
+var userID = window.app.userID;
+ga('set', 'dimension4', userID);
+
+ga('send', 'pageview');
+
+$('a').click(function() {
+    ga('send','event','Button',$(this).prop('href'),null);
+});
+
