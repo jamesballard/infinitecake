@@ -28,9 +28,11 @@ ga('set', 'dimension3', startMonth);
 var userID = window.app.userID;
 ga('set', 'dimension4', userID);
 
+// Set the user ID using signed-in user_id.
+ga('set', '&uid', userID);
+
 ga('send', 'pageview');
 
 $('a').click(function() {
     ga('send','event','Button',$(this).prop('href'),null);
 });
-
