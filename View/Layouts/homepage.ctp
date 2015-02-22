@@ -30,7 +30,7 @@ $url = $this->request->here;
 	<title>Infinite Rooms: Learner Enhanced Technology</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<?php
 		//echo $this->Html->meta('icon');
 
@@ -61,7 +61,7 @@ $url = $this->request->here;
 
         echo $this->Js->writeBuffer(array('onDomReady' => false));
 
-        echo $this->Html->script('googleAnalytics');
+        echo $this->Html->script('ga');
 
         echo $this->Html->meta ('favicon.ico', '/favicon.ico', array ('type' => 'icon'));
 
