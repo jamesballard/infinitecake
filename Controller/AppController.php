@@ -57,7 +57,7 @@ class AppController extends MyController {
         
         //Make the logged in member available to all views
 		# load current_user
-        if ($this->Auth->user('Member.email')):
+        if ($this->Auth->user('Member.email')) {
             $current_user = $this->Member->find('first', array(
                     'contain' => array(
                         'Membership',
@@ -71,8 +71,8 @@ class AppController extends MyController {
                 )
             );
             $this->Session->write('current_user', $current_user);
-			$this->set('current_user', $current_user);
-		endif;
+            $this->set('current_user', $current_user);
+        }
 
         if (isset($current_user)) {
             $customer = array(

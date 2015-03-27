@@ -555,7 +555,7 @@ class zingChartsHelper extends AppHelper {
                 output:"'.$output.'",
                 height:"'.$height.'",
                 width:"'.$width.'",
-                defaultsurl:"/zingtheme/material.txt",
+                defaultsurl:"/app/zingtheme/material.txt",
                 data:null
             };';
     }
@@ -667,7 +667,7 @@ class zingChartsHelper extends AppHelper {
             height:"'.$height.'",
             width:"'.$width.'",
             dataurl:"'.$url.'",
-            defaultsurl:"/zingtheme/material.txt"
+            defaultsurl:"/app/zingtheme/material.txt"
         });';
         $o .= '</script>';
         return $o;
@@ -684,7 +684,7 @@ class zingChartsHelper extends AppHelper {
                 output:"'.$output.'",
                 height:"400",
                 width:"100%",
-                defaultsurl:"/zingtheme/material.txt",
+                defaultsurl:"/app/zingtheme/material.txt",
                 dataurl:null
             };';
     }
