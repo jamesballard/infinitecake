@@ -1,6 +1,6 @@
 <div class="courses view">
 <h2 class="pull-left"><?php  echo __('Course'); ?></h2>
-    <?php echo $this->element('actionButton', array(
+    <?php echo $this->element('Buttons/action', array(
             'id' => $course['Course']['id'],
             'customer_id' => h($course['Department']['customer_id']),
             'current_user' => $current_user,

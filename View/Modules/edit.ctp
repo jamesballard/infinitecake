@@ -3,10 +3,11 @@
 <?php echo $this->Form->create('Module'); ?>
 	<fieldset>
 	<?php
-		echo $this->Form->input('id');
+        echo $this->element('FormItems/legendChangeSettings');
+        echo $this->Form->input('id');
 		echo $this->Form->input('idnumber');
 		echo $this->Form->input('name');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->end(); ?>
 </div>

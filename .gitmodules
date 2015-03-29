@@ -1,15 +1,21 @@
 [submodule "cakephp"]
 	path = cakephp
-	url = git://github.com/cakephp/cakephp.git
-[submodule "Plugin/GChart"]
-	path = Plugin/GChart
-	url = git://github.com/jamesballard/Google-visualization-api-cakephp.git
+	url = https://github.com/cakephp/cakephp.git
 [submodule "Plugin/AclExtras"]
 	path = Plugin/AclExtras
-	url = git://github.com/markstory/acl_extras.git
+	url = https://github.com/markstory/acl_extras.git
 [submodule "webroot/api"]
 	path = webroot/api
-	url = git@github.com:jamesballard/infiniteimport.git
+	url = https://github.com/jamesballard/infiniteimport.git
 [submodule "Plugin/Chosen"]
 	path = Plugin/Chosen
-	url = git://github.com/paulredmond/chosen-cakephp.git
+	url = https://github.com/paulredmond/chosen-cakephp.git
+[submodule "Plugin/Wizard"]
+	path = Plugin/Wizard
+	url = https://github.com/ProLoser/CakePHP-Wizard.git
+[submodule "Plugin/Tools"]
+	path = Plugin/Tools
+	url = https://github.com/dereuromark/tools.git
+[submodule "Plugin/Mandrill"]
+	path = Plugin/Mandrill
+	url = https://github.com/a2design-company/Mandrill-CakePHP-plugin.git

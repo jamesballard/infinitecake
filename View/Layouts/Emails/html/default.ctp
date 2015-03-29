@@ -26,6 +26,6 @@
 <body>
 	<?php echo $this->fetch('content'); ?>
 
-	<p>This email was sent using the <a href="http://cakephp.org">CakePHP Framework</a></p>
+	<p>This email was sent from <a href="http://www.infiniterooms.co.uk">Infinite Rooms</a>.</p>
 </body>
 </html>

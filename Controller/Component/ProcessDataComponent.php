@@ -1,6 +1,7 @@
 <?php
 App::uses('Component', 'Controller');
-App::uses('FactSummedActionsDatetime', 'Model');
+App::uses('Action', 'Model');
+App::uses('Report', 'Model');
 App::uses('FactSummedVerbRuleDatetime', 'Model');
 
 class ProcessDataComponent extends Component {
@@ -28,8 +29,8 @@ class ProcessDataComponent extends Component {
     			$dateFormat = "M";
     			break;
     	}
-    	$FactSummedActionsDatetime = new FactSummedActionsDatetime();
-    	$data = $FactSummedActionsDatetime->getPeriodCountGchart($dateWindow, $conditions, $interval, $dateFormat);
+    	$Report = new Report();
+    	$data = $Report->getReportCountGchart(1);
     	return $data;
     }
     
@@ -42,8 +43,8 @@ class ProcessDataComponent extends Component {
      */
     
     public function getModuleData($dateWindow, $conditions) {
-    	$FactSummedActionsDatetime = new FactSummedActionsDatetime();
-    	$data = $FactSummedActionsDatetime->getModuleCountTreemap($dateWindow, $conditions);
+        $Action = new Action();
+        $data = $Action->getModuleCountTreemap($dateWindow, $conditions);
     	return $data;
     }
     
@@ -56,9 +57,8 @@ class ProcessDataComponent extends Component {
      */
     
     public function getHourlyData($dateWindow, $period,$report,$conditions) {
-    	$FactSummedActionsDatetime = new FactSummedActionsDatetime();
-    	$data = $FactSummedActionsDatetime->getHourStats($dateWindow, $period, $report, $conditions);
-    	
+        $Action = new Action();
+        $data = $Action->getHourStats($dateWindow, $period, $report, $conditions);
     	return base64_encode(serialize($data));
     
     }

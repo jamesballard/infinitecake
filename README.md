@@ -60,12 +60,18 @@ app/[Cc]onfig/database.php
 2. Insert date dimension days
    
    ```mysql
-      INSERT INTO dimension_date (id, date)
-      SELECT number, DATE_ADD( '2008-01-01', INTERVAL number DAY )
+      INSERT INTO dimension_date (id, DATE)
+      SELECT number, DATE_ADD( '2007-07-31', INTERVAL number DAY )
       FROM numbers
-      WHERE DATE_ADD( '2008-01-01', INTERVAL number DAY ) BETWEEN '2008-01-01' AND '2020-01-01'
+      WHERE DATE_ADD( '2007-07-31', INTERVAL number DAY ) BETWEEN '2007-07-31' AND '2020-01-01'
       ORDER BY number;
    ```
+
+   Delete the one with id = 0 to avoid conflicts with application updates.
+
+   ```mysql
+         DELETE * FROM dimension_date WHERE id = 0;
+      ```
 
 3. Update date dimension fields
 
@@ -143,6 +149,8 @@ If database changes are made as part of an upgrade then the following should be 
 
 This will create Config/Schema/infiniterooms.php
 
+Edit this file to change the class name to infiniteroomsSchema.
+
 1. Get the latest code
 
    ```git
@@ -175,7 +183,24 @@ This will create Config/Schema/infiniterooms.php
       Console/cake acl grant Membership::Managers controllers/Courses
       Console/cake acl grant Membership::Managers controllers/Departments
       Console/cake acl grant Membership::Managers controllers/Guides
+      Console/cake acl grant Membership::Managers controllers/CustomerStatuses
+      Console/cake acl grant Membership::Managers controllers/Reports
+      Console/cake acl grant Membership::Managers controllers/Dashboards
+      Console/cake acl grant Membership::Managers controllers/Periods
+      Console/cake acl grant Membership::Managers controllers/GroupCategories
+      Console/cake acl grant Membership::Users controllers/Dashboards
       Console/cake acl grant Membership::Users controllers/Guides
    ```
 
    NB: We need to store/record these somewhere so the upgrade script can find them.
+
+## Upgrade CakePHP 
+
+Should be on the master branch for latest stable Cakephp.
+
+   ```cli
+      cd cakephp
+      git pull 
+      cd ../
+      git submodule update
+   ```

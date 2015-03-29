@@ -116,23 +116,28 @@ class FactSummedVerbRuleDatetime extends AppModel {
 				$rule_conditions = $this->Condition->get_rule_conditions($rule);
 				foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
 					$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
-					$value = $this->find('first', array(
-							'conditions' => $conditions, //array of conditions
-							'contain' => array(
-			    				'DimensionDate' => array(
-			    					'fields' => array(
-			    						'DimensionDate.date'
-			    					)
-			    				),
-                            	'System' => array(
-                            		'fields' => array(
-                            			'System.id'
-                            		)
-                            	)
-			    			),
-							'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
-					)
-					);
+                    $cacheName = 'verb_rule_count.'.$this->formatCacheConditions($conditions);
+                    $value = Cache::read($cacheName, 'long');
+                    if (!$value) {
+                        $value = $this->find('first', array(
+                                'conditions' => $conditions, //array of conditions
+                                'contain' => array(
+                                    'DimensionDate' => array(
+                                        'fields' => array(
+                                            'DimensionDate.date'
+                                        )
+                                    ),
+                                    'System' => array(
+                                        'fields' => array(
+                                            'System.id'
+                                        )
+                                    )
+                                ),
+                                'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
+                            )
+                        );
+                        Cache::write($cacheName, $value, 'long');
+                    }
 					if($value[0]['total']) {
 						$count = $value[0]['total'];
 					}else{
@@ -181,23 +186,28 @@ class FactSummedVerbRuleDatetime extends AppModel {
 
 		foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
 			$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
-			$value = $this->find('first', array(
-						'conditions' => $conditions, //array of conditions
-						'contain' => array(
-							'DimensionDate' => array(
-								'fields' => array(
-									'DimensionDate.date'
-								)
-							),
-							'System' => array(
-								'fields' => array(
-									'System.id'
-								)
-							)
-						),
-						'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
-					)
-				);
+            $cacheName = 'rule_pie_count.'.$this->formatCacheConditions($conditions);
+            $value = Cache::read($cacheName, 'long');
+            if (!$value) {
+                $value = $this->find('first', array(
+                        'conditions' => $conditions, //array of conditions
+                        'contain' => array(
+                            'DimensionDate' => array(
+                                'fields' => array(
+                                    'DimensionDate.date'
+                                )
+                            ),
+                            'System' => array(
+                                'fields' => array(
+                                    'System.id'
+                                )
+                            )
+                        ),
+                        'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
+                    )
+                );
+                Cache::write($cacheName, $value, 'long');
+            }
 			if($value[0]['total']) {
 				$count = $value[0]['total'];
 			}else{
@@ -250,23 +260,28 @@ class FactSummedVerbRuleDatetime extends AppModel {
 				$zero_condition = array_merge($conditions, array('condition_id' => 0));
 				foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
 					$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
-					$value = $this->find('first', array(
-							'conditions' => $conditions, //array of conditions
-							'contain' => array(
-			    				'DimensionDate' => array(
-			    					'fields' => array(
-			    						'DimensionDate.date'
-			    					)
-			    				),
-                            	'System' => array(
-                            		'fields' => array(
-                            			'System.id'
-                            		)
-                            	)
-			    			),
-							'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
-					)
-					);
+                    $cacheName = 'ip_rule_count.'.$this->formatCacheConditions($conditions);
+                    $value = Cache::read($cacheName, 'long');
+                    if (!$value) {
+                        $value = $this->find('first', array(
+                                'conditions' => $conditions, //array of conditions
+                                'contain' => array(
+                                    'DimensionDate' => array(
+                                        'fields' => array(
+                                            'DimensionDate.date'
+                                        )
+                                    ),
+                                    'System' => array(
+                                        'fields' => array(
+                                            'System.id'
+                                        )
+                                    )
+                                ),
+                                'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
+                            )
+                        );
+                        Cache::write($cacheName, $value, 'long');
+                    }
 					if($value[0]['total']) {
 						$count = $value[0]['total'];
 					}else{
@@ -275,23 +290,28 @@ class FactSummedVerbRuleDatetime extends AppModel {
 					$data[$rule_condition['name']][] = array((string)$date->format($dateFormat) => $count);
 				}
 				//Creates the other record for IP address with zero condition
-				$value = $this->find('first', array(
-						'conditions' => $zero_condition, //array of conditions
-						'contain' => array(
-			    				'DimensionDate' => array(
-			    					'fields' => array(
-			    						'DimensionDate.date'
-			    					)
-			    				),
-                            	'System' => array(
-                            		'fields' => array(
-                            			'System.id'
-                            		)
-                            	)
-			    			),
-						'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total",
-						) //array of field names
-				);
+                $cacheName = 'ip_rule_other_count.'.$this->formatCacheConditions($conditions);
+                $value = Cache::read($cacheName, 'long');
+                if (!$value) {
+                    $value = $this->find('first', array(
+                        'conditions' => $zero_condition, //array of conditions
+                        'contain' => array(
+                            'DimensionDate' => array(
+                                'fields' => array(
+                                    'DimensionDate.date'
+                                )
+                            ),
+                            'System' => array(
+                                'fields' => array(
+                                    'System.id'
+                                )
+                            )
+                        ),
+                        'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total",
+                    ) //array of field names
+                    );
+                    Cache::write($cacheName, $value, 'long');
+                }
 				if($value[0]['total']) {
 					$count = $value[0]['total'];
 				}else{
@@ -339,23 +359,27 @@ class FactSummedVerbRuleDatetime extends AppModel {
 		$zero_condition = array_merge($conditions, array('condition_id' => 0));
 		foreach ($rule_conditions[0]['Condition'] as $rule_condition) {
 			$conditions = array_merge($conditions, array('condition_id' => $rule_condition['id']));
-			$value = $this->find('first', array(
-				'conditions' => $conditions, //array of conditions
-				'contain' => array(
-					'DimensionDate' => array(
-						'fields' => array(
-							'DimensionDate.date'
-						)
-					),
-					'System' => array(
-						'fields' => array(
-							'System.id'
-						)
-					)
-				),
-				'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
-			));
-
+            $cacheName = 'ip_pie_count.'.$this->formatCacheConditions($conditions);
+            $value = Cache::read($cacheName, 'long');
+            if (!$value) {
+                $value = $this->find('first', array(
+                    'conditions' => $conditions, //array of conditions
+                    'contain' => array(
+                        'DimensionDate' => array(
+                            'fields' => array(
+                                'DimensionDate.date'
+                            )
+                        ),
+                        'System' => array(
+                            'fields' => array(
+                                'System.id'
+                            )
+                        )
+                    ),
+                    'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total", //array of field names
+                ));
+                Cache::write($cacheName, $value, 'long');
+            }
 			if($value[0]['total']) {
 				$count = $value[0]['total'];
 			}else{
@@ -365,23 +389,27 @@ class FactSummedVerbRuleDatetime extends AppModel {
 		}
 		
 		//Creates the other record for IP address with zero condition
-		$value = $this->find('first', array(
-			'conditions' => $zero_condition, //array of conditions
-			'contain' => array(
-				'DimensionDate' => array(
-					'fields' => array(
-						'DimensionDate.date'
-					)
-				),
-				'System' => array(
-					'fields' => array(
-						'System.id'
-					)
-				)
-			),
-			'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total",
-		));
-		
+        $cacheName = 'ip_pie_other_count.'.$this->formatCacheConditions($conditions);
+        $value = Cache::read($cacheName, 'long');
+        if (!$value) {
+            $value = $this->find('first', array(
+                'conditions' => $zero_condition, //array of conditions
+                'contain' => array(
+                    'DimensionDate' => array(
+                        'fields' => array(
+                            'DimensionDate.date'
+                        )
+                    ),
+                    'System' => array(
+                        'fields' => array(
+                            'System.id'
+                        )
+                    )
+                ),
+                'fields' => "SUM(FactSummedVerbRuleDatetime.total) as total",
+            ));
+            Cache::write($cacheName, $value, 'long');
+        }
 		if($value[0]['total']) {
 			$count = $value[0]['total'];
 		}else{

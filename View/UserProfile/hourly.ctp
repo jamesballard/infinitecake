@@ -1,10 +1,10 @@
 <?php
 
 $this->start('sidebar');
-echo $this->element('reportSidebar');
-echo $this->element('helpSidebar');
+echo $this->element('Sidebars/reports');
+echo $this->element('Sidebars/help');
 $this->end();
 
-echo $this->element('hourlyReport');
+echo $this->element('Reports/hourly');
 
 ?>

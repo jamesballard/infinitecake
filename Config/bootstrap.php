@@ -26,6 +26,27 @@
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
 
+Cache::config('short', array(
+    'engine' => 'File',
+    'duration' => '+3 hours',
+    'path' => CACHE . 'short' . DS,
+    'probability' => 100
+));
+
+Cache::config('medium', array(
+    'engine' => 'File',
+    'duration' => '+1 day',
+    'probability' => 100,
+    'path' => CACHE . 'medium' . DS,
+));
+
+Cache::config('long', array(
+    'engine' => 'File',
+    'duration' => '+1 year',
+    'probability' => 100,
+    'path' => CACHE . 'long' . DS,
+));
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
@@ -71,13 +92,14 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 CakePlugin::load('AclExtras');
-CakePlugin::load('Flash');
-CakePlugin::load('DrasticTreeMap');
-CakePlugin::load('GChart');
 CakePlugin::load('Chosen');
-CakePlugin::load('autoComplete');
-CakePlugin::load('infinity');
+CakePlugin::load('BootstrapForm');
+CakePlugin::load('Wizard');
+CakePlugin::load('dynamicForms');
+CakePlugin::load('zingCharts');
+CakePlugin::load('Mandrill');
 CakePlugin::load('Acl', array('bootstrap' => true));
+CakePlugin::load('Tools', array('bootstrap' => true));
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -98,6 +120,13 @@ CakePlugin::load('Acl', array('bootstrap' => true));
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
 	'CacheDispatcher'
+));
+
+/*
+ * Scheduled tasks for cron.
+ */
+Configure::write('SchedulerShell.jobs', array(
+    'TriggerProcedure' => array('interval'=>'PT1H', 'task'=>'TriggerProcedure') //every hour
 ));
 
 /**

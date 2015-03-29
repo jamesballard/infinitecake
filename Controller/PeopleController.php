@@ -9,7 +9,8 @@ class PeopleController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add', 'edit'))) {
 			$users = $this->getUsersList();
@@ -210,13 +211,12 @@ class PeopleController extends AppController {
 		$current_user = $this->Session->read('current_user');
 		$users = $this->Person->find('all',array(
 					    'conditions' => array('Person.idnumber LIKE'=>'%'.$_GET['term'].'%',
-					    		'customer_id' => $current_user['Member']['customer_id']), //array of conditions
-					    'contain' => false, //int
-					    'fields' => array('Person.idnumber AS label','Person.id AS value'), //array of field names
+					    		'customer_id' => $current_user['Member']['customer_id']),
+					    'contain' => false,
+					    'fields' => array('Person.idnumber AS label','Person.id AS value')
 					)
 				);
-		$users = Set::extract('/Person/.', $users);		
-	
+		$users = Set::extract('/Person/.', $users);
 		return new CakeResponse(array('body' => json_encode($users)));
 	}
 	
@@ -247,95 +247,5 @@ class PeopleController extends AppController {
 				),
 		));
 		return Set::combine($userRecords, '{n}.User.id', '{n}.0.name');
-	}
-
-/**
- * admin_index method
- *
- * @return void
- */
-	public function admin_index() {
-		$this->Person->recursive = 0;
-		$this->set('people', $this->paginate());
-	}
-
-/**
- * admin_view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_view($id = null) {
-		$this->Person->id = $id;
-		if (!$this->Person->exists()) {
-			throw new NotFoundException(__('Invalid person'));
-		}
-		$this->set('person', $this->Person->read(null, $id));
-	}
-
-/**
- * admin_add method
- *
- * @return void
- */
-	public function admin_add() {
-		if ($this->request->is('post')) {
-			$this->Person->create();
-			if ($this->Person->save($this->request->data)) {
-				$this->Session->setFlash(__('The person has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The person could not be saved. Please, try again.'));
-			}
-		}
-	}
-
-/**
- * admin_edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_edit($id = null) {
-		$this->Person->id = $id;
-		if (!$this->Person->exists()) {
-			throw new NotFoundException(__('Invalid person'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Person->save($this->request->data)) {
-				$this->Session->setFlash(__('The person has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The person could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->Person->read(null, $id);
-		}
-	}
-
-/**
- * admin_delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Person->id = $id;
-		if (!$this->Person->exists()) {
-			throw new NotFoundException(__('Invalid person'));
-		}
-		if ($this->Person->delete()) {
-			$this->Session->setFlash(__('Person deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Person was not deleted'));
-		$this->redirect(array('action' => 'index'));
 	}
 }

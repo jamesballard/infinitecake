@@ -9,12 +9,22 @@ class ModulesController extends AppController {
 	
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
 		// conditional ensures only actions that need the vars will receive them
 		if (in_array($this->action, array('add'))) {
-			$artefacts = $this->Module->Artefact->find('list');
-			$groups = $this->Module->Group->find('list');
-			$systems = $this->Module->System->find('list');
+            $artefacts = $this->getCustomerArtefacts();
+            $artefacts = Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
+            $groups = Cache::read('group_list', 'short');
+            if (!$groups) {
+                $groups = $this->Module->Group->find('list');
+                Cache::write('group_list', $groups, 'short');
+            }
+            $systems = Cache::read('systems_list', 'short');
+            if (!$systems) {
+                $systems = $this->Module->System->find('list');
+                Cache::write('systems_list', $systems, 'short');
+            }
 			$this->set(compact('artefacts', 'groups', 'systems'));
 		}
 	}
@@ -178,102 +188,4 @@ class ModulesController extends AppController {
     public function help() {
 
     }
-
-/**
- * admin_index method
- *
- * @return void
- */
-	public function admin_index() {
-		$this->Module->recursive = 0;
-		$this->set('modules', $this->paginate());
-	}
-
-/**
- * admin_view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_view($id = null) {
-		$this->Module->id = $id;
-		if (!$this->Module->exists()) {
-			throw new NotFoundException(__('Invalid module'));
-		}
-		$this->set('module', $this->Module->read(null, $id));
-	}
-
-/**
- * admin_add method
- *
- * @return void
- */
-	public function admin_add() {
-		if ($this->request->is('post')) {
-			$this->Module->create();
-			if ($this->Module->save($this->request->data)) {
-				$this->Session->setFlash(__('The module has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
-			}
-		}
-		$artefacts = $this->Module->Artefact->find('list');
-		$groups = $this->Module->Group->find('list');
-		$systems = $this->Module->System->find('list');
-		$this->set(compact('artefacts', 'groups', 'systems'));
-	}
-
-/**
- * admin_edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_edit($id = null) {
-		$this->Module->id = $id;
-		if (!$this->Module->exists()) {
-			throw new NotFoundException(__('Invalid module'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Module->save($this->request->data)) {
-				$this->Session->setFlash(__('The module has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->Module->read(null, $id);
-		}
-		$artefacts = $this->Module->Artefact->find('list');
-		$groups = $this->Module->Group->find('list');
-		$systems = $this->Module->System->find('list');
-		$this->set(compact('artefacts', 'groups', 'systems'));
-	}
-
-/**
- * admin_delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Module->id = $id;
-		if (!$this->Module->exists()) {
-			throw new NotFoundException(__('Invalid module'));
-		}
-		if ($this->Module->delete()) {
-			$this->Session->setFlash(__('Module deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Module was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
 }

@@ -10,6 +10,13 @@ App::uses('AppModel', 'Model');
  */
 class Artefact extends AppModel {
 
+/**
+ * Display field
+ *
+ * @var string
+ */
+    public $displayField = 'name';
+
 //Define Artefact Types
     const ARTEFACT_TYPE_ASSESSMENT = 1;
     const ARTEFACT_TYPE_COMMUNICATION = 2;
@@ -40,19 +47,19 @@ class Artefact extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Module' => array(
-			'className' => 'Module',
-			'foreignKey' => 'artefact_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
+        'Module' => array(
+            'className' => 'Module',
+            'foreignKey' => 'artefact_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
 	);
 
     public $hasAndBelongsToMany = array(
@@ -70,23 +77,182 @@ class Artefact extends AppModel {
             'finderQuery' => '',
             'deleteQuery' => '',
             'insertQuery' => ''
+        ),
+        'Customer' => array(
+            'className' => 'Customer',
+            'joinTable' => 'customer_artefacts',
+            'foreignKey' => 'artefact_id',
+            'associationForeignKey' => 'customer_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
         )
     );
 
-    public function getArtefacts() {
-        // Define the artefacts for reports
-        return $this->find('all', array(
-                                'fields' => array('id', 'name', 'type'),
-                                'contain' => false,
-                                'conditions' => array('type' => array(
-                                    Artefact::ARTEFACT_TYPE_ASSESSMENT,
-                                    Artefact::ARTEFACT_TYPE_COMMUNICATION,
-                                    Artefact::ARTEFACT_TYPE_COLLABORATION,
-                                    Artefact::ARTEFACT_TYPE_RESOURCE
-                                    )
-                                )
-                           )
-            );
+    /**
+     * Returns an array of artefacts based on a customer id
+     * @param int $customer_id - the id of a customer
+     * @return array of artefacts
+     */
+    public function getCustomerArtefacts($customer_id = null) {
+        if(empty($customer_id)) return false;
+        $conditions = array(
+            'CustomerArtefact.customer_id' => $customer_id,
+            'CustomerArtefact.artefact_id = Artefact.id'
+        );
+        $cacheName = 'customer_artefacts.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                'joins' => array(
+                    array('table' => 'customer_artefacts',
+                        'alias' => 'CustomerArtefact',
+                        'type' => 'INNER',
+                        'conditions' => $conditions
+                    )
+                ),
+                'group' => 'Artefact.id'
+            ));
+            Cache::write($cacheName, $artefacts, 'short');
+        }
+        return $artefacts;
     }
 
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getDimensionParameters($customer_id) {
+        return array(0 => __('No option required'));
+    }
+
+    /**
+     * Get the sub list of dimension options when this model is used.
+     *
+     * @param array|integer $customer_id
+     * @return array a list formatted array
+     */
+    public function getFilterOptions($customer_id) {
+        $artefacts = $this->getCustomerArtefacts($customer_id);
+        return Set::combine($artefacts, '{n}.Artefact.id', '{n}.Artefact.name');
+    }
+
+    /**
+     * Returns record as labels for report.
+     *
+     * @param integer $id
+     * @param mixed $report
+     * @return array
+     */
+    public function getLabels($id, $report) {
+        $labels = array();
+        $artefacts = $this->getCustomerArtefacts($report['Report']['customer_id']);
+        foreach ($artefacts as $artefact) {
+            $labels[] =array(
+                'name' => $artefact['Artefact']['name'],
+                'start' => '',
+                'end' => '',
+                'joins' => array(),
+                'conditions' => array(
+                    'Artefact.id' => $artefact['Artefact']['id']
+                ),
+            );
+        }
+        return $labels;
+    }
+
+    public function getArtefacts() {
+        // Define the artefacts for reports
+        $conditions = array('type' => array(
+            Artefact::ARTEFACT_TYPE_ASSESSMENT,
+            Artefact::ARTEFACT_TYPE_COMMUNICATION,
+            Artefact::ARTEFACT_TYPE_COLLABORATION,
+            Artefact::ARTEFACT_TYPE_RESOURCE
+            )
+        );
+        $cacheName = 'artefacts_all.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                    'fields' => array('id', 'name', 'type'),
+                    'contain' => false,
+                    'conditions' => $conditions
+                )
+            );
+            Cache::write($cacheName, $artefacts, 'short');
+        }
+        return $artefacts;
+    }
+
+    /**
+     * Returns a filtered list of axis points for visualisations.
+     *
+     * @param $report
+     * @return array|mixed
+     */
+    public function getAxisPoints($report) {
+        $joinconditions = array(
+            'CustomerArtefact.customer_id' => $report['Report']['customer_id'],
+            'CustomerArtefact.artefact_id = Artefact.id'
+        );
+
+        $conditions = array();
+        $Filter = new Filter();
+        // Add Custom filter WHERE clauses in case we filter out artefacts.
+        foreach ($report['Filter'] as $filter) {
+            if($filter['model'] == 'Artefact') {
+                $conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+            }
+        }
+
+        $cacheName = 'customer_artefacts.'.$this->formatCacheConditions($conditions);
+        $artefacts = Cache::read($cacheName, 'short');
+        if (!$artefacts) {
+            $artefacts = $this->find('all', array(
+                'conditions' => $conditions,
+                'joins' => array(
+                    array('table' => 'customer_artefacts',
+                        'alias' => 'CustomerArtefact',
+                        'type' => 'INNER',
+                        'conditions' => $joinconditions
+                    )
+                ),
+                'group' => 'Artefact.id'
+            ));
+            Cache::write($cacheName, $artefacts, 'short');
+        }
+        return $artefacts;
+    }
+
+    public function dimensionForAction($action) {
+        $cacheName = 'customer_artefacts.'.$action['module_id'];
+        $artefact = Cache::read($cacheName, 'long');
+        if (!$artefact) {
+            $artefact = $this->find('all', array(
+                'conditions' => array(
+                    'Module.id' => $action['module_id']
+                ),
+                'joins' => array(
+                    array('table' => 'modules',
+                        'alias' => 'Module',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Module.artefact_id' => 'Artefact.id'
+                        )
+                    )
+                ),
+                'group' => 'Artefact.id'
+            ));
+            Cache::write($cacheName, $artefact, 'long');
+        }
+        return $artefact;
+    }
 }

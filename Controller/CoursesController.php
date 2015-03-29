@@ -9,7 +9,8 @@ class CoursesController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->layout = 'configManage';
+        $this->layout = 'config';
+        $this->set('menu', 'configure');
         // conditional ensures only actions that need the vars will receive them
         if (in_array($this->action, array('add', 'edit'))) {
             $customers = $this->getCustomersList();
@@ -34,11 +35,12 @@ class CoursesController extends AppController {
                             'Department.id',
                             'Department.name',
                             'Department.idnumber'
-                        ),
-                        'Customer' => array(
-                            'fields' => array(
-                                'Customer.name'
-                            )
+                        )
+                    ),
+                    'Customer' => array(
+                        'fields' => array(
+                            'Customer.id',
+                            'Customer.name'
                         )
                     )
                 )
@@ -148,6 +150,7 @@ class CoursesController extends AppController {
 		} else {
 			$this->request->data = $this->Course->find('first', array(
                     'contain' => array(
+                        'PersonCourse' => array(),
                         'Person' => array (
                             'fields' => array(
                                 'Person.id',
@@ -270,9 +273,13 @@ class CoursesController extends AppController {
     private function getPeopleList() {
         $currentUser = $this->get_currentUser();
         return $this->Course->Person->find('list', array(
-            'contain' => false,
+            'contain' => array(
+                'Customer' => array(
+                    'fields' => array('id')
+                )
+            ),
             'conditions' => array(
-                'Person.customer_id' => array(
+                'Customer.id' => array(
                     $this->get_allCustomersID(),
                     $currentUser['Member']['customer_id']
                 )

@@ -85,4 +85,50 @@ class Group extends AppModel {
 			'counterQuery' => ''
 		),
 	);
+
+	/**
+	 * Returns a filtered list of axis points for visualisations.
+	 *
+	 * @param $report
+	 * @return array|mixed
+	 */
+	public function getAxisPoints($report) {
+		if(!empty($report['GroupCategory']['group_category_id'])) {
+			$conditions = array(
+				'GroupCategory.id' => $report['GroupCategory']['group_category_id']
+			);
+		} else {
+			$conditions = array(
+				'Group.id' => $report['Group']['groupid']
+			);
+		}
+
+		$Filter = new Filter();
+		// Add Custom filter WHERE clauses in case we filter out courses.
+		foreach ($report['Filter'] as $filter) {
+			if($filter['model'] == 'Course') {
+				$conditions = array_merge($conditions, $Filter->getFilterCondition($filter));
+			}
+		}
+
+		$cacheName = 'customer_groups_axis.'.$this->formatCacheConditions($conditions);
+		$groups = Cache::read($cacheName, 'short');
+		if (!$groups) {
+			$groups = $this->find('all', array(
+				'joins' => array(
+					array(
+						'table' => 'group_categories',
+						'alias' => 'GroupCategory',
+						'type' => 'INNER',
+						'conditions' => array(
+							'Group.group_category_id = GroupCategory.id'
+						)
+					)
+				),
+				'conditions' => $conditions
+			));
+			Cache::write($cacheName, $groups, 'short');
+		}
+		return $groups;
+	}
 }

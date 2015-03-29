@@ -3,9 +3,10 @@
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>
 	<?php
+        echo $this->element('FormItems/legendChangeSettings');
 		echo $this->Form->input('id');
 		echo $this->Form->input('idnumber');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->BootstrapForm->end(); ?>
 </div>

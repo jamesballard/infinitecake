@@ -31,6 +31,7 @@ $url = $this->request->here;
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<?php
 		//echo $this->Html->meta('icon');
 
@@ -40,13 +41,27 @@ $url = $this->request->here;
         echo $this->Html->css('jquery-ui');
         echo $this->Html->css('infiniterooms');
         echo $this->Html->css('activity-stream');
-      
 
         echo $this->Html->script('modernizr');
         echo $this->Html->script('jquery');
         echo $this->Html->script('jquery-ui');
         echo $this->Html->script('bootstrap.min');
-        echo $this->Html->script('googleAnalytics');
+        echo $this->Html->script('infiniterooms');
+
+        $this->Js->set('service', !empty($current_user['Customer']['service']) ?
+            $current_user['Customer']['service'] : 'Not logged in');
+        $this->Js->set('customerID', !empty($current_user['Customer']['id']) ?
+            $current_user['Customer']['id'] : 'Not logged in');
+        $this->Js->set('customerStart', !empty($current_user['Customer']['created']) ?
+            date('M-Y', strtotime($current_user['Customer']['created'])) : 'Not logged in');
+        $this->Js->set('userID', !empty($current_user['Member']['id']) ?
+            $current_user['Member']['id'] : 'Not logged in');
+
+        echo $this->Js->writeBuffer(array('onDomReady' => false));
+
+        echo $this->Html->script('ga');
+
+        echo $this->Html->meta ('favicon.ico', '/favicon.ico', array ('type' => 'icon'));
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -54,35 +69,34 @@ $url = $this->request->here;
 	?>
 </head>
 <body>
-    <!--[if lt IE 7]>
-    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <!--[if lt IE 8]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 	<div id="container">
-    <?php echo $this->element('navBar'); ?>
-    <div class="container-fluid content">
-		  <div class="row-fluid">
-			    <div class="span2">
-			      <div class="sidebar">
-			        <ul class="nav nav-list">
-			          <!--Sidebar content-->
-			          <?php
-						$this->start('sidebar');
-						echo $this->element('guidesSidebar');
-						//echo $this->element('helpSidebar');
-						$this->end();
-					  ?> 
-			          <?php echo $this->fetch( 'sidebar' ); ?>
-			        </ul>
-			      </div>
-			    </div>
-			    <div class="span10">
-			      <div class="main-content">
-				    <!--Body content-->
-				    <?php echo $this->Session->flash(); ?>
-					<?php echo $this->fetch('content'); ?>
-				  </div>
-			    </div>
-		  </div>
+    <?php echo $this->element('Navigation/navBar'); ?>
+        <div class="row">
+            <div class="col-md-2">
+              <div class="sidebar">
+                <ul class="nav nav-list">
+                  <!--Sidebar content-->
+                  <?php
+                    $this->start('sidebar');
+                    echo $this->element('Sidebars/guides');
+                    //echo $this->element('Sidebars/help');
+                    $this->end();
+                  ?>
+                  <?php echo $this->fetch( 'sidebar' ); ?>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="main-content">
+                <!--Body content-->
+                <?php echo $this->Session->flash(); ?>
+                <?php echo $this->fetch('content'); ?>
+              </div>
+            </div>
+        </div>
 	</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

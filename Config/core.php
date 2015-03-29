@@ -116,7 +116,7 @@ Configure::write('Routing.prefixes', array('admin'));
  * Turn off all caching application-wide.
  *
  */
-	//Configure::write('Cache.disable', true);
+//	Configure::write('Cache.disable', true);
 
 /**
  * Enable cache checking.
@@ -172,9 +172,13 @@ Configure::write('Routing.prefixes', array('admin'));
  * the cake shell command: cake schema create Sessions
  *
  */
-	Configure::write('Session', array(
-		'defaults' => 'php'
-	));
+Configure::write('Session', array(
+    'defaults' => 'php',
+    'timeout' => 60,// minutes
+    'cookieTimeout' => 1440,// minutes
+    'checkAgent' => false,
+    'autoRegenerate' => true,
+));
 
 /**
  * The level of CakePHP security.

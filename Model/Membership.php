@@ -32,7 +32,7 @@ class Membership extends AppModel {
  * http://bakery.cakephp.org/articles/carbontwelve/2011/05/26/update_aro_alias_on_save
  */
 
-    function afterSave($created=false){
+    function afterSave($created=false, $options = Array()){
 
         $saveAro = false;
 

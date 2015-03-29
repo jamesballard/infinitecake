@@ -3,6 +3,7 @@
 	<fieldset>
 		<legend><?php echo __('Edit Dimension Verb'); ?></legend>
 	<?php
+        echo $this->element('FormItems/legendChangeSettings');
 		echo $this->Form->input('id');
 		echo $this->Form->input('sysname');
 		echo $this->Form->input('name');
@@ -11,5 +12,5 @@
         echo $this->Form->input('artefact_id', array('type' => 'select', 'options' => $artefacts));
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->BootstrapForm->end(); ?>
 </div>

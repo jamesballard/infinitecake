@@ -1,6 +1,6 @@
 <div class="members view">
 <h2 class="pull-left"><?php  echo __('Member'); ?></h2>
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $member['Member']['id'],
 								'customer_id' => h($member['Member']['customer_id']),
 								'current_user' => $current_user,
@@ -16,7 +16,7 @@
 		</dd>
 		<dt><?php echo __('Username'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($member['Member']['username']); ?>
+			<?php echo h($member['Member']['email']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Firstname'); ?></dt>
@@ -27,11 +27,6 @@
 		<dt><?php echo __('Lastname'); ?></dt>
 		<dd class="clearfix">
 			<?php echo h($member['Member']['lastname']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Email'); ?></dt>
-		<dd class="clearfix">
-			<?php echo h($member['Member']['email']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Membership'); ?></dt>

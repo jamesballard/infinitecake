@@ -6,7 +6,7 @@
  * Time: 21:37
  */
 class UserProfileController extends AppController {
-    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
+    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'dynamicForms.dynamicForms');
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
@@ -58,13 +58,13 @@ class UserProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $period = $this->request->data['Action']['period'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $chartType = $this->request->data['Action']['chart'];
-                $reportType = $this->request->data['Action']['report'];
-                $system = $this->request->data['Action']['system'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                $period = $this->request->data['Overview']['period'];
+                $dateWindow = $this->request->data['Overview']['daterange'];
+                $chartType = $this->request->data['Overview']['chart'];
+                $reportType = $this->request->data['Overview']['report'];
+                $system = $this->request->data['Overview']['system'];
+                $width = $this->request->data['Overview']['width'];
+                $height = $this->request->data['Overview']['height'];
             }
 			
             //Configure the data array
@@ -106,13 +106,13 @@ class UserProfileController extends AppController {
     	
     		//Overwrite defaults if form submitted.
     		if ($this->request->is('post')) {
-    			$period = $this->request->data['Action']['period'];
-    			$dateWindow = $this->request->data['Action']['daterange'];
-    			$system = $this->request->data['Action']['system'];
-    			$chartType = $this->request->data['Action']['chart'];
-    			//$reportType = $this->request->data['Action']['report'];
-    			$width = $this->request->data['Action']['width'];
-    			$height = $this->request->data['Action']['height'];
+    			$period = $this->request->data['Location']['period'];
+    			$dateWindow = $this->request->data['Location']['daterange'];
+    			$system = $this->request->data['Location']['system'];
+    			$chartType = $this->request->data['Location']['chart'];
+    			//$reportType = $this->request->data['Location']['report'];
+    			$width = $this->request->data['Location']['width'];
+    			$height = $this->request->data['Location']['height'];
     		}
     	
     		$data = array(
@@ -155,36 +155,42 @@ class UserProfileController extends AppController {
     		}
     		
     		//Get action list.
-    		$actions = $this->Action->find('all', array(
-    				'contain' => array(
-			            'User' => array(
-			                'fields' => array(
-			                    'User.idnumber'
-			                    )
-			                ),
-			            'Group' => array(
-			                'fields' => array(
-			                    'Group.name',
-			                    'Group.idnumber'
-			                    )
-			                ),
-			            'DimensionVerb' => array(
-			            	'Artefact' => array(
-			            		'fields' => array('name'),
-			            		
-			            	),
-			                'fields' => array(
-			                    'DimensionVerb.sysname'
-			                    )
-			                )
-    					),
-    				'conditions' => array('user_id' => $userid, 
-    						'Action.system_id' => $system, 
-    						'time >'=>date("Y-m-d", strtotime($dateWindow))
-    						),
-    				'order' => array('time' => 'DESC')
-    				)
-    			);
+            $conditions = array('user_id' => $userid,
+                'Action.system_id' => $system,
+                'time >'=>date("Y-m-d", strtotime($dateWindow))
+            );
+            $cacheName = 'stream_actions.'.$this->formatCacheConditions($conditions);
+            $actions = Cache::read($cacheName, 'short');
+            if (!$actions) {
+                $actions = $this->Action->find('all', array(
+                        'contain' => array(
+                            'User' => array(
+                                'fields' => array(
+                                    'User.idnumber'
+                                )
+                            ),
+                            'Group' => array(
+                                'fields' => array(
+                                    'Group.name',
+                                    'Group.idnumber'
+                                )
+                            ),
+                            'DimensionVerb' => array(
+                                'Artefact' => array(
+                                    'fields' => array('name'),
+
+                                ),
+                                'fields' => array(
+                                    'DimensionVerb.sysname'
+                                )
+                            )
+                        ),
+                        'conditions' => $conditions,
+                        'order' => array('time' => 'DESC')
+                    )
+                );
+                Cache::write($cacheName, $actions, 'short');
+            }
     		$this->set('actions', $actions);
     		$selecteduser = $this->Person->find('first',array(
     				'conditions' => array('id'=>$userid), //array of conditions
@@ -217,11 +223,11 @@ class UserProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-            	$system = $this->request->data['Action']['system'];
-            	$dateWindow = $this->request->data['Action']['daterange'];
-                //$report = $this->request->data['Action']['report'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+            	$system = $this->request->data['Hourly']['system'];
+            	$dateWindow = $this->request->data['Hourly']['daterange'];
+                //$report = $this->request->data['Hourly']['report'];
+                $width = $this->request->data['Hourly']['width'];
+                $height = $this->request->data['Hourly']['height'];
             }
 
             $this->set('width', $width);
@@ -257,11 +263,11 @@ class UserProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                //$reportType = $this->request->data['Action']['report'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $system = $this->request->data['Action']['system'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                //$reportType = $this->request->data['Modules']['report'];
+                $dateWindow = $this->request->data['Modules']['daterange'];
+                $system = $this->request->data['Modules']['system'];
+                $width = $this->request->data['Modules']['width'];
+                $height = $this->request->data['Modules']['height'];
             }
 
             $this->set('width', $width);
@@ -295,14 +301,14 @@ class UserProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $period = $this->request->data['Action']['period'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $system = $this->request->data['Action']['system'];
-                $rule = $this->request->data['Action']['rule'];
-                $chartType = $this->request->data['Action']['chart'];
-                //$reportType = $this->request->data['Action']['report'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                $period = $this->request->data['TaskType']['period'];
+                $dateWindow = $this->request->data['TaskType']['daterange'];
+                $system = $this->request->data['TaskType']['system'];
+                $rule = $this->request->data['TaskType']['rule'];
+                $chartType = $this->request->data['TaskType']['chart'];
+                //$reportType = $this->request->data['TaskType']['report'];
+                $width = $this->request->data['TaskType']['width'];
+                $height = $this->request->data['TaskType']['height'];
             }
 
             $data = array(

@@ -5,4 +5,4 @@
     <?php echo $this->Html->link('people', array('controller' => 'People', 'action' => 'help')); ?> enrolled to this course
     and each one's total actions over the previous 4 weeks. Each visualisation represents the sum total of all actions
     for the people listed only.</p>
-<?php echo $this->element('standardReportHelps'); ?>
+<?php echo $this->element('HelpPages/standardReports'); ?>

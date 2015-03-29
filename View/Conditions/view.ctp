@@ -1,7 +1,7 @@
 <div class="conditions view">
 	<h2 class="pull-left"><?php  echo __('Condition'); ?></h2>
 	
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $condition['Condition']['id'],
 								'customer_id' => h($condition['Condition']['customer_id']),
 								'current_user' => $current_user,
@@ -21,11 +21,6 @@
 			<?php echo h($condition['Condition']['name']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Value'); ?></dt>
-		<dd class="clearfix">
-			<?php echo h($condition['Condition']['value']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Rule'); ?></dt>
 		<dd class="clearfix">
 			<?php 
@@ -33,7 +28,7 @@
 				if (!empty($condition['Rule'])): 
 					$i = 0;
 					foreach ($condition['Rule'] as $rule):
-						echo $this->Html->link($rule['name'].': '.$rule['value'], array('controller' => 'rules', 'action' => 'view', $rule['id'])); 
+						echo $this->Html->link($rule['name'], array('controller' => 'rules', 'action' => 'view', $rule['id']));
 						switch ($rule['type']) {
 		                    case Rule::RULE_TYPE_ACTION:
 		                        $rule_type = $rule_types[Rule::RULE_TYPE_ACTION];
@@ -77,7 +72,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['Artefact'] as $artefact): ?>
 					<li><?php echo $artefact['name']; ?></li>
 			<?php endforeach; ?>
@@ -90,7 +84,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['Group'] as $group): ?>
 					<li><?php echo $group['name'].': '.$group['idnumber']; ?></li>
 			<?php endforeach; ?>
@@ -103,7 +96,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['Module'] as $module): ?>
 					<li><?php echo $module['sysid']; ?></li>
 			<?php endforeach; ?>
@@ -116,7 +108,6 @@
 		<dd class="clearfix">
 			<ul>
 			<?php
-				$i = 0;
 				foreach ($condition['DimensionVerb'] as $dimensionVerb): ?>
 					<li><?php echo $dimensionVerb['Artefact']['name'].': '.$dimensionVerb['name']; ?></li>
 			<?php endforeach; ?>

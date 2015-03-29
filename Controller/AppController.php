@@ -19,8 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
-App::uses('Controller', 'Controller');
+App::uses('MyController', 'Tools.Controller');
 
 /**
  * Application Controller
@@ -31,7 +30,7 @@ App::uses('Controller', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends MyController {
 
     public $components = array(
         'Acl',
@@ -43,11 +42,12 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $helpers = array('Html', 'Form', 'Session', 'Permissions', 'Chosen.Chosen');
+    public $helpers = array('Html', 'Form' => array('className' => 'BootstrapForm.BootstrapForm'),
+        'Session', 'Time', 'Permissions', 'Chosen.Chosen');
     
     // $uses is where you specify which models this controller uses
     var $uses = array('FactSummedActionsDatetime', 'FactSummedVerbRuleDatetime', 'Member', 'System',
-        'Customer', 'Rule', 'Department', 'Course', 'Condition');
+        'Customer', 'Rule', 'Department', 'Course', 'Condition', 'Artefact', 'Report');
     
     function beforeFilter() {
         //Configure AuthComponent
@@ -57,21 +57,31 @@ class AppController extends Controller {
         
         //Make the logged in member available to all views
 		# load current_user
-        if ($this->Auth->user('Member.username')):
-			$current_user = $this->Member->find('first', array(
-						'contain' => array(
-                            'Membership' => array(
+        if ($this->Auth->user('Member.email')) {
+            $current_user = $this->Member->find('first', array(
+                    'contain' => array(
+                        'Membership',
+                        'Customer' => array(
+                            'CustomerKey'
+                        )
+                    ),
+                    'conditions' => array(
+                        'email' => $this->Auth->user('Member.email')
+                    )
+                )
+            );
+            $this->Session->write('current_user', $current_user);
+            $this->set('current_user', $current_user);
+        }
 
-                            )
-                        ),
-						'conditions' => array(
-								'username' => $this->Auth->user('Member.username')
-						)
-					)
-				);
-			$this->Session->write('current_user', $current_user);
-			$this->set('current_user', $current_user);
-		endif;
+        if (isset($current_user)) {
+            $customer = array(
+                $this->get_allCustomersID(),
+                $current_user['Member']['customer_id']
+            );
+            $this->set('navreports', $this->Report->getCustomerReports($customer));
+        }
+
     }
     
 /**
@@ -194,7 +204,6 @@ class AppController extends Controller {
     	return $this->Rule->find('list', array(
     			'contain' => false,
     			'conditions' => array(
-    				'Rule.value !=' => 'IP Address',
     				'Rule.customer_id' => array(
     					$this->get_allCustomersID(),
     					$currentUser['Member']['customer_id']
@@ -266,8 +275,7 @@ class AppController extends Controller {
 
     public function getCustomerConditions() {
         $currentUser = $this->get_currentUser();
-        $conditionsRecords = $this->Condition->find('all', array(
-                'fields' => array('id', 'CONCAT(Condition.name, ": ",Condition.value) as name'),
+        return $this->Condition->find('list', array(
                 'conditions' => array(
                     'Condition.type !=' => 2,
                     'Condition.customer_id' => array(
@@ -277,7 +285,32 @@ class AppController extends Controller {
                 )
             )
         );
-        return Set::combine($conditionsRecords, '{n}.Condition.id', '{n}.0.name');
     }
-    
+
+    /**
+     * Returns a list formatted array of rules for multi-select form
+     *
+     * @return array
+     */
+
+    public function getCustomerArtefacts() {
+        $currentUser = $this->get_currentUser();
+        return $this->Artefact->getCustomerArtefacts($currentUser['Member']['customer_id']);
+    }
+
+    /*
+     * Takes a conditions array (2-dimensional), flattens it to 1, and implodes to create unique cache reference.
+     *
+     * @var array $conditions
+     * return string
+     */
+    public function formatCacheConditions($conditions) {
+        return implode('.', array_map(function($value) {
+            if (is_array($value)) {
+                return implode('.', $value);
+            } else {
+                return $value;
+            }
+        }, $conditions));
+    }
 }

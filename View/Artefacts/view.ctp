@@ -1,6 +1,6 @@
 <div class="artefacts view">
 <h2 class="pull-left"><?php  echo __('Artefact'); ?></h2>
-	<?php echo $this->element('actionButton', array(
+	<?php echo $this->element('Buttons/action', array(
 								'id' => $artefact['Artefact']['id'],
 								'customer_id' => 1,
 								'current_user' => $current_user,
@@ -14,9 +14,9 @@
 			<?php echo h($artefact['Artefact']['id']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Idnumber'); ?></dt>
+		<dt><?php echo __('System Name'); ?></dt>
 		<dd class="clearfix">
-			<?php echo h($artefact['Artefact']['idnumber']); ?>
+			<?php echo h($artefact['Artefact']['sysname']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Name'); ?></dt>

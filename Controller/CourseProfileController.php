@@ -8,7 +8,7 @@
 App::uses('File', 'Utility');
 
 class CourseProfileController extends AppController {
-    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'autoComplete.autoCompleteRemote');
+    public $helpers = array('GChart.GChart', 'DrasticTreeMap.DrasticTreeMap', 'dynamicForms.dynamicForms');
     public $components = array('Session', 'ProcessData', 'DataFilters');
 
     // $uses is where you specify which models this controller uses
@@ -62,13 +62,13 @@ class CourseProfileController extends AppController {
 
     		//Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $period = $this->request->data['Action']['period'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $chartType = $this->request->data['Action']['chart'];
-                $reportType = $this->request->data['Action']['report'];
-                $system = $this->request->data['Action']['system'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                $period = $this->request->data['Overview']['period'];
+                $dateWindow = $this->request->data['Overview']['daterange'];
+                $chartType = $this->request->data['Overview']['chart'];
+                $reportType = $this->request->data['Overview']['report'];
+                $system = $this->request->data['Overview']['system'];
+                $width = $this->request->data['Overview']['width'];
+                $height = $this->request->data['Overview']['height'];
             }
 
 	        $data = array(
@@ -106,11 +106,11 @@ class CourseProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-            	$dateWindow = $this->request->data['Action']['daterange'];
-            	$system = $this->request->data['Action']['system'];
-                //$report = $this->request->data['Action']['report'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+            	$dateWindow = $this->request->data['Hourly']['daterange'];
+            	$system = $this->request->data['Hourly']['system'];
+                //$report = $this->request->data['Hourly']['report'];
+                $width = $this->request->data['Hourly']['width'];
+                $height = $this->request->data['Hourly']['height'];
             }
 
             $this->set('width', $width);
@@ -158,32 +158,37 @@ class CourseProfileController extends AppController {
             );
     		
     		//Get action list.
-    		$actions = $this->Action->find('all', array(
-    				'contain' => array(
-			            'User' => array(
-			                'fields' => array(
-			                    'User.idnumber'
-			                    )
-			                ),
-			            'Group' => array(
-			                'fields' => array(
-			                    'Group.name',
-			                    'Group.idnumber'
-			                    )
-			                ),
-			            'DimensionVerb' => array(
-			            	'Artefact' => array(
-			            		'fields' => array('name'),
-			            	),
-			                'fields' => array(
-			                    'DimensionVerb.sysname'
-			                    )
-			                )
-    					),
-    				'conditions' => $conditions,
-    				'order' => array('time' => 'DESC')
-    				)
-    			);
+            $cacheName = 'stream.actions.'.$this->formatCacheConditions($conditions);
+            $actions = Cache::read($cacheName, 'short');
+            if (!$actions) {
+                $actions = $this->Action->find('all', array(
+                        'contain' => array(
+                            'User' => array(
+                                'fields' => array(
+                                    'User.idnumber'
+                                )
+                            ),
+                            'Group' => array(
+                                'fields' => array(
+                                    'Group.name',
+                                    'Group.idnumber'
+                                )
+                            ),
+                            'DimensionVerb' => array(
+                                'Artefact' => array(
+                                    'fields' => array('name'),
+                                ),
+                                'fields' => array(
+                                    'DimensionVerb.sysname'
+                                )
+                            )
+                        ),
+                        'conditions' => $conditions,
+                        'order' => array('time' => 'DESC')
+                    )
+                );
+                Cache::write($cacheName, $actions, 'short');
+            }
     		$this->set('actions', $actions);
     		$selectedcourse = $this->Course->find('first',array(
     				'conditions' => array('Course.id'=>$courseid), //array of conditions
@@ -216,14 +221,14 @@ class CourseProfileController extends AppController {
     	
     		//Overwrite defaults if form submitted.
     		if ($this->request->is('post')) {
-    			$period = $this->request->data['Action']['period'];
-    			$dateWindow = $this->request->data['Action']['daterange'];
-    			$system = $this->request->data['Action']['system'];
-    			$rule = $this->request->data['Action']['rule'];
-    			$chartType = $this->request->data['Action']['chart'];
-    			//$reportType = $this->request->data['Action']['report'];
-    			$width = $this->request->data['Action']['width'];
-    			$height = $this->request->data['Action']['height'];
+    			$period = $this->request->data['Location']['period'];
+    			$dateWindow = $this->request->data['Location']['daterange'];
+    			$system = $this->request->data['Location']['system'];
+    			$rule = $this->request->data['Location']['rule'];
+    			$chartType = $this->request->data['Location']['chart'];
+    			//$reportType = $this->request->data['Location']['report'];
+    			$width = $this->request->data['Location']['width'];
+    			$height = $this->request->data['Location']['height'];
     		}
     	
     		$data = array(
@@ -269,11 +274,11 @@ class CourseProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                //$reportType = $this->request->data['Action']['report'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $system = $this->request->data['Action']['system'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                //$reportType = $this->request->data['Modules']['report'];
+                $dateWindow = $this->request->data['Modules']['daterange'];
+                $system = $this->request->data['Modules']['system'];
+                $width = $this->request->data['Modules']['width'];
+                $height = $this->request->data['Modules']['height'];
             }
 
             $this->set('width', $width);
@@ -307,13 +312,13 @@ class CourseProfileController extends AppController {
 
             //Overwrite defaults if form submitted.
             if ($this->request->is('post')) {
-                $rule = $this->request->data['Action']['rule'];
-                $period = $this->request->data['Action']['period'];
-                $dateWindow = $this->request->data['Action']['daterange'];
-                $system = $this->request->data['Action']['system'];
-                $chartType = $this->request->data['Action']['chart'];
-                $width = $this->request->data['Action']['width'];
-                $height = $this->request->data['Action']['height'];
+                $rule = $this->request->data['TaskType']['rule'];
+                $period = $this->request->data['TaskType']['period'];
+                $dateWindow = $this->request->data['TaskType']['daterange'];
+                $system = $this->request->data['TaskType']['system'];
+                $chartType = $this->request->data['TaskType']['chart'];
+                $width = $this->request->data['TaskType']['width'];
+                $height = $this->request->data['TaskType']['height'];
             }
 
             $data = array(
@@ -340,21 +345,26 @@ class CourseProfileController extends AppController {
     }
 
     private function getCoursePeople($courseid) {
-        $people = $this->Course->find('all', array(
-            'contain' => array(
-                'Person' => array(
-                        'fields' => array(
-                            'Person.id',
-                            'Person.idnumber'
-                        ),
+        $cacheName = 'course_people.'.$courseid;
+        $people = Cache::read($cacheName, 'short');
+        if (!$people) {
+            $people = $this->Course->find('all', array(
+                    'contain' => array(
+                        'Person' => array(
+                            'fields' => array(
+                                'Person.id',
+                                'Person.idnumber'
+                            ),
 
-                    )
-                ),
-                'conditions' => array(
-                    'Course.id' => $courseid
-                ),
-            )
-        );
+                        )
+                    ),
+                    'conditions' => array(
+                        'Course.id' => $courseid
+                    ),
+                )
+            );
+            Cache::write($cacheName, $people, 'short');
+        }
         return Set::extract('/Person/.', $people);
     }
 
@@ -370,26 +380,34 @@ class CourseProfileController extends AppController {
         $this->set('daterange', $daterange);
         $i = 0;
         foreach ($people as $person) {
-            $users = $this->Person->User->find('all',array(
-                    'contain' => array(
-                        'Person' => array(
-                            'fields' => array(
-                                'Person.id'
+            $cacheName = 'course_people_person'.$person['id'];
+            $users = Cache::read($cacheName, 'short');
+            if (!$users) {
+                $users = $this->Person->User->find('all',array(
+                        'contain' => array(
+                            'Person' => array(
+                                'fields' => array(
+                                    'Person.id'
+                                )
                             )
-                        )
-                    ),
-                    'conditions' => array('Person.id' => $person['id']),
-                    'fields' => array('User.id')
-                )
-            );
-
+                        ),
+                        'conditions' => array('Person.id' => $person['id']),
+                        'fields' => array('User.id')
+                    )
+                );
+                Cache::write($cacheName, $users, 'short');
+            }
             $users = Set::extract('/User/id', $users);
             foreach ($daterange as $date) {
+                $conditions = array(
+                    'user_id' => $users,
+                    'DimensionDate.week_starting_monday' => $date->format("W")
+                );
+                $cacheName = 'course_people_date.'.$this->formatCacheConditions($conditions);
+                $value = Cache::read($cacheName, 'short');
+                if (!$value) {
                     $value = $this->FactSummedActionsDatetime->find('first', array(
-                            'conditions' => array(
-                                'user_id' => $users,
-                                'DimensionDate.week_starting_monday' => $date->format("W")
-                            ),
+                            'conditions' => $conditions,
                             'contain' => array(
                                 'DimensionDate' => array(
                                     'fields' => array(
@@ -405,7 +423,8 @@ class CourseProfileController extends AppController {
                             'fields' => "SUM(FactSummedActionsDatetime.total) as total", //array of field names
                         )
                     );
-
+                    Cache::write($cacheName, $value, 'short');
+                }
                 if($value[0]['total']) {
                     $people[$i]['week'][$date->format("W")] = $value[0]['total'];
                 }else{

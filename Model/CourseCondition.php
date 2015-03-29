@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Group $Group
  * @property Condition $Condition
  */
-class GroupCondition extends AppModel {
+class CourseCondition extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

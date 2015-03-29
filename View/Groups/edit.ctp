@@ -3,11 +3,12 @@
 <?php echo $this->Form->create('Group'); ?>
 	<fieldset>
 	<?php
+        echo $this->element('FormItems/legendChangeSettings');
 		echo $this->Form->input('id');
 		echo $this->Form->input('idnumber');
 		echo $this->Form->input('name');
-        echo $this->element('courseMultiSelect');
+        echo $this->element('MultiSelectForms/courses');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->BootstrapForm->end(); ?>
 </div>

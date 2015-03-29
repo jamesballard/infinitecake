@@ -2,12 +2,12 @@
 
 $this->start('sidebar');
 if($courseid) {
-	echo $this->element('reportSidebar');
+	echo $this->element('Sidebars/reports');
 }
-echo $this->element('helpSidebar');
+echo $this->element('Sidebars/help');
 $this->end();
 
-echo $this->autoCompleteRemote->init('ActionCourse','Courses/jsonfeed');
+echo $this->dynamicForms->autocomplete('ActionCourse','Courses/jsonfeed');
 
 if(!empty($course)) {
     echo '<h2>'.$course['Course']['name'].' '.__('Dashboard').'</h2>';
