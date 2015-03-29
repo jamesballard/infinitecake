@@ -6,7 +6,7 @@
 	url = https://github.com/markstory/acl_extras.git
 [submodule "webroot/api"]
 	path = webroot/api
-	url = https://github.com/jamesballard/infiniteimport.git
+	url = git@github.com:jamesballard/infiniteimport.git
 [submodule "Plugin/Chosen"]
 	path = Plugin/Chosen
 	url = https://github.com/paulredmond/chosen-cakephp.git
